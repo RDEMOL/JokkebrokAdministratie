@@ -17,13 +17,16 @@ class Session {
     }
 
     public function login($data) {
+        $this->logout();
         if(!isset($data['username']) || !isset($data['password'])) {
-            return;
+            return false;
         }
         if($data['username'] == 'ijsjesop1stok' && $data['password'] == 'rakettenop2') {
             $this->setLoggedIn(true);
             $this->setUsername($data['username']);
+            return true;
         }
+        return false;
     }
 
     private function setLoggedIn($logged_in) {
@@ -42,6 +45,7 @@ class Session {
 
     public function logout() {
         $this->setLoggedIn(false);
+        return true;
     }
 
 }

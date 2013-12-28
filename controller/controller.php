@@ -12,8 +12,9 @@ class Controller {
         $action = $_GET['action'];
         switch($action) {
             case 'login':
-                $this->model->getSession()->login($_POST);
-                $this->reloadPage();
+                if($this->model->getSession()->login($_POST)){
+                    $this->reloadPage();
+                }
                 break;
             case 'logout':
                 $this->model->getSession()->logout();
