@@ -7,7 +7,11 @@ class View{
 	}
 	
 	public function output(){
-		require(dirname(FILE)."/../public_html/template.php");
+		if($this->model->getSession()->getLoggedIn()){
+			require(dirname(__FILE__)."/../public_html/template.php");	
+		}else{
+			require(dirname(__FILE__)."/../public_html/login.php");
+		}
 	}
 }
 ?>
