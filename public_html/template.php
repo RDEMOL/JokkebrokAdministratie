@@ -8,8 +8,10 @@ if(!$this){
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title><?php echo $this->getTitle(); ?></title>
+		<title><?php echo $this->getTitle(); ?> - Jokkebrok Administratie</title>
+        <script src="libs/jquery-1.10.2.min.js"></script>
 		<link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	    <link href="libs/bootstrap-datepicker/css/datepicker.css" rel="stylesheet">
 		<style type="text/css">
 			html, body {
 				height: 100%;
@@ -25,7 +27,9 @@ if(!$this){
 				/* Pad bottom by footer height */
 				padding: 0 0 60px;
 			}
-
+            #content-container{
+                margin-top:20px;
+            }
 			/* Set the fixed height of the footer here */
 			#footer {
 				height: 60px;
@@ -38,7 +42,7 @@ if(!$this){
 			<div class="navbar navbar-inverse navbar-fixed-top">
 				<div class="container">
 					<div class="navbar-header">
-						<a class="navbar-brand" href="#">Jokkebrok Administratie</a>"
+						<a class="navbar-brand" href="?">Jokkebrok Administratie</a>"
 					</div>
 					<ul class="nav navbar-nav" id="navbar">
 						<li id="dashboard">
@@ -64,8 +68,8 @@ if(!$this){
 					</ul>
 				</div>
 			</div>
-			<div class="container">
-
+			<div class="container" id="content-container">
+                <!--<h1><?php echo $this->getTitle(); ?></h1>-->
 				<?php echo $this->getContent(); ?>
 
 			</div>
@@ -77,8 +81,8 @@ if(!$this){
 				</p>
 			</div>
 		</div>
-		<script src="libs/jquery-1.10.2.min.js"></script>
 		<script src="libs/bootstrap/js/bootstrap.min.js"></script>
+		<script src="libs/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 		<script>
 		    $('#navbar li#<?php echo $this->getCurrentTab(); ?>').addClass('active');
 		</script>

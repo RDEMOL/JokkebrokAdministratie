@@ -12,7 +12,7 @@ class Page {
     }
 
     public function getTitle() {
-        return $this->title . " - Jokkebrok Administratie";
+        return $this->title;
     }
 
     public function setCurrentTab($tab) {
