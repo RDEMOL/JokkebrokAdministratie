@@ -77,7 +77,7 @@ if(!$this){
 		<div id="footer">
 			<div class="container">
 				<p class="text-muted text-center">
-					Jokkebrok Administratie by Floris Kint &amp; Roderick Demol.
+					&copy; 2013-2014 Jokkebrok Administratie by Floris Kint &amp; Roderick Demol
 				</p>
 			</div>
 		</div>
