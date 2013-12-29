@@ -1,9 +1,14 @@
+<?php
+if(!$this){
+    exit;
+}
+?>
 <!doctype html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Jokkebrok Administratie</title>
+		<title><?php echo $this->getTitle(); ?></title>
 		<link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<style type="text/css">
 			html, body {
@@ -35,20 +40,20 @@
 					<div class="navbar-header">
 						<a class="navbar-brand" href="#">Jokkebrok Administratie</a>"
 					</div>
-					<ul class="nav navbar-nav">
-						<li class="active">
+					<ul class="nav navbar-nav" id="navbar">
+						<li id="dashboard">
 							<a href='?page=dashboard'>Dashboard</a>
 						</li>
-						<li>
+						<li id="aanwezigheden">
 							<a href='?page=aanwezigheden'>Aanwezigheden</a>
 						</li>
-						<li>
+						<li id="kinderen">
 							<a href='?page=kinderen'>Kinderen</a>
 						</li>
-						<li>
+						<li id="uitstappen">
 							<a href='?page=uitstappen'>Uitstappen</a>
 						</li>
-						<li>
+						<li id="instellingen">
 							<a href='?page=instellingen'>Instellingen</a>
 						</li>
 					</ul>
@@ -61,7 +66,7 @@
 			</div>
 			<div class="container">
 
-				Dashboard
+				<?php echo $this->getContent(); ?>
 
 			</div>
 		</div>
@@ -74,6 +79,9 @@
 		</div>
 		<script src="libs/jquery-1.10.2.min.js"></script>
 		<script src="libs/bootstrap/js/bootstrap.min.js"></script>
+		<script>
+		    $('#navbar li#<?php echo $this->getCurrentTab(); ?>').addClass('active');
+		</script>
 		<script data-main="js/main" src="./libs/require.js"></script>
 	</body>
 </html>
