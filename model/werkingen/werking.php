@@ -8,14 +8,18 @@ class Werking{
     }
     private function init(){
         $db = new Database();
-        $query = $db->getPDO()->prepare('SELECT Omschrijving as naam FROM Werking WHERE Id = :id');
+        $query = $db->getPDO()->prepare('SELECT Omschrijving as naam, Afkorting as afkorting FROM Werking WHERE Id = :id');
         $query->bindParam(':id', $this->getId(), PDO::PARAM_INT);
         $query->execute();
         $result = $query->fetch(PDO::FETCH_OBJ);
         $this->naam = $result->naam;
+        $this->afkorting = $result->afkorting;
     }
     public function getNaam(){
         return $this->naam;
+    }
+    public function getAfkorting(){
+        return $this->afkorting;
     }
     public function getId(){
         return $this->id;

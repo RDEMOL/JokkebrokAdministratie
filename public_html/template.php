@@ -62,6 +62,10 @@ if(!$this){
 						</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
+					    <li style="text-align: center;">
+					        <span class="text-info">Het is vandaag<br><?php $vandaag = new SpeelpleinDag(); echo $vandaag->getFullDatum(); ?>.
+					        </span>
+					    </li>
 						<li>
 							<a href='?action=logout'>Uitloggen</a>
 						</li>

@@ -10,5 +10,10 @@ class SpeelpleinDag{
     public function getDatum(){
         return $this->datum;
     }
+    public function getFullDatum(){
+        setlocale (LC_TIME, "nl_BE.UTF8");
+        $d = strtotime($this->datum);
+        return strftime("%A %e %B %Y", $d);
+    }
 }
 ?>

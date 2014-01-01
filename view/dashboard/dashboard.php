@@ -51,7 +51,7 @@ class Dashboard extends Page{
     <tr>
         <th colspan="2" rowspan="2">
         <th colspan="$werkingen_amount" class="text-center">Werking
-        <th rowspan="2">Alle
+        <th rowspan="2">Totaal
     </tr>
     <tr>
         $werkingen_ths
