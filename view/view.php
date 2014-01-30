@@ -6,6 +6,8 @@ require_once (dirname(__FILE__) . "/kinderen/kinderen.php");
 require_once (dirname(__FILE__) . "/uitstappen/uitstappen.php");
 require_once (dirname(__FILE__) . "/instellingen/instellingen.php");
 require_once (dirname(__FILE__) . "/../model/kinderen/kinderen.php");
+require_once (dirname(__FILE__) . "/../model/aanwezigheden/aanwezigheden.php");
+
 class View {
     protected $controller,$model;
     public function __construct($controller,$model) {
@@ -26,7 +28,17 @@ class View {
                             $filter = $_POST['filter'];
                         }
                         $result = array();
-                        $result['kinderen'] = $kinderen_model->getTabelJSONData($filter);
+                        $result['content'] = $kinderen_model->getTabelJSONData($filter);
+                        echo json_encode($result);
+                        break;
+                    case 'aanwezighedenTabel':
+                        $aanwezigheden_model = new Aanwezigheden();
+                        $filter = null;
+                        if(isset($_POST['filter'])){
+                            $filter = $_POST['filter'];
+                        }
+                        $result = array();
+                        $result['content'] = $aanwezigheden_model->getTabelJSONData($filter);
                         echo json_encode($result);
                         break;
                 }

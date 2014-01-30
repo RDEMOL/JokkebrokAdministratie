@@ -48,52 +48,21 @@ HERE;
 <br>
 <div class="row">
 <table class="table table-striped table-bordered" id="kinderen_tabel">
-<thead>
-<tr>
-    <th>Voornaam
-    <th>Naam
-    <th>Werking
-    <th>Medische info
-    <th>
-    <th>
-</tr>
-</thead>
-<tbody>
-<tr>
-    <td>Jonas
-    <td>Peeters
-    <td>Tieners
-    <td>Hooikoorts
-    <td><button class="btn btn-sm">Verwijderen</button>
-    <td><button class="btn btn-sm">Wijzigen</button>
-</tr>
-<tr>
-    <td>Jonas
-    <td>Peeters
-    <td>Tieners
-    <td>Hooikoorts
-    <td><button class="btn btn-sm">Verwijderen</button>
-    <td><button class="btn btn-sm">Wijzigen</button>
-</tr>
-<tr>
-    <td>Jonas
-    <td>Peeters
-    <td>Tieners
-    <td>Hooikoorts
-    <td><button class="btn btn-sm">Verwijderen</button>
-    <td><button class="btn btn-sm">Wijzigen</button>
-</tr>
-</tbody>
 </table>
 </div>
 <script>
-console.log("script");
-require(['kinderen'], function(Kinderen, require){
-    console.log("in function");
-    var k = new Kinderen();
-    k.setUp($('#kinderen_tabel'));
+require(['tabel', 'tabel/kolom'], function(Tabel, Kolom, require){
+    var k = new Array();
+    k.push(new Kolom('voornaam','Voornaam'));
+    k.push(new Kolom('naam','Naam'));
+    k.push(new Kolom('werking','Werking'));
+    k.push(new Kolom('medische_info','Medische info'));
+    k.push(new Kolom('andere_info', 'Andere info'));
+    k.push(new Kolom('controls', ''));
+    var t = new Tabel('index.php?action=data&data=kinderenTabel', k);
+    t.setUp($('#kinderen_tabel'));
     var filter = new Object();
-    k.laadTabel(filter);
+    t.laadTabel(filter);
 });
 </script>
 HERE;

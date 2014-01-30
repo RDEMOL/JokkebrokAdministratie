@@ -22,60 +22,26 @@ class AanwezighedenPage extends Page {
 </div>
 <br>
 <div class="row">
-<table class="table table-striped table-bordered">
-<thead>
-<tr>
-    <th>Voornaam
-    <th>Naam
-    <th>Werking
-    <th>Drankje
-    <th>Ijsje
-    <th>Middag
-    <th>Medische info
-    <th>
-    <th>
-</tr>
-</thead>
-<tbody>
-<tr>
-    <td>Jonas
-    <td>Peeters
-    <td>Tieners
-    <td>Ja
-    <td>Nee
-    <td>Thuis
-    <td>Hooikoorts
-    <td><button class="btn btn-sm">Verwijderen</button>
-    <td><button class="btn btn-sm">Wijzigen</button>
-</tr>
-<tr>
-    <td>Jelle
-    <td>Peeters
-    <td>Tieners
-    <td>Ja
-    <td>Nee
-    <td>Thuis
-    <td>Hooikoorts
-    <td><button class="btn btn-sm">Verwijderen</button>
-    <td><button class="btn btn-sm">Wijzigen</button>
-</tr>
-<tr>
-    <td>Jasper
-    <td>Peeters
-    <td>Tieners
-    <td>Ja
-    <td>Nee
-    <td>Thuis
-    <td>Hooikoorts
-    <td><button class="btn btn-sm">Verwijderen</button>
-    <td><button class="btn btn-sm">Wijzigen</button>
-</tr>
-</tbody>
+<table class="table table-striped table-bordered" id="aanwezigheden_tabel">
 </table>
 </div>
 <script>
 $(document).ready(function(){
-$('#datum').datepicker().data('datepicker');
+    $('#datum').datepicker().data('datepicker');
+});
+require(['tabel', 'tabel/kolom'], function(Tabel, Kolom, require){
+    var k = new Array();
+    k.push(new Kolom('voornaam','Voornaam'));
+    k.push(new Kolom('naam','Naam'));
+    k.push(new Kolom('werking','Werking'));
+    //TODO: insert extraatjes
+    k.push(new Kolom('medische_info','Medische info'));
+    k.push(new Kolom('andere_info', 'Andere info'));
+    k.push(new Kolom('controls', ''));
+    var t = new Tabel('index.php?action=data&data=aanwezighedenTabel', k);
+    t.setUp($('#aanwezigheden_tabel'));
+    var filter = new Object();
+    t.laadTabel(filter);
 });
 </script>
 HERE;
