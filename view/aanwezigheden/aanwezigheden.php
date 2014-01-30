@@ -1,7 +1,7 @@
 <?php
 require_once (dirname(__FILE__) . "/../page.php");
 require_once(dirname(__FILE__)."/../../model/speelpleindag/speelpleindag.php");
-class Aanwezigheden extends Page {
+class AanwezighedenPage extends Page {
     public function __construct() {
         parent::__construct("Aanwezigheden","","aanwezigheden");
         $this->buildContent();

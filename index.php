@@ -1,7 +1,7 @@
 <?php
 session_start();
 setlocale (LC_TIME, "nl_BE.UTF8");
-if(!$ok){
+if(!$coming_from_public_html){
     header('Location: public_html/index.php');
     exit;
 }

@@ -4,7 +4,7 @@ require_once(dirname(__FILE__)."/../../model/werkingen/werkingen.php");
 require_once(dirname(__FILE__)."/../../model/extraatjes/extraatjes.php");
 require_once(dirname(__FILE__)."/../../model/speelpleindag/speelpleindag.php");
 
-class Dashboard extends Page{
+class DashboardPage extends Page{
     public function __construct(){
         parent::__construct("Dashboard", "", "dashboard");
         $this->buildContent();

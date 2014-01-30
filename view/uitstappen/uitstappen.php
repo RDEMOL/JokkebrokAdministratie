@@ -1,6 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../page.php");
-class Uitstappen extends Page{
+class UitstappenPage extends Page{
     public function __construct(){
         parent::__construct("Uitstappen", "", "uitstappen");
         $this->buildContent();
