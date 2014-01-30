@@ -91,21 +91,26 @@ require(['tabel', 'tabel/kolom'], function(Tabel, Kolom, require){
     k.push(new Kolom('controls', ''));
     var t = new Tabel('index.php?action=data&data=kinderenTabel', k);
     t.setUp($('#kinderen_tabel'));
-    var filter = new Object();
-    t.laadTabel(filter);
-});
-$(document).ready(function(){
-   $('#nieuwKindForm').submit(function(){
-        console.log("submitting!");
-        console.log("form data = "+$('#nieuwKindForm').serialize()); 
-        $.post('index.php?action=nieuwKind', $('#nieuwKindForm').serializeArray(), function(res){
-           console.log("got this from the server: "+res); 
-        });
-        return false;
-   });
-   $('#submitNieuwKind').click(function(){
-       $('#nieuwKindForm').submit();
-   });
+    t.setFilter(new Object());
+    t.laadTabel();
+    $(document).ready(function(){
+       $('#nieuwKindForm').submit(function(){
+            console.log("submitting!");
+            console.log("form data = "+$('#nieuwKindForm').serialize()); 
+            $.post('index.php?action=nieuwKind', $('#nieuwKindForm').serializeArray(), function(res){
+               if(res == "1"){
+                   $('#nieuwKindModal').modal('hide');
+                   t.laadTabel();
+               }else{
+                   console.log("nieuw kind toevoegen mislukt, error code: "+res);
+               }
+            });
+            return false;
+       });
+       $('#submitNieuwKind').click(function(){
+           $('#nieuwKindForm').submit();
+       });
+    });
 });
 </script>
 HERE;

@@ -14,7 +14,11 @@ define(['tabel/kolom'], function(Kolom){
 			if(this.parent_tabel.kolommen[i].id=="controls"){
 				this.element.append(this.parent_tabel.getControlsTD());
 			}else{
-				this.element.append($('<td>').text(this.data[this.parent_tabel.kolommen[i].id]));
+				var content = this.data[this.parent_tabel.kolommen[i].id];
+				if(content == null){
+					content = "";
+				}
+				this.element.append($('<td>').text(content));
 			}
 		}
 	};
@@ -22,14 +26,18 @@ define(['tabel/kolom'], function(Kolom){
 		this.url = url;
 		this.kolommen = kolommen;
 		this.data = new Array();
+		this.setFilter(new Object());
 	};
 	Tabel.prototype.setUp = function(tabelElement){
 		this.tabelElement = tabelElement;
 	};
-	Tabel.prototype.laadTabel = function(filter){
+	Tabel.prototype.setFilter = function(filter){
+		this.filter = filter;
+	}
+	Tabel.prototype.laadTabel = function(){
 		var self = this;
 		var data = new Object();
-		data.filter = filter;
+		data.filter = this.filter;
 		$.post(this.url, data, function(data){
 			console.log("received: "+data);
 			self.data = JSON.parse(data).content;
