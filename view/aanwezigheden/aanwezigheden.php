@@ -1,18 +1,48 @@
 <?php
 require_once (dirname(__FILE__) . "/../page.php");
-require_once(dirname(__FILE__)."/../../model/speelpleindag/speelpleindag.php");
+require_once (dirname(__FILE__) . "/../../model/speelpleindag/speelpleindag.php");
 class AanwezighedenPage extends Page {
     public function __construct() {
         parent::__construct("Aanwezigheden","","aanwezigheden");
         $this->buildContent();
     }
 
+    private function getNieuweAanwezigheidModal() {
+        $content = <<<HERE
+<div class="modal fade" id="nieuweAanwezigheidModal" tabindex="-1" role="dialog" aria-labelledby="nieuweAanwezigheidModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+                <h4 class="modal-title">Nieuwe aanwezigheid toevoegen</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="row">
+                        <label class="control-label" for="voornaam">Voornaam + naam: </label>
+                        <input type="text" value="">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+                <button type="button" class="btn btn-primary">Toevoegen</button>
+            </div>
+        </div>
+    </div>
+</div>
+HERE;
+        return $content;
+    }
+
     public function buildContent() {
         $vandaag = new SpeelpleinDag();
         $datum = $vandaag->getDatum();
-        $content = <<<HERE
+        $content = $this->getNieuweAanwezigheidModal();
+        $content .= <<<HERE
+        
 <div class="row">
-    <button class="btn btn-primary">Nieuwe aanwezigheid</button>
+    <button class="btn btn-large btn-primary" data-toggle="modal" data-target="#nieuweAanwezigheidModal">Nieuwe aanwezigheid</button>
      <label for="datum">Datum:</label>
         <input id="datum" name="datum" type="text" value="$datum"></input>
         <button id="btnVandaag" class="btn btn-sm">Vandaag</button>

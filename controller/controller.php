@@ -1,4 +1,5 @@
 <?php
+require_once(dirname(__FILE__)."/../model/kinderen/kinderen.php");
 class Controller {
     protected $model;
     public function __construct($model) {
@@ -10,18 +11,38 @@ class Controller {
             return;
         }
         $action = $_GET['action'];
-        switch($action) {
-            case 'login':
-                if($this->model->getSession()->login($_POST)){
+        if(!$this->model->getSession()->getLoggedIn()){
+            switch($action) {
+                case 'login':
+                    if($this->model->getSession()->login($_POST)){
+                        $this->reloadPage();
+                    }
+                    break;
+                case 'logout':
+                    $this->model->getSession()->logout();
                     $this->reloadPage();
-                }
-                break;
-            case 'logout':
-                $this->model->getSession()->logout();
-                $this->reloadPage();
-                break;
-            default:
-                return;
+                    break;
+                default:
+                    return;
+            }
+        }else{
+            switch($action) {
+                case 'login':
+                    if($this->model->getSession()->login($_POST)){
+                        $this->reloadPage();
+                    }
+                    break;
+                case 'logout':
+                    $this->model->getSession()->logout();
+                    $this->reloadPage();
+                    break;
+                case 'nieuwKind':
+                    $kinderen_ = new Kinderen();
+                    echo $kinderen_->nieuwKind($_POST);
+                    exit;
+                default:
+                    return;
+            }
         }
     }
 

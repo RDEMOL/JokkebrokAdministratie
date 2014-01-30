@@ -15,6 +15,18 @@ class Kinderen{
         }
         return $kinderen;
     }
+    public function nieuwKind($data){
+        $db = new DataBase();
+        $query = $db->getPDO()->prepare('INSERT INTO Kind (Naam, Voornaam, Geboortejaar, DefaultWerking, MedischeInfo, AndereInfo) VALUES (:naam, :voornaam, :geboortejaar, :werking, :medische_info, :andere_info)');
+        $query->bindParam(':naam', $data['naam'], PDO::PARAM_STR);
+        $query->bindParam(':voornaam', $data['voornaam'], PDO::PARAM_STR);
+        $query->bindParam(':geboortejaar', $data['geboortejaar'], PDO::PARAM_INT);
+        $query->bindParam(':werking', $data['werking'], PDO::PARAM_INT);
+        $query->bindParam(':medische_info', $data['medische_info'], PDO::PARAM_STR);
+        $query->bindParam(':andere_info', $data['andere_info'], PDO::PARAM_STR);
+        $res = $query->execute();
+        return $res;
+    }
     public function getTabelJSONData($filter){
         //This can be optimized, by executing 1 query to catch 'em all, but for now let's stick with separate queries per child
         //$db = new Database();

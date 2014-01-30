@@ -25,6 +25,7 @@ class InstellingenPage extends Page{
 <div class="row">
 <label for="omschrijving" class="control-label">Omschrijving: </label>
 <input type="text" value="">
+</div>
 </form>
 </div>
 </div>
