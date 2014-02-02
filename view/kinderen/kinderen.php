@@ -28,7 +28,7 @@ HERE;
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                <h4 class="modal-title">Nieuw Kind toevoegen</h4>
+                <h4 class="modal-title">Nieuw kind toevoegen</h4>
             </div>
             <div class="modal-body">
                 <form class="form-inline" id="nieuwKindForm">
@@ -52,7 +52,18 @@ HERE;
                         <i>*Deze werking is de standaardinstelling bij de aanwezigheden</i>
                     </div>
                     <div class="row">
-                        TODO: insert voogd informatie
+                        <label class="control-label" for="medische_info">Medische informatie: </label>
+                        <textarea name="medische_info"></textarea>
+                    </div>
+                    <div class="row">
+                        <label class="control-label" for="andere_info">Andere informatie: </label>
+                        <textarea name="andere_info"></textarea>
+                    </div>
+                    <div class="row">
+                        <h3>Voogd:</h3>
+                    </div>
+                    <div class="row">
+                    <button id="btnAndereVoogd" class="btn btn-default">Nog een voogd toevoegen</button>
                     </div>
                 </form>
             </div>
@@ -93,8 +104,40 @@ require(['tabel', 'tabel/kolom'], function(Tabel, Kolom, require){
     t.setUp($('#kinderen_tabel'));
     t.setFilter(new Object());
     t.laadTabel();
+    var voogd_amount = 0;
     $(document).ready(function(){
-       $('#nieuwKindForm').submit(function(){
+        //TODO: reset each time modal is launched
+        var voegVoogdDivToe = function(){
+            ++voogd_amount;
+            console.log("nieuwe voogd = "+voogd_amount);
+            var el = $('<div>').addClass('row voogd_row')
+                .append($('<label>').addClass('control-label').attr('for', 'voogdVoornaam'+voogd_amount).text('Voornaam: '))
+                .append($('<input>').attr('name', 'voogdVoornaam'+voogd_amount))
+                .append($('<br>'))
+                .append($('<label>').addClass('control-label').attr('for', 'voogdNaam'+voogd_amount).text('Naam: '))
+                .append($('<input>').attr('type', 'text').attr('name', 'voogdNaam'+voogd_amount))
+                .append($('<br>'))
+                .append($('<label>').addClass('control-label').attr('for', 'voogdOpmerkingen'+voogd_amount).text('Opmerkingen: '))
+                .append($('<textarea>').attr('type', 'text').attr('name', 'voogdOpmerkingen'+voogd_amount))
+                .append($('<br>'));
+            //$('#btnAndereVoogd').insertBefore(el);
+            el.insertBefore($('#btnAndereVoogd').parent());
+        };
+        $('#btnAndereVoogd').click(function(e){
+            e.preventDefault();
+            voegVoogdDivToe();
+            return false;
+        });
+        var initNieuwKindModal = function(){
+            console.log("init!");
+            $('#nieuwKindForm').find('input[type=text], textarea').val('');
+            $('#nieuwKindForm').find('select').val('0');
+          voogd_amount = 0;
+          $('.voogd_row').remove();
+          voegVoogdDivToe();  
+        };
+        $('#nieuwKindModal').on('show.bs.modal', initNieuwKindModal);
+        $('#nieuwKindForm').submit(function(){
             console.log("submitting!");
             console.log("form data = "+$('#nieuwKindForm').serialize()); 
             $.post('index.php?action=nieuwKind', $('#nieuwKindForm').serializeArray(), function(res){

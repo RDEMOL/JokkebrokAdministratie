@@ -43,7 +43,7 @@ if(!$this){
 			<div class="navbar navbar-inverse navbar-fixed-top">
 				<div class="container">
 					<div class="navbar-header">
-						<a class="navbar-brand" href="?">Jokkebrok Administratie</a>"
+						<a class="navbar-brand" href="?">Jokkebrok Administratie</a>
 					</div>
 					<ul class="nav navbar-nav" id="navbar">
 						<li id="dashboard">
