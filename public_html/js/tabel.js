@@ -12,7 +12,7 @@ define(['tabel/kolom'], function(Kolom){
 		this.element.empty();
 		for(var i = 0; i < this.parent_tabel.kolommen.length; ++i){
 			if(this.parent_tabel.kolommen[i].id=="controls"){
-				this.element.append(this.parent_tabel.getControlsTD());
+				this.element.append(this.parent_tabel.getControlsTD(this.data));
 			}else{
 				var content = this.data[this.parent_tabel.kolommen[i].id];
 				if(content == null){
@@ -27,6 +27,7 @@ define(['tabel/kolom'], function(Kolom){
 		this.kolommen = kolommen;
 		this.data = new Array();
 		this.setFilter(new Object());
+		this.controls = new Array();
 	};
 	Tabel.prototype.setUp = function(tabelElement){
 		this.tabelElement = tabelElement;
@@ -60,12 +61,19 @@ define(['tabel/kolom'], function(Kolom){
 			this.tabelElement.append(rij.element);
 		}
 	};
-	Tabel.prototype.getControlsTD = function(){
+	Tabel.prototype.getControlsTD = function(data){
 		var controls = $('<td>');
-		controls.append($('<button>').addClass('btn btn-sm').text('Wijzigen'));
-		controls.append('&nbsp;');
-		controls.append($('<button>').addClass('btn btn-sm').text('Verwijderen'));
+		for(var i = 0; i < this.controls.length; ++i){
+			controls.append(this.controls[i].getElement(data));
+			controls.append('&nbsp;');
+		}
+		//controls.append($('<button>').addClass('btn btn-sm').text('Wijzigen'));
+		//controls.append('&nbsp;');
+		//controls.append($('<button>').addClass('btn btn-sm').text('Verwijderen'));
 		return controls;
+	};
+	Tabel.prototype.setControls = function(controls){
+		this.controls = controls;
 	}
 	return Tabel;
 });

@@ -61,6 +61,7 @@ HERE;
                     </div>
                     <div class="row">
                         <h3>Voogd:</h3>
+                        <input type="hidden" name="voogd_amount" value="0">
                     </div>
                     <div class="row">
                     <button id="btnAndereVoogd" class="btn btn-default">Nog een voogd toevoegen</button>
@@ -92,7 +93,7 @@ HERE;
 </table>
 </div>
 <script>
-require(['tabel', 'tabel/kolom'], function(Tabel, Kolom, require){
+require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Control, require){
     var k = new Array();
     k.push(new Kolom('voornaam','Voornaam'));
     k.push(new Kolom('naam','Naam'));
@@ -103,12 +104,23 @@ require(['tabel', 'tabel/kolom'], function(Tabel, Kolom, require){
     var t = new Tabel('index.php?action=data&data=kinderenTabel', k);
     t.setUp($('#kinderen_tabel'));
     t.setFilter(new Object());
+    var controls = new Array();
+    var wijzig_kind = function(data){
+        console.log("wijzigen: "+JSON.stringify(data));
+    };
+    var verwijder_kind = function(data){
+        console.log("verwijderen: "+JSON.stringify(data));
+    };
+    controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_kind));
+    controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_kind));
+    t.setControls(controls);
     t.laadTabel();
     var voogd_amount = 0;
     $(document).ready(function(){
         //TODO: reset each time modal is launched
         var voegVoogdDivToe = function(){
             ++voogd_amount;
+            $('#nieuwKindForm input[name="voogd_amount"]').val(voogd_amount);
             console.log("nieuwe voogd = "+voogd_amount);
             var el = $('<div>').addClass('row voogd_row')
                 .append($('<label>').addClass('control-label').attr('for', 'voogdVoornaam'+voogd_amount).text('Voornaam: '))
@@ -120,7 +132,6 @@ require(['tabel', 'tabel/kolom'], function(Tabel, Kolom, require){
                 .append($('<label>').addClass('control-label').attr('for', 'voogdOpmerkingen'+voogd_amount).text('Opmerkingen: '))
                 .append($('<textarea>').attr('type', 'text').attr('name', 'voogdOpmerkingen'+voogd_amount))
                 .append($('<br>'));
-            //$('#btnAndereVoogd').insertBefore(el);
             el.insertBefore($('#btnAndereVoogd').parent());
         };
         $('#btnAndereVoogd').click(function(e){
@@ -132,9 +143,9 @@ require(['tabel', 'tabel/kolom'], function(Tabel, Kolom, require){
             console.log("init!");
             $('#nieuwKindForm').find('input[type=text], textarea').val('');
             $('#nieuwKindForm').find('select').val('0');
-          voogd_amount = 0;
-          $('.voogd_row').remove();
-          voegVoogdDivToe();  
+            voogd_amount = 0;
+            $('.voogd_row').remove();
+            voegVoogdDivToe();  
         };
         $('#nieuwKindModal').on('show.bs.modal', initNieuwKindModal);
         $('#nieuwKindForm').submit(function(){
