@@ -15,6 +15,22 @@ class Kinderen{
         }
         return $kinderen;
     }
+    public function updateKind($data){
+        if(!isset($data['id']) || $data['id'] == '-1'){
+            return $this->nieuwKind($data);
+        }
+        $db = new Database();
+        $query = $db->getPDO()->prepare('UPDATE Kind SET Naam=:naam, Voornaam=:voornaam, Geboortejaar=:geboorte_jaar, DefaultWerking=:default_werking, MedischeInfo=:medische_info, AndereInfo=:andere_info WHERE Id=:id');
+        $query->bindParam(':naam', $data['naam'], PDO::PARAM_STR);
+        $query->bindParam(':voornaam', $data['voornaam'], PDO::PARAM_STR);
+        $query->bindParam(':geboorte_jaar', $data['geboortejaar'], PDO::PARAM_STR);
+        $query->bindParam(':default_werking', $data['werking'], PDO::PARAM_STR);
+        $query->bindParam(':medische_info', $data['medische_info'], PDO::PARAM_STR);
+        $query->bindParam(':andere_info', $data['andere_info'], PDO::PARAM_STR);
+        $query->bindParam(':id', $data['id'], PDO::PARAM_INT);
+        $res = $query->execute();
+        return $res;
+    }
     public function nieuwKind($data){
         $db = new DataBase();
         $query = $db->getPDO()->prepare('INSERT INTO Kind (Naam, Voornaam, Geboortejaar, DefaultWerking, MedischeInfo, AndereInfo) VALUES (:naam, :voornaam, :geboortejaar, :werking, :medische_info, :andere_info)');

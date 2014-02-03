@@ -1,17 +1,18 @@
 <?php
-require_once(dirname(__FILE__)."/../page.php");
-require_once(dirname(__FILE__)."/../../model/werkingen/werkingen.php");
-class KinderenPage extends Page{
-    public function __construct(){
-        parent::__construct("Kinderen", "", "kinderen");
+require_once (dirname(__FILE__) . "/../page.php");
+require_once (dirname(__FILE__) . "/../../model/werkingen/werkingen.php");
+class KinderenPage extends Page {
+    public function __construct() {
+        parent::__construct("Kinderen","","kinderen");
         $this->buildContent();
     }
-    private function getWerkingenSelect(){
+
+    private function getWerkingenSelect() {
         $opties = "";
         $werkingen_ = new Werkingen();
         $werkingen = $werkingen_->getWerkingen();
-        foreach($werkingen as $w){
-            $opties .= "<option value=\"".$w->getId()."\">".$w->getAfkorting()." - ".$w->getNaam()."</option>";
+        foreach($werkingen as $w) {
+            $opties .= "<option value=\"" . $w->getId() . "\">" . $w->getAfkorting() . " - " . $w->getNaam() . "</option>";
         }
         $content = <<<HERE
 <select name="werking" class="form-control">
@@ -20,18 +21,20 @@ $opties
 HERE;
         return $content;
     }
-    private function getNieuwKindModal(){
+
+    private function getKindModal() {
         $werkingen_select = $this->getWerkingenSelect();
         $content = <<<HERE
-<div class="modal fade" id="nieuwKindModal" tabindex="-1" role="dialog" aria-labelledby="nieuwKindModal">
+<div class="modal fade" id="kindModal" tabindex="-1" role="dialog" aria-labelledby="kindModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                <h4 class="modal-title">Nieuw kind toevoegen</h4>
+                <h4 class="modal-title" id="kindModalTitle">Nieuw kind toevoegen</h4>
             </div>
             <div class="modal-body">
-                <form class="form-inline" id="nieuwKindForm">
+                <form class="form-inline" id="kindForm">
+                    <input type="hidden" name="id" value="-1">
                     <div class="row">
                         <label class="control-label" for="voornaam">Voornaam: </label>
                         <input type="text" name="voornaam" value="">
@@ -70,7 +73,7 @@ HERE;
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
-                <button type="button" class="btn btn-primary" id="submitNieuwKind">Toevoegen</button>
+                <button type="button" class="btn btn-primary" id="submitKind">Opslaan</button>
             </div>
         </div>
     </div>
@@ -78,11 +81,12 @@ HERE;
 HERE;
         return $content;
     }
-    public function buildContent(){
-        $content = $this->getNieuwKindModal();
+
+    public function buildContent() {
+        $content = $this->getKindModal();
         $content .= <<<HERE
 <div class="row">
-    <button class="btn btn-large btn-primary" data-toggle="modal" data-target="#nieuwKindModal">Nieuw kind</button>
+    <button class="btn btn-large btn-primary" id="btnNieuwKind">Nieuw kind</button>
     <div class="pull-right">
         <button id="btnPdf" class="btn">Pdf tonen</button>
     </div>
@@ -94,6 +98,49 @@ HERE;
 </div>
 <script>
 require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Control, require){
+    var voogd_amount = 0;
+    var voegVoogdDivToe = function(){
+        ++voogd_amount;
+        $('#nieuwKindForm input[name="voogd_amount"]').val(voogd_amount);
+        console.log("nieuwe voogd = "+voogd_amount);
+        var el = $('<div>').addClass('row voogd_row')
+            .append($('<label>').addClass('control-label').attr('for', 'voogdVoornaam'+voogd_amount).text('Voornaam: '))
+            .append($('<input>').attr('name', 'voogdVoornaam'+voogd_amount))
+            .append($('<br>'))
+            .append($('<label>').addClass('control-label').attr('for', 'voogdNaam'+voogd_amount).text('Naam: '))
+            .append($('<input>').attr('type', 'text').attr('name', 'voogdNaam'+voogd_amount))
+            .append($('<br>'))
+            .append($('<label>').addClass('control-label').attr('for', 'voogdOpmerkingen'+voogd_amount).text('Opmerkingen: '))
+            .append($('<textarea>').attr('type', 'text').attr('name', 'voogdOpmerkingen'+voogd_amount))
+            .append($('<br>'));
+        el.insertBefore($('#btnAndereVoogd').parent());
+    };
+    function wijzig_kind(data){
+        console.log("wijzigen: "+JSON.stringify(data));
+        voogd_amount = 0;
+        $('.voogd_row').remove();
+        $('#kindForm input[name=id]').val(data.id);
+        $('#kindForm input[name=voornaam]').val(data.voornaam);
+        $('#kindForm input[name=naam]').val(data.naam);
+        $('#kindForm input[name=geboortejaar]').val(data.geboortejaar);
+        $('#kindForm select[name=werking]').val(data.werking_id);
+        $('#kindForm textarea[name=medische_info]').val(data.medische_info);
+        $('#kindForm textarea[name=andere_info]').val(data.andere_info);
+        $('#kindModal').modal('show');
+    };
+    function verwijder_kind(data){
+        console.log("verwijderen: "+JSON.stringify(data));
+    };
+    function nieuw_kind(){
+        console.log("nieuw kind");
+        $('#kindForm').find('input[type=text], textarea').val('');
+        $('#kindForm').find('select').val('0');
+        $('#kindForm input[name=id]').val('-1');
+        voogd_amount = 0;
+        $('.voogd_row').remove();
+        voegVoogdDivToe();
+        $('#kindModal').modal('show');  
+    };
     var k = new Array();
     k.push(new Kolom('voornaam','Voornaam'));
     k.push(new Kolom('naam','Naam'));
@@ -105,64 +152,34 @@ require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Contro
     t.setUp($('#kinderen_tabel'));
     t.setFilter(new Object());
     var controls = new Array();
-    var wijzig_kind = function(data){
-        console.log("wijzigen: "+JSON.stringify(data));
-    };
-    var verwijder_kind = function(data){
-        console.log("verwijderen: "+JSON.stringify(data));
-    };
     controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_kind));
     controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_kind));
     t.setControls(controls);
-    t.laadTabel();
-    var voogd_amount = 0;
     $(document).ready(function(){
-        //TODO: reset each time modal is launched
-        var voegVoogdDivToe = function(){
-            ++voogd_amount;
-            $('#nieuwKindForm input[name="voogd_amount"]').val(voogd_amount);
-            console.log("nieuwe voogd = "+voogd_amount);
-            var el = $('<div>').addClass('row voogd_row')
-                .append($('<label>').addClass('control-label').attr('for', 'voogdVoornaam'+voogd_amount).text('Voornaam: '))
-                .append($('<input>').attr('name', 'voogdVoornaam'+voogd_amount))
-                .append($('<br>'))
-                .append($('<label>').addClass('control-label').attr('for', 'voogdNaam'+voogd_amount).text('Naam: '))
-                .append($('<input>').attr('type', 'text').attr('name', 'voogdNaam'+voogd_amount))
-                .append($('<br>'))
-                .append($('<label>').addClass('control-label').attr('for', 'voogdOpmerkingen'+voogd_amount).text('Opmerkingen: '))
-                .append($('<textarea>').attr('type', 'text').attr('name', 'voogdOpmerkingen'+voogd_amount))
-                .append($('<br>'));
-            el.insertBefore($('#btnAndereVoogd').parent());
-        };
+        t.laadTabel();
         $('#btnAndereVoogd').click(function(e){
             e.preventDefault();
             voegVoogdDivToe();
             return false;
         });
-        var initNieuwKindModal = function(){
-            console.log("init!");
-            $('#nieuwKindForm').find('input[type=text], textarea').val('');
-            $('#nieuwKindForm').find('select').val('0');
-            voogd_amount = 0;
-            $('.voogd_row').remove();
-            voegVoogdDivToe();  
-        };
-        $('#nieuwKindModal').on('show.bs.modal', initNieuwKindModal);
-        $('#nieuwKindForm').submit(function(){
+        $('#btnNieuwKind').click(function(){
+            nieuw_kind();
+        });
+        $('#kindForm').submit(function(){
             console.log("submitting!");
-            console.log("form data = "+$('#nieuwKindForm').serialize()); 
-            $.post('index.php?action=nieuwKind', $('#nieuwKindForm').serializeArray(), function(res){
+            console.log("form data = "+$('#kindForm').serialize());
+            $.post('index.php?action=updateKind', $('#kindForm').serializeArray(), function(res){
                if(res == "1"){
-                   $('#nieuwKindModal').modal('hide');
+                   $('#kindModal').modal('hide');
                    t.laadTabel();
                }else{
-                   console.log("nieuw kind toevoegen mislukt, error code: "+res);
+                   console.log("kind update mislukt, error code: "+res);
                }
             });
             return false;
        });
-       $('#submitNieuwKind').click(function(){
-           $('#nieuwKindForm').submit();
+       $('#submitKind').click(function(){
+           $('#kindForm').submit();
        });
     });
 });
@@ -170,5 +187,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Contro
 HERE;
         $this->setContent($content);
     }
+
 }
 ?>

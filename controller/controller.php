@@ -36,9 +36,9 @@ class Controller {
                     $this->model->getSession()->logout();
                     $this->reloadPage();
                     break;
-                case 'nieuwKind':
+                case 'updateKind':
                     $kinderen_ = new Kinderen();
-                    echo $kinderen_->nieuwKind($_POST);
+                    echo $kinderen_->updateKind($_POST);
                     exit;
                 default:
                     return;
