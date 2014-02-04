@@ -43,6 +43,13 @@ class Kinderen{
         $res = $query->execute();
         return $res;
     }
+    public function verwijderKind($data){
+        $db = new Database();
+        $query = $db->getPDO()->prepare('DELETE FROM Kind WHERE Id=:id');
+        $query->bindParam(':id', $data['id'], PDO::PARAM_INT);
+        $res = $query->execute();
+        return $res;
+    }
     public function getTabelJSONData($filter){
         //This can be optimized, by executing 1 query to catch 'em all, but for now let's stick with separate queries per child
         //$db = new Database();

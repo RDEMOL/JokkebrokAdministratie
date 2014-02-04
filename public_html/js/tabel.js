@@ -56,7 +56,6 @@ define(['tabel/kolom'], function(Kolom){
 		this.tabelElement.empty();
 		this.tabelElement.append(this.getTHead());
 		for(var i = 0; i < this.data.length; ++i){
-			console.log("i = "+i);
 			var rij = new Rij(this.data[i], this);
 			this.tabelElement.append(rij.element);
 		}
@@ -67,9 +66,6 @@ define(['tabel/kolom'], function(Kolom){
 			controls.append(this.controls[i].getElement(data));
 			controls.append('&nbsp;');
 		}
-		//controls.append($('<button>').addClass('btn btn-sm').text('Wijzigen'));
-		//controls.append('&nbsp;');
-		//controls.append($('<button>').addClass('btn btn-sm').text('Verwijderen'));
 		return controls;
 	};
 	Tabel.prototype.setControls = function(controls){

@@ -21,7 +21,29 @@ $opties
 HERE;
         return $content;
     }
-
+    private function getVerwijderKindModal(){
+        $content = <<<HERE
+<div class="modal fade" id="verwijderKindModal" tabindex="-1" role="dialog" aria-labelledby="verwijderKindModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="buton" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="verwijderKindModalTitle">Kind verwijderen</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="verwijderKindId">
+                <p>Bent u zeker dat u dit kind wilt verwijderen?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+                <button type="button" class="btn btn-primary" id="btnVerwijderKind">Verwijderen</button>
+            </div>
+        </div>
+    </div>
+</div>
+HERE;
+        return $content;
+    }
     private function getKindModal() {
         $werkingen_select = $this->getWerkingenSelect();
         $content = <<<HERE
@@ -83,7 +105,7 @@ HERE;
     }
 
     public function buildContent() {
-        $content = $this->getKindModal();
+        $content = $this->getVerwijderKindModal()."\n".$this->getKindModal();
         $content .= <<<HERE
 <div class="row">
     <button class="btn btn-large btn-primary" id="btnNieuwKind">Nieuw kind</button>
@@ -130,6 +152,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Contro
     };
     function verwijder_kind(data){
         console.log("verwijderen: "+JSON.stringify(data));
+        $('#verwijderKindModal input[name=verwijderKindId]').val(data['id']);
+        $('#verwijderKindModal').modal('show');
     };
     function nieuw_kind(){
         console.log("nieuw kind");
@@ -180,6 +204,20 @@ require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Contro
        });
        $('#submitKind').click(function(){
            $('#kindForm').submit();
+       });
+       $('#btnVerwijderKind').click(function(){
+           console.log("sending delete request to server");
+           var data = new Object();
+           data.id = $('#verwijderKindModal input[name=verwijderKindId]').val();
+           console.log("data id = "+data.id);
+           $.post('index.php?action=removeKind', data, function(res){
+                if(res == "1"){
+                    $('#verwijderKindModal').modal('hide');
+                    t.laadTabel();
+                }else{
+                    console.log("kind verwijderen mislukt, error code: "+res);
+                }
+           });
        });
     });
 });

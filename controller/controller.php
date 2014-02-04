@@ -40,6 +40,10 @@ class Controller {
                     $kinderen_ = new Kinderen();
                     echo $kinderen_->updateKind($_POST);
                     exit;
+                case 'removeKind':
+                    $kinderen_ = new Kinderen();
+                    echo $kinderen_->verwijderKind($_POST);
+                    exit;
                 default:
                     return;
             }
