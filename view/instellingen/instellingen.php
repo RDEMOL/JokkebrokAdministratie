@@ -10,31 +10,30 @@ class InstellingenPage extends Page{
     private function getNieuweWerkingModal(){
         $content = <<<HERE
 <div class="modal fade" id="nieuweWerkingModal" tabindex="-1" role="dialog" aria-labelledby="nieuweWerkingModal">
-<div class="modal-dialog">
-<div class="modal-content">
-<div class="modal-header">
-<button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-<h4 class="modal-title">Nieuwe Werking toevoegen</h4>
-</div>
-<div class="modal-body">
-<form class="form-inline">
-<div class="row">
-<label class="control-label" for="afkorting">Afkorting: </label>
-<input type="text" value="">
-</div>
-<div class="row">
-<label for="omschrijving" class="control-label">Omschrijving: </label>
-<input type="text" value="">
-</div>
-</form>
-</div>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
-<button type="button" class="btn btn-primary">Toevoegen</button>
-</div>
-</div>
-</div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+                <h4 class="modal-title">Nieuwe Werking toevoegen</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline">
+                    <div class="row">
+                        <label class="control-label" for="afkorting">Afkorting: </label>
+                        <input type="text" value="">
+                    </div>
+                    <div class="row">
+                        <label for="omschrijving" class="control-label">Omschrijving: </label>
+                        <input type="text" value="">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+                <button type="button" class="btn btn-primary">Toevoegen</button>
+            </div>
+        </div>
+    </div>
 </div>
 HERE;
         return $content;
