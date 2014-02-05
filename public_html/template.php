@@ -40,8 +40,9 @@ if(!$this){
 			    display:none;
 			}
 			
-			a#datumNav{
+			a#datumNav:hover{
 			    color:rgb(153,153,153);
+			    cursor:default;
 			}
 		</style>
 	</head>
