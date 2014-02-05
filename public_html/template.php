@@ -36,41 +36,81 @@ if(!$this){
 				height: 60px;
 				background-color: #f5f5f5;
 			}
+			#navContainer[max-width="980px"] #datumDiv {
+			    display:none;
+			}
 		</style>
 	</head>
 	<body>
 		<div id="wrap">
-			<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar navbar-inverse navbar-fixed-top" id="navContainer" role="navigation">
 				<div class="container">
 					<div class="navbar-header">
-						<a class="navbar-brand" href="?">Jokkebrok Administratie</a>
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="?">Jokkebrok</a>
 					</div>
-					<ul class="nav navbar-nav" id="navbar">
-						<li id="dashboard">
-							<a href='?page=dashboard'>Dashboard</a>
-						</li>
-						<li id="aanwezigheden">
-							<a href='?page=aanwezigheden'>Aanwezigheden</a>
-						</li>
-						<li id="kinderen">
-							<a href='?page=kinderen'>Kinderen</a>
-						</li>
-						<li id="uitstappen">
-							<a href='?page=uitstappen'>Uitstappen</a>
-						</li>
-						<li id="instellingen">
-							<a href='?page=instellingen'>Instellingen</a>
-						</li>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-					    <li style="text-align: center;">
-					        <span class="text-info">Het is vandaag<br><?php $vandaag = new SpeelpleinDag(); echo $vandaag->getFullDatum(); ?>.
-					        </span>
-					    </li>
-						<li>
-							<a href='?action=logout'>Uitloggen</a>
-						</li>
-					</ul>
+					<div class="collapse navbar-collapse">
+    					<ul class="nav navbar-nav" id="navbar">
+    						<li id="dashboard">
+    							<a href='?page=dashboard'>Dashboard</a>
+    						</li>
+    						<li id="aanwezigheden">
+    							<a href='?page=aanwezigheden'>Aanwezig</a>
+    						</li>
+    						<li id="kinderen">
+    							<a href='?page=kinderen'>Kinderen</a>
+    						</li>
+    						<li id="uitstappen">
+    							<a href='?page=uitstappen'>Uitstappen</a>
+    						</li>
+    						</ul>
+    						<ul class="nav navbar-nav pull-right">
+    						<li id="instellingen">
+    							<a href='?page=instellingen'><span class="glyphicon glyphicon-cog"></span></a>
+    						</li>
+    					     <li>
+    					        <a href='#' class="text-info">
+    					            <?php 
+    					            $vandaag = new SpeelpleinDag(); 
+    					            $full_datum = $vandaag->getFullDatum(); 
+                                    $day_of_week = $vandaag->getDayOfWeek();
+    					            //$sep = strpos($full_datum, ' '); 
+    					            //$full_datum = substr($full_datum, 0, $sep)."<br>".substr($full_datum, $sep+1, strlen($full_datum)-$sep-1);
+    					            //echo $full_datum;
+    					            echo $day_of_week;//."<br>".$vandaag->getDatum(); 
+    					            ?>
+    					        </a>
+    					    </li>
+    						<li>
+    							<a href='?action=logout'><span class="glyphicon glyphicon-log-out"></span></a>
+    						</li>
+    						
+                            <!--<li id="datumDiv">
+                                <a href='#'>
+                                    <?php
+                                    $vandaag = new SpeelpleinDag();
+                                    echo $vandaag->getFullDatum();
+                                    ?>
+                                </a>
+                            </li>-->
+    					</ul>
+    					<!--<div id="dateDiv">
+    					    <?php
+                            $vandaag = new SpeelpleinDag();
+                            echo $vandaag->getFullDatum();
+                            ?>
+    					</div>-->
+    					<script>
+    					    $(document).ready(function(){
+    					      // $('#dateDiv'). 
+    					    });
+    					</script>
+					</div>
 				</div>
 			</div>
 			<div class="container" id="content-container">

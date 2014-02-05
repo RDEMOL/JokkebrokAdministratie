@@ -13,7 +13,14 @@ class SpeelpleinDag{
     public function getFullDatum(){
         setlocale (LC_TIME, "nl_BE.UTF8");
         $d = strtotime($this->datum);
-        return strftime("%A %e %B %Y", $d);
+        //return strftime("%A %e %B %Y", $d);
+        return strftime("%A %e %B", $d);
+        //return strftime("%e %b", $d);
+    }
+    public function getDayOfWeek(){
+        setlocale (LC_TIME, "nl_BE.UTF8");
+        $d = strtotime($this->datum);
+        return strftime("%A");
     }
 }
 ?>
