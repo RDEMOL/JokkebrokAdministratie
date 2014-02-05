@@ -70,46 +70,26 @@ if(!$this){
     						</li>
     						</ul>
     						<ul class="nav navbar-nav pull-right">
-    						<li id="instellingen">
-    							<a href='?page=instellingen'><span class="glyphicon glyphicon-cog"></span></a>
-    						</li>
     					     <li>
-    					        <a href='#' class="text-info">
+    					         <?php
+    					          $vandaag = new SpeelpleinDag(); 
+                                    $full_datum = $vandaag->getFullDatum();
+    					         ?>
+    					        <a href='#' class="text-info" title="<?php echo "Vandaag is ".$full_datum."."; ?>">
+    					            <span class="glyphicon glyphicon-calendar"></span>
     					            <?php 
-    					            $vandaag = new SpeelpleinDag(); 
-    					            $full_datum = $vandaag->getFullDatum(); 
                                     $day_of_week = $vandaag->getDayOfWeek();
-    					            //$sep = strpos($full_datum, ' '); 
-    					            //$full_datum = substr($full_datum, 0, $sep)."<br>".substr($full_datum, $sep+1, strlen($full_datum)-$sep-1);
-    					            //echo $full_datum;
-    					            echo $day_of_week;//."<br>".$vandaag->getDatum(); 
+    					            echo $day_of_week; 
     					            ?>
     					        </a>
     					    </li>
-    						<li>
+    						<li id="instellingen" title="Instellingen">
+    							<a href='?page=instellingen'><span class="glyphicon glyphicon-cog"></span></a>
+    						</li>
+    						<li title="Uitloggen">
     							<a href='?action=logout'><span class="glyphicon glyphicon-log-out"></span></a>
     						</li>
-    						
-                            <!--<li id="datumDiv">
-                                <a href='#'>
-                                    <?php
-                                    $vandaag = new SpeelpleinDag();
-                                    echo $vandaag->getFullDatum();
-                                    ?>
-                                </a>
-                            </li>-->
     					</ul>
-    					<!--<div id="dateDiv">
-    					    <?php
-                            $vandaag = new SpeelpleinDag();
-                            echo $vandaag->getFullDatum();
-                            ?>
-    					</div>-->
-    					<script>
-    					    $(document).ready(function(){
-    					      // $('#dateDiv'). 
-    					    });
-    					</script>
 					</div>
 				</div>
 			</div>
