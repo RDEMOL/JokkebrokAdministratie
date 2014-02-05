@@ -39,6 +39,10 @@ if(!$this){
 			#navContainer[max-width="980px"] #datumDiv {
 			    display:none;
 			}
+			
+			a#datumNav{
+			    color:rgb(153,153,153);
+			}
 		</style>
 	</head>
 	<body>
@@ -75,7 +79,7 @@ if(!$this){
     					          $vandaag = new SpeelpleinDag(); 
                                     $full_datum = $vandaag->getFullDatum();
     					         ?>
-    					        <a href='#' class="text-info" title="<?php echo "Vandaag is ".$full_datum."."; ?>">
+    					        <a href='#' class="text-info" id="datumNav" title="<?php echo "Vandaag is ".$full_datum."."; ?>">
     					            <span class="glyphicon glyphicon-calendar"></span>
     					            <?php 
                                     $day_of_week = $vandaag->getDayOfWeek();
