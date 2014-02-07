@@ -1,12 +1,12 @@
 <?php
 require_once (dirname(__FILE__) . "/page.php");
-require_once (dirname(__FILE__) . "/dashboard/dashboard.php");
-require_once (dirname(__FILE__) . "/aanwezigheden/aanwezigheden.php");
-require_once (dirname(__FILE__) . "/kinderen/kinderen.php");
-require_once (dirname(__FILE__) . "/uitstappen/uitstappen.php");
-require_once (dirname(__FILE__) . "/instellingen/instellingen.php");
-require_once (dirname(__FILE__) . "/../model/kinderen/kinderen.php");
-require_once (dirname(__FILE__) . "/../model/aanwezigheden/aanwezigheden.php");
+require_once (dirname(__FILE__) . "/dashboard/dashboard.page.php");
+require_once (dirname(__FILE__) . "/aanwezigheden/aanwezigheden.page.php");
+require_once (dirname(__FILE__) . "/kinderen/kinderen.page.php");
+require_once (dirname(__FILE__) . "/uitstappen/uitstappen.page.php");
+require_once (dirname(__FILE__) . "/instellingen/instellingen.page.php");
+require_once (dirname(__FILE__) . "/../model/kinderen/kind.class.php");
+require_once (dirname(__FILE__) . "/../model/aanwezigheden/aanwezigheid.class.php");
 
 class View {
     protected $controller,$model;
@@ -22,23 +22,29 @@ class View {
                     return;
                 switch($_GET['data']){
                     case 'kinderenTabel':
-                        $kinderen_model = new Kinderen();
                         $filter = null;
                         if(isset($_POST['filter'])){
                             $filter = $_POST['filter'];
                         }
                         $result = array();
-                        $result['content'] = $kinderen_model->getTabelJSONData($filter);
+                        $result['content']=array();
+                        $kinderen = Kind::getKinderen($filter);
+                        foreach($kinderen as $k){
+                            $result['content'][]=$k->getJSONData();
+                        }
                         echo json_encode($result);
                         break;
                     case 'aanwezighedenTabel':
-                        $aanwezigheden_model = new Aanwezigheden();
                         $filter = null;
                         if(isset($_POST['filter'])){
                             $filter = $_POST['filter'];
                         }
                         $result = array();
-                        $result['content'] = $aanwezigheden_model->getTabelJSONData($filter);
+                        $result['content'] = array();
+                        $aanwezigheden = Aanwezigheid::getAanwezigheden($filter);
+                        foreach($aanwezigheden as $a){
+                            $result['content'][] = $a->getJSONData();
+                        }
                         echo json_encode($result);
                         break;
                 }

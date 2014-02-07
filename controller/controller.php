@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__)."/../model/kinderen/kinderen.php");
+require_once(dirname(__FILE__)."/../model/kinderen/kind.class.php");
 class Controller {
     protected $model;
     public function __construct($model) {
@@ -37,12 +37,21 @@ class Controller {
                     $this->reloadPage();
                     break;
                 case 'updateKind':
-                    $kinderen_ = new Kinderen();
-                    echo $kinderen_->updateKind($_POST);
+                    $data = json_decode(json_encode($_POST), FALSE);
+                    $k = new Kind($data);
+                    echo $k->updateDatabase();
                     exit;
                 case 'removeKind':
-                    $kinderen_ = new Kinderen();
-                    echo $kinderen_->verwijderKind($_POST);
+                    $k = new Kind($_POST['Id']);
+                    echo $k->deleteFromDatabase();
+                    exit;
+                case 'newAanwezigheid':
+                    $a = new Aanwezigheid($_POST);
+                    echo $k->updateDatabase();
+                    exit;
+                case 'removeAanwezigheid':
+                    $a = new Aanwezigheid($_POST['Id']);
+                    echo $a->deleteFromDatabase();
                     exit;
                 default:
                     return;

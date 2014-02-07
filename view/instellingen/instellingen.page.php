@@ -1,6 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../page.php");
-require_once(dirname(__FILE__)."/../../model/werkingen/werkingen.php");
+require_once(dirname(__FILE__)."/../../model/werkingen/werking.class.php");
 
 class InstellingenPage extends Page{
     public function __construct(){
@@ -51,10 +51,11 @@ $nieuweWerkingModal
 </tr>
 <tbody>    
 HERE;
-        $werkingen_ = new Werkingen();
-        $werkingen = $werkingen_->getWerkingen();
+        //$werkingen_ = new Werkingen();
+        //$werkingen = $werkingen_->getWerkingen();
+        $werkingen = Werking::getWerkingen();
         foreach($werkingen as $w){
-            $content .= "<tr><td>".$w->getNaam()."</td><td>".$w->getAfkorting()."</td><td><button class='btn btn-sm'>Wijzigen</button>&nbsp;<button class='btn btn-sm'>Verwijderen</button></td></tr>";
+            $content .= "<tr><td>".$w->getOmschrijving()."</td><td>".$w->getAfkorting()."</td><td><button class='btn btn-sm'>Wijzigen</button>&nbsp;<button class='btn btn-sm'>Verwijderen</button></td></tr>";
         }
         $content .= "</tbody></table>";
         $content .= <<<HERE
@@ -76,10 +77,11 @@ HERE;
 </thead>
 <tbody>
 HERE;
-        $extraatjes_ = new Extraatjes();
-        $extraatjes = $extraatjes_->getExtraatjes();
+        //$extraatjes_ = new Extraatjes();
+        //$extraatjes = $extraatjes_->getExtraatjes();
+        $extraatjes = Extraatje::getExtraatjes();
         foreach($extraatjes as $e){
-            $content .= "<tr><td>".$e->getNaam()."</td><td><button class='btn btn-sm'>Wijzigen</button>&nbsp;<button class='btn btn-sm'>Verwijderen</button></tr>";
+            $content .= "<tr><td>".$e->getOmschrijving()."</td><td><button class='btn btn-sm'>Wijzigen</button>&nbsp;<button class='btn btn-sm'>Verwijderen</button></tr>";
         }
         $content .= <<<HERE
 </tbody>

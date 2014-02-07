@@ -1,8 +1,10 @@
 <?php
 require_once(dirname(__FILE__)."/../page.php");
-require_once(dirname(__FILE__)."/../../model/werkingen/werkingen.php");
-require_once(dirname(__FILE__)."/../../model/extraatjes/extraatjes.php");
-require_once(dirname(__FILE__)."/../../model/speelpleindag/speelpleindag.php");
+require_once(dirname(__FILE__)."/../../model/werkingen/werking.class.php");
+require_once(dirname(__FILE__)."/../../model/extraatjes/extraatje.class.php");
+require_once(dirname(__FILE__)."/../../model/speelpleindag/speelpleindag.class.php");
+require_once(dirname(__FILE__)."/../../model/extraatjes/extraatje_aanwezigheid.class.php");
+
 
 class DashboardPage extends Page{
     public function __construct(){
@@ -11,14 +13,12 @@ class DashboardPage extends Page{
     }
     private function getAanwezighedenContent(){
         $vandaag = new SpeelpleinDag();
-        $werkingen_ = new Werkingen();
-        $werkingen_amount = $werkingen_->getAmount();
-        $werkingen = $werkingen_->getWerkingen();
-        $extraatjes_ = new Extraatjes();
-        $extraatjes = $extraatjes_->getExtraatjes();
+        $werkingen = Werking::getWerkingen();
+        $werkingen_amount = count($werkingen);
+        $extraatjes = Extraatje::getExtraatjes();
         $werkingen_ths = "";
         foreach($werkingen as $w){
-            $werkingen_ths .= "<th>".$w->getNaam()."</th>";
+            $werkingen_ths .= "<th>".$w->getOmschrijving()."</th>";
         }
         $werkingen_extraatjes_tbody = "";
         $extraatje_index = 0;
@@ -28,19 +28,28 @@ class DashboardPage extends Page{
             if($extraatje_index == 1){
                 $current_line.="<td>Extra's</td>";
             }
-            $current_line .= "<td>".$e->getNaam()."</td>";
+            $current_line .= "<td>".$e->getOmschrijving()."</td>";
             foreach($werkingen as $w){
-                $amount = $e->getAmountOnDayWithWerking($vandaag, $w);
+                $filter = array();
+                $filter['Datum']=$vandaag->getDatumForDatabase();
+                $filter['WerkingId']=$w->getId();
+                $amount  = ExtraatjeAanwezigheid::countExtraatjeAanwezigheden($filter);
                 $current_line .= "<td>$amount</td>";
             }
-            $current_line .= "<td>".$e->getAmountOnDay($vandaag);
+            $filter = array();
+            $filter['Datum']=$vandaag->getDatumForDatabase();
+            $amount = ExtraatjeAanwezigheid::countExtraatjeAanwezigheden($filter);
+            $current_line .= "<td>$amount</td>";
             $current_line .= "</tr>";
             $werkingen_extraatjes_tbody .= $current_line;
         }
         $werkingen_footer = "<tr><th colspan='2'>Aanwezige kinderen";
         $sum = 0;
         foreach($werkingen as $w){
-            $amount = $w->getKinderenAmountOnDay($vandaag);
+            $filter = array();
+            $filter['Datum']=$vandaag->getDatumForDatabase();
+            $filter['WerkingId']=$w->getId();
+            $amount = Aanwezigheid::countAanwezigheden($filter);
             $werkingen_footer.="<th>".$amount;
             $sum += $amount;
         }

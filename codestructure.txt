@@ -1,0 +1,7 @@
+Kind
+	-new Kind(id)
+	-new Kind($data)
+
+Kind::loadKind($id);
+new Kind($data);
+

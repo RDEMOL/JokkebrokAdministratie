@@ -1,5 +1,46 @@
 <?php
-require_once(dirname(__FILE__)."/../../helpers/database/database.php");
+require_once(dirname(__FILE__)."/../record.class.php");
+class Extraatje extends Record{
+    protected function setLocalData($data){
+        $this->Omschrijving = $data->Omschrijving;
+    }
+    protected function insert(){
+        $query = Database::getPDO()->prepare("INSERT INTO Extraatje (Voornaam, Naam, Geboortejaar, DefaultWerkingId, MedischeInfo, AndereInfo) VALUES (:voornaam, :naam, :geboortejaar, :default_werking_id, :medische_info, :andere_info)");
+        $query->bindParam(':omschrijving', $this->Omschrijving, PDO::PARAM_STR);
+        $query->execute();
+        return $query->lastInsertId();
+    }
+    protected function update(){
+        
+    }
+    protected function select(){
+        $query = Database::getPDO()->prepare("SELECT * FROM Extraatje WHERE Id = :id");
+        $query->bindParam(':id', $this->getId(), PDO::PARAM_INT);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+    protected function delete(){
+        
+    }
+
+    public static function getExtraatjes(){
+        $query = Database::getPDO()->prepare("SELECT * FROM Extraatje WHERE 1");
+        $query->execute();
+        $kinderen = array();
+        while($rs = $query->fetch(PDO::FETCH_OBJ)){
+            $kinderen[] = new Extraatje($rs);
+        }
+        return $kinderen;
+    }
+    public function getOmschrijving(){
+        return $this->Omschrijving;
+    }
+}
+?>
+
+
+<?php
+/*require_once(dirname(__FILE__)."/../../helpers/database/database.php");
 class Extraatje{
     private $id, $naam;
     public function __construct($id){
@@ -37,5 +78,5 @@ class Extraatje{
         $result = $query->fetch(PDO::FETCH_OBJ);
         return $result->aantal;
     }
-}
+}*/
 ?>

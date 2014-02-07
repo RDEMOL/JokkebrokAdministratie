@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__)."/session/session.php");
+require_once(dirname(__FILE__)."/session/session.class.php");
 class Model{
 	private $session;
 	public function __construct(){

@@ -14,11 +14,7 @@ define(['tabel/kolom'], function(Kolom){
 			if(this.parent_tabel.kolommen[i].id=="controls"){
 				this.element.append(this.parent_tabel.getControlsTD(this.data));
 			}else{
-				var content = this.data[this.parent_tabel.kolommen[i].id];
-				if(content == null){
-					content = "";
-				}
-				this.element.append($('<td>').text(content));
+				this.element.append(this.parent_tabel.kolommen[i].getElement(this.data));
 			}
 		}
 	};

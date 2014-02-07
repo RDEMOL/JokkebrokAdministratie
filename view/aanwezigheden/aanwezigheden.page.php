@@ -1,13 +1,29 @@
 <?php
 require_once (dirname(__FILE__) . "/../page.php");
-require_once (dirname(__FILE__) . "/../../model/speelpleindag/speelpleindag.php");
+require_once (dirname(__FILE__) . "/../../model/speelpleindag/speelpleindag.class.php");
+require_once (dirname(__FILE__) . "/../../model/werkingen/werking.class.php");
 class AanwezighedenPage extends Page {
     public function __construct() {
         parent::__construct("Aanwezigheden","","aanwezigheden");
         $this->buildContent();
     }
 
+    private function getWerkingenSelect() {
+        $opties = "";
+        $werkingen = Werking::getWerkingen();
+        foreach($werkingen as $w) {
+            $opties .= "<option value=\"" . $w->getId() . "\">" . $w->getAfkorting() . " - " . $w->getOmschrijving() . "</option>";
+        }
+        $content = <<<HERE
+<select name="WerkingId" class="form-control">
+$opties
+</select>
+HERE;
+        return $content;
+    }
+
     private function getNieuweAanwezigheidModal() {
+        $werkingen_select = $this->getWerkingenSelect();
         $content = <<<HERE
 <div class="modal fade" id="nieuweAanwezigheidModal" tabindex="-1" role="dialog" aria-labelledby="nieuweAanwezigheidModal">
     <div class="modal-dialog">
@@ -19,8 +35,18 @@ class AanwezighedenPage extends Page {
             <div class="modal-body">
                 <form class="form-inline">
                     <div class="row">
-                        <label class="control-label" for="voornaam">Voornaam + naam: </label>
-                        <input type="text" value="">
+                        <input type="hidden" name="KindId" value="0">
+                        <label class="control-label" for="VolledigeNaamKind">Voornaam + naam: </label>
+                        <input type="text" value="" name="VolledigeNaamKind">
+                        <br>
+                        <label class="control-label" for="KindVoogdId">Voogd:</label>
+                        <select name="KindVoogdId" class="form-control"></select>
+                        <br>
+                        <label class="control-label" for="WerkingId">Werking: </label>
+                        $werkingen_select
+                        <br>
+                        <label class="control-label" for="Opmerkingen">Opmerkingen: </label>
+                        <textarea name="Opmerkingen"></textarea>
                     </div>
                 </form>
             </div>
@@ -59,19 +85,32 @@ HERE;
 $(document).ready(function(){
     $('#datum').datepicker().data('datepicker');
 });
-require(['tabel', 'tabel/kolom'], function(Tabel, Kolom, require){
+require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Control, require){
+    var wijzig_aanwezigheid = function(data){
+        console.log("Wijzig aanwezigheid: "+JSON.stringify(data));  
+    };
+    var verwijder_aanwezigheid = function(data){
+        console.log("Verwijder aanwezigheid: "+JSON.stringify(data));
+    };
     var k = new Array();
-    k.push(new Kolom('voornaam','Voornaam'));
-    k.push(new Kolom('naam','Naam'));
-    k.push(new Kolom('werking','Werking'));
+    k.push(new Kolom('Voornaam','Voornaam'));
+    k.push(new Kolom('Naam','Naam'));
+    k.push(new Kolom('Werking','Werking'));
     //TODO: insert extraatjes
-    k.push(new Kolom('medische_info','Medische info'));
-    k.push(new Kolom('andere_info', 'Andere info'));
+    k.push(new Kolom('MedischeInfo','Medische info'));
+    k.push(new Kolom('AndereInfo', 'Andere info'));
     k.push(new Kolom('controls', ''));
     var t = new Tabel('index.php?action=data&data=aanwezighedenTabel', k);
     t.setUp($('#aanwezigheden_tabel'));
     var filter = new Object();
-    t.laadTabel(filter);
+    t.setFilter(filter);
+    var controls = new Array();
+    controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_aanwezigheid));
+    controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_aanwezigheid));
+    t.setControls(controls);
+    $(document).ready(function(){
+        t.laadTabel();
+    });
 });
 </script>
 HERE;

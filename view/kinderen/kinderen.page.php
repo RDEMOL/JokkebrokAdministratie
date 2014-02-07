@@ -1,6 +1,6 @@
 <?php
 require_once (dirname(__FILE__) . "/../page.php");
-require_once (dirname(__FILE__) . "/../../model/werkingen/werkingen.php");
+require_once (dirname(__FILE__) . "/../../model/werkingen/werking.class.php");
 class KinderenPage extends Page {
     public function __construct() {
         parent::__construct("Kinderen","","kinderen");
@@ -9,13 +9,12 @@ class KinderenPage extends Page {
 
     private function getWerkingenSelect() {
         $opties = "";
-        $werkingen_ = new Werkingen();
-        $werkingen = $werkingen_->getWerkingen();
+        $werkingen = Werking::getWerkingen();
         foreach($werkingen as $w) {
-            $opties .= "<option value=\"" . $w->getId() . "\">" . $w->getAfkorting() . " - " . $w->getNaam() . "</option>";
+            $opties .= "<option value=\"" . $w->getId() . "\">" . $w->getAfkorting() . " - " . $w->getOmschrijving() . "</option>";
         }
         $content = <<<HERE
-<select name="werking" class="form-control">
+<select name="DefaultWerkingId" class="form-control">
 $opties
 </select>
 HERE;
@@ -31,7 +30,9 @@ HERE;
                 <h4 class="modal-title" id="verwijderKindModalTitle">Kind verwijderen</h4>
             </div>
             <div class="modal-body">
-                <input type="hidden" name="verwijderKindId">
+                <form id="verwijderKindForm">
+                    <input type="hidden" name="Id">
+                </form>
                 <p>Bent u zeker dat u dit kind wilt verwijderen?</p>
             </div>
             <div class="modal-footer">
@@ -56,33 +57,33 @@ HERE;
             </div>
             <div class="modal-body">
                 <form class="form-inline" id="kindForm">
-                    <input type="hidden" name="id" value="-1">
+                    <input type="hidden" name="Id" value="0">
                     <div class="row">
-                        <label class="control-label" for="voornaam">Voornaam: </label>
-                        <input type="text" name="voornaam" value="">
+                        <label class="control-label" for="Voornaam">Voornaam: </label>
+                        <input type="text" name="Voornaam" value="">
                     </div>
                     <div class="row">
                         <label for="Naam" class="control-label">Naam: </label>
-                        <input type="text" name="naam" value="">
+                        <input type="text" name="Naam" value="">
                     </div>
                     <div class="row">
-                        <label class="control-label" for="geboortejaar">Geboortejaar: </label>
-                        <input type="text" name="geboortejaar" value="">
+                        <label class="control-label" for="Geboortejaar">Geboortejaar: </label>
+                        <input type="text" name="Geboortejaar" value="">
                     </div>
                     <div class="row">
-                        <label class="control-label" for="werking">Werking*: </label>
+                        <label class="control-label" for="DefaultWerkingId">Werking*: </label>
                         $werkingen_select
                     </div> 
                     <div class="row">
                         <i>*Deze werking is de standaardinstelling bij de aanwezigheden</i>
                     </div>
                     <div class="row">
-                        <label class="control-label" for="medische_info">Medische informatie: </label>
-                        <textarea name="medische_info"></textarea>
+                        <label class="control-label" for="MedischeInfo">Medische informatie: </label>
+                        <textarea name="MedischeInfo"></textarea>
                     </div>
                     <div class="row">
-                        <label class="control-label" for="andere_info">Andere informatie: </label>
-                        <textarea name="andere_info"></textarea>
+                        <label class="control-label" for="AndereInfo">Andere informatie: </label>
+                        <textarea name="AndereInfo"></textarea>
                     </div>
                     <div class="row">
                         <h3>Voogd:</h3>
@@ -141,36 +142,55 @@ require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Contro
         console.log("wijzigen: "+JSON.stringify(data));
         voogd_amount = 0;
         $('.voogd_row').remove();
-        $('#kindForm input[name=id]').val(data.id);
-        $('#kindForm input[name=voornaam]').val(data.voornaam);
-        $('#kindForm input[name=naam]').val(data.naam);
-        $('#kindForm input[name=geboortejaar]').val(data.geboortejaar);
-        $('#kindForm select[name=werking]').val(data.werking_id);
-        $('#kindForm textarea[name=medische_info]').val(data.medische_info);
-        $('#kindForm textarea[name=andere_info]').val(data.andere_info);
+        $('#kindForm input[name=Id]').val(data.Id);
+        $('#kindForm input[name=Voornaam]').val(data.Voornaam);
+        $('#kindForm input[name=Naam]').val(data.Naam);
+        $('#kindForm input[name=Geboortejaar]').val(data.Geboortejaar);
+        $('#kindForm select[name=DefaultWerkingId]').val(data.DefaultWerkingId);
+        $('#kindForm textarea[name=MedischeInfo]').val(data.MedischeInfo);
+        $('#kindForm textarea[name=AndereInfo]').val(data.AndereInfo);
         $('#kindModal').modal('show');
     };
     function verwijder_kind(data){
         console.log("verwijderen: "+JSON.stringify(data));
-        $('#verwijderKindModal input[name=verwijderKindId]').val(data['id']);
+        $('#verwijderKindModal input[name=Id]').val(data.Id);
         $('#verwijderKindModal').modal('show');
     };
     function nieuw_kind(){
         console.log("nieuw kind");
         $('#kindForm').find('input[type=text], textarea').val('');
         $('#kindForm').find('select').val('0');
-        $('#kindForm input[name=id]').val('-1');
+        $('#kindForm input[name=Id]').val('0');
         voogd_amount = 0;
         $('.voogd_row').remove();
         voegVoogdDivToe();
         $('#kindModal').modal('show');  
     };
     var k = new Array();
-    k.push(new Kolom('voornaam','Voornaam'));
-    k.push(new Kolom('naam','Naam'));
-    k.push(new Kolom('werking','Werking'));
-    k.push(new Kolom('medische_info','Medische info'));
-    k.push(new Kolom('andere_info', 'Andere info'));
+    k.push(new Kolom('Voornaam','Voornaam'));
+    k.push(new Kolom('Naam','Naam'));
+    k.push(new Kolom('Werking','Werking'));
+    k.push(new Kolom('Info', 'Extra Info', function(data){
+        var td = $('<td>');
+        if(data['MedischeInfo']){
+            td.append(
+                $('<a>').attr({ 
+                        'data-original-title' : data['MedischeInfo']
+                    })
+                    .append($('<span>').addClass('glyphicon glyphicon-plus'))
+                    .tooltip());
+            td.append('&nbsp;');
+        }
+        if(data['AndereInfo']){
+            td.append(
+                $('<a>').attr({ 
+                        'data-original-title' : data['AndereInfo']
+                    })
+                    .append($('<span>').addClass('glyphicon glyphicon-info-sign'))
+                    .tooltip());
+        }
+        return td;
+    }));
     k.push(new Kolom('controls', ''));
     var t = new Tabel('index.php?action=data&data=kinderenTabel', k);
     t.setUp($('#kinderen_tabel'));
@@ -192,12 +212,13 @@ require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Contro
         $('#kindForm').submit(function(){
             console.log("submitting!");
             console.log("form data = "+$('#kindForm').serialize());
-            $.post('index.php?action=updateKind', $('#kindForm').serializeArray(), function(res){
+            $.post('index.php?action=updateKind', $('#kindForm').serialize(), function(res){
+               res = $.trim(res);
                if(res == "1"){
                    $('#kindModal').modal('hide');
                    t.laadTabel();
                }else{
-                   console.log("kind update mislukt, error code: "+res);
+                   console.log("kind update mislukt, error code: '"+res+"'");
                }
             });
             return false;
@@ -207,10 +228,9 @@ require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Contro
        });
        $('#btnVerwijderKind').click(function(){
            console.log("sending delete request to server");
-           var data = new Object();
-           data.id = $('#verwijderKindModal input[name=verwijderKindId]').val();
-           console.log("data id = "+data.id);
-           $.post('index.php?action=removeKind', data, function(res){
+           console.log("data: "+$('#verwijderKindForm').serialize());
+           $.post('index.php?action=removeKind', $('#verwijderKindForm').serialize(), function(res){
+               res = $.trim(res);
                 if(res == "1"){
                     $('#verwijderKindModal').modal('hide');
                     t.laadTabel();
