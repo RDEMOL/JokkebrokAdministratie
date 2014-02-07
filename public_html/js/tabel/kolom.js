@@ -1,6 +1,6 @@
 define(function(){
 	
-	var Kolom = function(id, label, content_function = null){
+	var Kolom = function(id, label, content_function){
 		this.id = id;
 		this.label = label;
 		if(content_function == null){
