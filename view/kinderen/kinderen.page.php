@@ -106,6 +106,13 @@ HERE;
     }
 
     public function buildContent() {
+        $werkingen = Werking::getWerkingen();
+        $werkingen_js_array = array();
+        $werkingen_js_array[] = array('value'=>'', 'label'=>'Alle');
+        foreach($werkingen as $w){
+            $werkingen_js_array[] = array('value' => $w->getId(), 'label' => $w->getAfkorting());
+        }
+        $werkingen_js_array = json_encode($werkingen_js_array);
         $content = $this->getVerwijderKindModal()."\n".$this->getKindModal();
         $content .= <<<HERE
 <div class="row">
@@ -120,7 +127,7 @@ HERE;
 </table>
 </div>
 <script>
-require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Control, require){
+require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, require){
     var voogd_amount = 0;
     var voegVoogdDivToe = function(){
         ++voogd_amount;
@@ -147,8 +154,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Contro
         $('#kindForm input[name=Naam]').val(data.Naam);
         $('#kindForm input[name=Geboortejaar]').val(data.Geboortejaar);
         $('#kindForm select[name=DefaultWerkingId]').val(data.DefaultWerkingId);
-        $('#kindForm textarea[name=MedischeInfo]').val(data.MedischeInfo);
-        $('#kindForm textarea[name=AndereInfo]').val(data.AndereInfo);
+        $('#kindForm textarea[name=Belangrijk]').val(data.Belangrijk);
         $('#kindModal').modal('show');
     };
     function verwijder_kind(data){
@@ -172,33 +178,27 @@ require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Contro
     k.push(new Kolom('Werking','Werking'));
     k.push(new Kolom('Info', 'Extra Info', function(data){
         var td = $('<td>');
-        if(data['MedischeInfo']){
+        if(data['Belangrijk']){
             td.append(
                 $('<a>').attr({ 
-                        'data-original-title' : data['MedischeInfo']
-                    })
-                    .append($('<span>').addClass('glyphicon glyphicon-plus'))
-                    .tooltip());
-            td.append('&nbsp;');
-        }
-        if(data['AndereInfo']){
-            td.append(
-                $('<a>').attr({ 
-                        'data-original-title' : data['AndereInfo']
+                        'data-original-title' : data['Belangrijk']
                     })
                     .append($('<span>').addClass('glyphicon glyphicon-info-sign'))
                     .tooltip());
         }
         return td;
     }));
-    k.push(new Kolom('controls', ''));
-    var t = new Tabel('index.php?action=data&data=kinderenTabel', k);
-    t.setUp($('#kinderen_tabel'));
-    t.setFilter(new Object());
     var controls = new Array();
     controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_kind));
     controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_kind));
-    t.setControls(controls);
+    k.push(new ControlsKolom(controls));
+    var t = new Tabel('index.php?action=data&data=kinderenTabel', k);
+    var filter_velden = new Array();
+    filter_velden.push(new FilterVeld('VolledigeNaam', 2, 'text', null));
+    filter_velden.push(new FilterVeld('WerkingId', 1, 'select', {options:$werkingen_js_array}));
+    t.setFilterRij(new FilterRij(filter_velden,t));
+    t.setUp($('#kinderen_tabel'));
+    t.setFilter(new Object());
     $(document).ready(function(){
         t.laadTabel();
         $('#btnAndereVoogd').click(function(e){

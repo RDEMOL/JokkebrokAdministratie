@@ -19,8 +19,8 @@ define(function(){
 			text = "";
 		return $('<td>').text(text);
 	};
-	Kolom.prototype.controls_content_function = function(data){
-		
+	Kolom.prototype.getHeadContent = function(){
+		return this.label;
 	};
 	return Kolom;
 });

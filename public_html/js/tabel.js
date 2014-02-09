@@ -1,71 +1,67 @@
-define(['tabel/kolom'], function(Kolom){
-	var Rij = function(data, tabel){
-		this.parent_tabel = tabel;
-		this.element = $('<tr>');
-		this.setData(data);
-	};
-	Rij.prototype.setData = function(data){
-		this.data = data;
-		this.update();
-	};
-	Rij.prototype.update = function(){
-		this.element.empty();
-		for(var i = 0; i < this.parent_tabel.kolommen.length; ++i){
-			if(this.parent_tabel.kolommen[i].id=="controls"){
-				this.element.append(this.parent_tabel.getControlsTD(this.data));
-			}else{
-				this.element.append(this.parent_tabel.kolommen[i].getElement(this.data));
-			}
-		}
-	};
+define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 	var Tabel = function(url, kolommen){
 		this.url = url;
 		this.kolommen = kolommen;
 		this.data = new Array();
+		this.tabelBody = $('<tbody>');
 		this.setFilter(new Object());
-		this.controls = new Array();
+		this.filterRij = null;
 	};
 	Tabel.prototype.setUp = function(tabelElement){
 		this.tabelElement = tabelElement;
+		this.tabelElement.empty();
+		this.tabelElement.append(this.getTHead());
+		this.tabelBody = $('<tbody>');
+		this.tabelElement.append(this.tabelBody);
+		this.updateBody();
 	};
 	Tabel.prototype.setFilter = function(filter){
 		this.filter = filter;
-	}
+		this.laadTabel();
+	};
+	Tabel.prototype.setFilterRij = function(filterRij){
+		this.filterRij = filterRij;
+	};
 	Tabel.prototype.laadTabel = function(){
 		var self = this;
 		var data = new Object();
 		data.filter = this.filter;
-		$.post(this.url, data, function(data){
-			console.log("received: "+data);
-			self.data = JSON.parse(data).content;
-			self.toonTabel();
+		console.log("data to be sent: "+JSON.stringify(data));
+		$.post(this.url, data, function(d){
+			console.log("received: "+d);
+			self.data = JSON.parse(d).content;
+			self.updateBody();
 		});
 	};
 	Tabel.prototype.getTHead = function(){
 		var headTR = $('<tr>');
 		for(var i = 0; i < this.kolommen.length; ++i){
-			headTR.append($('<th>').text(this.kolommen[i].label));
+			headTR.append($('<th>').html(this.kolommen[i].getHeadContent()));
 		}
-		return $('<thead>').append(headTR);
+		var thead = $('<thead>').append(headTR);
+		if(this.filterRij){
+			thead.append(this.filterRij.getElement());
+		}
+		return thead;
 	};
 	Tabel.prototype.toonTabel = function(){
+		if(!this.tabelElement){
+			return;
+		}
 		this.tabelElement.empty();
 		this.tabelElement.append(this.getTHead());
+		this.tabelBody = $('<tbody>');
+		this.tabelElement.append(this.tabelBody);
+		this.updateBody();
+	};
+	Tabel.prototype.updateBody = function(){
+		this.tabelBody.empty();
 		for(var i = 0; i < this.data.length; ++i){
 			var rij = new Rij(this.data[i], this);
-			this.tabelElement.append(rij.element);
+			this.tabelBody.append(rij.getElement());
 		}
-	};
-	Tabel.prototype.getControlsTD = function(data){
-		var controls = $('<td>');
-		for(var i = 0; i < this.controls.length; ++i){
-			controls.append(this.controls[i].getElement(data));
-			controls.append('&nbsp;');
-		}
-		return controls;
-	};
-	Tabel.prototype.setControls = function(controls){
-		this.controls = controls;
+		console.log("body updated");
 	}
+	//TODO: only update tbody
 	return Tabel;
 });

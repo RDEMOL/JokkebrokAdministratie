@@ -85,7 +85,7 @@ HERE;
 $(document).ready(function(){
     $('#datum').datepicker().data('datepicker');
 });
-require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Control, require){
+require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom'], function(Tabel, Kolom, Control, ControlsKolom, require){
     var wijzig_aanwezigheid = function(data){
         console.log("Wijzig aanwezigheid: "+JSON.stringify(data));  
     };
@@ -97,17 +97,26 @@ require(['tabel', 'tabel/kolom', 'tabel/control'], function(Tabel, Kolom, Contro
     k.push(new Kolom('Naam','Naam'));
     k.push(new Kolom('Werking','Werking'));
     //TODO: insert extraatjes
-    k.push(new Kolom('MedischeInfo','Medische info'));
-    k.push(new Kolom('AndereInfo', 'Andere info'));
-    k.push(new Kolom('controls', ''));
+    k.push(new Kolom('Info', 'Extra Info', function(data){
+        var td = $('<td>');
+        if(data['Belangrijk']){
+            td.append(
+                $('<a>').attr({ 
+                        'data-original-title' : data['Belangrijk']
+                    })
+                    .append($('<span>').addClass('glyphicon glyphicon-info-sign'))
+                    .tooltip());
+        }
+        return td;
+    }));
+    var controls = new Array();
+    controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_aanwezigheid));
+    controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_aanwezigheid));
+    k.push(new ControlsKolom(controls));
     var t = new Tabel('index.php?action=data&data=aanwezighedenTabel', k);
     t.setUp($('#aanwezigheden_tabel'));
     var filter = new Object();
     t.setFilter(filter);
-    var controls = new Array();
-    controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_aanwezigheid));
-    controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_aanwezigheid));
-    t.setControls(controls);
     $(document).ready(function(){
         t.laadTabel();
     });

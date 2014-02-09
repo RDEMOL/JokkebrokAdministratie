@@ -1,2 +1,30 @@
-tooltip voor medische info
+x tooltip bij aanwezigheden (kopiëren van Kinderen? )
+x controls in aanwezigheden/kinderen uniform met de andere kolommen maken
+x merge andere info en medische info
+x tooltip voor medische info
+x 1 voogd -> 1 kind (meerdere kinden -> andere voogden voor db)
+Zoekinterface kinderen (fulltext of iets in die aard?)
+voogd weergeven (indien meerdere voogden)
+saldo
+extraatjes bij aanwezigheden
+Nieuwe aanwezigheid
+aanwezigheid verwijderen
+aanwezigheid bewerken
+
+uitstappen maken
+uitstappen wijzigen
+	Omschrijving
+	Datum
+	Actief
+	
+	Kinderen toevoegen via uitstappenoverzicht (kind of kindvoogd?)
+
+	kinderen toevoegen via kinderenoverzicht
+
+	uitstappen deactiveren (Floris op een pintje trakteren om hem terug te krijgen :D)
+
+Aanwezigheden: extraatjes tonen
+Filter aanwezigheden
+Filter kinderen
+
 
