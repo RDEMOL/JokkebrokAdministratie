@@ -6,6 +6,7 @@ require_once (dirname(__FILE__) . "/kinderen/kinderen.page.php");
 require_once (dirname(__FILE__) . "/uitstappen/uitstappen.page.php");
 require_once (dirname(__FILE__) . "/instellingen/instellingen.page.php");
 require_once (dirname(__FILE__) . "/../model/kinderen/kind.class.php");
+require_once (dirname(__FILE__) . "/../model/voogden/voogd.class.php");
 require_once (dirname(__FILE__) . "/../model/aanwezigheden/aanwezigheid.class.php");
 
 class View {
@@ -46,6 +47,10 @@ class View {
                             $result['content'][] = $a->getJSONData();
                         }
                         echo json_encode($result);
+                        break;
+                    case 'voogdInfo':
+                        $voogd = new Voogd($_GET['id']);
+                        echo json_encode($voogd->getJSONData());
                         break;
                 }
             } else {

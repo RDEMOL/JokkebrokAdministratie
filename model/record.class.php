@@ -3,6 +3,7 @@ require_once(dirname(__FILE__)."/../helpers/database/database.php");
 abstract class Record{
     private $in_database = false;
     protected $Id;
+    //new record (not in database) should have id = 0
     public function __construct($data){
         if(!is_object($data)){
             $this->Id = $data;

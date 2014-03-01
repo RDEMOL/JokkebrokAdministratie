@@ -83,7 +83,8 @@ class Aanwezigheid extends Record{
     public function getJSONData(){
         //TODO: collect from local data
         $query = Database::getPDO()->prepare("SELECT A.Id as Id, K.Voornaam as Voornaam, K.Naam as Naam, K.Belangrijk as Belangrijk, W.Afkorting as Werking FROM Aanwezigheid A LEFT JOIN KindVoogd KV ON A.KindVoogdId=KV.Id LEFT JOIN Kind K ON K.Id=KV.Kind LEFT JOIN Werking W ON A.WerkingId=W.Id WHERE A.Id= :id ");
-        $query->bindParam(':id', $this->getId(), PDO::PARAM_INT);
+        $id = $this->getId();
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();
         return $query->fetch(PDO::FETCH_OBJ);     
     }

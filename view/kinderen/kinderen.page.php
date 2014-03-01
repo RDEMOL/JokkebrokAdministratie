@@ -78,12 +78,8 @@ HERE;
                         <i>*Deze werking is de standaardinstelling bij de aanwezigheden</i>
                     </div>
                     <div class="row">
-                        <label class="control-label" for="MedischeInfo">Medische informatie: </label>
-                        <textarea name="MedischeInfo"></textarea>
-                    </div>
-                    <div class="row">
-                        <label class="control-label" for="AndereInfo">Andere informatie: </label>
-                        <textarea name="AndereInfo"></textarea>
+                        <label class="control-label" for="Belangrijk">Belangrijk: </label>
+                        <textarea name="Belangrijk"></textarea>
                     </div>
                     <div class="row">
                         <h3>Voogd:</h3>
@@ -129,12 +125,44 @@ HERE;
 <script>
 require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, require){
     var voogd_amount = 0;
-    var voegVoogdDivToe = function(){
-        ++voogd_amount;
-        $('#nieuwKindForm input[name="voogd_amount"]').val(voogd_amount);
-        console.log("nieuwe voogd = "+voogd_amount);
-        var el = $('<div>').addClass('row voogd_row')
+    function loadVoogdData(div_id){
+        var el = $('#voogdDiv'+div_id);
+        var voogd_id = el.find('input[name="voogdId'+div_id+'"]').val();
+        console.log("found voogd_id = "+voogd_id);
+        if(!voogd_id || voogd_id == 0)
+            return;
+        console.log("good voogd id!");
+        $.get('index.php?action=data&data=voogdInfo', {'id':voogd_id}, function(e){
+            console.log("got voogd info: "+e);
+            var obj = JSON.parse(e);
+            el.find('input[name="voogdVoornaam'+div_id+'"]').val(obj.Voornaam);
+            el.find('input[name="voogdNaam'+div_id+'"]').val(obj.Naam);
+            el.find('textarea[name="voogdOpmerkingen'+div_id+'"]').val(obj.Opmerkingen);
+        });
+    };
+    function verwijderVoogdDiv(div_id){
+          $('#kindForm #voogdDiv'+div_id).remove();
+          for(var i = div_id+1; i < voogd_amount; ++i){
+              var el = $('#kindForm #voogdDiv'+i);
+              el.find('input[name="voogdId'+i+'"]').attr('name', 'voogdId'+(i-1));
+              el.find('input[name="voogdVoornaam'+i+'"]').attr('name', 'voogdVoornaam'+(i-1));
+              el.find('input[name="voogdNaam'+i+'"]').attr('name', 'voogdNaam'+(i-1));
+              el.find('textarea[name="voogdOpmerkingen'+i+'"]').attr('name', 'voogdOpmerkingen'+(i-1));
+              el.find('#div_id').attr('value', i-1);
+              el.attr('id', 'voogdDiv'+(i-1))
+          }
+          console.log("voogd amount = "+voogd_amount);
+          voogd_amount-=1;
+          $('#kindForm input[name="voogd_amount"]').val(voogd_amount);
+          
+          console.log("voogd amount after = "+voogd_amount);
+    };
+    var voegVoogdDivToe = function(voogd_id){
+        var el = $('<div>').attr('id','voogdDiv'+voogd_amount)
+            .addClass('row voogd_row')
+            .append($('<input>').attr({'type':'hidden', 'id':'div_id', 'value':voogd_amount}))
             .append($('<label>').addClass('control-label').attr('for', 'voogdVoornaam'+voogd_amount).text('Voornaam: '))
+            .append($('<input>').attr({'type': 'hidden', 'name':'voogdId'+voogd_amount, 'value':(voogd_id?voogd_id:'0')}))
             .append($('<input>').attr('name', 'voogdVoornaam'+voogd_amount))
             .append($('<br>'))
             .append($('<label>').addClass('control-label').attr('for', 'voogdNaam'+voogd_amount).text('Naam: '))
@@ -142,8 +170,13 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             .append($('<br>'))
             .append($('<label>').addClass('control-label').attr('for', 'voogdOpmerkingen'+voogd_amount).text('Opmerkingen: '))
             .append($('<textarea>').attr('type', 'text').attr('name', 'voogdOpmerkingen'+voogd_amount))
+            .append($('<button>').attr('type', 'button').text('x').click(function(){verwijderVoogdDiv($(this).parent().find('#div_id').val()); return false;}))
             .append($('<br>'));
+        ++voogd_amount;
+        $('#kindForm input[name="voogd_amount"]').val(voogd_amount);
+        console.log("nieuwe voogd = "+voogd_amount);
         el.insertBefore($('#btnAndereVoogd').parent());
+        loadVoogdData(voogd_amount-1);
     };
     function wijzig_kind(data){
         console.log("wijzigen: "+JSON.stringify(data));
@@ -155,6 +188,9 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('#kindForm input[name=Geboortejaar]').val(data.Geboortejaar);
         $('#kindForm select[name=DefaultWerkingId]').val(data.DefaultWerkingId);
         $('#kindForm textarea[name=Belangrijk]').val(data.Belangrijk);
+        for(var i = 0; i < data.VoogdIds.length; ++i){
+            voegVoogdDivToe(data.VoogdIds[i]);
+        }
         $('#kindModal').modal('show');
     };
     function verwijder_kind(data){
