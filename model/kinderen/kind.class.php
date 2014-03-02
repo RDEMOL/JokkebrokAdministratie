@@ -9,6 +9,12 @@ class Kind extends Record{
         $this->DefaultWerkingId = $data->DefaultWerkingId;
         $this->Belangrijk = $data->Belangrijk;
     }
+    public function getNaam(){
+        return $this->Naam;
+    }
+    public function getVoornaam(){
+        return $this->Voornaam;
+    }
     protected function insert(){
         $query = Database::getPDO()->prepare("INSERT INTO Kind (Voornaam, Naam, Geboortejaar, DefaultWerkingId, Belangrijk) VALUES (:voornaam, :naam, :geboortejaar, :default_werking_id, :belangrijk)");
         $query->bindParam(':voornaam', $this->Voornaam, PDO::PARAM_STR);
@@ -66,9 +72,14 @@ class Kind extends Record{
             $query->bindParam(':werking_id', $filter['WerkingId'], PDO::PARAM_INT);
         }
     }
-    public static function getKinderen($filter){
+    public static function getKinderen($filter, $max_amount=0){
         $sql = "SELECT * FROM Kind WHERE 1 ";
         $sql .= static::getFilterSQL($filter);
+        if(intval($max_amount)){
+            $sql .= "LIMIT ".intval($max_amount);
+            Log::writeLog("limit kinderen query", intval($max_amount));
+            Log::writeLog("query kinderen", $sql);
+        }
         $query = Database::getPDO()->prepare($sql);
         static::applyFilterParameters($query, $filter);
         $query->execute();
@@ -76,6 +87,7 @@ class Kind extends Record{
         while($rs = $query->fetch(PDO::FETCH_OBJ)){
             $kinderen[] = new Kind($rs);
         }
+        Log::writeLog("#children found", count($kinderen));
         return $kinderen;
     }
     public function getVoogden(){

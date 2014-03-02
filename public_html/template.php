@@ -9,7 +9,7 @@ if(!$this){
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title><?php echo $this->getTitle(); ?> - Jokkebrok Administratie</title>
-        <script src="libs/jquery-1.10.2.min.js"></script>
+        <script src="libs/jquery-1.11.0.js"></script>
         <script data-main="js/main" src="./libs/require.js"></script>
 		<link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	    <link href="libs/bootstrap-datepicker/css/datepicker.css" rel="stylesheet">
@@ -113,7 +113,7 @@ if(!$this){
 		</div>
 		<script src="libs/bootstrap/js/bootstrap.min.js"></script>
 		<script src="libs/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-		<script src="libs/typeahead.min.js"></script>
+		<script src="libs/typeahead.bundle.min.js"></script>
 		<script>
 		    $('#navbar li#<?php echo $this->getCurrentTab(); ?>').addClass('active');
 		</script>

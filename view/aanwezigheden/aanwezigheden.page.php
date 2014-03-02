@@ -33,11 +33,13 @@ HERE;
                 <h4 class="modal-title">Nieuwe aanwezigheid toevoegen</h4>
             </div>
             <div class="modal-body">
-                <form class="form-inline">
+                <form class="form-inline" id="aanwezigheidForm">
                     <div class="row">
                         <input type="hidden" name="KindId" value="0">
+                        <span>
                         <label class="control-label" for="VolledigeNaamKind">Voornaam + naam: </label>
-                        <input type="text" value="" name="VolledigeNaamKind">
+                        <input type="text" value="" class="form-control typeahead" name="VolledigeNaamKind">
+                        </span>
                         <br>
                         <label class="control-label" for="KindVoogdId">Voogd:</label>
                         <select name="KindVoogdId" class="form-control"></select>
@@ -50,6 +52,70 @@ HERE;
                     </div>
                 </form>
             </div>
+            <style type="text/css">
+//adapted from typeahead examples
+typeahead, .tt-query, .tt-hint {
+    border: 2px solid #CCCCCC;
+    border-radius: 8px 8px 8px 8px;
+    padding: 8px 12px;
+    width: 396px;
+}
+.typeahead {
+    background-color: #FFFFFF;
+}
+.typeahead:focus {
+    border: 2px solid #0097CF;
+}
+.tt-query {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+.tt-hint {
+    color: #999999;
+}
+.tt-dropdown-menu {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    padding: 8px 0;
+    width: 422px;
+}
+.tt-suggestion {
+    line-height: 24px;
+    padding: 3px 20px;
+}
+.tt-suggestion.tt-cursor {
+    background-color: #0097CF;
+    color: #FFFFFF;
+    cursor:pointer;
+}
+.tt-suggestion p {
+    margin: 0;
+}
+            </style>
+            <script>
+            $(document).ready(function(e){
+                var suggesties = new Bloodhound({
+                   datumTokenizer:function(d){return Bloodhound.tokenizers.whitespace(d.value); },
+                   queryTokenizer: Bloodhound.tokenizers.whitespace,
+                   remote:{
+                       url:'index.php?action=data&data=kinderenSuggesties&query=%QUERY',
+                       filter: function(kind){
+                           console.log("bloodhound received this data: "+JSON.stringify(kind));
+                           return $.map(kind.content, function(k){
+                              return { 'display_value':(k.Voornaam+" "+k.Naam)}; 
+                           });
+                       }
+                   }
+                });
+                suggesties.initialize();
+                $('input[name="VolledigeNaamKind"]').typeahead(null, {
+                    displayKey:'display_value',
+                    source: suggesties.ttAdapter()
+                });
+                $('#aanwezigheidForm .tt-hint').addClass('form-control');
+            });
+            </script>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
                 <button type="button" class="btn btn-primary">Toevoegen</button>

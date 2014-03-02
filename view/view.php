@@ -8,6 +8,7 @@ require_once (dirname(__FILE__) . "/instellingen/instellingen.page.php");
 require_once (dirname(__FILE__) . "/../model/kinderen/kind.class.php");
 require_once (dirname(__FILE__) . "/../model/voogden/voogd.class.php");
 require_once (dirname(__FILE__) . "/../model/aanwezigheden/aanwezigheid.class.php");
+require_once (dirname(__FILE__) . "/../helpers/log.php");
 
 class View {
     protected $controller,$model;
@@ -33,6 +34,20 @@ class View {
                         foreach($kinderen as $k){
                             $result['content'][]=$k->getJSONData();
                         }
+                        echo json_encode($result);
+                        break;
+                    case 'kinderenSuggesties':
+                        $query = $_GET['query'];
+                        $result = array();
+                        $result['content']=array();
+                        $filter = array();
+                        $filter['VolledigeNaam'] = $query;
+                        $kinderen = Kind::getKinderen($filter, 10);
+                        foreach($kinderen as $k){
+                            $result['content'][] = array('Id'=>$k->getId(), 'Naam'=>$k->getNaam(), 'Voornaam'=>$k->getVoornaam());
+                        }
+                        Log::writeLog("kinderen suggesties query = ", $query);
+                        Log::writeLog("kinderensuggesties", json_encode($result));
                         echo json_encode($result);
                         break;
                     case 'aanwezighedenTabel':
