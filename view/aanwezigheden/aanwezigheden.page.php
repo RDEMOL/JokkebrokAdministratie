@@ -25,7 +25,7 @@ HERE;
     private function getNieuweAanwezigheidModal() {
         $werkingen_select = $this->getWerkingenSelect();
         $content = <<<HERE
-<div class="modal fade" id="nieuweAanwezigheidModal" tabindex="-1" role="dialog" aria-labelledby="nieuweAanwezigheidModal">
+<div class="modal fade" id="aanwezigheidModal" tabindex="-1" role="dialog" aria-labelledby="aanwezigheidModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -35,6 +35,7 @@ HERE;
             <div class="modal-body">
                 <form class="form-inline" id="aanwezigheidForm">
                     <div class="row">
+                        <input type="hidden" name="AanwezigheidId" value="0">
                         <input type="hidden" name="KindId" value="0">
                         <span>
                         <label class="control-label" for="VolledigeNaamKind">Voornaam + naam: </label>
@@ -131,8 +132,11 @@ typeahead, .tt-query, .tt-hint {
             </script>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
-                <button type="button" class="btn btn-primary">Toevoegen</button>
+                <button type="button" class="btn btn-primary" id="submitAanwezigheid">Toevoegen</button>
             </div>
+            <script>
+            
+            </script>
         </div>
     </div>
 </div>
@@ -147,7 +151,7 @@ HERE;
         $content .= <<<HERE
         
 <div class="row">
-    <button class="btn btn-large btn-primary" data-toggle="modal" data-target="#nieuweAanwezigheidModal">Nieuwe aanwezigheid</button>
+    <button class="btn btn-large btn-primary" data-toggle="modal" data-target="#aanwezigheidModal">Nieuwe aanwezigheid</button>
      <label for="datum">Datum:</label>
         <input id="datum" name="datum" type="text" value="$datum"></input>
         <button id="btnVandaag" class="btn btn-sm">Vandaag</button>
@@ -198,6 +202,32 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom'], funct
     t.setFilter(filter);
     $(document).ready(function(){
         t.laadTabel();
+    });
+    $('#submitAanwezigheid').click(function(){
+        $('#aanwezigheidForm').submit();
+        return false;
+    });
+    $('#aanwezigheidForm').submit(function(){
+       var aanwezigheidId = $('input[name="AanwezigheidId"]').val();
+       var kindVoogdId = $('select[name="KindVoogdId"]').val();
+       var werking = $('select[name="WerkingId"]').val();
+       var opmerkingen = $('textarea[name="Opmerkingen"]').val();
+       var d = new Object();
+       d.Id = aanwezigheidId;
+       d.KindVoogd = kindVoogdId;
+       d.Datum = $('#datum').val();
+       d.Werking = werking;
+       d.Opmerkingen = opmerkingen;
+       $.post('?action=updateAanwezigheid', d, function(res){ 
+           res = $.trim(res);
+           if(res == "1"){
+               $('#aanwezigheidModal').modal('hide');
+               t.laadTabel();
+           }else{
+               console.log("kind update mislukt, error code: '"+res+"'");
+           }
+       });
+       return false;
     });
 });
 </script>

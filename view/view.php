@@ -44,10 +44,12 @@ class View {
                         $filter['VolledigeNaam'] = $query;
                         $kinderen = Kind::getKinderen($filter, 10);
                         foreach($kinderen as $k){
-                            $voogden = $k->getVoogden();
+                            $voogden = $k->getKindVoogden();
+                            $kid = $k->getId();
                             $voogden_namen_ids = array();
                             foreach($voogden as $v){
-                                $voogden_namen_ids[] = array('Id'=>$v->getId(), 'VolledigeNaam'=>($v->getVoornaam()." ".$v->getNaam()));
+                                $voogd = $v->getVoogd();
+                                $voogden_namen_ids[] = array('Id'=>$v->getId(), 'VolledigeNaam'=>($voogd->getVoornaam()." ".$voogd->getNaam()));
                             }
                             $result['content'][] = array('Id'=>$k->getId(), 'Naam'=>$k->getNaam(), 'Voornaam'=>$k->getVoornaam(), 'DefaultWerkingId'=>$k->getDefaultWerkingId(), 'Voogden'=>$voogden_namen_ids);
                         }

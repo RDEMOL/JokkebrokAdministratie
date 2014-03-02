@@ -37,7 +37,6 @@ class Controller {
                     $this->reloadPage();
                     break;
                 case 'updateKind':
-                    //$data = json_decode(json_encode($_POST), FALSE);
                     $data = $_POST;
                     $this->updateKind($data);
                     exit;
@@ -45,9 +44,11 @@ class Controller {
                     $k = new Kind($_POST['Id']);
                     echo $k->deleteFromDatabase();
                     exit;
-                case 'newAanwezigheid':
-                    $a = new Aanwezigheid($_POST);
-                    echo $k->updateDatabase();
+                case 'updateAanwezigheid':
+                    $data = $_POST;
+                    $this->updateAanwezigheid($data);
+                    //$a = new Aanwezigheid($_POST);
+                    //echo $k->updateDatabase();
                     exit;
                 case 'removeAanwezigheid':
                     $a = new Aanwezigheid($_POST['Id']);
@@ -89,6 +90,17 @@ class Controller {
         $k = new Kind($stripped_data);
         $res = $k->updateDatabase();
         $res2 = $k->setVoogden($voogd_ids);
+        echo "1";
+    }
+    private function updateAanwezigheid($data){
+        $stripped_data = new stdClass();
+        $stripped_data->Id = $data['Id'];
+        $stripped_data->KindVoogd = $data['KindVoogd'];
+        $stripped_data->Opmerkingen = $data['Opmerkingen'];
+        $stripped_data->Datum = $data['Datum'];
+        $stripped_data->Werking = $data['Werking'];
+        $a = new Aanwezigheid($stripped_data);
+        $a->updateDatabase();
         echo "1";
     }
 

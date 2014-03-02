@@ -38,6 +38,7 @@ abstract class Record{
     }
     public function updateLocal(){
         if(!$this->isInDatabase()){
+            //echo json_encode($this->KindId)." trying to update<br>";
             throw new Exception("Can't update a record that's not in the database.");
         }
         $this->setLocalData($this->select());

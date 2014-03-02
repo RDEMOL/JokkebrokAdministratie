@@ -1,20 +1,21 @@
 <?php
 require_once(dirname(__FILE__)."/../record.class.php");
+require_once(dirname(__FILE__)."/../../helpers/log.php");
 class Aanwezigheid extends Record{
     protected function setLocalData($data){
         $this->Datum = $data->Datum;
-        $this->KindVoogdId = $data->KindVoogdId;
-        $this->WerkingId = $data->WerkingId;
+        $this->KindVoogdId = $data->KindVoogd;
+        $this->WerkingId = $data->Werking;
         $this->Opmerkingen = $data->Opmerkingen;
     }
     protected function insert(){
-        $query = Database::getPDO()->prepare("INSERT INTO Aanwezigheid (Datum, KindVoogdId, WerkingId, Opmerkingen) VALUES (:datum, :kind_voogd_id, :werking_id, :opmerkingen)");
+        $query = Database::getPDO()->prepare("INSERT INTO Aanwezigheid (Datum, KindVoogd, Werking, Opmerkingen) VALUES (:datum, :kind_voogd_id, :werking_id, :opmerkingen)");
         $query->bindParam(':datum', $this->Datum, PDO::PARAM_STR);
         $query->bindParam(':kind_voogd_id', $this->KindVoogdId, PDO::PARAM_INT);
         $query->bindParam(':werking_id', $this->WerkingId, PDO::PARAM_INT);
         $query->bindParam(':opmerkingen', $this->Opmerkingen, PDO::PARAM_STR);
         $query->execute();
-        return $query->lastInsertId();
+        return Database::getPDO()->lastInsertId();    
     }
     protected function update(){
         throw new Exception("Update Aanwezigheid not implemented yet");
@@ -34,7 +35,7 @@ class Aanwezigheid extends Record{
             $sql .= "AND Datum = :datum ";
         }
         if(isset($filter['WerkingId'])){
-            $sql .= "AND WerkingId = :werking_id ";
+            $sql .= "AND Werking = :werking_id ";
         }
         return $sql;
     }
@@ -82,7 +83,7 @@ class Aanwezigheid extends Record{
     }
     public function getJSONData(){
         //TODO: collect from local data
-        $query = Database::getPDO()->prepare("SELECT A.Id as Id, K.Voornaam as Voornaam, K.Naam as Naam, K.Belangrijk as Belangrijk, W.Afkorting as Werking FROM Aanwezigheid A LEFT JOIN KindVoogd KV ON A.KindVoogdId=KV.Id LEFT JOIN Kind K ON K.Id=KV.Kind LEFT JOIN Werking W ON A.WerkingId=W.Id WHERE A.Id= :id ");
+        $query = Database::getPDO()->prepare("SELECT A.Id as Id, K.Voornaam as Voornaam, K.Naam as Naam, K.Belangrijk as Belangrijk, W.Afkorting as Werking FROM Aanwezigheid A LEFT JOIN KindVoogd KV ON A.KindVoogd=KV.Id LEFT JOIN Kind K ON K.Id=KV.Kind LEFT JOIN Werking W ON A.Werking=W.Id WHERE A.Id= :id ");
         $id = $this->getId();
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();
