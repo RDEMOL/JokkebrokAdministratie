@@ -113,7 +113,7 @@ if(!$this){
 		</div>
 		<script src="libs/bootstrap/js/bootstrap.min.js"></script>
 		<script src="libs/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-		<script src="libs/typeahead.bundle.min.js"></script>
+		<script src="libs/typeahead.bundle.js"></script>
 		<script>
 		    $('#navbar li#<?php echo $this->getCurrentTab(); ?>').addClass('active');
 		</script>

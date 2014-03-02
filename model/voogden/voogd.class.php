@@ -1,10 +1,16 @@
 <?php
-require_once(dirname(__FILE__)."/../record.class.php");
-class Voogd extends Record{
-     protected function setLocalData($data){
+require_once(dirname(__FILE__)."/../record.class.php" );
+    class Voogd extends Record{
+    protected function setLocalData($data){
         $this->Voornaam = $data->Voornaam;
         $this->Naam = $data->Naam;
         $this->Opmerkingen = $data->Opmerkingen;
+    }
+    public function getVoornaam(){
+        return $this->Voornaam;
+    }
+    public function getNaam(){
+        return $this->Naam;
     }
     public function getJSONData(){
         $db = new Database();

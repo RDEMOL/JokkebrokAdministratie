@@ -95,6 +95,17 @@ typeahead, .tt-query, .tt-hint {
             </style>
             <script>
             $(document).ready(function(e){
+                function loadKind(kind){
+                    $('input[name="KindId"]').val(kind.Id);
+                    $('select[name="KindVoogdId"]').empty();
+                    $('textarea[name="OpmerkingId"]').empty();
+                    if(kind.Id != 0){
+                        for(var i = 0; i < kind.Voogden.length; ++i){
+                            $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].Id).text(kind.Voogden[i].VolledigeNaam));
+                        }
+                        $('select[name="WerkingId"]').val(kind.DefaultWerkingId);
+                    }
+                };
                 var suggesties = new Bloodhound({
                    datumTokenizer:function(d){return Bloodhound.tokenizers.whitespace(d.value); },
                    queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -103,7 +114,7 @@ typeahead, .tt-query, .tt-hint {
                        filter: function(kind){
                            console.log("bloodhound received this data: "+JSON.stringify(kind));
                            return $.map(kind.content, function(k){
-                              return { 'display_value':(k.Voornaam+" "+k.Naam)}; 
+                              return { 'display_value':(k.Voornaam+" "+k.Naam), 'id':k.Id, 'Voogden':k.Voogden, 'DefaultWerkingId': k.DefaultWerkingId}; 
                            });
                        }
                    }
@@ -112,6 +123,8 @@ typeahead, .tt-query, .tt-hint {
                 $('input[name="VolledigeNaamKind"]').typeahead(null, {
                     displayKey:'display_value',
                     source: suggesties.ttAdapter()
+                }).bind('typeahead:selected', function(obj, kind, dataset_name){
+                    loadKind(kind);
                 });
                 $('#aanwezigheidForm .tt-hint').addClass('form-control');
             });

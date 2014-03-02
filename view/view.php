@@ -44,10 +44,13 @@ class View {
                         $filter['VolledigeNaam'] = $query;
                         $kinderen = Kind::getKinderen($filter, 10);
                         foreach($kinderen as $k){
-                            $result['content'][] = array('Id'=>$k->getId(), 'Naam'=>$k->getNaam(), 'Voornaam'=>$k->getVoornaam());
+                            $voogden = $k->getVoogden();
+                            $voogden_namen_ids = array();
+                            foreach($voogden as $v){
+                                $voogden_namen_ids[] = array('Id'=>$v->getId(), 'VolledigeNaam'=>($v->getVoornaam()." ".$v->getNaam()));
+                            }
+                            $result['content'][] = array('Id'=>$k->getId(), 'Naam'=>$k->getNaam(), 'Voornaam'=>$k->getVoornaam(), 'DefaultWerkingId'=>$k->getDefaultWerkingId(), 'Voogden'=>$voogden_namen_ids);
                         }
-                        Log::writeLog("kinderen suggesties query = ", $query);
-                        Log::writeLog("kinderensuggesties", json_encode($result));
                         echo json_encode($result);
                         break;
                     case 'aanwezighedenTabel':

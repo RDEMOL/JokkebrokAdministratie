@@ -15,6 +15,9 @@ class Kind extends Record{
     public function getVoornaam(){
         return $this->Voornaam;
     }
+    public function getDefaultWerkingId(){
+        return $this->DefaultWerkingId;
+    }
     protected function insert(){
         $query = Database::getPDO()->prepare("INSERT INTO Kind (Voornaam, Naam, Geboortejaar, DefaultWerkingId, Belangrijk) VALUES (:voornaam, :naam, :geboortejaar, :default_werking_id, :belangrijk)");
         $query->bindParam(':voornaam', $this->Voornaam, PDO::PARAM_STR);
@@ -77,8 +80,6 @@ class Kind extends Record{
         $sql .= static::getFilterSQL($filter);
         if(intval($max_amount)){
             $sql .= "LIMIT ".intval($max_amount);
-            Log::writeLog("limit kinderen query", intval($max_amount));
-            Log::writeLog("query kinderen", $sql);
         }
         $query = Database::getPDO()->prepare($sql);
         static::applyFilterParameters($query, $filter);
