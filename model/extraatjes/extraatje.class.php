@@ -5,7 +5,7 @@ class Extraatje extends Record{
         $this->Omschrijving = $data->Omschrijving;
     }
     protected function insert(){
-        $query = Database::getPDO()->prepare("INSERT INTO Extraatje (Voornaam, Naam, Geboortejaar, DefaultWerkingId, MedischeInfo, AndereInfo) VALUES (:voornaam, :naam, :geboortejaar, :default_werking_id, :medische_info, :andere_info)");
+        $query = Database::getPDO()->prepare("INSERT INTO Extraatje (Voornaam, Naam, Geboortejaar, DefaultWerking, MedischeInfo, AndereInfo) VALUES (:voornaam, :naam, :geboortejaar, :default_werking_id, :medische_info, :andere_info)");
         $query->bindParam(':omschrijving', $this->Omschrijving, PDO::PARAM_STR);
         $query->execute();
         return $query->lastInsertId();

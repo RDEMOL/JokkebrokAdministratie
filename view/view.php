@@ -68,6 +68,26 @@ class View {
                         }
                         echo json_encode($result);
                         break;
+                    case 'aanwezigheidDetails':
+                        $id = $_GET['id'];
+                        $aanwezigheid = new Aanwezigheid($id);
+                        $kindvoogd = $aanwezigheid->getKindVoogd();
+                        $kind = $kindvoogd->getKind();
+                        $voogden = $kind->getKindVoogden();
+                        $result = array();
+                        $result['Id']=$aanwezigheid->getId();                        
+                        $result['KindId']=$kind->getId();
+                        $result['KindVolledigeNaam']=$kind->getVoornaam()." ".$kind->getNaam();
+                        $result['Opmerkingen'] = $aanwezigheid->getOpmerkingen();
+                        $result['KindVoogdId']=$kindvoogd->getId();
+                        $result['KindVoogden']=array();
+                        foreach($voogden as $v){
+                            $voogd = $v->getVoogd();
+                            $result['KindVoogden'][] = array('Id'=>$v->getId(), 'VolledigeNaam'=>($voogd->getVoornaam()." ".$voogd->getNaam()));
+                        }
+                        $result['Werking']=$aanwezigheid->getWerkingId();
+                        echo json_encode($result);
+                        break;
                     case 'voogdInfo':
                         $voogd = new Voogd($_GET['id']);
                         echo json_encode($voogd->getJSONData());

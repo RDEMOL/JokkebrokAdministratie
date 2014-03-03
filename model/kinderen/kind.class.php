@@ -6,7 +6,7 @@ class Kind extends Record{
         $this->Voornaam = $data->Voornaam;
         $this->Naam = $data->Naam;
         $this->Geboortejaar = $data->Geboortejaar;
-        $this->DefaultWerkingId = $data->DefaultWerkingId;
+        $this->DefaultWerkingId = $data->DefaultWerking;
         $this->Belangrijk = $data->Belangrijk;
     }
     public function getNaam(){
@@ -19,7 +19,7 @@ class Kind extends Record{
         return $this->DefaultWerkingId;
     }
     protected function insert(){
-        $query = Database::getPDO()->prepare("INSERT INTO Kind (Voornaam, Naam, Geboortejaar, DefaultWerkingId, Belangrijk) VALUES (:voornaam, :naam, :geboortejaar, :default_werking_id, :belangrijk)");
+        $query = Database::getPDO()->prepare("INSERT INTO Kind (Voornaam, Naam, Geboortejaar, DefaultWerking, Belangrijk) VALUES (:voornaam, :naam, :geboortejaar, :default_werking_id, :belangrijk)");
         $query->bindParam(':voornaam', $this->Voornaam, PDO::PARAM_STR);
         $query->bindParam(':naam', $this->Naam, PDO::PARAM_STR);
         $query->bindParam(':geboortejaar', $this->Geboortejaar, PDO::PARAM_STR);
@@ -29,7 +29,7 @@ class Kind extends Record{
         return Database::getPDO()->lastInsertId();
     }
     protected function update(){
-        $query = Database::getPDO()->prepare('UPDATE Kind SET Naam=:naam, Voornaam=:voornaam, Geboortejaar=:geboorte_jaar, DefaultWerkingId=:default_werking_id, Belangrijk=:belangrijk WHERE Id=:id');
+        $query = Database::getPDO()->prepare('UPDATE Kind SET Naam=:naam, Voornaam=:voornaam, Geboortejaar=:geboorte_jaar, DefaultWerking=:default_werking_id, Belangrijk=:belangrijk WHERE Id=:id');
         $query->bindParam(':naam', $this->Naam, PDO::PARAM_STR);
         $query->bindParam(':voornaam', $this->Voornaam, PDO::PARAM_STR);
         $query->bindParam(':geboorte_jaar', $this->Geboortejaar, PDO::PARAM_STR);
@@ -62,7 +62,7 @@ class Kind extends Record{
             $sql .= " OR CONCAT(Voornaam, ' ', Naam) LIKE :volledige_naam2) ";
         }
         if(isset($filter['WerkingId'])){
-            $sql .= "AND DefaultWerkingId = :werking_id ";
+            $sql .= "AND DefaultWerking = :werking_id ";
         }
         return $sql;
     }
@@ -167,7 +167,7 @@ class Kind extends Record{
         }
     }
     public function getJSONData(){
-        $query = Database::getPDO()->prepare("SELECT K.Id as Id, K.Voornaam as Voornaam, K.Naam as Naam, K.Geboortejaar as Geboortejaar, K.Belangrijk as Belangrijk, W.Afkorting as Werking, K.DefaultWerkingId as DefaultWerkingId FROM Kind K LEFT JOIN Werking W ON K.DefaultWerkingId=W.Id WHERE K.Id=:id");
+        $query = Database::getPDO()->prepare("SELECT K.Id as Id, K.Voornaam as Voornaam, K.Naam as Naam, K.Geboortejaar as Geboortejaar, K.Belangrijk as Belangrijk, W.Afkorting as Werking, K.DefaultWerking as DefaultWerking FROM Kind K LEFT JOIN Werking W ON K.DefaultWerking=W.Id WHERE K.Id=:id");
         $id = $this->getId();
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();

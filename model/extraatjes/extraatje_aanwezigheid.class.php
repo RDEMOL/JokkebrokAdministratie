@@ -7,7 +7,7 @@ class ExtraatjeAanwezigheid extends Record{
         $this->ExtraatjeId = $data->ExtraatjeId;
     }
     protected function insert(){
-        $query = Database::getPDO()->prepare("INSERT INTO ExtraatjeAanwezigheid (AanwezigheidId, ExtraatjeId) VALUES (:aanwezigheid_id, :extraatje_id)");
+        $query = Database::getPDO()->prepare("INSERT INTO ExtraatjeAanwezigheid (Aanwezigheid, Extraatje) VALUES (:aanwezigheid_id, :extraatje_id)");
         $query->bindParam(':aanwezigheid_id', $this->AanwezigheidId, PDO::PARAM_STR);
         $query->bindParam(':extraatje_id', $this->ExtraatjeId, PDO::PARAM_STR);
         $query->execute();
@@ -28,7 +28,7 @@ class ExtraatjeAanwezigheid extends Record{
     protected static function getFilterJoinsSQL($filter){
         $sql = "";
         if(isset($filter['Datum']) || isset($filter['WerkingId'])){
-            $sql .= "LEFT JOIN Aanwezigheid ON Aanwezigheid.Id = ExtraatjeAanwezigheid.AanwezigheidId ";
+            $sql .= "LEFT JOIN Aanwezigheid ON Aanwezigheid.Id = ExtraatjeAanwezigheid.Aanwezigheid ";
         }
         return $sql;
     }
@@ -38,7 +38,7 @@ class ExtraatjeAanwezigheid extends Record{
             $sql .= "AND Aanwezigheid.Datum = :datum ";
         }
         if(isset($filter['WerkingId'])){
-            $sql .= "AND Aanwezigheid.WerkingId = :werking_id ";
+            $sql .= "AND Aanwezigheid.Werking = :werking_id ";
         }
         return $sql;
     }

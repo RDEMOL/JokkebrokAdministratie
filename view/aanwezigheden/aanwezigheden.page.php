@@ -22,7 +22,7 @@ HERE;
         return $content;
     }
 
-    private function getNieuweAanwezigheidModal() {
+    private function getAanwezigheidModal() {
         $werkingen_select = $this->getWerkingenSelect();
         $content = <<<HERE
 <div class="modal fade" id="aanwezigheidModal" tabindex="-1" role="dialog" aria-labelledby="aanwezigheidModal">
@@ -147,11 +147,11 @@ HERE;
     public function buildContent() {
         $vandaag = new SpeelpleinDag();
         $datum = $vandaag->getDatum();
-        $content = $this->getNieuweAanwezigheidModal();
+        $content = $this->getAanwezigheidModal();
         $content .= <<<HERE
         
 <div class="row">
-    <button class="btn btn-large btn-primary" data-toggle="modal" data-target="#aanwezigheidModal">Nieuwe aanwezigheid</button>
+    <button class="btn btn-large btn-primary" data-toggle="modal" data-target="#aanwezigheidModal">Aanwezigheid</button>
      <label for="datum">Datum:</label>
         <input id="datum" name="datum" type="text" value="$datum"></input>
         <button id="btnVandaag" class="btn btn-sm">Vandaag</button>
@@ -169,11 +169,40 @@ $(document).ready(function(){
     $('#datum').datepicker().data('datepicker');
 });
 require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom'], function(Tabel, Kolom, Control, ControlsKolom, require){
+    function clearAanwezigheidModal(){
+        $('input[name="AanwezigheidId"]').val('0');
+        $('input[name="KindId"]').val('0');
+        $('input[name="VolledigeNaamKind"]').val('');
+        $('select[name="KindVoogdId"]').empty().val('');
+        $('select[name="WerkingId"]').val('0');
+        $('textarea[name="Opmerkingen"]').val('');
+    };
     var wijzig_aanwezigheid = function(data){
-        console.log("Wijzig aanwezigheid: "+JSON.stringify(data));  
+        //console.log("Wijzig aanwezigheid: "+JSON.stringify(data));
+        var d = new Object();
+        d.id = data['Id'];
+        $.get('?action=data&data=aanwezigheidDetails', d, function(r){
+            //console.log("response: "+r);
+            var obj = JSON.parse(r);
+            $('input[name="AanwezigheidId"]').val(obj.Id);
+            $('input[name="KindId"]').val(obj.KindId);
+            $('input[name="VolledigeNaamKind"]').val(obj.KindVolledigeNaam);
+            for(var i = 0; i < obj.KindVoogden.length; ++i){
+                $('select[name="KindVoogdId"]').append($('<option>').attr('value', obj.KindVoogden[i].Id).text(obj.KindVoogden[i].VolledigeNaam));
+            }
+            $('select[name="KindVoogdId"]').val(obj.KindVoogdId);
+            $('select[name="WerkingId"]').val(obj.Werking);
+            $('textarea[name="Opmerkingen"]').val(obj.Opmerkingen);
+        });
+        clearAanwezigheidModal();
+        $('#aanwezigheidModal').modal('show');
     };
     var verwijder_aanwezigheid = function(data){
         console.log("Verwijder aanwezigheid: "+JSON.stringify(data));
+    };
+    function nieuwe_aanwezigheid(){
+        clearAanwezigheidModal();
+        $('#aanwezigheidModal').modal('show');  
     };
     var k = new Array();
     k.push(new Kolom('Voornaam','Voornaam'));

@@ -1,5 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../record.class.php");
+require_once(dirname(__FILE__)."/../kindvoogden/kindvoogd.class.php");
 require_once(dirname(__FILE__)."/../../helpers/log.php");
 class Aanwezigheid extends Record{
     protected function setLocalData($data){
@@ -71,6 +72,9 @@ class Aanwezigheid extends Record{
     }
     public function getDatum(){
         return $this->Datum;
+    }
+    public function getKindVoogd(){
+        return new KindVoogd($this->KindVoogdId);
     }
     public function getKindVoogdId(){
         return $this->KindVoogdId;

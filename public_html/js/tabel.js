@@ -1,3 +1,4 @@
+//TODO: abort previous request when a new one has been started
 define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 	var Tabel = function(url, kolommen){
 		this.url = url;
@@ -26,7 +27,6 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 		var self = this;
 		var data = new Object();
 		data.filter = this.filter;
-		console.log("data to be sent: "+JSON.stringify(data));
 		$.post(this.url, data, function(d){
 			console.log("received: "+d);
 			self.data = JSON.parse(d).content;
