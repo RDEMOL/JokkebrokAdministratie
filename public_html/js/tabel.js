@@ -5,7 +5,8 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 		this.kolommen = kolommen;
 		this.data = new Array();
 		this.tabelBody = $('<tbody>');
-		this.setFilter(new Object());
+		this.filter = new Object();
+		this.tabelElement = null;
 		this.filterRij = null;
 	};
 	Tabel.prototype.setUp = function(tabelElement){
@@ -25,6 +26,9 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 	};
 	Tabel.prototype.laadTabel = function(){
 		var self = this;
+		if(!this.tabelElement){
+			return;
+		}
 		var data = new Object();
 		data.filter = this.filter;
 		$.post(this.url, data, function(d){

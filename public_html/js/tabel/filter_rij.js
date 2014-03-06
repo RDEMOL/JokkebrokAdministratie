@@ -7,6 +7,7 @@ define(['./rij'], function(Kolom){
 		}
 		this.element = $('<tr>')
 		this.update();
+		this.notify();
 	};
 	FilterRij.prototype.notify = function(){
 		this.parent_tabel.setFilter(this.getFilter());

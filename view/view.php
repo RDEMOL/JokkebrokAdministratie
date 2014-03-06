@@ -79,6 +79,7 @@ class View {
                         $result['KindId']=$kind->getId();
                         $result['KindVolledigeNaam']=$kind->getVoornaam()." ".$kind->getNaam();
                         $result['Opmerkingen'] = $aanwezigheid->getOpmerkingen();
+                        $result['Datum']=$aanwezigheid->getDatum();
                         $result['KindVoogdId']=$kindvoogd->getId();
                         $result['KindVoogden']=array();
                         foreach($voogden as $v){

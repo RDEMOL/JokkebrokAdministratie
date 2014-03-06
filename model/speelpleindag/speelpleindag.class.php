@@ -3,7 +3,7 @@ class SpeelpleinDag{
     private $datum;
     public function __construct($datum=NULL){
         if($datum == NULL){
-            $datum = date('d-m-Y');
+            $datum = date('Y-m-d');
         }
         $this->datum = $datum;
     }

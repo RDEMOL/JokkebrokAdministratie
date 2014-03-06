@@ -44,6 +44,9 @@ if(!$this){
 			    color:rgb(153,153,153);
 			    cursor:default;
 			}
+			.datepicker{
+			    z-index:2000;!important
+			}
 		</style>
 	</head>
 	<body>

@@ -61,7 +61,7 @@ class Kind extends Record{
             $sql .= "AND (CONCAT(Naam, ' ', Voornaam) LIKE :volledige_naam ";
             $sql .= " OR CONCAT(Voornaam, ' ', Naam) LIKE :volledige_naam2) ";
         }
-        if(isset($filter['WerkingId'])){
+        if(isset($filter['Werking'])){
             $sql .= "AND DefaultWerking = :werking_id ";
         }
         return $sql;
@@ -71,8 +71,8 @@ class Kind extends Record{
             $query->bindParam(':volledige_naam', $tmp = '%'.$filter['VolledigeNaam'].'%', PDO::PARAM_STR);
             $query->bindParam(':volledige_naam2', $tmp = '%'.$filter['VolledigeNaam'].'%', PDO::PARAM_STR);
         }
-        if(isset($filter['WerkingId'])){
-            $query->bindParam(':werking_id', $filter['WerkingId'], PDO::PARAM_INT);
+        if(isset($filter['Werking'])){
+            $query->bindParam(':werking_id', $filter['Werking'], PDO::PARAM_INT);
         }
     }
     public static function getKinderen($filter, $max_amount=0){

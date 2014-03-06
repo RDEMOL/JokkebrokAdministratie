@@ -47,8 +47,6 @@ class Controller {
                 case 'updateAanwezigheid':
                     $data = $_POST;
                     $this->updateAanwezigheid($data);
-                    //$a = new Aanwezigheid($_POST);
-                    //echo $k->updateDatabase();
                     exit;
                 case 'removeAanwezigheid':
                     $a = new Aanwezigheid($_POST['Id']);

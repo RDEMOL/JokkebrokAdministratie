@@ -44,6 +44,34 @@ define(function(){
 					self.notify();
 				});
 				break;
+			case 'datepicker':
+				this.element.append($('<button>').addClass('btn btn-sm').append($('<span>').addClass('glyphicon glyphicon-remove')).click(function(){
+					var d = new Date();
+					self.input_element.val(d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate());
+					self.input_element.datepicker('update');
+					self.input_element.val('');
+					self.notify();
+				}));
+				this.element.append('&nbsp;');
+				this.element.append($('<button>').addClass('btn btn-sm').append($('<span>').addClass('glyphicon glyphicon-calendar')).click(function(){
+					var d = new Date();
+					self.input_element.val(d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate());
+					self.input_element.datepicker('update');
+					self.notify();
+				}));
+				this.element.append('&nbsp;');
+				el = $('<input>').attr({'name': this.id, 'type':'text'}).addClass('form-control').css('width', '100px').css('display', 'inline');
+				$(document).ready(function(){
+				el.datepicker({format:'yyyy-mm-dd'}).on('changeDate', function(){
+						el.datepicker('hide');
+						self.notify();
+					});
+				});
+				el.val(self.data);	
+				el.change(function(){
+					self.notify();
+				});
+				break;
 			default:
 				break;
 		}
