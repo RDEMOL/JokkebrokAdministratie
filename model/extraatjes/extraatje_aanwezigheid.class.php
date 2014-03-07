@@ -4,7 +4,7 @@ require_once(dirname(__FILE__)."/extraatje.class.php");
 
 class ExtraatjeAanwezigheid extends Record{
     protected function setLocalData($data){
-        $this->Aanwezigheid = $data->Aanwezigheid;
+        $this->AanwezigheidId = $data->Aanwezigheid;
         $this->ExtraatjeId = $data->Extraatje;
     }
     protected function insert(){
@@ -12,7 +12,7 @@ class ExtraatjeAanwezigheid extends Record{
         $query->bindParam(':aanwezigheid_id', $this->AanwezigheidId, PDO::PARAM_STR);
         $query->bindParam(':extraatje_id', $this->ExtraatjeId, PDO::PARAM_STR);
         $query->execute();
-        return $query->lastInsertId();
+        return Database::getPDO()->lastInsertId();
     }
     public function getExtraatje(){
         return new Extraatje($this->getExtraatjeId());
@@ -25,7 +25,8 @@ class ExtraatjeAanwezigheid extends Record{
     }
     protected function select(){
         $query = Database::getPDO()->prepare("SELECT * FROM ExtraatjeAanwezigheid WHERE Id = :id");
-        $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
+        $id = $this->getId();
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();
         return $query->fetch(PDO::FETCH_OBJ);
     }
@@ -34,7 +35,7 @@ class ExtraatjeAanwezigheid extends Record{
     }
     protected static function getFilterJoinsSQL($filter){
         $sql = "";
-        if(isset($filter['Datum']) || isset($filter['WerkingId'])){
+        if(isset($filter['Datum']) || isset($filter['Werking'])){
             $sql .= "LEFT JOIN Aanwezigheid ON Aanwezigheid.Id = ExtraatjeAanwezigheid.Aanwezigheid ";
         }
         return $sql;
@@ -44,7 +45,7 @@ class ExtraatjeAanwezigheid extends Record{
         if(isset($filter['Datum'])){
             $sql .= "AND Aanwezigheid.Datum = :datum ";
         }
-        if(isset($filter['WerkingId'])){
+        if(isset($filter['Werking'])){
             $sql .= "AND Aanwezigheid.Werking = :werking_id ";
         }
         if(isset($filter['AanwezigheidId'])){
@@ -56,8 +57,8 @@ class ExtraatjeAanwezigheid extends Record{
         if(isset($filter['Datum'])){
             $query->bindParam(':datum', $filter['Datum'], PDO::PARAM_STR);
         }
-        if(isset($filter['WerkingId'])){
-            $query->bindParam(':werking_id', $filter['WerkingId'], PDO::PARAM_INT);
+        if(isset($filter['Werking'])){
+            $query->bindParam(':werking_id', $filter['Werking'], PDO::PARAM_INT);
         }
         if(isset($filter['AanwezigheidId'])){
             $query->bindParam(':aanwezigheid_id', $filter['AanwezigheidId'], PDO::PARAM_INT);

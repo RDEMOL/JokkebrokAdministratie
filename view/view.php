@@ -87,6 +87,11 @@ class View {
                             $result['KindVoogden'][] = array('Id'=>$v->getId(), 'VolledigeNaam'=>($voogd->getVoornaam()." ".$voogd->getNaam()));
                         }
                         $result['Werking']=$aanwezigheid->getWerkingId();
+                        $result['Extraatjes']=array();
+                        $extraatjes = $aanwezigheid->getExtraatjes();
+                        foreach($extraatjes as $e){
+                            $result['Extraatjes'][]=$e->getId();
+                        }
                         echo json_encode($result);
                         break;
                     case 'voogdInfo':

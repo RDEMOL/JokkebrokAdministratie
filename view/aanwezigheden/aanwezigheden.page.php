@@ -22,9 +22,19 @@ $opties
 HERE;
         return $content;
     }
+    private function getExtraatjesList(){
+        $extraatjes = Extraatje::getExtraatjes();
+        $result = "<ul>";
+        foreach($extraatjes as $e){
+            $result .= "<li><input class=\"form-control Extraatjes\" type=\"checkbox\" name=\"Extraatjes[]\" value=\"".$e->getId()."\">".$e->getOmschrijving()."</input>\n";
+        }
+        $result .= "</ul>";
+        return $result;
+    }
 
     private function getAanwezigheidModal() {
         $werkingen_select = $this->getWerkingenSelect();
+        $extraatjes_list = $this->getExtraatjesList();
         $content = <<<HERE
 <div class="modal fade" id="aanwezigheidModal" tabindex="-1" role="dialog" aria-labelledby="aanwezigheidModal">
     <div class="modal-dialog">
@@ -55,8 +65,10 @@ HERE;
                         <label class="control-label" for="WerkingId">Werking: </label>
                         $werkingen_select
                         <br>
-                        
-                        
+                        <div id="ExtraatjesDiv">
+                        $extraatjes_list
+                        </div>
+                        <br>
                         <label class="control-label" for="Opmerkingen">Opmerkingen: </label>
                         <textarea name="Opmerkingen" class="form-control"></textarea>
                     </div>
@@ -222,9 +234,10 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('input[name="AanwezigheidId"]').val('0');
         $('input[name="KindId"]').val('0');
         $('input[name="VolledigeNaamKind"]').val('');
-        $('input[name="Datum"]').val($('#datum').val());
+        $('form input[name="Datum"]').val($('#datum').val());
         $('select[name="KindVoogdId"]').empty().val('');
         $('select[name="WerkingId"]').val('0');
+        $('input[type=checkbox].Extraatjes').prop('checked', false);
         $('textarea[name="Opmerkingen"]').val('');
     };
     var wijzig_aanwezigheid = function(data){
@@ -241,6 +254,9 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             for(var i = 0; i < obj.KindVoogden.length; ++i){
                 $('select[name="KindVoogdId"]').append($('<option>').attr('value', obj.KindVoogden[i].Id).text(obj.KindVoogden[i].VolledigeNaam));
             }
+            for(var i = 0; i < obj.Extraatjes.length; ++i){
+                $('input[type=checkbox].Extraatjes[value='+obj.Extraatjes[i]+']').prop('checked', true);
+            }
             $('select[name="KindVoogdId"]').val(obj.KindVoogdId);
             $('select[name="WerkingId"]').val(obj.Werking);
             $('textarea[name="Opmerkingen"]').val(obj.Opmerkingen);
@@ -255,6 +271,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     };
     function nieuwe_aanwezigheid(){
         clearAanwezigheidModal();
+        $('form input[name="Datum"]').val($('td input[name="Datum"]').val());
         $('#aanwezigheidModal').modal('show');  
     };
     var k = new Array();
@@ -325,6 +342,13 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
        d.Datum = $('input[name="Datum"]').val();
        d.Werking = werking;
        d.Opmerkingen = opmerkingen;
+       //var serialized = $('#aanwezigheidForm').serialize();
+       //d.Extraatjes = serialized.Extraatjes;
+       d.Extraatjes = new Array();
+       $('#aanwezigheidForm input[type=checkbox].Extraatjes:checked').each(function(index, e){
+           console.log("e = "+e);
+            d.Extraatjes.push($(e).val());
+       });
        $.post('?action=updateAanwezigheid', d, function(res){ 
            res = $.trim(res);
            if(res == "1"){

@@ -98,6 +98,8 @@ class Controller {
         $stripped_data->Datum = $data['Datum'];
         $stripped_data->Werking = $data['Werking'];
         $a = new Aanwezigheid($stripped_data);
+        $extraatjes = $data['Extraatjes'];
+        $a->setExtraatjes($extraatjes);
         $a->updateDatabase();
         echo "1";
     }

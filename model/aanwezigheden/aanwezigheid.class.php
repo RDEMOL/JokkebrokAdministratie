@@ -46,7 +46,7 @@ class Aanwezigheid extends Record{
         if(isset($filter['Datum'])){
             $sql .= "AND Datum = :datum ";
         }
-        if(isset($filter['WerkingId'])){
+        if(isset($filter['Werking'])){
             $sql .= "AND Werking = :werking_id ";
         }
         if(isset($filter['Extraatjes'])){
@@ -69,8 +69,8 @@ class Aanwezigheid extends Record{
         if(isset($filter['Datum'])){
             $query->bindParam(':datum', $filter['Datum'], PDO::PARAM_STR);
         }
-        if(isset($filter['WerkingId'])){
-            $query->bindParam(':werking_id', $filter['WerkingId'], PDO::PARAM_INT);
+        if(isset($filter['Werking'])){
+            $query->bindParam(':werking_id', $filter['Werking'], PDO::PARAM_INT);
         }
         if(isset($filter['Extraatjes'])){
             $query->bindParam(':extraatje_id', $filter['Extraatjes'], PDO::PARAM_INT);
@@ -133,6 +133,24 @@ class Aanwezigheid extends Record{
         $aanwezigheid = $query->fetch(PDO::FETCH_OBJ);
         $aanwezigheid->Extraatjes = $this->getExtraatjes();
         return $aanwezigheid;      
+    }
+    public function setExtraatjes($extraatjes){
+        $current_extraatjes = $this->getExtraatjes();
+        foreach($current_extraatjes as $ce){
+            $ce->deleteFromDatabase();
+        }
+        foreach($extraatjes as $e){
+            $this->addExtraatje($e);
+        }
+    }
+    public function addExtraatje($e){
+        //$arr = array('Id'=>0, 'Aanwezigheid'=>$this->getId(), 'Extraatje'=>$e);
+        $obj = new stdClass();
+        $obj->Id = 0;
+        $obj->Aanwezigheid = $this->getId();
+        $obj->Extraatje = $e;
+        $ea = new ExtraatjeAanwezigheid($obj);
+        $ea->updateDatabase();
     }
 }
 ?>

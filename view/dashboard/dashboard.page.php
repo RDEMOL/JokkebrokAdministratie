@@ -32,7 +32,7 @@ class DashboardPage extends Page{
             foreach($werkingen as $w){
                 $filter = array();
                 $filter['Datum']=$vandaag->getDatumForDatabase();
-                $filter['WerkingId']=$w->getId();
+                $filter['Werking']=$w->getId();
                 $amount  = ExtraatjeAanwezigheid::countExtraatjeAanwezigheden($filter);
                 $current_line .= "<td>$amount</td>";
             }
@@ -48,7 +48,7 @@ class DashboardPage extends Page{
         foreach($werkingen as $w){
             $filter = array();
             $filter['Datum']=$vandaag->getDatumForDatabase();
-            $filter['WerkingId']=$w->getId();
+            $filter['Werking']=$w->getId();
             $amount = Aanwezigheid::countAanwezigheden($filter);
             $werkingen_footer.="<th>".$amount;
             $sum += $amount;
