@@ -346,7 +346,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
        //d.Extraatjes = serialized.Extraatjes;
        d.Extraatjes = new Array();
        $('#aanwezigheidForm input[type=checkbox].Extraatjes:checked').each(function(index, e){
-           console.log("e = "+e);
+           
+           console.log("checked: val = "+$(e).val());
             d.Extraatjes.push($(e).val());
        });
        $.post('?action=updateAanwezigheid', d, function(res){ 
