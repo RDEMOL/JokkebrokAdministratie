@@ -104,6 +104,14 @@ class Kind extends Record{
         }
         return $voogden;
     }
+    public function getVoogdenIds(){
+        $kindvoogden = $this->getKindVoogden();
+        $ids = array();
+        foreach($kindvoogden as $kv){
+            $ids[] = $kv->getVoogdId();
+        }
+        return $ids;
+    }
     public function getKindVoogdenIds(){
         $voogden = $this->getKindVoogden();
         $voogden_ids = array();
@@ -149,9 +157,11 @@ class Kind extends Record{
                     break;
                 }
             }
-            if(!$good){
+            if(!$good)
+                $v->deleteFromDatabase();
+            /*if(!$good){
                 $this->removeKindVoogd($v->getId());
-            }
+            }*/
         }
         foreach($voogd_ids as $v_id){
             $good = false;
@@ -172,7 +182,7 @@ class Kind extends Record{
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();
         $obj = $query->fetch(PDO::FETCH_OBJ);
-        $obj->VoogdIds = $this->getKindVoogdenIds();
+        $obj->VoogdIds = $this->getVoogdenIds();
         return $obj; 
     }
 }

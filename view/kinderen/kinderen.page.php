@@ -181,6 +181,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     function wijzig_kind(data){
         console.log("wijzigen: "+JSON.stringify(data));
         voogd_amount = 0;
+        $('#kindForm input[name="voogd_amount"]').val(voogd_amount);
         $('.voogd_row').remove();
         $('#kindForm input[name=Id]').val(data.Id);
         $('#kindForm input[name=Voornaam]').val(data.Voornaam);

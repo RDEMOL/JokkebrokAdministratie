@@ -78,6 +78,7 @@ class Controller {
             $v->updateDatabase();
             $voogd_ids[] = $v->getId();
         }
+        //echo "created voogden"; 
         $stripped_data = new stdClass();
         $stripped_data->Id = $data['Id'];
         $stripped_data->Voornaam = $data['Voornaam'];

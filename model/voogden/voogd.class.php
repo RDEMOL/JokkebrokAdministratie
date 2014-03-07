@@ -1,7 +1,8 @@
 <?php
 require_once(dirname(__FILE__)."/../record.class.php" );
-    class Voogd extends Record{
+class Voogd extends Record{
     protected function setLocalData($data){
+        Log::writeLog("setlocal voogd data",json_encode($data));
         $this->Voornaam = $data->Voornaam;
         $this->Naam = $data->Naam;
         $this->Opmerkingen = $data->Opmerkingen;

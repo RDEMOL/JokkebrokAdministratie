@@ -131,7 +131,11 @@ class Aanwezigheid extends Record{
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();
         $aanwezigheid = $query->fetch(PDO::FETCH_OBJ);
-        $aanwezigheid->Extraatjes = $this->getExtraatjes();
+        $aanwezigheid->Extraatjes = array();
+        $extraatjes = $this->getExtraatjes();
+        foreach($extraatjes as $e){
+            $aanwezigheid->Extraatjes[] = array('Id'=>$e->getId(), 'Omschrijving'=>$e->getOmschrijving());
+        }
         return $aanwezigheid;      
     }
     public function setExtraatjes($extraatjes){

@@ -95,6 +95,8 @@ class View {
                         echo json_encode($result);
                         break;
                     case 'voogdInfo':
+                        //$kindvoogd = new KindVoogd($_GET['id']);
+                        //$voogd = $kindvoogd->getVoogd();
                         $voogd = new Voogd($_GET['id']);
                         echo json_encode($voogd->getJSONData());
                         break;
