@@ -2,6 +2,7 @@
 require_once (dirname(__FILE__) . "/../page.php");
 require_once (dirname(__FILE__) . "/../../model/speelpleindag/speelpleindag.class.php");
 require_once (dirname(__FILE__) . "/../../model/werkingen/werking.class.php");
+require_once (dirname(__FILE__) . "/../../model/extraatjes/extraatje.class.php");
 class AanwezighedenPage extends Page {
     public function __construct() {
         parent::__construct("Aanwezigheden","","aanwezigheden");
@@ -184,6 +185,14 @@ HERE;
         }
         $werkingen_js_array = json_encode($werkingen_js_array);
         
+        $extraatjes = Extraatje::getExtraatjes();
+        $extraatjes_js_array = array();
+        $extraatjes_js_array[] = array('value'=>'', 'label'=>'Alle');
+        foreach($extraatjes as $e){
+            $extraatjes_js_array[] = array('value'=>$e->getId(), 'label'=>$e->getOmschrijving());
+        }
+        $extraatjes_js_array = json_encode($extraatjes_js_array);
+        
         $vandaag = new SpeelpleinDag();
         $datum = $vandaag->getDatum();
         $content = $this->getAanwezigheidModal();
@@ -227,7 +236,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             $('input[name="AanwezigheidId"]').val(obj.Id);
             $('input[name="KindId"]').val(obj.KindId);
             $('input[name="VolledigeNaamKind"]').val(obj.KindVolledigeNaam);
-            $('input[name="Datum"]').val(obj.Datum);
+            $('form input[name="Datum"]').val(obj.Datum);
+            $('form input[name="Datum"]').datepicker('update');
             for(var i = 0; i < obj.KindVoogden.length; ++i){
                 $('select[name="KindVoogdId"]').append($('<option>').attr('value', obj.KindVoogden[i].Id).text(obj.KindVoogden[i].VolledigeNaam));
             }
@@ -252,6 +262,15 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     k.push(new Kolom('Voornaam','Voornaam'));
     k.push(new Kolom('Naam','Naam'));
     k.push(new Kolom('Werking','Werking'));
+    k.push(new Kolom('Extraatjes', 'Extraatjes', function(data){
+        var td = $('<td>');
+        console.log("kolom extraatjes: "+data['Extraatjes'].length);
+        for(var i = 0; i < data['Extraatjes'].length; ++i){
+            var extra = $('<a>').addClass('glyphicon glyphicon-plus').attr('title', data['Extraatjes'][i].Omschrijving).tooltip();
+            td.append(extra);
+        }
+        return td;
+    }));
     //TODO: insert extraatjes
     k.push(new Kolom('Info', 'Extra Info', function(data){
         var td = $('<td>');
@@ -282,6 +301,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     filter_velden.push(new FilterVeld('Datum', 1, 'datepicker', '$datum'));
     filter_velden.push(new FilterVeld('VolledigeNaam', 2, 'text', null));
     filter_velden.push(new FilterVeld('Werking', 1, 'select', {options:$werkingen_js_array}));
+    filter_velden.push(new FilterVeld('Extraatjes', 1, 'select', {options:$extraatjes_js_array}));
     t.setFilterRij(new FilterRij(filter_velden,t));
     t.setUp($('#aanwezigheden_tabel'));
     $(document).ready(function(){

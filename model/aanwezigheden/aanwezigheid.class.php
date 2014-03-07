@@ -1,7 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../record.class.php");
 require_once(dirname(__FILE__)."/../kindvoogden/kindvoogd.class.php");
-require_once(dirname(__FILE__)."/../../helpers/log.php");
 class Aanwezigheid extends Record{
     protected function setLocalData($data){
         $this->Datum = $data->Datum;
@@ -16,7 +15,7 @@ class Aanwezigheid extends Record{
         $query->bindParam(':werking_id', $this->WerkingId, PDO::PARAM_INT);
         $query->bindParam(':opmerkingen', $this->Opmerkingen, PDO::PARAM_STR);
         $query->execute();
-        return Database::getPDO()->lastInsertId();    
+        return Database::getPDO()->lastInsertId();
     }
     protected function update(){
         $query = Database::getPDO()->prepare("UPDATE Aanwezigheid SET Datum=:datum, KindVoogd=:kind_voogd_id, Werking=:werking_id, Opmerkingen=:opmerkingen WHERE Id=:id");
@@ -50,6 +49,16 @@ class Aanwezigheid extends Record{
         if(isset($filter['WerkingId'])){
             $sql .= "AND Werking = :werking_id ";
         }
+        if(isset($filter['Extraatjes'])){
+            $sql .= "AND EA.Extraatje = :extraatje_id ";
+        }
+        return $sql;
+    }
+    protected static function getFilterJoinsSQL($filter){
+        $sql = "";
+        if(isset($filter['Extraatjes'])){
+            $sql .= "LEFT JOIN ExtraatjeAanwezigheid EA ON EA.Aanwezigheid = A.Id ";
+        }
         return $sql;
     }
     protected static function applyFilterParameters($query, $filter){
@@ -63,6 +72,9 @@ class Aanwezigheid extends Record{
         if(isset($filter['WerkingId'])){
             $query->bindParam(':werking_id', $filter['WerkingId'], PDO::PARAM_INT);
         }
+        if(isset($filter['Extraatjes'])){
+            $query->bindParam(':extraatje_id', $filter['Extraatjes'], PDO::PARAM_INT);
+        }
     }
     public static function countAanwezigheden($filter){
         $sql = "SELECT COUNT(*) as Amount FROM Aanwezigheid WHERE 1 ";
@@ -74,7 +86,9 @@ class Aanwezigheid extends Record{
         return $res['Amount'];
     }
     public static function getAanwezigheden($filter){
-        $sql = "SELECT A.Id as Id, A.Datum as Datum, A.KindVoogd as KindVoogd, A.Werking as Werking, A.Opmerkingen as Opmerkingen FROM Aanwezigheid A LEFT JOIN KindVoogd KV on KV.Id=A.KindVoogd LEFT JOIN Kind K ON K.Id=KV.Kind WHERE 1 ";
+        $sql = "SELECT A.Id as Id, A.Datum as Datum, A.KindVoogd as KindVoogd, A.Werking as Werking, A.Opmerkingen as Opmerkingen FROM Aanwezigheid A LEFT JOIN KindVoogd KV on KV.Id=A.KindVoogd LEFT JOIN Kind K ON K.Id=KV.Kind ";
+        $sql .= static::getFilterJoinsSQL($filter);
+        $sql .= " WHERE 1 ";
         $sql .= static::getFilterSQL($filter);
         $query = Database::getPDO()->prepare($sql);
         static::applyFilterParameters($query, $filter);
@@ -100,13 +114,25 @@ class Aanwezigheid extends Record{
     public function getOpmerkingen(){
         return $this->Opmerkingen;
     }
+    public function getExtraatjes(){
+        $filter = array('AanwezigheidId'=>$this->getId());
+        $extraatje_aanwezigheden = ExtraatjeAanwezigheid::getExtraatjeAanwezigheden($filter);
+        Log::writeLog("extraatjes: ",count($extraatje_aanwezigheden));
+        $extraatjes = array();
+        foreach($extraatje_aanwezigheden as $ea){
+            $extraatjes[] = $ea->getExtraatje();
+        }
+        return $extraatjes;
+    }
     public function getJSONData(){
         //TODO: collect from local data
         $query = Database::getPDO()->prepare("SELECT A.Id as Id, K.Voornaam as Voornaam, K.Naam as Naam, K.Belangrijk as Belangrijk, W.Afkorting as Werking, A.Opmerkingen as Opmerkingen, A.Datum as Datum FROM Aanwezigheid A LEFT JOIN KindVoogd KV ON A.KindVoogd=KV.Id LEFT JOIN Kind K ON K.Id=KV.Kind LEFT JOIN Werking W ON A.Werking=W.Id WHERE A.Id= :id ");
         $id = $this->getId();
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();
-        return $query->fetch(PDO::FETCH_OBJ);     
+        $aanwezigheid = $query->fetch(PDO::FETCH_OBJ);
+        $aanwezigheid->Extraatjes = $this->getExtraatjes();
+        return $aanwezigheid;      
     }
 }
 ?>

@@ -1,10 +1,11 @@
 <?php
 require_once(dirname(__FILE__)."/../record.class.php");
+require_once(dirname(__FILE__)."/extraatje.class.php");
 
 class ExtraatjeAanwezigheid extends Record{
     protected function setLocalData($data){
-        $this->Aanwezigheid = $data->AanwezigheidId;
-        $this->ExtraatjeId = $data->ExtraatjeId;
+        $this->Aanwezigheid = $data->Aanwezigheid;
+        $this->ExtraatjeId = $data->Extraatje;
     }
     protected function insert(){
         $query = Database::getPDO()->prepare("INSERT INTO ExtraatjeAanwezigheid (Aanwezigheid, Extraatje) VALUES (:aanwezigheid_id, :extraatje_id)");
@@ -12,6 +13,12 @@ class ExtraatjeAanwezigheid extends Record{
         $query->bindParam(':extraatje_id', $this->ExtraatjeId, PDO::PARAM_STR);
         $query->execute();
         return $query->lastInsertId();
+    }
+    public function getExtraatje(){
+        return new Extraatje($this->getExtraatjeId());
+    }
+    public function getExtraatjeId(){
+        return $this->ExtraatjeId;
     }
     protected function update(){
         
@@ -40,6 +47,9 @@ class ExtraatjeAanwezigheid extends Record{
         if(isset($filter['WerkingId'])){
             $sql .= "AND Aanwezigheid.Werking = :werking_id ";
         }
+        if(isset($filter['AanwezigheidId'])){
+            $sql .= "AND ExtraatjeAanwezigheid.Aanwezigheid = :aanwezigheid_id ";
+        }
         return $sql;
     }
     protected static function applyFilterParameters($query, $filter){
@@ -48,6 +58,9 @@ class ExtraatjeAanwezigheid extends Record{
         }
         if(isset($filter['WerkingId'])){
             $query->bindParam(':werking_id', $filter['WerkingId'], PDO::PARAM_INT);
+        }
+        if(isset($filter['AanwezigheidId'])){
+            $query->bindParam(':aanwezigheid_id', $filter['AanwezigheidId'], PDO::PARAM_INT);
         }
     }
     public static function countExtraatjeAanwezigheden($filter){
@@ -70,11 +83,13 @@ class ExtraatjeAanwezigheid extends Record{
         $query = Database::getPDO()->prepare($sql);
         static::applyFilterParameters($query, $filter);
         $query->execute();
-        $werkingen = array();
+        $extraatje_aanwezigheden = array();
+        Log::writeLog("extraatje aanwezigheid", "searching! aanwezigheid id = ".$filter['AanwezigheidId']." sql = ".$sql);
         while($rs = $query->fetch(PDO::FETCH_OBJ)){
-            $werkingen[] = new Werking($rs, true);
+            Log::writeLog("extraatje aanwezigheid", "found!");
+            $extraatje_aanwezigheden[] = new ExtraatjeAanwezigheid($rs);
         }
-        return $werkingen;
+        return $extraatje_aanwezigheden;
     }
     public function getOmschrijving(){
         return $this->Omschrijving;

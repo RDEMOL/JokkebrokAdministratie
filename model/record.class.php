@@ -1,5 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../helpers/database/database.php");
+require_once(dirname(__FILE__)."/../helpers/log.php");
 abstract class Record{
     private $in_database = false;
     protected $Id;

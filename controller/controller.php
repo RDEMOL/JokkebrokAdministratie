@@ -83,7 +83,7 @@ class Controller {
         $stripped_data->Voornaam = $data['Voornaam'];
         $stripped_data->Naam = $data['Naam'];
         $stripped_data->Geboortejaar = $data['Geboortejaar'];
-        $stripped_data->DefaultWerkingId = $data['DefaultWerkingId'];
+        $stripped_data->DefaultWerking = $data['DefaultWerking'];
         $stripped_data->Belangrijk = $data['Belangrijk'];
         $k = new Kind($stripped_data);
         $res = $k->updateDatabase();

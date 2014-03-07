@@ -14,7 +14,7 @@ class KinderenPage extends Page {
             $opties .= "<option value=\"" . $w->getId() . "\">" . $w->getAfkorting() . " - " . $w->getOmschrijving() . "</option>";
         }
         $content = <<<HERE
-<select name="DefaultWerkingId" class="form-control">
+<select name="DefaultWerking" class="form-control">
 $opties
 </select>
 HERE;
@@ -71,7 +71,7 @@ HERE;
                         <input type="text" name="Geboortejaar" value="">
                     </div>
                     <div class="row">
-                        <label class="control-label" for="DefaultWerkingId">Werking*: </label>
+                        <label class="control-label" for="DefaultWerking">Werking*: </label>
                         $werkingen_select
                     </div> 
                     <div class="row">
@@ -186,7 +186,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('#kindForm input[name=Voornaam]').val(data.Voornaam);
         $('#kindForm input[name=Naam]').val(data.Naam);
         $('#kindForm input[name=Geboortejaar]').val(data.Geboortejaar);
-        $('#kindForm select[name=DefaultWerkingId]').val(data.DefaultWerkingId);
+        $('#kindForm select[name=DefaultWerking]').val(data.DefaultWerking);
         $('#kindForm textarea[name=Belangrijk]').val(data.Belangrijk);
         for(var i = 0; i < data.VoogdIds.length; ++i){
             voegVoogdDivToe(data.VoogdIds[i]);
