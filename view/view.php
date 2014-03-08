@@ -77,6 +77,7 @@ class View {
                         $result = array();
                         $result['Id']=$aanwezigheid->getId();                        
                         $result['KindId']=$kind->getId();
+                        $result['Geboortejaar']=$kind->getGeboortejaar();
                         $result['KindVolledigeNaam']=$kind->getVoornaam()." ".$kind->getNaam();
                         $result['Opmerkingen'] = $aanwezigheid->getOpmerkingen();
                         $result['Datum']=$aanwezigheid->getDatum();

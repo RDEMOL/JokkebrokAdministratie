@@ -3,13 +3,14 @@ x controls in aanwezigheden/kinderen uniform met de andere kolommen maken
 x merge andere info en medische info
 x tooltip voor medische info
 x 1 voogd -> 1 kind (meerdere kinden -> andere voogden voor db)
-Zoekinterface kinderen (fulltext of iets in die aard?)
+x Zoekinterface kinderen (fulltext of iets in die aard?)
 voogd weergeven (indien meerdere voogden)
 saldo
-extraatjes bij aanwezigheden
-Nieuwe aanwezigheid
-aanwezigheid verwijderen
-aanwezigheid bewerken
+x extraatjes bij aanwezigheden
+x Nieuwe aanwezigheid
+x aanwezigheid verwijderen
+x aanwezigheid bewerken
+geboortejaar bij kinderen
 
 uitstappen maken
 uitstappen wijzigen
@@ -23,8 +24,9 @@ uitstappen wijzigen
 
 	uitstappen deactiveren (Floris op een pintje trakteren om hem terug te krijgen :D)
 
-Aanwezigheden: extraatjes tonen
-Filter aanwezigheden
-Filter kinderen
 
+abort queries
+aanwezigheden per dag opschuiven
 
+kolomhoofd klikken -> sorteren op kolom
+pdf print-out -> hoe kolommen selecteren die geprint worden?

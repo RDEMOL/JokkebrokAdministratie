@@ -18,6 +18,9 @@ class Kind extends Record{
     public function getDefaultWerkingId(){
         return $this->DefaultWerkingId;
     }
+    public function getGeboortejaar(){
+        return $this->Geboortejaar;
+    }
     protected function insert(){
         $query = Database::getPDO()->prepare("INSERT INTO Kind (Voornaam, Naam, Geboortejaar, DefaultWerking, Belangrijk) VALUES (:voornaam, :naam, :geboortejaar, :default_werking_id, :belangrijk)");
         $query->bindParam(':voornaam', $this->Voornaam, PDO::PARAM_STR);

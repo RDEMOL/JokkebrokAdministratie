@@ -212,6 +212,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     var k = new Array();
     k.push(new Kolom('Voornaam','Voornaam'));
     k.push(new Kolom('Naam','Naam'));
+    k.push(new Kolom('Geboortejaar', 'Geboortejaar'));
     k.push(new Kolom('Werking','Werking'));
     k.push(new Kolom('Info', 'Extra Info', function(data){
         var td = $('<td>');
@@ -232,6 +233,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     var t = new Tabel('index.php?action=data&data=kinderenTabel', k);
     var filter_velden = new Array();
     filter_velden.push(new FilterVeld('VolledigeNaam', 2, 'text', null));
+    filter_velden.push(new FilterVeld('Geboortejaar', 1, 'text', null));
     filter_velden.push(new FilterVeld('Werking', 1, 'select', {options:$werkingen_js_array}));
     t.setFilterRij(new FilterRij(filter_velden,t));
     t.setUp($('#kinderen_tabel'));
