@@ -66,6 +66,17 @@ class View {
                         }
                         echo json_encode($result);
                         break;
+                    case 'uitstapDeelnamesTabel':
+                        $id = $_GET['uitstap_id'];
+                        $uitstap = new Uitstap($id);
+                        $deelnemers = $uitstap->getDeelnemers();
+                        $result = array();
+                        $result['content']=array();
+                        foreach($deelnemers as $d){
+                            $result['content'][] = $d->getJSONData();
+                        }
+                        echo json_encode($result);
+                        break;
                     case 'aanwezighedenTabel':
                         $filter = null;
                         if(isset($_POST['filter'])){

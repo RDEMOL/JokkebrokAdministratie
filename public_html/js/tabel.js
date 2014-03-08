@@ -33,6 +33,7 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 		data.filter = this.filter;
 		console.log("url = "+this.url+", data = "+JSON.stringify(data));
 		$.post(this.url, data, function(res){
+			console.log("res = "+res);
 			self.data = res.content;
 			console.log("new self data = "+JSON.stringify(self.data));
 			self.updateBody();
@@ -65,10 +66,20 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 			return;
 		for(var i = 0; i < this.data.length; ++i){
 			var rij = new Rij(this.data[i], this);
+			if(this.getRowClickListener()){
+				rij.setRowClickListener(this.getRowClickListener());
+			}
 			this.tabelBody.append(rij.getElement());
 		}
 		console.log("body updated");
-	}
+	};
+	Tabel.prototype.getRowClickListener = function(){
+		return this.row_click_listener;
+	};
+	Tabel.prototype.setRowClickListener = function(row_click_listener){
+		this.row_click_listener = row_click_listener;
+		this.updateBody();
+	};
 	//TODO: only update tbody
 	return Tabel;
 });

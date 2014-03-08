@@ -1,5 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../record.class.php" );
+require_once(dirname(__FILE__)."/uitstap_kind.class.php");
 class Uitstap extends Record{
     protected function setLocalData($data){
         $this->Datum = $data->Datum;
@@ -50,6 +51,10 @@ class Uitstap extends Record{
             $uitstappen[] = new Uitstap($rs);
          }
          return $uitstappen;
+     }
+     public function getDeelnemers(){
+         $filter = array('Uitstap'=>$this->getId());
+         return UitstapKind::getUitstapKinderen($filter);
      }
 }
 ?>
