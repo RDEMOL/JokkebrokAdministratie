@@ -8,6 +8,7 @@ require_once (dirname(__FILE__) . "/instellingen/instellingen.page.php");
 require_once (dirname(__FILE__) . "/../model/kinderen/kind.class.php");
 require_once (dirname(__FILE__) . "/../model/voogden/voogd.class.php");
 require_once (dirname(__FILE__) . "/../model/aanwezigheden/aanwezigheid.class.php");
+require_once (dirname(__FILE__) . "/../model/uitstappen/uitstap.class.php");
 require_once (dirname(__FILE__) . "/../helpers/log.php");
 
 class View {
@@ -52,6 +53,16 @@ class View {
                                 $voogden_namen_ids[] = array('Id'=>$v->getId(), 'VolledigeNaam'=>($voogd->getVoornaam()." ".$voogd->getNaam()));
                             }
                             $result['content'][] = array('Id'=>$k->getId(), 'Naam'=>$k->getNaam(), 'Voornaam'=>$k->getVoornaam(), 'DefaultWerkingId'=>$k->getDefaultWerkingId(), 'Voogden'=>$voogden_namen_ids);
+                        }
+                        echo json_encode($result);
+                        break;
+                    case 'uitstappenTabel':
+                        $result = array();
+                        $result['content']=array();
+                        $filter = null;
+                        $uitstappen = Uitstap::getUitstappen($filter);
+                        foreach($uitstappen as $u){
+                            $result['content'][]=$u->getJSONData();
                         }
                         echo json_encode($result);
                         break;

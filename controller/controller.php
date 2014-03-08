@@ -53,7 +53,6 @@ class Controller {
                     echo $a->deleteFromDatabase();
                     exit;
                 case 'updateExtraatje':
-                    //$data = array('Id'=>$_POST['Id'], 'Omschrijving'=>$_POST['Omschrijving']);
                     $data = new stdClass();
                     $data->Id = $_POST['Id'];
                     $data->Omschrijving = $_POST['Omschrijving'];
@@ -62,9 +61,18 @@ class Controller {
                     echo "1";
                     exit;
                 case 'removeExtraatje':
-                    
                     $extraatje = new Extraatje($_POST['Id']);
                     $extraatje->deleteFromDatabase();
+                    echo "1";
+                    exit;
+                case 'updateUitstap':
+                    $data = new stdClass();
+                    $data->Id = $_POST['Id'];
+                    $data->Omschrijving = $_POST['Omschrijving'];
+                    $data->Datum = $_POST['Datum'];
+                    $data->Actief = isset($_POST['Actief']);
+                    $uitstap = new Uitstap($data);
+                    $uitstap->updateDatabase();
                     echo "1";
                     exit;
                 default:
