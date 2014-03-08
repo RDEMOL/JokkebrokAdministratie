@@ -114,10 +114,13 @@ class Aanwezigheid extends Record{
     public function getOpmerkingen(){
         return $this->Opmerkingen;
     }
-    public function getExtraatjes(){
+    public function getExtraatjeAanwezigheden(){
         $filter = array('AanwezigheidId'=>$this->getId());
         $extraatje_aanwezigheden = ExtraatjeAanwezigheid::getExtraatjeAanwezigheden($filter);
-        Log::writeLog("extraatjes: ",count($extraatje_aanwezigheden));
+        return $extraatje_aanwezigheden;
+    }
+    public function getExtraatjes(){
+        $extraatje_aanwezigheden = $this->getExtraatjeAanwezigheden();
         $extraatjes = array();
         foreach($extraatje_aanwezigheden as $ea){
             $extraatjes[] = $ea->getExtraatje();
@@ -139,7 +142,7 @@ class Aanwezigheid extends Record{
         return $aanwezigheid;      
     }
     public function setExtraatjes($extraatjes){
-        $current_extraatjes = $this->getExtraatjes();
+        $current_extraatjes = $this->getExtraatjeAanwezigheden();
         foreach($current_extraatjes as $ce){
             $ce->deleteFromDatabase();
         }
@@ -148,7 +151,6 @@ class Aanwezigheid extends Record{
         }
     }
     public function addExtraatje($e){
-        //$arr = array('Id'=>0, 'Aanwezigheid'=>$this->getId(), 'Extraatje'=>$e);
         $obj = new stdClass();
         $obj->Id = 0;
         $obj->Aanwezigheid = $this->getId();

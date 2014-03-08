@@ -115,10 +115,12 @@ class Controller {
         $stripped_data->Werking = $data['Werking'];
         $a = new Aanwezigheid($stripped_data);
         $a->updateDatabase();
+        $extraatjes = array();
         if(isset($data['Extraatjes'])){
             $extraatjes = $data['Extraatjes'];
-            $a->setExtraatjes($extraatjes);
+            
         }
+        $a->setExtraatjes($extraatjes);
         echo "1";
     }
 

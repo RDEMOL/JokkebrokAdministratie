@@ -33,11 +33,13 @@ class DashboardPage extends Page{
                 $filter = array();
                 $filter['Datum']=$vandaag->getDatumForDatabase();
                 $filter['Werking']=$w->getId();
+                $filter['Extraatje']=$e->getId();
                 $amount  = ExtraatjeAanwezigheid::countExtraatjeAanwezigheden($filter);
                 $current_line .= "<td>$amount</td>";
             }
             $filter = array();
             $filter['Datum']=$vandaag->getDatumForDatabase();
+            $filter['Extraatje']=$e->getId();
             $amount = ExtraatjeAanwezigheid::countExtraatjeAanwezigheden($filter);
             $current_line .= "<td>$amount</td>";
             $current_line .= "</tr>";

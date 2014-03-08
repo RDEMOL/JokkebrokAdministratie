@@ -21,6 +21,11 @@ class ExtraatjeAanwezigheid extends Record{
         return $this->ExtraatjeId;
     }
     protected function update(){
+        $query = Database::getPDO()->prepare("UPDATE ExtraatjeAanwezigheid SET Aanwezigheid=:aanwezigheid, Extraatje=:extraatje WHERE Id=:id");
+        $query->bindParam(':aanwezigheid', $this->getAanwezigheidId(), PDO::PARAM_INT);
+        $query->bindParam(':extraatje', $this->getExtraatjeId(), PDO::PARAM_INT);
+        $query->bindParam(':id', $this->getId(), PDO::PARAM_INT);
+        $query->execute();
         
     }
     protected function select(){
@@ -31,6 +36,11 @@ class ExtraatjeAanwezigheid extends Record{
         return $query->fetch(PDO::FETCH_OBJ);
     }
     protected function delete(){
+        Log::writeLog("deleting!", "");
+        $query = Database::getPDO()->prepare("DELETE FROM ExtraatjeAanwezigheid WHERE ID = :id");
+        $id = $this->getId();
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+        return $query->execute();
         
     }
     protected static function getFilterJoinsSQL($filter){
@@ -51,6 +61,9 @@ class ExtraatjeAanwezigheid extends Record{
         if(isset($filter['AanwezigheidId'])){
             $sql .= "AND ExtraatjeAanwezigheid.Aanwezigheid = :aanwezigheid_id ";
         }
+        if(isset($filter['Extraatje'])){
+            $sql .= "AND ExtraatjeAanwezigheid.Extraatje = :extraatje_id ";
+        }
         return $sql;
     }
     protected static function applyFilterParameters($query, $filter){
@@ -62,6 +75,9 @@ class ExtraatjeAanwezigheid extends Record{
         }
         if(isset($filter['AanwezigheidId'])){
             $query->bindParam(':aanwezigheid_id', $filter['AanwezigheidId'], PDO::PARAM_INT);
+        }
+        if(isset($filter['Extraatje'])){
+            $query->bindParam(':extraatje_id', $filter['Extraatje'], PDO::PARAM_INT);
         }
     }
     public static function countExtraatjeAanwezigheden($filter){
