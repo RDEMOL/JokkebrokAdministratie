@@ -158,7 +158,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
       $('#ExtraatjeModal').modal('show');  
     };
     var k = new Array();
-    k.push(new Kolom('Id','Id'));
+    //k.push(new Kolom('Id','Id'));
     k.push(new Kolom('Omschrijving','Omschrijving'));
     var controls = new Array();
     controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_extraatje));
