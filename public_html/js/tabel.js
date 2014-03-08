@@ -31,11 +31,12 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 		}
 		var data = new Object();
 		data.filter = this.filter;
-		$.post(this.url, data, function(d){
-			console.log("received: "+d);
-			self.data = JSON.parse(d).content;
+		console.log("url = "+this.url+", data = "+JSON.stringify(data));
+		$.post(this.url, data, function(res){
+			self.data = res.content;
+			console.log("new self data = "+JSON.stringify(self.data));
 			self.updateBody();
-		});
+		}, "json");
 	};
 	Tabel.prototype.getTHead = function(){
 		var headTR = $('<tr>');
@@ -60,6 +61,8 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 	};
 	Tabel.prototype.updateBody = function(){
 		this.tabelBody.empty();
+		if(!this.data)
+			return;
 		for(var i = 0; i < this.data.length; ++i){
 			var rij = new Rij(this.data[i], this);
 			this.tabelBody.append(rij.getElement());

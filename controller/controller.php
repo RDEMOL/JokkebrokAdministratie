@@ -52,6 +52,21 @@ class Controller {
                     $a = new Aanwezigheid($_POST['Id']);
                     echo $a->deleteFromDatabase();
                     exit;
+                case 'updateExtraatje':
+                    //$data = array('Id'=>$_POST['Id'], 'Omschrijving'=>$_POST['Omschrijving']);
+                    $data = new stdClass();
+                    $data->Id = $_POST['Id'];
+                    $data->Omschrijving = $_POST['Omschrijving'];
+                    $e = new Extraatje($data);
+                    $e->updateDatabase();
+                    echo "1";
+                    exit;
+                case 'removeExtraatje':
+                    
+                    $extraatje = new Extraatje($_POST['Id']);
+                    $extraatje->deleteFromDatabase();
+                    echo "1";
+                    exit;
                 default:
                     return;
             }

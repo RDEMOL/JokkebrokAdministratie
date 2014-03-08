@@ -95,9 +95,17 @@ class View {
                         }
                         echo json_encode($result);
                         break;
+                    case 'extraatjesTabel':
+                        $extraatjes = Extraatje::getExtraatjes();
+                        $result = array();
+                        $result['content']=array();
+                        foreach($extraatjes as $e){
+                            $result['content'][]=array('Id'=>$e->getId(), 'Omschrijving'=>$e->getOmschrijving());
+                        }
+                        echo json_encode($result);
+                        Log::writeLog("result encoded ",json_encode($result));
+                        break;
                     case 'voogdInfo':
-                        //$kindvoogd = new KindVoogd($_GET['id']);
-                        //$voogd = $kindvoogd->getVoogd();
                         $voogd = new Voogd($_GET['id']);
                         echo json_encode($voogd->getJSONData());
                         break;

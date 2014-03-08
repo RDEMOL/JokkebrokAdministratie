@@ -5,22 +5,29 @@ class Extraatje extends Record{
         $this->Omschrijving = $data->Omschrijving;
     }
     protected function insert(){
-        $query = Database::getPDO()->prepare("INSERT INTO Extraatje (Voornaam, Naam, Geboortejaar, DefaultWerking, MedischeInfo, AndereInfo) VALUES (:voornaam, :naam, :geboortejaar, :default_werking_id, :medische_info, :andere_info)");
+        $query = Database::getPDO()->prepare("INSERT INTO Extraatje (Omschrijving) VALUES (:omschrijving)");
         $query->bindParam(':omschrijving', $this->Omschrijving, PDO::PARAM_STR);
         $query->execute();
-        return $query->lastInsertId();
+        return Database::getPDO()->lastInsertId();
     }
     protected function update(){
-        
+        $query = Database::getPDO()->prepare("UPDATE Extraatje SET Omschrijving=:omschrijving WHERE Id=:id");
+        $query->bindParam(':omschrijving', $this->Omschrijving, PDO::PARAM_STR);
+        $query->bindParam(':id', $this->getId(), PDO::PARAM_INT);
+        $query->execute();
     }
     protected function select(){
         $query = Database::getPDO()->prepare("SELECT * FROM Extraatje WHERE Id = :id");
-        $query->bindParam(':id', $this->getId(), PDO::PARAM_INT);
+        $id = $this->getId();
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();
         return $query->fetch(PDO::FETCH_OBJ);
     }
     protected function delete(){
-        
+        $query = Database::getPDO()->prepare("DELETE FROM Extraatje WHERE Id = :id");
+        $id = $this->getId();
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+        $query->execute();
     }
 
     public static function getExtraatjes(){
