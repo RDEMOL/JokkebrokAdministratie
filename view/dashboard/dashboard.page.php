@@ -26,7 +26,7 @@ class DashboardPage extends Page{
             ++$extraatje_index;
             $current_line = "<tr>";
             if($extraatje_index == 1){
-                $current_line.="<td>Extra's</td>";
+                $current_line.="<td rowspan=\"".count($extraatjes)."\">Extra's</td>";
             }
             $current_line .= "<td>".$e->getOmschrijving()."</td>";
             foreach($werkingen as $w){
