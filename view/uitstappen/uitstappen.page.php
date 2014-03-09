@@ -163,6 +163,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     var uitstap_deelnemers_tabel = null;
     function laad_uitstap(data){
         var eigenschappen_div = $('#UitstapEigenschappenDiv').css('display', 'inline');
+        eigenschappen_div.find('input[name=VolledigeNaamKind]').val('');
         eigenschappen_div.find('#btnUitstapBewerken').unbind('click').click(function(){
             wijzig_uitstap(data);
             return false;
@@ -184,7 +185,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('input[name="VolledigeNaamKind"]').typeahead(null, {
             displayKey:'display_value',
             source: suggesties.ttAdapter()
-        }).bind('typeahead:selected', function(obj, kind, dataset_name){
+        }).unbind('typeahead:selected').bind('typeahead:selected', function(obj, kind, dataset_name){
             voeg_kind_toe(kind['Id'], data['Id']);
             $('input[name=VolledigeNaamKind]').val('');
         });
