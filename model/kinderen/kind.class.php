@@ -150,6 +150,27 @@ class Kind extends Record{
         $query->bindParam(':kind_id', $kind_id, PDO::PARAM_INT);
         $query->execute();*/
     }
+    //kind_voogd_info: array of KindVoogd.Id and Voogd.Id
+    public function setKindVoogden($kind_voogd_info){
+        $voogden = $this->getKindVoogden();
+        foreach($voogden as $v){
+            $good = false;
+            foreach($kind_voogd_info as $kvi){
+                if($v->getId() == $kvi->Id){
+                    $good = true;
+                    break;
+                }
+            }
+            if(!$good)
+                $v->deleteFromDatabase();
+        }
+        foreach($kind_voogd_info as $kvi){
+            $kvi->Kind=$this->getId();
+            Log::writeLog("adding kind voogd", json_encode($kvi));
+            $kv = new KindVoogd($kvi);
+            $kv->updateDatabase();
+        }
+    }
     public function setVoogden($voogd_ids){
         $voogden = $this->getKindVoogden();
         foreach($voogden as $v){
@@ -185,7 +206,7 @@ class Kind extends Record{
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();
         $obj = $query->fetch(PDO::FETCH_OBJ);
-        $obj->VoogdIds = $this->getVoogdenIds();
+        $obj->KindVoogdIds = $this->getKindVoogdenIds();
         return $obj; 
     }
 }

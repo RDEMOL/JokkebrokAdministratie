@@ -50,7 +50,7 @@ class View {
                             $voogden_namen_ids = array();
                             foreach($voogden as $v){
                                 $voogd = $v->getVoogd();
-                                $voogden_namen_ids[] = array('Id'=>$v->getId(), 'VolledigeNaam'=>($voogd->getVoornaam()." ".$voogd->getNaam()));
+                                $voogden_namen_ids[] = array('KindVoogdId'=>$v->getId(), 'VolledigeNaam'=>($voogd->getVoornaam()." ".$voogd->getNaam()));
                             }
                             $result['content'][] = array('Id'=>$k->getId(), 'Naam'=>$k->getNaam(), 'Voornaam'=>$k->getVoornaam(), 'DefaultWerkingId'=>$k->getDefaultWerkingId(), 'Voogden'=>$voogden_namen_ids);
                         }
@@ -128,7 +128,8 @@ class View {
                         Log::writeLog("result encoded ",json_encode($result));
                         break;
                     case 'voogdInfo':
-                        $voogd = new Voogd($_GET['id']);
+                        $kvoogd = new KindVoogd($_GET['kind_voogd_id']);
+                        $voogd = $kvoogd->getVoogd();
                         echo json_encode($voogd->getJSONData());
                         break;
                 }

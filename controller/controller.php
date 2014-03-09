@@ -89,19 +89,23 @@ class Controller {
     private function updateKind($data){
         $voogd_amount = $data['voogd_amount'];
         $voogden = array();
-        $voogd_ids = array();
+        $kind_voogd_info = array();
         for($i = 0; $i < $voogd_amount; ++$i){
             $voogd_data = new stdClass();
-            $voogd_data->Id = $data['voogdId'.$i];
-            $voogd_data->Voornaam = $data['voogdVoornaam'.$i];
-            $voogd_data->Naam = $data['voogdNaam'.$i];
-            $voogd_data->Opmerkingen = $data['voogdOpmerkingen'.$i];
+            $voogd_data->KindVoogdId = $data['KindVoogdId'.$i];
+            $voogd_data->Id = $data['VoogdId'.$i];
+            $voogd_data->Voornaam = $data['VoogdVoornaam'.$i];
+            $voogd_data->Naam = $data['VoogdNaam'.$i];
+            $voogd_data->Opmerkingen = $data['VoogdOpmerkingen'.$i];
             $v = new Voogd($voogd_data);
             $voogden[] = $v;
             $v->updateDatabase();
-            $voogd_ids[] = $v->getId();
+            $kvi = new stdClass();
+            //Log::writeLog("adding kind voogd info: "+)
+            $kvi->Id = $voogd_data->KindVoogdId;
+            $kvi->Voogd = $v->getId();
+            $kind_voogd_info[] = $kvi;
         }
-        //echo "created voogden"; 
         $stripped_data = new stdClass();
         $stripped_data->Id = $data['Id'];
         $stripped_data->Voornaam = $data['Voornaam'];
@@ -111,7 +115,8 @@ class Controller {
         $stripped_data->Belangrijk = $data['Belangrijk'];
         $k = new Kind($stripped_data);
         $res = $k->updateDatabase();
-        $res2 = $k->setVoogden($voogd_ids);
+        $res2 = $k->setKindVoogden($kind_voogd_info);
+        
         echo "1";
     }
     private function updateAanwezigheid($data){

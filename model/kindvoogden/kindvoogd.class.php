@@ -27,7 +27,7 @@ class KindVoogd extends Record{
         return Database::getPDO()->lastInsertId();
     }
     protected function update(){
-        $query = Database::getPDO()->prepare('UPDATE KindVoogd SET Kind=:kind, Voogd=:voogd, Opmerkingen=:opmerkingen WHERE Id=:id');
+        $query = Database::getPDO()->prepare('UPDATE KindVoogd SET Kind=:kind, Voogd=:voogd WHERE Id=:id');
         $query->bindParam(':kind', $this->KindId, PDO::PARAM_INT);
         $query->bindParam(':voogd', $this->VoogdId, PDO::PARAM_INT);
         $query->bindParam(':id', $this->Id, PDO::PARAM_INT);

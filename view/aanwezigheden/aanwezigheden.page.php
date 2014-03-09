@@ -119,7 +119,7 @@ typeahead, .tt-query, .tt-hint {
                     $('textarea[name="OpmerkingId"]').empty();
                     if(kind.Id != 0){
                         for(var i = 0; i < kind.Voogden.length; ++i){
-                            $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].Id).text(kind.Voogden[i].VolledigeNaam));
+                            $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].KindVoogdId).text(kind.Voogden[i].VolledigeNaam));
                         }
                         $('select[name="WerkingId"]').val(kind.DefaultWerkingId);
                     }
