@@ -135,8 +135,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         d.KindId = kind_id;
         d.UitstapId = uitstap_id;
         $.get('index.php?action=updateDeelname', d, function(res){
-            uitstap_deelnemers_tabel.laadTabel();
             $('input[name=VolledigeNaamKind]').val('');
+            uitstap_deelnemers_tabel.laadTabel();
         });
     };
     function wijzig_uitstap(data){
@@ -161,9 +161,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
       $('#UitstapModal').modal('show');  
     };
     var uitstap_deelnemers_tabel = null;
-    function verwijder_deelname(data){
-        
-    };
     function laad_uitstap(data){
         var eigenschappen_div = $('#UitstapEigenschappenDiv').css('display', 'inline');
         eigenschappen_div.find('#btnUitstapBewerken').unbind('click').click(function(){
@@ -189,6 +186,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             source: suggesties.ttAdapter()
         }).bind('typeahead:selected', function(obj, kind, dataset_name){
             voeg_kind_toe(kind['Id'], data['Id']);
+            $('input[name=VolledigeNaamKind]').val('');
         });
         var div = $('#UitstapDeelnamesDiv').empty();
         //add omschrijving/datum/actief
@@ -202,6 +200,13 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         uitstap_deelnemers_kolommen.push(new Kolom('Voornaam', 'Voornaam'));
         var controls = new Array();
         //controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_deelname));
+        function verwijder_deelname(data){
+            var d = new Object();
+            d.Id = data['Id'];
+            $.get('index.php?action=removeDeelname', d, function(res){
+                uitstap_deelnemers_tabel.laadTabel();
+            });
+        };
         controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_deelname));
         uitstap_deelnemers_kolommen.push(new ControlsKolom(controls));
         var id = parseInt(data['Id']);
