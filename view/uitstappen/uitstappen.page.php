@@ -5,7 +5,8 @@ class UitstappenPage extends Page{
         parent::__construct("Uitstappen", "", "uitstappen");
         $this->buildContent();
     }
-    public function getUitstapModal(){
+    
+    private function getUitstapModal(){
         $content = <<<HERE
 <div class="modal fade" id="UitstapModal" tabindex="-1" role="dialog" aria-labelledby="UitstapModal">
     <div class="modal-dialog">
@@ -68,6 +69,58 @@ table#UitstapOverzicht tr :hover{
 <strong>Uitstapdetails</strong>
 </div>
 <div class="panel-body" id="UitstapDetailsDiv">
+<div id="UitstapEigenschappenDiv" style="display:none;">
+<div class="panel panel-default">
+<div class="panel-body">
+<button type="button" class="btn btn-primary" id="btnUitstapBewerken">Uitstap Bewerken</button><br>
+<form class="form">
+<label class="control-label" for="VolledigeNaamKind">Kind toevoegen: </label><br>
+<input type="text" value="" class="typeahead form-control" name="VolledigeNaamKind"><br>
+<button type="button" id="btnKindToevoegen" class="btn btn-primary">Toevoegen</button>
+<br>
+</form>
+</div>
+</div>
+
+<style type="text/css">
+/*adapted from typeahead examples*/
+typeahead, .tt-query, .tt-hint {
+    border-radius: 8px 8px 8px 8px;
+    padding: 8px 12px;
+    width: 396px;
+}
+.typeahead {
+    background-color: #FFFFFF;
+}
+.tt-query {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+.tt-hint {
+    color: #999999;
+}
+.tt-dropdown-menu {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    padding: 8px 0;
+    width: 422px;
+}
+.tt-suggestion {
+    line-height: 24px;
+    padding: 3px 20px;
+}
+.tt-suggestion.tt-cursor {
+    background-color: #0097CF;
+    color: #FFFFFF;
+    cursor:pointer;
+}
+.tt-suggestion p {
+    margin: 0;
+}
+            </style>
+</div>
+<div id="UitstapDeelnamesDiv">
 <div class="text-center" width="100%">
 <em>details van de uitstap</em>
 </div>
@@ -75,12 +128,38 @@ table#UitstapOverzicht tr :hover{
 </div>
 </div>
 </div>
+</div>
 <script>
 require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, require){
+    function voeg_kind_toe(kind){
+        
+    };
+    var suggesties = new Bloodhound({
+       datumTokenizer:function(d){return Bloodhound.tokenizers.whitespace(d.value); },
+       queryTokenizer: Bloodhound.tokenizers.whitespace,
+       remote:{
+           url:'index.php?action=data&data=kinderenSuggesties&query=%QUERY',
+           filter: function(kind){
+               console.log("bloodhound received this data: "+JSON.stringify(kind));
+               return $.map(kind.content, function(k){
+                  return { 'display_value':(k.Voornaam+" "+k.Naam), 'id':k.Id/*, 'Voogden':k.Voogden*/, 'DefaultWerkingId': k.DefaultWerkingId}; 
+               });
+           }
+       }
+    });
+    suggesties.initialize();
+    $('input[name="VolledigeNaamKind"]').typeahead(null, {
+        displayKey:'display_value',
+        source: suggesties.ttAdapter()
+    }).bind('typeahead:selected', function(obj, kind, dataset_name){
+        voeg_kind_toe(kind);
+    });
     function wijzig_uitstap(data){
         clearUitstapForm();
+        $('#UitstapModal input[name=Datum]').val(data['Datum']);
         $('#UitstapModal input[name=Omschrijving]').val(data['Omschrijving']);
         $('#UitstapModal input[name=Id]').val(data['Id']);
+        $('#UitstapModal input[name=Actief]').prop('checked', data['Actief']=='1');
         $('#UitstapModal').modal('show');
     };
     function verwijder_uitstap(data){
@@ -97,14 +176,16 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
       $('#UitstapModal').modal('show');  
     };
     var uitstap_deelnemers_tabel = null;
-    function wijzig_deelname(data){
-        
-    };
     function verwijder_deelname(data){
         
     };
     function laad_uitstap(data){
-        var div = $('#UitstapDetailsDiv').empty();
+        var eigenschappen_div = $('#UitstapEigenschappenDiv').css('display', 'inline');
+        eigenschappen_div.find('#btnUitstapBewerken').unbind('click').click(function(){
+            wijzig_uitstap(data);
+            return false;
+        });
+        var div = $('#UitstapDeelnamesDiv').empty();
         //add omschrijving/datum/actief
         //add table
         var tabel_div = $('<div>');
@@ -115,7 +196,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         uitstap_deelnemers_kolommen.push(new Kolom('Naam', 'Naam'));
         uitstap_deelnemers_kolommen.push(new Kolom('Voornaam', 'Voornaam'));
         var controls = new Array();
-        controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_deelname));
+        //controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_deelname));
         controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_deelname));
         uitstap_deelnemers_kolommen.push(new ControlsKolom(controls));
         var id = parseInt(data['Id']);
