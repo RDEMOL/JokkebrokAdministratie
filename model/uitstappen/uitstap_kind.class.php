@@ -14,14 +14,15 @@ class UitstapKind extends Record{
         return $query->fetch(PDO::FETCH_OBJ);        
     }
      protected function insert(){
-        $query = Database::getPDO()->prepare("INSERT INTO UitstapKind (Datum, Omschrijving, Actief) VALUES (:datum, :omschrijving, :actief)");
+        $query = Database::getPDO()->prepare("INSERT INTO UitstapKind (Uitstap, Kind) VALUES (:uitstap_id, :kind_id)");
         $query->bindParam(':uitstap_id', $this->UitstapId, PDO::PARAM_INT);
         $query->bindParam(':kind_id', $this->KindId, PDO::PARAM_INT);
         $query->execute();
         return Database::getPDO()->lastInsertId();
      }
      protected function update(){
-        $query = Database::getPDO()->prepare('UPDATE UitstapKind SET Datum=:datum, Omschrijving=:omschrijving, Actief=:actief WHERE Id=:id');
+         Log::writeLog("in UitstapKind update", "");
+        $query = Database::getPDO()->prepare('UPDATE UitstapKind SET Uitstap=:uitstap_id, Kind=:kind_id WHERE Id=:id');
         $query->bindParam(':uitstap_id', $this->UitstapId, PDO::PARAM_STR);
         $query->bindParam(':kind_id', $this->KindId, PDO::PARAM_INT);
         $res = $query->execute();

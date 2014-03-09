@@ -75,9 +75,7 @@ table#UitstapOverzicht tr :hover{
 <button type="button" class="btn btn-primary" id="btnUitstapBewerken">Uitstap Bewerken</button><br>
 <form class="form">
 <label class="control-label" for="VolledigeNaamKind">Kind toevoegen: </label><br>
-<input type="text" value="" class="typeahead form-control" name="VolledigeNaamKind"><br>
-<button type="button" id="btnKindToevoegen" class="btn btn-primary">Toevoegen</button>
-<br>
+<input type="text" value="" class="typeahead form-control" name="VolledigeNaamKind">
 </form>
 </div>
 </div>
@@ -131,29 +129,16 @@ typeahead, .tt-query, .tt-hint {
 </div>
 <script>
 require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, require){
-    function voeg_kind_toe(kind){
-        
+    function voeg_kind_toe(kind_id, uitstap_id){
+        var d = new Object();
+        d.Id = 0;
+        d.KindId = kind_id;
+        d.UitstapId = uitstap_id;
+        $.get('index.php?action=updateDeelname', d, function(res){
+            uitstap_deelnemers_tabel.laadTabel();
+            $('input[name=VolledigeNaamKind]').val('');
+        });
     };
-    var suggesties = new Bloodhound({
-       datumTokenizer:function(d){return Bloodhound.tokenizers.whitespace(d.value); },
-       queryTokenizer: Bloodhound.tokenizers.whitespace,
-       remote:{
-           url:'index.php?action=data&data=kinderenSuggesties&query=%QUERY',
-           filter: function(kind){
-               console.log("bloodhound received this data: "+JSON.stringify(kind));
-               return $.map(kind.content, function(k){
-                  return { 'display_value':(k.Voornaam+" "+k.Naam), 'id':k.Id/*, 'Voogden':k.Voogden*/, 'DefaultWerkingId': k.DefaultWerkingId}; 
-               });
-           }
-       }
-    });
-    suggesties.initialize();
-    $('input[name="VolledigeNaamKind"]').typeahead(null, {
-        displayKey:'display_value',
-        source: suggesties.ttAdapter()
-    }).bind('typeahead:selected', function(obj, kind, dataset_name){
-        voeg_kind_toe(kind);
-    });
     function wijzig_uitstap(data){
         clearUitstapForm();
         $('#UitstapModal input[name=Datum]').val(data['Datum']);
@@ -184,6 +169,26 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         eigenschappen_div.find('#btnUitstapBewerken').unbind('click').click(function(){
             wijzig_uitstap(data);
             return false;
+        });
+        var suggesties = new Bloodhound({
+           datumTokenizer:function(d){return Bloodhound.tokenizers.whitespace(d.value); },
+           queryTokenizer: Bloodhound.tokenizers.whitespace,
+           remote:{
+               url:'index.php?action=data&data=kinderenSuggesties&query=%QUERY',
+               filter: function(kind){
+                   console.log("bloodhound received this data: "+JSON.stringify(kind));
+                   return $.map(kind.content, function(k){
+                      return { 'display_value':(k.Voornaam+" "+k.Naam), 'Id':k.Id/*, 'Voogden':k.Voogden*/, 'DefaultWerkingId': k.DefaultWerkingId}; 
+                   });
+               }
+           }
+        });
+        suggesties.initialize();
+        $('input[name="VolledigeNaamKind"]').typeahead(null, {
+            displayKey:'display_value',
+            source: suggesties.ttAdapter()
+        }).bind('typeahead:selected', function(obj, kind, dataset_name){
+            voeg_kind_toe(kind['Id'], data['Id']);
         });
         var div = $('#UitstapDeelnamesDiv').empty();
         //add omschrijving/datum/actief

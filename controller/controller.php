@@ -75,6 +75,26 @@ class Controller {
                     $uitstap->updateDatabase();
                     echo "1";
                     exit;
+                case 'updateDeelname':
+                    Log::writeLog("update deelname", json_encode($_GET));
+                    $data = new stdClass();
+                    if(isset($_GET['Id'])){
+                        $data->Id = $_GET['Id'];
+                    }else{
+                        $data->Id = 0;
+                    }
+                    $data->Uitstap = $_GET['UitstapId'];
+                    $data->Kind = $_GET['KindId'];
+                    $uitstap_kind = new UitstapKind($data);
+                    $uitstap_kind->updateDatabase();
+                    echo "1";
+                    exit;
+                case 'removeDeelname':
+                    $id = $_GET['Id'];
+                    $uitstap_kind = new UitstapKind($id);
+                    $uitstap_kind->deleteFromDatabase();
+                    echo "1";
+                    exit;
                 default:
                     return;
             }
