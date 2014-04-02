@@ -75,6 +75,11 @@ class Controller {
                     $uitstap->updateDatabase();
                     echo "1";
                     exit;
+				case 'removeUitstap':
+					$uitstap = new Uitstap($_POST['Id']);
+					$uitstap->deleteFromDatabase();
+					echo "1";
+					exit;
                 case 'updateDeelname':
                     Log::writeLog("update deelname", json_encode($_GET));
                     $data = new stdClass();

@@ -8,6 +8,26 @@ class UitstappenPage extends Page{
     
     private function getUitstapModal(){
         $content = <<<HERE
+<div class="modal fade" id="VerwijderUitstapModal" tabindex="-1" role="dialog" aria-labelledby="VerwijderUitstapModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+                <h4 class="modal-title">Uitstap verwijderen</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline" id="VerwijderUitstapForm">
+                    <input type="hidden" name="Id" value="0">
+                    Weet u zeker dat u deze uitstap wilt verwijderen?
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+                <button type="button" class="btn btn-primary" id="btnVerwijderUitstap">Verwijderen</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="UitstapModal" tabindex="-1" role="dialog" aria-labelledby="UitstapModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -72,7 +92,7 @@ table#UitstapOverzicht tr :hover{
 <div id="UitstapEigenschappenDiv" style="display:none;">
 <div class="panel panel-default">
 <div class="panel-body">
-<button type="button" class="btn btn-primary" id="btnUitstapBewerken">Uitstap Bewerken</button><br>
+<button type="button" class="btn btn-primary" id="btnUitstapBewerken">Uitstap Bewerken</button>&nbsp;<button type="button" class="btn btn-default" id="btnUitstapVerwijderen">Uitstap Verwijderen</button><br>
 <form class="form">
 <label class="control-label" for="VolledigeNaamKind">Kind toevoegen: </label><br>
 <input type="text" value="" class="typeahead form-control" name="VolledigeNaamKind">
@@ -161,6 +181,11 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
       $('#UitstapModal').modal('show');  
     };
     var uitstap_deelnemers_tabel = null;
+	function laad_uitstap_details_placeholder(){
+		$('#UitstapEigenschappenDiv').css('display', 'none');
+		$('#UitstapDeelnamesDiv').empty()
+			.append($('<div>').addClass('text-center').css('width', '100%').html('<em>details van de uitstap</em>'));
+	}
     function laad_uitstap(data){
         var eigenschappen_div = $('#UitstapEigenschappenDiv').css('display', 'inline');
         eigenschappen_div.find('input[name=VolledigeNaamKind]').val('');
@@ -168,6 +193,10 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             wijzig_uitstap(data);
             return false;
         });
+		eigenschappen_div.find('#btnUitstapVerwijderen').unbind('click').click(function(){
+			verwijder_uitstap(data);
+			return false;
+		})
         var suggesties = new Bloodhound({
            datumTokenizer:function(d){return Bloodhound.tokenizers.whitespace(d.value); },
            queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -258,6 +287,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             if(res == "1"){
                 $('#VerwijderUitstapModal').modal('hide');
                 uitstappen_tabel.laadTabel();
+				laad_uitstap_details_placeholder();
             }else{
                 console.log("uitstap verwijderen mislukt, error code: "+res);
             }
