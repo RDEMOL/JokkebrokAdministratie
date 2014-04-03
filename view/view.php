@@ -56,6 +56,11 @@ class View {
                         }
                         echo json_encode($result);
                         break;
+					case 'uitstapDetails':
+						$u = new Uitstap($_POST['Id']);
+						$result['content'] = $u->getJSONData();
+						echo json_encode($result);
+						break;
                     case 'uitstappenTabel':
                         $result = array();
                         $result['content']=array();

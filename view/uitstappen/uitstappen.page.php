@@ -148,6 +148,9 @@ typeahead, .tt-query, .tt-hint {
 </div>
 </div>
 <script>
+var laad_uitstap;
+var laad_uitstap_details_placeholder;
+var init_function = function(){};
 require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, require){
     function voeg_kind_toe(kind_id, uitstap_id){
         var d = new Object();
@@ -181,12 +184,14 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
       $('#UitstapModal').modal('show');  
     };
     var uitstap_deelnemers_tabel = null;
-	function laad_uitstap_details_placeholder(){
+	console.log("laad_uitstap_details_placeholder set");
+	laad_uitstap_details_placeholder = function(){
 		$('#UitstapEigenschappenDiv').css('display', 'none');
 		$('#UitstapDeelnamesDiv').empty()
 			.append($('<div>').addClass('text-center').css('width', '100%').html('<em>details van de uitstap</em>'));
 	}
-    function laad_uitstap(data){
+	console.log("setting done");
+    laad_uitstap = function(data){
         var eigenschappen_div = $('#UitstapEigenschappenDiv').css('display', 'inline');
         eigenschappen_div.find('input[name=VolledigeNaamKind]').val('');
         eigenschappen_div.find('#btnUitstapBewerken').unbind('click').click(function(){
@@ -262,6 +267,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     });
     $(document).ready(function(){
         uitstappen_tabel.laadTabel();
+		init_function();
     });
     $('#btnUitstapOpslaan').click(function(){
         $('#UitstapModal form').submit();
@@ -296,6 +302,30 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
 });
 </script>
 HERE;
+		if(isset($_REQUEST['UitstapId'])){
+			$id = $_REQUEST['UitstapId'];
+$content .= <<<HERE
+<script>
+init_function = function(){
+	console.log("in init!");
+	var data = new Object();
+	data.Id = $id;
+	$.post('?action=data&data=uitstapDetails', data, function(resp){
+		console.log("got data: "+JSON.stringify(resp));
+		laad_uitstap(JSON.parse(resp).content);
+	});
+};
+</script>
+HERE;
+		}else{
+			$content .= <<<HERE
+<script>
+init_function = function(){
+			console.log("calling M. placeholder!");
+		laad_uitstap_details_placeholder();};
+</script>
+HERE;
+		}
         $this->setContent($content);
     }
 }

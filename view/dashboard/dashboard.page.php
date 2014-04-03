@@ -81,10 +81,15 @@ HERE;
 		$uitstappen_rows = "";
 		$uitstappen = Uitstap::getUitstappen();
 		foreach($uitstappen as $u){
-			$uitstappen_rows.="<tr><td>".$u->getId()."</td><td>".$u->getOmschrijving()."</td><td>".$u->getAantalDeelnemers()."</td></tr>\n";
+			$uitstappen_rows.="<tr><td><input name=\"Id\" type=\"hidden\" value=\"".$u->getId()."\">".$u->getId()."</td><td>".$u->getOmschrijving()."</td><td>".$u->getAantalDeelnemers()."</td></tr>\n";
 		}
 		$content = <<<HERE
-<table class="table table-striped table-bordered">
+<style type="text/css">
+table#UitstapOverzicht tr :hover{
+    cursor:pointer;
+}
+</style>
+<table class="table table-bordered table-hover" id="UitstapOverzicht">
 <thead>
 	<tr>
 		<th>Datum</th>
@@ -96,6 +101,16 @@ HERE;
 $uitstappen_rows
 </tbody>
 </table>
+<script>
+
+function uitstap_clicked(id){
+	window.location.href = '?page=uitstappen&UitstapId='+id;
+}
+$('table#UitstapOverzicht').on("click", "tr", function(){
+	console.log("click!");
+	uitstap_clicked($(this).find('input[name=Id]').val());	
+});
+</script>
 HERE;
 		return $content;		
 	}
