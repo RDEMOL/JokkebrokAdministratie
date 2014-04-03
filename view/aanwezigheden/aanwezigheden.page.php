@@ -26,7 +26,7 @@ HERE;
         $extraatjes = Extraatje::getExtraatjes();
         $result = "<ul>";
         foreach($extraatjes as $e){
-            $result .= "<li><input class=\"form-control Extraatjes\" type=\"checkbox\" name=\"Extraatjes[]\" value=\"".$e->getId()."\">".$e->getOmschrijving()."</input>\n";
+            $result .= "<li><label class=\"checkbox-inline\"><input class=\"Extraatjes\" type=\"checkbox\" name=\"Extraatjes[]\" value=\"".$e->getId()."\"></input>".$e->getOmschrijving()."</label></li>\n";
         }
         $result .= "</ul>";
         return $result;
