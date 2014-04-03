@@ -7,6 +7,9 @@ class Uitstap extends Record{
         $this->Omschrijving = $data->Omschrijving;
         $this->Actief = $data->Actief;
     }
+	public function getOmschrijving(){
+		return $this->Omschrijving;
+	}
     public function getJSONData(){
         $db = new Database();
         $query = $db->getPDO()->prepare("SELECT * FROM Uitstap WHERE Id= :id ");
@@ -52,6 +55,9 @@ class Uitstap extends Record{
          }
          return $uitstappen;
      }
+	 public function getAantalDeelnemers(){
+	 	return count($this->getDeelnemers());
+	 }
      public function getDeelnemers(){
          $filter = array('Uitstap'=>$this->getId());
          return UitstapKind::getUitstapKinderen($filter);

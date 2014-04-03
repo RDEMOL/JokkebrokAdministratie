@@ -4,6 +4,7 @@ require_once(dirname(__FILE__)."/../../model/werkingen/werking.class.php");
 require_once(dirname(__FILE__)."/../../model/extraatjes/extraatje.class.php");
 require_once(dirname(__FILE__)."/../../model/speelpleindag/speelpleindag.class.php");
 require_once(dirname(__FILE__)."/../../model/extraatjes/extraatje_aanwezigheid.class.php");
+require_once(dirname(__FILE__)."/../../model/uitstappen/uitstap.class.php");
 
 
 class DashboardPage extends Page{
@@ -76,8 +77,31 @@ $werkingen_footer
 HERE;
         return $content;
     }
+	private function getUitstappenContent(){
+		$uitstappen_rows = "";
+		$uitstappen = Uitstap::getUitstappen();
+		foreach($uitstappen as $u){
+			$uitstappen_rows.="<tr><td>".$u->getId()."</td><td>".$u->getOmschrijving()."</td><td>".$u->getAantalDeelnemers()."</td></tr>\n";
+		}
+		$content = <<<HERE
+<table class="table table-striped table-bordered">
+<thead>
+	<tr>
+		<th>Datum</th>
+		<th>Beschrijving</th>
+		<th>#</th>
+	</tr>
+</thead>
+<tbody>
+$uitstappen_rows
+</tbody>
+</table>
+HERE;
+		return $content;		
+	}
     public function buildContent(){
         $aanwezighedenContent = $this->getAanwezighedenContent();
+		$uitstappenContent = $this->getUitstappenContent();
         $content = <<<HERE
 <div class="row">
 <div class="col-md-6">
@@ -92,12 +116,7 @@ $aanwezighedenContent
 <div class="panel panel-default">
 <div class="panel-heading"><strong>Uitstappen</strong></div>
 <div class="panel-body">
-<table class="table table-striped table-bordered">
-<thead><tr><th><th>a<th>b<th>c</thead>
-<tr><th>d<td>e<td>e<td>f
-<tr><th>d<td>e<td>e<td>f
-<tr><th>d<td>e<td>e<td>f
-</table>
+$uitstappenContent
 </div>
 </div>
 </div>
