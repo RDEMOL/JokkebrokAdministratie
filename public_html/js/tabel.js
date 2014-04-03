@@ -80,6 +80,5 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 		this.row_click_listener = row_click_listener;
 		this.updateBody();
 	};
-	//TODO: only update tbody
 	return Tabel;
 });

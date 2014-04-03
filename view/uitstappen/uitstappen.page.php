@@ -92,6 +92,8 @@ table#UitstapOverzicht tr :hover{
 <div id="UitstapEigenschappenDiv" style="display:none;">
 <div class="panel panel-default">
 <div class="panel-body">
+Omschrijving: <span id="txtOmschrijving"></span><br>
+Datum: <span id="txtDatum"></span><br>
 <button type="button" class="btn btn-primary" id="btnUitstapBewerken">Uitstap Bewerken</button>&nbsp;<button type="button" class="btn btn-default" id="btnUitstapVerwijderen">Uitstap Verwijderen</button><br>
 <form class="form">
 <label class="control-label" for="VolledigeNaamKind">Kind toevoegen: </label><br>
@@ -192,7 +194,10 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
 	}
 	console.log("setting done");
     laad_uitstap = function(data){
+    	console.log("data = "+JSON.stringify(data));
         var eigenschappen_div = $('#UitstapEigenschappenDiv').css('display', 'inline');
+		eigenschappen_div.find('#txtDatum').text(data['Datum']);
+		eigenschappen_div.find('#txtOmschrijving').text(data['Omschrijving']);
         eigenschappen_div.find('input[name=VolledigeNaamKind]').val('');
         eigenschappen_div.find('#btnUitstapBewerken').unbind('click').click(function(){
             wijzig_uitstap(data);
@@ -251,7 +256,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         uitstap_deelnemers_tabel.laadTabel();
     };
     function uitstap_clicked(row){
-        row.getElement().addClass('active').siblings().removeClass('active');
+        //row.getElement().addClass('active').siblings().removeClass('active');
         laad_uitstap(row.getData());
     };
     var k = new Array();
@@ -273,12 +278,19 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('#UitstapModal form').submit();
     });
     $('#UitstapModal form').submit(function(){
+    	var id = $('#UitstapModal form input[name=Id]').val();
         console.log("serialized gives: "+$('#UitstapModal form').serialize());
-       $.post('index.php?action=updateUitstap', $('#UitstapModal form').serialize(), function(r){
+       	$.post('index.php?action=updateUitstap', $('#UitstapModal form').serialize(), function(r){
            r = $.trim(r);
            console.log("update uitstap result: "+r);
            if(r == "1"){
-                uitstappen_tabel.laadTabel();
+           		var d = new Object();
+			   	d.Id = id;
+				uitstappen_tabel.laadTabel();
+           		$.post('index.php?action=data&data=uitstapDetails', d, function(res){
+           			console.log("res = "+res);
+           			laad_uitstap(JSON.parse(res).content);
+           		});
                 $('#UitstapModal').modal('hide');
            }else{
                console.log("update Uitstap mislukt");
