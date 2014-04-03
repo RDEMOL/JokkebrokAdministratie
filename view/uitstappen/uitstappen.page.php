@@ -66,7 +66,7 @@ HERE;
         $content = $this->getUitstapModal();
         $content .= <<<HERE
 <style type="text/css">
-table#UitstapOverzicht tr :hover{
+table#UitstapOverzicht tbody tr :hover{
     cursor:pointer;
 }
 </style>
