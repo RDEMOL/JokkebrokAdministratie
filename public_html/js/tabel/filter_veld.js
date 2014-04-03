@@ -10,6 +10,9 @@ define(function(){
 		}
 		this.setData(data);
 	};
+	FilterVeld.prototype.getSpan = function(){
+		return this.span;
+	};
 	FilterVeld.prototype.setData = function(data){
 		this.data = data;
 		this.update();

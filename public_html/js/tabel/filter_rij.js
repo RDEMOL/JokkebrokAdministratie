@@ -21,8 +21,14 @@ define(['./rij'], function(Kolom){
 	};
 	FilterRij.prototype.update = function(){
 		this.element.empty();
+		var aantal_kolommen = 0;
 		for(var i = 0; i < this.filter_velden.length; ++i){
+			aantal_kolommen += this.filter_velden[i].getSpan();
 			this.element.append(this.filter_velden[i].getElement());
+		}
+		console.log("parent kolommen amount = "+this.parent_tabel.getKolommenAmount());
+		for(var i = aantal_kolommen; i < this.parent_tabel.getKolommenAmount(); ++i){
+			this.element.append($('<td>'));
 		}
 	};
 	FilterRij.prototype.getElement = function(){
