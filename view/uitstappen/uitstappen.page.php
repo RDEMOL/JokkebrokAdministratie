@@ -36,7 +36,7 @@ class UitstappenPage extends Page{
                 <h4 class="modal-title">Nieuwe uitstap toevoegen</h4>
             </div>
             <div class="modal-body">
-                <form class="form-inline">
+                <form class="form-inline" id="UitstapForm">
                     <input type="hidden" name="Id" value="0">
                     <div class="row">
                         <label class="control-label" for="Datum">Datum: </label>
@@ -59,6 +59,13 @@ class UitstappenPage extends Page{
         </div>
     </div>
 </div>
+<script>
+$(document).ready(function(){
+	$('form#UitstapForm input[name="Datum"]').datepicker({'format':'yyyy-mm-dd'}).on('changeDate', function(){
+        $('form#UitstapForm input[name="Datum"]').datepicker('hide');
+    });
+});
+</script>
 HERE;
         return $content;
     }
@@ -166,7 +173,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     };
     function wijzig_uitstap(data){
         clearUitstapForm();
-        $('#UitstapModal input[name=Datum]').val(data['Datum']);
+        $('#UitstapModal input[name=Datum]').val(data['Datum']).datepicker('update');
         $('#UitstapModal input[name=Omschrijving]').val(data['Omschrijving']);
         $('#UitstapModal input[name=Id]').val(data['Id']);
         $('#UitstapModal input[name=Actief]').prop('checked', data['Actief']=='1');
