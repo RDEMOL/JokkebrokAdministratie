@@ -81,7 +81,7 @@ HERE;
 		$uitstappen_rows = "";
 		$uitstappen = Uitstap::getUitstappen();
 		foreach($uitstappen as $u){
-			$uitstappen_rows.="<tr><td><input name=\"Id\" type=\"hidden\" value=\"".$u->getId()."\">".$u->getId()."</td><td>".$u->getOmschrijving()."</td><td>".$u->getAantalDeelnemers()."</td></tr>\n";
+			$uitstappen_rows.="<tr><td><input name=\"Id\" type=\"hidden\" value=\"".$u->getId()."\">".$u->getDatum()."</td><td>".$u->getOmschrijving()."</td><td>".$u->getAantalDeelnemers()."</td></tr>\n";
 		}
 		$content = <<<HERE
 <style type="text/css">

@@ -10,6 +10,9 @@ class Uitstap extends Record{
 	public function getOmschrijving(){
 		return $this->Omschrijving;
 	}
+	public function getDatum(){
+		return $this->Datum;
+	}
     public function getJSONData(){
         $db = new Database();
         $query = $db->getPDO()->prepare("SELECT * FROM Uitstap WHERE Id= :id ");
