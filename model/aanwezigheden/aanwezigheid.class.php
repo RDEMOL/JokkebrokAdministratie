@@ -76,6 +76,58 @@ class Aanwezigheid extends Record{
             $query->bindParam(':extraatje_id', $filter['Extraatjes'], PDO::PARAM_INT);
         }
     }
+	protected static function getOrderSQL($order){
+		if(count($order) == 0)
+			return "";
+		$first = true;
+		$sql = "ORDER BY";
+		foreach($order as $o){
+			$curr_sql = " ";
+			if(!$first){
+				$curr_sql = ", ";
+			}
+			if(!isset($o['Veld']) || !isset($o['Order'])){
+				continue;
+			}
+			$stop = false;
+			switch($o['Veld']){
+				case 'Naam':
+					$curr_sql .= " K.Naam";
+					break;
+				case 'Voornaam':
+					$curr_sql .= " K.Voornaam";
+					break;
+				case 'Geboortejaar':
+					$curr_sql .= " K.Geboortejaar";
+					break;
+				case 'Datum':
+					$curr_sql .= " Datum";
+					break;
+				default:
+					$stop = true;
+					break;
+			}
+			switch(strtolower($o['Order'])){
+				case 'asc':
+					$curr_sql.= " ASC";
+					break;
+				case 'desc':
+					$curr_sql .= " DESC";
+					break;
+				default:
+					$stop =true;
+					break;
+			}
+			if($stop)
+				continue;
+			$sql .= $curr_sql;
+			$first = false;
+		}
+		if($first){
+			return "";
+		}
+		return $sql;
+	}
     public static function countAanwezigheden($filter){
         $sql = "SELECT COUNT(*) as Amount FROM Aanwezigheid WHERE 1 ";
         $sql .= static::getFilterSQL($filter);
@@ -85,11 +137,14 @@ class Aanwezigheid extends Record{
         $res = $query->fetch();
         return $res['Amount'];
     }
-    public static function getAanwezigheden($filter){
+    public static function getAanwezigheden($filter, $order){
         $sql = "SELECT A.Id as Id, A.Datum as Datum, A.KindVoogd as KindVoogd, A.Werking as Werking, A.Opmerkingen as Opmerkingen FROM Aanwezigheid A LEFT JOIN KindVoogd KV on KV.Id=A.KindVoogd LEFT JOIN Kind K ON K.Id=KV.Kind ";
         $sql .= static::getFilterJoinsSQL($filter);
         $sql .= " WHERE 1 ";
         $sql .= static::getFilterSQL($filter);
+        if($order){
+        	$sql .= static::getOrderSQL($order);
+        }
         $query = Database::getPDO()->prepare($sql);
         static::applyFilterParameters($query, $filter);
         $query->execute();

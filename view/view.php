@@ -91,9 +91,13 @@ class View {
                         if(isset($_POST['filter'])){
                             $filter = $_POST['filter'];
                         }
+						$order = array();
+						if(isset($_POST['order'])){
+							$order = $_POST['order'];
+						}
                         $result = array();
                         $result['content'] = array();
-                        $aanwezigheden = Aanwezigheid::getAanwezigheden($filter);
+                        $aanwezigheden = Aanwezigheid::getAanwezigheden($filter, $order);
                         foreach($aanwezigheden as $a){
                             $result['content'][] = $a->getJSONData();
                         }

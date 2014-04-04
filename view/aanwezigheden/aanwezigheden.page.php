@@ -275,9 +275,9 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('#aanwezigheidModal').modal('show');  
     };
     var k = new Array();
-    k.push(new Kolom('Datum', 'Datum'));
-    k.push(new Kolom('Voornaam','Voornaam'));
-    k.push(new Kolom('Naam','Naam'));
+    k.push(new Kolom('Datum', 'Datum', null, true));
+    k.push(new Kolom('Voornaam','Voornaam', null, true));
+    k.push(new Kolom('Naam','Naam', null, true));
     k.push(new Kolom('Werking','Werking'));
     k.push(new Kolom('Extraatjes', 'Extraatjes', function(data){
         var td = $('<td>');
