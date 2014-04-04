@@ -28,6 +28,20 @@ define(function(){
 					this.sortable_order = "asc";
 					break;
 			}
+			switch(this.sortable_order){
+				case "asc":
+					this.th_up_arrow.hide();
+					this.th_down_arrow.show();
+					break;
+				case "desc":
+					this.th_up_arrow.show();
+					this.th_down_arrow.hide();
+					break;
+				default:
+					this.th_up_arrow.hide();
+					this.th_down_arrow.hide();
+					break;
+			}
 			if(this.getParent()){
 				this.getParent().setSort(this.id, this.sortable_order);
 			}
@@ -53,11 +67,16 @@ define(function(){
 		var self = this;
 		var th = $('<th>').append($('<span>').text(this.label));
 		if(this.getSortable()){
+			this.th_up_arrow = $('<span>').addClass('glyphicon glyphicon-arrow-up').hide();
+			this.th_down_arrow = $('<span>').addClass('glyphicon glyphicon-arrow-down').hide();
+			th.append(this.th_up_arrow);
+			th.append(this.th_down_arrow);
 			th.click(function(){
 				console.log("th click");
 				self.sortChange();
 			});
 		}
+		this.th = th;
 		return th;
 	};
 	return Kolom;
