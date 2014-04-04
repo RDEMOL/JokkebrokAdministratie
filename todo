@@ -1,14 +1,11 @@
 voogd weergeven (indien meerdere voogden)
 saldo
 uitstappen:	
-	Kinderen toevoegen via uitstappenoverzicht (kind of kindvoogd?)
 	kinderen toevoegen via kinderenoverzicht
+	kinderen toevoegen via aanwezighedenoverzicht
 	uitstappen deactiveren (Floris op een pintje trakteren om hem terug te krijgen :D)
-
 
 abort queries
 aanwezigheden per dag opschuiven
 
-kolomhoofd klikken -> sorteren op kolom
 pdf print-out -> hoe kolommen selecteren die geprint worden?
-uitstap wijzigen: datum datepicker
