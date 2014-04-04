@@ -29,9 +29,13 @@ class View {
                         if(isset($_POST['filter'])){
                             $filter = $_POST['filter'];
                         }
+						$order = array();
+						if(isset($_POST['order'])){
+							$order = $_POST['order'];
+						}
                         $result = array();
                         $result['content']=array();
-                        $kinderen = Kind::getKinderen($filter);
+                        $kinderen = Kind::getKinderen($filter, 0, $order);
                         foreach($kinderen as $k){
                             $result['content'][]=$k->getJSONData();
                         }

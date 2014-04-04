@@ -78,11 +78,59 @@ class Kind extends Record{
             $query->bindParam(':werking_id', $filter['Werking'], PDO::PARAM_INT);
         }
     }
-    public static function getKinderen($filter, $max_amount=0){
+	protected static function getOrderSQL($order){
+		if(count($order) == 0)
+			return "";
+		$first = true;
+		$sql = "ORDER BY";
+		foreach($order as $o){
+			$curr_sql = " ";
+			if(!$first){
+				$curr_sql = ", ";
+			}
+			if(!isset($o['Veld']) || !isset($o['Order'])){
+				continue;
+			}
+			$stop = false;
+			switch($o['Veld']){
+				case 'Naam':
+				case 'Voornaam':
+				case 'Geboortejaar':
+					$curr_sql .= " ".$o['Veld'];
+					break;
+				default:
+					$stop = true;
+					break;
+			}
+			switch(strtolower($o['Order'])){
+				case 'asc':
+					$curr_sql.= " ASC";
+					break;
+				case 'desc':
+					$curr_sql .= " DESC";
+					break;
+				default:
+					$stop =true;
+					break;
+			}
+			if($stop)
+				continue;
+			$sql .= $curr_sql;
+			$first = false;
+		}
+		if($first){
+			return "";
+		}
+		return $sql;
+	}
+    public static function getKinderen($filter, $max_amount=0, $order=array()){
         $sql = "SELECT * FROM Kind WHERE 1 ";
         $sql .= static::getFilterSQL($filter);
         if(intval($max_amount)){
-            $sql .= "LIMIT ".intval($max_amount);
+            $sql .= "LIMIT ".intval($max_amount)." ";
+        }
+        if($order){
+        	$sql .= static::getOrderSQL($order);
         }
         $query = Database::getPDO()->prepare($sql);
         static::applyFilterParameters($query, $filter);

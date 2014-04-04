@@ -213,9 +213,9 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('#kindModal').modal('show');  
     };
     var k = new Array();
-    k.push(new Kolom('Voornaam','Voornaam'));
-    k.push(new Kolom('Naam','Naam'));
-    k.push(new Kolom('Geboortejaar', 'Geboortejaar'));
+    k.push(new Kolom('Voornaam','Voornaam', null, true));
+    k.push(new Kolom('Naam','Naam', null, true));
+    k.push(new Kolom('Geboortejaar', 'Geboortejaar', null, true));
     k.push(new Kolom('Werking','Werking'));
     k.push(new Kolom('Info', 'Extra Info', function(data){
         var td = $('<td>');
