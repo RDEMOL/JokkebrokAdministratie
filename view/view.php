@@ -10,6 +10,7 @@ require_once (dirname(__FILE__) . "/../model/voogden/voogd.class.php");
 require_once (dirname(__FILE__) . "/../model/aanwezigheden/aanwezigheid.class.php");
 require_once (dirname(__FILE__) . "/../model/uitstappen/uitstap.class.php");
 require_once (dirname(__FILE__) . "/../helpers/log.php");
+require_once (dirname(__FILE__) . "/../helpers/pdf/pdf_generator.class.php");
 
 class View {
     protected $controller,$model;
@@ -86,6 +87,30 @@ class View {
                         }
                         echo json_encode($result);
                         break;
+					case 'aanwezighedenPDF':
+						$order =array();
+						$filter = null;
+						if(isset($_REQUEST['filter'])){
+							$filter = $_REQUEST['filter'];
+						}
+						if(isset($_REQUEST['order'])){
+							$order = $_REQUEST['order'];
+						}
+						$kolommen = array();
+						if(isset($_REQUEST['kolommen'])){
+							$kolommen = $_REQUEST['kolommen'];
+						}
+						//$kolommen = array('Datum', 'Naam', 'Voornaam');
+						$aanwezigheden = Aanwezigheid::getAanwezigheden($filter, $order);
+						$data = array();
+						foreach($aanwezigheden as $a){
+							$data[] = $a->getJSONData();
+						}
+						Log::writeLog("pdf generation", "initializing");
+						$pdf_generator = new PdfGenerator($data, $kolommen);
+						$pdf_generator->outputPDF();
+						//echo "ok";
+						break;
                     case 'aanwezighedenTabel':
                         $filter = null;
                         if(isset($_POST['filter'])){

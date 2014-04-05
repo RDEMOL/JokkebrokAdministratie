@@ -151,9 +151,6 @@ typeahead, .tt-query, .tt-hint {
                 <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
                 <button type="button" class="btn btn-primary" id="submitAanwezigheid">Toevoegen</button>
             </div>
-            <script>
-            
-            </script>
         </div>
     </div>
 </div>
@@ -186,7 +183,28 @@ HERE;
 HERE;
         return $content;
     }
-
+	private function getPDFModal(){
+		$content = <<<HERE
+<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="pdfModalTitle">PDF genereren</h4>
+			</div>
+			<div class="modal-body">
+				Welke kolommen wilt u afdrukken?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+				<button type="button" class="btn btn-primary" id="btnPDF">PDF genereren</button>
+			</div>
+		</div>
+	</div>
+</div>
+HERE;
+		return $content;
+	}
     public function buildContent() {
         
         $werkingen = Werking::getWerkingen();
@@ -209,12 +227,13 @@ HERE;
         $datum = $vandaag->getDatum();
         $content = $this->getAanwezigheidModal();
         $content .= $this->getVerwijderenModal();
+		$content .= $this->getPDFModal();
         $content .= <<<HERE
         
 <div class="row">
     <button class="btn btn-large btn-primary" id="btnNieuweAanwezigheid">Aanwezigheid</button>
     <div class="pull-right">
-        <button id="btnPdf" class="btn">Pdf tonen</button>
+        <button id="btnPDFModal" class="btn">Pdf tonen</button>
     </div>
 </div>
 <br>
@@ -373,6 +392,26 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
                 console.log("Aanwezigheid verwijderen mislukt, error code: "+res);
             }
        });
+   });
+   $('#btnPDFModal').click(function(){
+   		$('#pdfModal').modal('show');
+   });
+   $('#btnPDF').click(function(){
+   		//find columns
+   		//loading sign
+   		//send query to index.php?pdfAanwezigheden with filter + ordering + columns
+   		var data = new Object();
+		data.kolommen = new Array('Datum', 'Naam', 'Voornaam');
+		data.action="data";
+		data.data="aanwezighedenPDF";
+		//$.get('index.php', data);
+		//window.location.href = 'index.php?'+$.param(data);
+		window.open('index.php?'+$.param(data));
+   		/*$.get('index.php?action=data&data=aanwezighedenPDF', data, function(resp){
+   			console.log("received pdf data: ");
+			console.log(JSON.stringify(resp));
+   			$('#pdfModal').modal('hide');
+		});*/
    });
 });
 </script>
