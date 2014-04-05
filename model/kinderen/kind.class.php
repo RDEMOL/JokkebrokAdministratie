@@ -60,23 +60,32 @@ class Kind extends Record{
     }
     protected static function getFilterSQL($filter){
         $sql = "";
+		Log::writeLog("filter", json_encode($filter));
         if(isset($filter['VolledigeNaam'])){
+        	Log::writeLog("filter", "volledige naam = ".$filter['VolledigeNaam']);
             $sql .= "AND (CONCAT(Naam, ' ', Voornaam) LIKE :volledige_naam ";
             $sql .= " OR CONCAT(Voornaam, ' ', Naam) LIKE :volledige_naam2) ";
         }
         if(isset($filter['Werking'])){
             $sql .= "AND DefaultWerking = :werking_id ";
         }
+        if(isset($filter['Geboortejaar'])){
+        	$sql .= "AND Geboortejaar = :geboortejaar ";
+        }
         return $sql;
     }
     protected static function applyFilterParameters($query, $filter){
         if(isset($filter['VolledigeNaam'])){
-            $query->bindParam(':volledige_naam', $tmp = '%'.$filter['VolledigeNaam'].'%', PDO::PARAM_STR);
+        	$tmp = '%'.$filter['VolledigeNaam'].'%';
+            $query->bindParam(':volledige_naam', $tmp, PDO::PARAM_STR);
             $query->bindParam(':volledige_naam2', $tmp = '%'.$filter['VolledigeNaam'].'%', PDO::PARAM_STR);
         }
         if(isset($filter['Werking'])){
             $query->bindParam(':werking_id', $filter['Werking'], PDO::PARAM_INT);
         }
+		if(isset($filter['Geboortejaar'])){
+			$query->bindParam(':geboortejaar', $filter['Geboortejaar'], PDO::PARAM_INT);
+		}
     }
 	protected static function getOrderSQL($order){
 		if(count($order) == 0)
@@ -139,6 +148,7 @@ class Kind extends Record{
         while($rs = $query->fetch(PDO::FETCH_OBJ)){
             $kinderen[] = new Kind($rs);
         }
+		Log::writeLog("getkinderen", "selected ".count($kinderen));
         return $kinderen;
     }
     public function getKindVoogden(){

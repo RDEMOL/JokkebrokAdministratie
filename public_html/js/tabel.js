@@ -42,10 +42,10 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 		console.log("url = "+this.url+", data = "+JSON.stringify(data));
 		$.post(this.url, data, function(res){
 			console.log("res = "+res);
-			self.data = res.content;
+			self.data = JSON.parse(res).content;
 			console.log("new self data = "+JSON.stringify(self.data));
 			self.updateBody();
-		}, "json");
+		});
 	};
 	Tabel.prototype.getTHead = function(){
 		var headTR = $('<tr>');

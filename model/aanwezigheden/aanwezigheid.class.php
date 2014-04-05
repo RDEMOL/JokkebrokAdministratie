@@ -63,8 +63,9 @@ class Aanwezigheid extends Record{
     }
     protected static function applyFilterParameters($query, $filter){
          if(isset($filter['VolledigeNaam'])){
-            $query->bindParam(':volledige_naam', $tmp = '%'.$filter['VolledigeNaam'].'%', PDO::PARAM_STR);
-            $query->bindParam(':volledige_naam2', $tmp = '%'.$filter['VolledigeNaam'].'%', PDO::PARAM_STR);
+         	$tmp = '%'.$filter['VolledigeNaam'].'%';
+            $query->bindParam(':volledige_naam', $tmp, PDO::PARAM_STR);
+            $query->bindParam(':volledige_naam2', $tmp, PDO::PARAM_STR);
         }
         if(isset($filter['Datum'])){
             $query->bindParam(':datum', $filter['Datum'], PDO::PARAM_STR);
