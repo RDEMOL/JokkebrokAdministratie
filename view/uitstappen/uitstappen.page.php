@@ -248,7 +248,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         //add table
         var tabel_div = $('<div>');
         div.append(tabel_div);
-        var tabel = $('<table>').addClass('table table-hover table-bordered');
+        var tabel = $('<table>').addClass('table table-hover table-bordered table-condensed');
         tabel_div.append(tabel);
         var uitstap_deelnemers_kolommen = new Array();
         uitstap_deelnemers_kolommen.push(new Kolom('Naam', 'Naam'));

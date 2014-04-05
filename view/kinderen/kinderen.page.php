@@ -235,7 +235,7 @@ HERE;
 </div>
 <br>
 <div class="row">
-<table class="table table-striped table-bordered" id="kinderen_tabel">
+<table class="table table-striped table-bordered table-condensed" id="kinderen_tabel">
 </table>
 </div>
 <script>

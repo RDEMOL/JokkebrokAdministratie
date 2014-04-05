@@ -254,7 +254,7 @@ HERE;
 </div>
 <br>
 <div class="row">
-<table class="table table-striped table-bordered" id="aanwezigheden_tabel">
+<table class="table table-striped table-bordered table-condensed" id="aanwezigheden_tabel">
 </table>
 </div>
 <script>
