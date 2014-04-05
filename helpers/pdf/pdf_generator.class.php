@@ -22,10 +22,18 @@ class PdfGenerator{
 		$content .= "</tr>";
 		$content .= "</thead>";
 		$content .= "<tbody>";
+		$counter = 0;
 		foreach($this->data as $d){
+			++$counter;
 			$tr = "<tr>";
 			foreach($this->columns as $c){
-				$tr .= "<td>".$d->$c."</td>";
+				$td_content = "";
+				if($c == 'Nummer'){
+					$td_content = $counter;
+				}else{
+					$td_content = $d->$c;
+				}
+				$tr .= "<td>".$td_content."</td>";
 			}
 			$tr.="</tr>";
 			$content .= $tr;

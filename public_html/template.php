@@ -10,6 +10,7 @@ if(!$this){
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title><?php echo $this->getTitle(); ?> - Jokkebrok Administratie</title>
         <script src="libs/jquery-1.11.0.js"></script>
+		<script src="libs/jquery.sortable.min.js"></script>
         <script data-main="js/main" src="./libs/require.js"></script>
 		<link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	    <link href="libs/bootstrap-datepicker/css/datepicker.css" rel="stylesheet">

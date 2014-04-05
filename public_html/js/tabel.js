@@ -25,6 +25,9 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 		this.filter = filter;
 		this.laadTabel();
 	};
+	Tabel.prototype.getFilter = function(){
+		return this.filter;
+	};
 	Tabel.prototype.setFilterRij = function(filterRij){
 		this.filterRij = filterRij;
 	};

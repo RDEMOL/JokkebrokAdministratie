@@ -194,6 +194,22 @@ HERE;
 			</div>
 			<div class="modal-body">
 				Welke kolommen wilt u afdrukken?
+				<div class="row">
+				<div class="col-md-6">
+				Weergeven
+				<ul id="pdfSelectedFields" class="pdfFields">
+				<li>a
+				<li>b
+				</ul>
+				</div>
+				<div class="col-md-6">
+				Verbergen
+				<ul id="pdfUnselectedFields" class="pdfFields">
+				<li>c
+				<li>d
+				</ul>
+				</div>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
@@ -365,7 +381,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
        //d.Extraatjes = serialized.Extraatjes;
        d.Extraatjes = new Array();
        $('#aanwezigheidForm input[type=checkbox].Extraatjes:checked').each(function(index, e){
-           
            console.log("checked: val = "+$(e).val());
             d.Extraatjes.push($(e).val());
        });
@@ -393,7 +408,15 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             }
        });
    });
+   var pdf_fields = new Array('Naam', 'Voornaam', 'Datum', 'Extraatjes', 'Info', 'Werking');
    $('#btnPDFModal').click(function(){
+   		$('#pdfSelectedFields').empty().unbind('sortupdate');
+		$('#pdfUnselectedFields').empty().unbind('sortupdate');
+		for(var i = 0; i < pdf_fields.length; ++i){
+			$('#pdfUnselectedFields').append($('<li>').text(pdf_fields[i]).attr('draggable', 'true'));
+		}
+		$('#pdfSelectedFields').append($('<li>').text('Nummer').addClass('disabled'));
+		$('#pdfSelectedFields, #pdfUnselectedFields').sortable({connectWith:'.pdfFields', items:':not(.disabled)'});
    		$('#pdfModal').modal('show');
    });
    $('#btnPDF').click(function(){
@@ -401,17 +424,20 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
    		//loading sign
    		//send query to index.php?pdfAanwezigheden with filter + ordering + columns
    		var data = new Object();
-		data.kolommen = new Array('Datum', 'Naam', 'Voornaam');
+		//data.kolommen = new Array('Datum', 'Naam', 'Voornaam');
+		data.kolommen = new Array();
+		$('#pdfSelectedFields li').each(function(index, value){
+			console.log("text = "+$(this).text());
+			data.kolommen.push($(this).text());
+		});
+		console.log("kolommen = "+JSON.stringify(data.kolommen));
 		data.action="data";
 		data.data="aanwezighedenPDF";
-		//$.get('index.php', data);
-		//window.location.href = 'index.php?'+$.param(data);
+		data.filter = t.getFilter();
+		data.order = t.getSort();
 		window.open('index.php?'+$.param(data));
-   		/*$.get('index.php?action=data&data=aanwezighedenPDF', data, function(resp){
-   			console.log("received pdf data: ");
-			console.log(JSON.stringify(resp));
-   			$('#pdfModal').modal('hide');
-		});*/
+		$('#pdfModal').modal('hide');
+
    });
 });
 </script>
