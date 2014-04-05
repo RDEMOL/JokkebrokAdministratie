@@ -100,6 +100,22 @@ class Controller {
                     $uitstap_kind->deleteFromDatabase();
                     echo "1";
                     exit;
+				case 'updateVoogd':
+					$data = new stdClass();
+					if(isset($_REQUEST['Id'])){
+						$data->Id = $_REQUEST['Id'];
+					}else{
+						$data->Id = 0;
+					}
+					$data->Naam = $_REQUEST['Naam'];
+					$data->Voornaam = $_REQUEST['Voornaam'];
+					$data->Opmerkingen = $_REQUEST['Opmerkingen'];
+					$voogd = new Voogd($data);
+					$voogd->updateDatabase();
+					$return_data = new stdClass();
+					$return_data->Id = $voogd->getId();
+					echo json_encode($return_data);
+					exit;
                 default:
                     return;
             }
@@ -112,7 +128,7 @@ class Controller {
         exit ;
     }
     private function updateKind($data){
-        $voogd_amount = $data['voogd_amount'];
+        /*$voogd_amount = $data['voogd_amount'];
         $voogden = array();
         $kind_voogd_info = array();
         for($i = 0; $i < $voogd_amount; ++$i){
@@ -130,7 +146,7 @@ class Controller {
             $kvi->Id = $voogd_data->KindVoogdId;
             $kvi->Voogd = $v->getId();
             $kind_voogd_info[] = $kvi;
-        }
+        }*/
         $stripped_data = new stdClass();
         $stripped_data->Id = $data['Id'];
         $stripped_data->Voornaam = $data['Voornaam'];
@@ -140,8 +156,8 @@ class Controller {
         $stripped_data->Belangrijk = $data['Belangrijk'];
         $k = new Kind($stripped_data);
         $res = $k->updateDatabase();
-        $res2 = $k->setKindVoogden($kind_voogd_info);
-        
+        $voogden = $data['VoogdIds'];
+		$k->setVoogdIds($voogden);
         echo "1";
     }
     private function updateAanwezigheid($data){

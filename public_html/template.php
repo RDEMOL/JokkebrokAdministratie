@@ -14,6 +14,8 @@ if(!$this){
         <script data-main="js/main" src="./libs/require.js"></script>
 		<link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	    <link href="libs/bootstrap-datepicker/css/datepicker.css" rel="stylesheet">
+	    <link href="libs/bootstrap-modal/css/" rel="stylesheet">
+	    <link href="libs/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet">
 		<style type="text/css">
 			html, body {
 				height: 100%;
@@ -103,9 +105,7 @@ if(!$this){
 				</div>
 			</div>
 			<div class="container" id="content-container">
-                <!--<h1><?php echo $this->getTitle(); ?></h1>-->
 				<?php echo $this->getContent(); ?>
-
 			</div>
 		</div>
 		<div id="footer">
@@ -118,6 +118,8 @@ if(!$this){
 		<script src="libs/bootstrap/js/bootstrap.min.js"></script>
 		<script src="libs/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 		<script src="libs/typeahead.bundle.js"></script>
+		<script src="libs/bootstrap-modal/js/bootstrap-modal.js"></script>
+		<script src="libs/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
 		<script>
 		    $('#navbar li#<?php echo $this->getCurrentTab(); ?>').addClass('active');
 		</script>

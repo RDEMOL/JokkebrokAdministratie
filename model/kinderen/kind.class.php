@@ -173,26 +173,6 @@ class Kind extends Record{
         }
         return $ids;
     }
-    public function getKindVoogdenIds(){
-        $voogden = $this->getKindVoogden();
-        $voogden_ids = array();
-        foreach($voogden as $v){
-            $voogden_ids[] = $v->getId();
-        }
-        return $voogden_ids;
-    }
-    //move to KindVoogd class (kv_id!)
-    public function removeKindVoogd($v_id){
-        $kv = new KindVoogd($v_id);
-        $kv->deleteFromDatabase();
-        /*$sql = "DELETE FROM KindVoogd WHERE Voogd = :voogd_id AND Kind = :kind_id";
-        $query = Database::getPDO()->prepare($sql);
-        $kind_id = $this->getId();
-        $voogd_id = $v_id;
-        $query->bindParam(':voogd_id', $voogd_id, PDO::PARAM_INT);
-        $query->bindParam(':kind_id', $kind_id, PDO::PARAM_INT);
-        $query->execute();*/
-    }
     public function addVoogd($v_id){
         $data = new stdClass();
         $data->Id = 0;
@@ -200,71 +180,19 @@ class Kind extends Record{
         $data->Voogd=$v_id;
         $v = new KindVoogd($data);
         $v->updateDatabase();
-        /*$sql = "INSERT INTO KindVoogd (Voogd, Kind) VALUES(:voogd_id, :kind_id)";
-        $query = Database::getPDO()->prepare($sql);
-        $kind_id = $this->getId();
-        $voogd_id = $v_id;
-        $query->bindParam(':voogd_id', $voogd_id, PDO::PARAM_INT);
-        $query->bindParam(':kind_id', $kind_id, PDO::PARAM_INT);
-        $query->execute();*/
     }
-    //kind_voogd_info: array of KindVoogd.Id and Voogd.Id
-    public function setKindVoogden($kind_voogd_info){
-        $voogden = $this->getKindVoogden();
-        foreach($voogden as $v){
-            $good = false;
-            foreach($kind_voogd_info as $kvi){
-                if($v->getId() == $kvi->Id){
-                    $good = true;
-                    break;
-                }
-            }
-            if(!$good)
-                $v->deleteFromDatabase();
-        }
-        foreach($kind_voogd_info as $kvi){
-            $kvi->Kind=$this->getId();
-            Log::writeLog("adding kind voogd", json_encode($kvi));
-            $kv = new KindVoogd($kvi);
-            $kv->updateDatabase();
-        }
-    }
-    public function setVoogden($voogd_ids){
-        $voogden = $this->getKindVoogden();
-        foreach($voogden as $v){
-            $good = false;
-            foreach($voogd_ids as $v_id){
-                if($v->getVoogdId() == $v_id){
-                    $good = true;
-                    break;
-                }
-            }
-            if(!$good)
-                $v->deleteFromDatabase();
-            /*if(!$good){
-                $this->removeKindVoogd($v->getId());
-            }*/
-        }
-        foreach($voogd_ids as $v_id){
-            $good = false;
-            foreach($voogden as $v){
-                if($v->getId() == $v_id){
-                    $good = true;
-                    break;
-                }
-            }
-            if(!$good){
-                $this->addVoogd($v_id);
-            }
-        }
-    }
+	public function setVoogdIds($voogd_ids){
+		foreach($voogd_ids as $vi){
+			$this->addVoogd($vi);
+		}
+	}
     public function getJSONData(){
         $query = Database::getPDO()->prepare("SELECT K.Id as Id, K.Voornaam as Voornaam, K.Naam as Naam, K.Geboortejaar as Geboortejaar, K.Belangrijk as Belangrijk, W.Afkorting as Werking, K.DefaultWerking as DefaultWerking FROM Kind K LEFT JOIN Werking W ON K.DefaultWerking=W.Id WHERE K.Id=:id");
         $id = $this->getId();
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();
         $obj = $query->fetch(PDO::FETCH_OBJ);
-        $obj->KindVoogdIds = $this->getKindVoogdenIds();
+        $obj->VoogdenIds = $this->getVoogdenIds();
         return $obj; 
     }
 }

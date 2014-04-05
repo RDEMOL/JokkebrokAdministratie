@@ -182,9 +182,51 @@ class View {
                         Log::writeLog("result encoded ",json_encode($result));
                         break;
                     case 'voogdInfo':
-                        $kvoogd = new KindVoogd($_GET['kind_voogd_id']);
-                        $voogd = $kvoogd->getVoogd();
+						$voogd = null;
+						if(isset($_REQUEST['VoogdId'])){
+							$voogd = new Voogd($_REQUEST['VoogdId']);
+						}else{
+                        	$kvoogd = new KindVoogd($_GET['kind_voogd_id']);
+                        	$voogd = $kvoogd->getVoogd();
+						}
                         echo json_encode($voogd->getJSONData());
+                        break;
+					case 'voogdenSuggesties':
+                        $query = $_GET['query'];
+                        $result = array();
+                        $result['content']=array();
+                        $filter = array();
+                        $filter['VolledigeNaam'] = $query;
+                        $voogden = Voogd::getVoogden($filter, 10);
+						if(count($voogden) < 10){
+							$kinderen = Kind::getKinderen($filter, 10-count($voogden));
+							foreach($kinderen as $k){
+								$kind_voogden = $k->getKindVoogden();
+								foreach($kind_voogden as $kv){
+									if(count($voogden) == 10)
+										break;
+									$voogden[] = $kv->getVoogd();
+								}
+							}
+						}
+                        foreach($voogden as $v){
+                        	$kinderen_string = "";
+							$kinderen = $v->getKinderen();
+							if(count($kinderen)>0){
+								$kinderen_string.="(Voogd van ";
+								$first = true;
+								foreach($kinderen as $k){
+									if(!$first){
+										$kinderen_string.=", ";
+									}
+									$kinderen_string.=$k->getVoornaam()." ".$k->getNaam();
+									$first = false;
+								}
+								$kinderen_string.=")";
+							}
+                            $result['content'][] = array('Id'=>$v->getId(), 'Naam'=>$v->getNaam(), 'Voornaam'=>$v->getVoornaam(), 'Kinderen'=>$kinderen_string);
+                        }
+                        echo json_encode($result);
                         break;
                 }
             } else {

@@ -1,5 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../record.class.php" );
+require_once(dirname(__FILE__)."/../kinderen/kind.class.php");
 class Voogd extends Record{
     protected function setLocalData($data){
         //Log::writeLog("setlocal voogd data",json_encode($data));
@@ -49,5 +50,46 @@ class Voogd extends Record{
         $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
         return $query->execute();
      }
+	 public function getKinderen(){
+	 	$query = Database::getPDO()->prepare("SELECT K.Id as Id FROM Kind K LEFT JOIN KindVoogd KV ON KV.Kind=K.Id WHERE KV.Voogd = :voogd_id");
+		$query->bindParam(':voogd_id', $this->Id, PDO::PARAM_INT);
+		$query->execute();
+		$kinderen = array();
+		while($rs = $query->fetch(PDO::FETCH_OBJ)){
+			$kinderen[] = new Kind($rs->Id);
+		}
+		return $kinderen;
+	 }
+	 protected static function getFilterSQL($filter){
+	 	$sql = "";
+	 	if(isset($filter['VolledigeNaam'])){
+	 		$sql .= "AND (CONCAT(Naam, ' ', Voornaam) LIKE :volledige_naam ";
+            $sql .= " OR CONCAT(Voornaam, ' ', Naam) LIKE :volledige_naam2) ";
+	 	}
+		return $sql;
+	 }
+	 protected static function applyFilterParameters($query, $filter){
+        if(isset($filter['VolledigeNaam'])){
+        	$tmp = '%'.$filter['VolledigeNaam'].'%';
+            $query->bindParam(':volledige_naam', $tmp, PDO::PARAM_STR);
+            $query->bindParam(':volledige_naam2', $tmp = '%'.$filter['VolledigeNaam'].'%', PDO::PARAM_STR);
+        }
+    }
+	 public static function getVoogden($filter, $max_amount){
+	 	$sql = "SELECT Id FROM Voogd WHERE 1 ";
+		$sql .= static::getFilterSQL($filter);
+		if(intval($max_amount)){
+			$sql .= " LIMIT ".intval($max_amount);
+		}
+		Log::writeLog("getvoogden", $sql);
+		$query = Database::getPDO()->prepare($sql);
+		static::applyFilterParameters($query, $filter);
+		$query->execute();
+		$voogden = array();
+		while($rs = $query->fetch(PDO::FETCH_OBJ)){
+			$voogden[] = new Voogd($rs->Id);
+		}
+		return $voogden;
+	 }
 }
 ?>
