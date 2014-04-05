@@ -142,7 +142,6 @@ typeahead, .tt-query, .tt-hint {
                     displayKey:'display_value',
                     source: suggesties.ttAdapter()
                 }).bind('typeahead:selected', function(obj, kind, dataset_name){
-                	$('input[name="VolledigeNaamKind"]').typeahead('val', '');
                     loadKind(kind);
                 });
                 $('#aanwezigheidForm .tt-hint').addClass('form-control');
@@ -375,7 +374,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
        var d = new Object();
        d.Id = aanwezigheidId;
        d.KindVoogd = kindVoogdId;
-       d.Datum = $('input[name="Datum"]').val();
+       d.Datum = $('#aanwezigheidForm input[name="Datum"]').val();
        d.Werking = werking;
        d.Opmerkingen = opmerkingen;
        //var serialized = $('#aanwezigheidForm').serialize();
@@ -385,6 +384,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
            console.log("checked: val = "+$(e).val());
             d.Extraatjes.push($(e).val());
        });
+	   console.log("submit aanwezigheid data: "+JSON.stringify(d));
        $.post('?action=updateAanwezigheid', d, function(res){ 
            res = $.trim(res);
            if(res == "1"){

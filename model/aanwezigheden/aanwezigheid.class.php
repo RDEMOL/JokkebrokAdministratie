@@ -23,12 +23,12 @@ class Aanwezigheid extends Record{
         $query->bindParam(':kind_voogd_id', $this->KindVoogdId, PDO::PARAM_INT);
         $query->bindParam(':werking_id', $this->WerkingId, PDO::PARAM_INT);
         $query->bindParam(':opmerkingen', $this->Opmerkingen, PDO::PARAM_STR);
-        $query->bindParam(':id', $this->getId(), PDO::PARAM_INT);
+        $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
         return $query->execute();
     }
     protected function select(){
         $query = Database::getPDO()->prepare("SELECT * FROM Aanwezigheid WHERE Id = :id");
-        $query->bindParam(':id', $this->getId(), PDO::PARAM_INT);
+        $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
         $query->execute();
         return $query->fetch(PDO::FETCH_OBJ);
     }
