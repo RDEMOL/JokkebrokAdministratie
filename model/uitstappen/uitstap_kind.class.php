@@ -7,7 +7,7 @@ class UitstapKind extends Record{
     }
     public function getJSONData(){
         $db = new Database();
-        $query = $db->getPDO()->prepare("SELECT UK.Id as Id, K.Naam as Naam, K.Voornaam as Voornaam FROM UitstapKind UK LEFT JOIN Kind K ON UK.Kind=K.Id WHERE UK.Id= :id ");
+        $query = $db->getPDO()->prepare("SELECT UK.Id as Id, K.Naam as Naam, K.Voornaam as Voornaam, W.Afkorting as Werking, K.Geboortejaar as Geboortejaar FROM UitstapKind UK LEFT JOIN Kind K ON UK.Kind=K.Id LEFT JOIN Werking W ON K.DefaultWerking = W.Id WHERE UK.Id= :id ");
         $id = $this->getId();
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();

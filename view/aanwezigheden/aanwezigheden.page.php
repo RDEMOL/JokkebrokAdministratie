@@ -420,11 +420,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
    		$('#pdfModal').modal('show');
    });
    $('#btnPDF').click(function(){
-   		//find columns
-   		//loading sign
-   		//send query to index.php?pdfAanwezigheden with filter + ordering + columns
    		var data = new Object();
-		//data.kolommen = new Array('Datum', 'Naam', 'Voornaam');
 		data.kolommen = new Array();
 		$('#pdfSelectedFields li').each(function(index, value){
 			console.log("text = "+$(this).text());

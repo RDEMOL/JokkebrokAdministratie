@@ -101,7 +101,10 @@ table#UitstapOverzicht tbody tr :hover{
 <div class="panel-body">
 Omschrijving: <span id="txtOmschrijving"></span><br>
 Datum: <span id="txtDatum"></span><br>
-<button type="button" class="btn btn-primary" id="btnUitstapBewerken">Uitstap Bewerken</button>&nbsp;<button type="button" class="btn btn-default" id="btnUitstapVerwijderen">Uitstap Verwijderen</button><br>
+<button type="button" class="btn btn-primary" id="btnUitstapBewerken">Uitstap Bewerken</button>&nbsp;
+<button type="button" class="btn btn-default" id="btnUitstapVerwijderen">Uitstap Verwijderen</button>&nbsp;
+<button type="button" class="btn btn-default" id="btnPDFModal">PDF Tonen</button>
+<br>
 <form class="form">
 <label class="control-label" for="VolledigeNaamKind">Kind toevoegen: </label><br>
 <input type="text" value="" class="typeahead form-control" name="VolledigeNaamKind">
@@ -213,7 +216,12 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
 		eigenschappen_div.find('#btnUitstapVerwijderen').unbind('click').click(function(){
 			verwijder_uitstap(data);
 			return false;
-		})
+		});
+		eigenschappen_div.find('#btnPDFModal').unbind('click').click(function(){
+			var senddata = new Object();
+			senddata.Id = data['Id'];
+			window.open('index.php?action=data&data=uitstapPDF&'+$.param(senddata));
+		});
         var suggesties = new Bloodhound({
            datumTokenizer:function(d){return Bloodhound.tokenizers.whitespace(d.value); },
            queryTokenizer: Bloodhound.tokenizers.whitespace,

@@ -20,6 +20,44 @@ $opties
 HERE;
         return $content;
     }
+	private function getPDFModal(){
+		$content = <<<HERE
+<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="pdfModalTitle">PDF genereren</h4>
+			</div>
+			<div class="modal-body">
+				Welke kolommen wilt u afdrukken?
+				<div class="row">
+				<div class="col-md-6">
+				Weergeven
+				<ul id="pdfSelectedFields" class="pdfFields">
+				<li>a
+				<li>b
+				</ul>
+				</div>
+				<div class="col-md-6">
+				Verbergen
+				<ul id="pdfUnselectedFields" class="pdfFields">
+				<li>c
+				<li>d
+				</ul>
+				</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+				<button type="button" class="btn btn-primary" id="btnPDF">PDF genereren</button>
+			</div>
+		</div>
+	</div>
+</div>
+HERE;
+		return $content;
+	}
     private function getVerwijderKindModal(){
         $content = <<<HERE
 <div class="modal fade" id="verwijderKindModal" tabindex="-1" role="dialog" aria-labelledby="verwijderKindModal">
@@ -110,11 +148,13 @@ HERE;
         }
         $werkingen_js_array = json_encode($werkingen_js_array);
         $content = $this->getVerwijderKindModal()."\n".$this->getKindModal();
+		$content .= $this->getPDFModal();
+		
         $content .= <<<HERE
 <div class="row">
     <button class="btn btn-large btn-primary" id="btnNieuwKind">Nieuw kind</button>
     <div class="pull-right">
-        <button id="btnPdf" class="btn">Pdf tonen</button>
+        <button id="btnPDFModal" class="btn">Pdf tonen</button>
     </div>
 </div>
 <br>
@@ -280,6 +320,33 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
                 }
            });
        });
+	   var pdf_fields = new Array('Naam', 'Voornaam', 'Geboortejaar', 'Belangrijk', 'Werking');
+	   $('#btnPDFModal').click(function(){
+	   		$('#pdfSelectedFields').empty().unbind('sortupdate');
+			$('#pdfUnselectedFields').empty().unbind('sortupdate');
+			for(var i = 0; i < pdf_fields.length; ++i){
+				$('#pdfUnselectedFields').append($('<li>').text(pdf_fields[i]).attr('draggable', 'true'));
+			}
+			$('#pdfSelectedFields').append($('<li>').text('Nummer').addClass('disabled'));
+			$('#pdfSelectedFields, #pdfUnselectedFields').sortable({connectWith:'.pdfFields', items:':not(.disabled)'});
+	   		$('#pdfModal').modal('show');
+	   });
+	   $('#btnPDF').click(function(){
+	   		var data = new Object();
+			data.kolommen = new Array();
+			$('#pdfSelectedFields li').each(function(index, value){
+				console.log("text = "+$(this).text());
+				data.kolommen.push($(this).text());
+			});
+			console.log("kolommen = "+JSON.stringify(data.kolommen));
+			data.action="data";
+			data.data="kinderenPDF";
+			data.filter = t.getFilter();
+			data.order = t.getSort();
+			window.open('index.php?'+$.param(data));
+			$('#pdfModal').modal('hide');
+	
+	   });
     });
 });
 </script>

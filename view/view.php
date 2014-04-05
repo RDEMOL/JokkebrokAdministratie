@@ -11,6 +11,9 @@ require_once (dirname(__FILE__) . "/../model/aanwezigheden/aanwezigheid.class.ph
 require_once (dirname(__FILE__) . "/../model/uitstappen/uitstap.class.php");
 require_once (dirname(__FILE__) . "/../helpers/log.php");
 require_once (dirname(__FILE__) . "/../helpers/pdf/pdf_generator.class.php");
+require_once (dirname(__FILE__) . "/uitstappen/uitstap.pdf.php");
+require_once (dirname(__FILE__) . "/aanwezigheden/aanwezigheden.pdf.php");
+require_once (dirname(__FILE__) . "/kinderen/kinderen.pdf.php");
 
 class View {
     protected $controller,$model;
@@ -61,6 +64,27 @@ class View {
                         }
                         echo json_encode($result);
                         break;
+					case 'kinderenPDF':
+						$order =array();
+						$filter = null;
+						if(isset($_REQUEST['filter'])){
+							$filter = $_REQUEST['filter'];
+						}
+						if(isset($_REQUEST['order'])){
+							$order = $_REQUEST['order'];
+						}
+						$kolommen = array();
+						if(isset($_REQUEST['kolommen'])){
+							$kolommen = $_REQUEST['kolommen'];
+						}
+						$kpdf = new KinderenPDF($filter, $order, $kolommen);
+						$kpdf->outputPDF();
+						break;
+					case 'uitstapPDF':
+						$u = new Uitstap($_REQUEST['Id']);
+						$updf = new UitstapPDF($u);
+						$updf->outputPDF();
+						break;
 					case 'uitstapDetails':
 						$u = new Uitstap($_POST['Id']);
 						$result['content'] = $u->getJSONData();
@@ -100,16 +124,8 @@ class View {
 						if(isset($_REQUEST['kolommen'])){
 							$kolommen = $_REQUEST['kolommen'];
 						}
-						//$kolommen = array('Datum', 'Naam', 'Voornaam');
-						$aanwezigheden = Aanwezigheid::getAanwezigheden($filter, $order);
-						$data = array();
-						foreach($aanwezigheden as $a){
-							$data[] = $a->getJSONData();
-						}
-						Log::writeLog("pdf generation", "initializing");
-						$pdf_generator = new PdfGenerator($data, $kolommen);
-						$pdf_generator->outputPDF();
-						//echo "ok";
+						$apdf = new AanwezighedenPDF($filter, $order, $kolommen);
+						$apdf->outputPDF();
 						break;
                     case 'aanwezighedenTabel':
                         $filter = null;
