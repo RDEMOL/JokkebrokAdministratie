@@ -241,7 +241,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             source: suggesties.ttAdapter()
         }).unbind('typeahead:selected').bind('typeahead:selected', function(obj, kind, dataset_name){
             voeg_kind_toe(kind['Id'], data['Id']);
-            $('input[name=VolledigeNaamKind]').val('');
+            $('input[name=VolledigeNaamKind]').typeahead('val', '');
         });
         var div = $('#UitstapDeelnamesDiv').empty();
         //add omschrijving/datum/actief

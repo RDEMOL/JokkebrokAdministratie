@@ -142,6 +142,7 @@ typeahead, .tt-query, .tt-hint {
                     displayKey:'display_value',
                     source: suggesties.ttAdapter()
                 }).bind('typeahead:selected', function(obj, kind, dataset_name){
+                	$('input[name="VolledigeNaamKind"]').typeahead('val', '');
                     loadKind(kind);
                 });
                 $('#aanwezigheidForm .tt-hint').addClass('form-control');
