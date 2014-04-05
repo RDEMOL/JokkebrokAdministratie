@@ -421,8 +421,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         return td;
     }));
     var controls = new Array();
-    controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_kind));
-    controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_kind));
+    controls.push(new Control('Wijzigen', 'btn btn-xs', wijzig_kind));
+    controls.push(new Control('Verwijderen', 'btn btn-xs', verwijder_kind));
     k.push(new ControlsKolom(controls));
     var t = new Tabel('index.php?action=data&data=kinderenTabel', k);
     var filter_velden = new Array();

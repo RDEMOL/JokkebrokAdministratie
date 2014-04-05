@@ -345,8 +345,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         return td;
     }));
     var controls = new Array();
-    controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_aanwezigheid));
-    controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_aanwezigheid));
+    controls.push(new Control('Wijzigen', 'btn btn-xs', wijzig_aanwezigheid));
+    controls.push(new Control('Verwijderen', 'btn btn-xs', verwijder_aanwezigheid));
     k.push(new ControlsKolom(controls));
     var t = new Tabel('index.php?action=data&data=aanwezighedenTabel', k);
     var filter_velden = new Array();

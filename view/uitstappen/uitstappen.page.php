@@ -254,7 +254,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         uitstap_deelnemers_kolommen.push(new Kolom('Naam', 'Naam'));
         uitstap_deelnemers_kolommen.push(new Kolom('Voornaam', 'Voornaam'));
         var controls = new Array();
-        //controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_deelname));
         function verwijder_deelname(data){
             var d = new Object();
             d.Id = data['Id'];
@@ -262,7 +261,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
                 uitstap_deelnemers_tabel.laadTabel();
             });
         };
-        controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_deelname));
+        controls.push(new Control('Verwijderen', 'btn btn-xs', verwijder_deelname));
         uitstap_deelnemers_kolommen.push(new ControlsKolom(controls));
         var id = parseInt(data['Id']);
         console.log("id = "+id);
