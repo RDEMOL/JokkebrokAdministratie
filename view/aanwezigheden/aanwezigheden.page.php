@@ -342,6 +342,13 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
                 }).append($('<span>').addClass('glyphicon glyphicon-info-sign'))
                 .tooltip());
         }
+		if(data['VoogdVolledigeNaam']){
+			td.append(
+				$('<a>').attr({
+					'data-original-title':'Voogd: '+data['VoogdVolledigeNaam']
+				}).append($('<span>').addClass('glyphicon glyphicon-home'))
+				.tooltip());
+		}
         return td;
     }));
     var controls = new Array();

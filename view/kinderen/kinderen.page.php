@@ -416,8 +416,18 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
                         'data-original-title' : data['Belangrijk']
                     })
                     .append($('<span>').addClass('glyphicon glyphicon-info-sign'))
-                    .tooltip());
+                    .tooltip())
+				.append('&nbsp;');
         }
+		if(data['VoogdenIds'].length > 1){
+			var voogden_string = "Meerdere voogden";
+			td.append(
+				$('<a>').attr({
+						'data-original-title': voogden_string
+					}).append($('<span>').addClass('glyphicon glyphicon-home'))
+					.tooltip())
+				.append('&nbsp;');
+		}
         return td;
     }));
     var controls = new Array();
