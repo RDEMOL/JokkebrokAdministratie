@@ -345,14 +345,16 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
                 $('<a>').attr({
                     'data-original-title': data['Opmerkingen']
                 }).append($('<span>').addClass('glyphicon glyphicon-info-sign'))
-                .tooltip());
+                .tooltip())
+            .append('&nbsp;');
         }
 		if(data['VoogdVolledigeNaam']){
 			td.append(
 				$('<a>').attr({
 					'data-original-title':'Voogd: '+data['VoogdVolledigeNaam']
 				}).append($('<span>').addClass('glyphicon glyphicon-home'))
-				.tooltip());
+				.tooltip()
+            .append('&nbsp;'));
 		}
         return td;
     }));
