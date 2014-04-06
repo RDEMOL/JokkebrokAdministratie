@@ -11,13 +11,13 @@ define(['./kolom'], function(Kolom){
 		this.controls = controls;
 	};
 	ControlsKolom.prototype = new Kolom('controls', '', controls_content_function);
-	ControlsKolom.prototype.getHeadContent = function(){
+	ControlsKolom.prototype.getHeadTH = function(){
 		var el = $('<span>').css('visibility','hidden');
 		for(var i = 0; i < this.controls.length; ++i){
 			el.append(this.controls[i].getElement(null));
 			el.append('&nbsp;');
 		}
-		return el;
+		return $('<th>').append(el);
 	};
 	
 	return ControlsKolom;

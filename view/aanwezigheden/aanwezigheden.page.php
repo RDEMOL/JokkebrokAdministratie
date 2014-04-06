@@ -239,8 +239,25 @@ HERE;
         }
         $extraatjes_js_array = json_encode($extraatjes_js_array);
         
+		//filter
         $vandaag = new SpeelpleinDag();
         $datum = $vandaag->getDatum();
+		$werking = "";
+		$extraatje = "";
+		if(isset($_REQUEST['filter'])){
+			$filter = $_REQUEST['filter'];
+			if(isset($filter['Datum'])){
+				$datum = $filter['Datum'];
+			}
+			if(isset($filter['Extraatje'])){
+				$extraatje = $filter['Extraatje'];	
+			}
+			if(isset($filter['Werking'])){
+				$werking = $filter['Werking'];
+			}
+		}
+		
+		
         $content = $this->getAanwezigheidModal();
         $content .= $this->getVerwijderenModal();
 		$content .= $this->getPDFModal();
@@ -357,10 +374,10 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     k.push(new ControlsKolom(controls));
     var t = new Tabel('index.php?action=data&data=aanwezighedenTabel', k);
     var filter_velden = new Array();
-    filter_velden.push(new FilterVeld('Datum', 1, 'datepicker', '$datum'));
+    filter_velden.push(new FilterVeld('Datum', 1, 'datepicker', null, null, '$datum'));
     filter_velden.push(new FilterVeld('VolledigeNaam', 2, 'text', null));
-    filter_velden.push(new FilterVeld('Werking', 1, 'select', {options:$werkingen_js_array}));
-    filter_velden.push(new FilterVeld('Extraatjes', 1, 'select', {options:$extraatjes_js_array}));
+    filter_velden.push(new FilterVeld('Werking', 1, 'select', {options:$werkingen_js_array}, null, '$werking'));
+    filter_velden.push(new FilterVeld('Extraatjes', 1, 'select', {options:$extraatjes_js_array}, null, '$extraatje'));
     t.setFilterRij(new FilterRij(filter_velden,t));
     t.setUp($('#aanwezigheden_tabel'));
     $(document).ready(function(){
@@ -384,8 +401,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
        d.Datum = $('#aanwezigheidForm input[name="Datum"]').val();
        d.Werking = werking;
        d.Opmerkingen = opmerkingen;
-       //var serialized = $('#aanwezigheidForm').serialize();
-       //d.Extraatjes = serialized.Extraatjes;
        d.Extraatjes = new Array();
        $('#aanwezigheidForm input[type=checkbox].Extraatjes:checked').each(function(index, e){
            console.log("checked: val = "+$(e).val());

@@ -1,5 +1,5 @@
 define(function(){
-	var FilterVeld = function(id, span, type, data, custom_filter){
+	var FilterVeld = function(id, span, type, data, custom_filter, start_value){
 		this.id = id;
 		this.span = span;
 		this.type = type;
@@ -8,6 +8,7 @@ define(function(){
 		if(custom_filter){
 			this.getFilter = custom_filter;
 		}
+		this.start_value = start_value;
 		this.setData(data);
 	};
 	FilterVeld.prototype.getSpan = function(){
@@ -70,13 +71,15 @@ define(function(){
 						self.notify();
 					});
 				});
-				el.val(self.data);	
 				el.change(function(){
 					self.notify();
 				});
 				break;
 			default:
 				break;
+		}
+		if(this.start_value){
+			el.val(this.start_value);
 		}
 		this.input_element = el;
 		this.element.append(el);

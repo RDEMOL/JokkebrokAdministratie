@@ -23,6 +23,7 @@ class DashboardPage extends Page{
         }
         $werkingen_extraatjes_tbody = "";
         $extraatje_index = 0;
+		$datum_str = "&filter%5BDatum%5D=".$vandaag->getDatum(); 
         foreach($extraatjes as $e){
             ++$extraatje_index;
             $current_line = "<tr>";
@@ -33,16 +34,19 @@ class DashboardPage extends Page{
             foreach($werkingen as $w){
                 $filter = array();
                 $filter['Datum']=$vandaag->getDatumForDatabase();
-                $filter['Werking']=$w->getId();
-                $filter['Extraatje']=$e->getId();
+				$extraatje_id = $e->getId();
+				$werking_id = $w->getId();
+                $filter['Werking']=$werking_id;
+                $filter['Extraatje']=$extraatje_id;
                 $amount  = ExtraatjeAanwezigheid::countExtraatjeAanwezigheden($filter);
-                $current_line .= "<td>$amount</td>";
+                $current_line .= "<td><a href='index.php?page=aanwezigheden&filter%5BWerking%5D=$werking_id&filter%5BExtraatje%5D=$extraatje_id$datum_str'>$amount</a></td>";
             }
             $filter = array();
             $filter['Datum']=$vandaag->getDatumForDatabase();
-            $filter['Extraatje']=$e->getId();
+			$extraatje_id = $e->getId();
+            $filter['Extraatje']=$extraatje_id;
             $amount = ExtraatjeAanwezigheid::countExtraatjeAanwezigheden($filter);
-            $current_line .= "<td>$amount</td>";
+            $current_line .= "<td><a href='index.php?page=aanwezigheden&filter%5BExtraatje%5D=$extraatje_id$datum_str'>$amount</a></td>";
             $current_line .= "</tr>";
             $werkingen_extraatjes_tbody .= $current_line;
         }
@@ -53,10 +57,10 @@ class DashboardPage extends Page{
             $filter['Datum']=$vandaag->getDatumForDatabase();
             $filter['Werking']=$w->getId();
             $amount = Aanwezigheid::countAanwezigheden($filter);
-            $werkingen_footer.="<th>".$amount;
+            $werkingen_footer.="<th><a href='index.php?page=aanwezigheden&filter%5BWerking%5D=".$w->getId()."$datum_str'>".$amount."</a>";
             $sum += $amount;
         }
-        $werkingen_footer.= "<th>$sum</tr>";
+        $werkingen_footer.= "<th><a href='index.php?page=aanwezigheden$datum_str'>$sum</tr>";
         $content = <<<HERE
 <table class="table table-bordered">
 <thead>
