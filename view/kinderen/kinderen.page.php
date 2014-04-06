@@ -125,90 +125,82 @@ HERE;
         $werkingen_select = $this->getWerkingenSelect();
         $content = <<<HERE
 <div class="modal fade" id="voogdModal" tabindex="-1" role="dialog" aria-labelledby="voogdModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="buton" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="verwijderKindModalTitle">Voogd Toevoegen</h4>
-            </div>
-            <div class="modal-body">
-                <form id="voogdForm">
-                <input type="hidden" name="Add" value="0">
-                <input type="hidden" name="VoogdId">
-                <div class="row">
-                	<label>Voornaam: </label><input type="text" name="Voornaam">
-                </div>
-                <div class="row">
-                	<label>Naam: </label><input type="text" name="Naam">
-                </div>
-                <div class="row">
-                	<label>Opmerkingen: </label><textarea name="Opmerkingen"></textarea>
-                </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
-                <button type="button" class="btn btn-primary" id="btnVoogd">Opslaan</button>
-            </div>
+    <div class="modal-header">
+        <button type="buton" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="verwijderKindModalTitle">Voogd Toevoegen</h4>
+    </div>
+    <div class="modal-body">
+        <form id="voogdForm">
+        <input type="hidden" name="Add" value="0">
+        <input type="hidden" name="VoogdId">
+        <div class="row">
+        	<label>Voornaam: </label><input type="text" name="Voornaam">
         </div>
+        <div class="row">
+        	<label>Naam: </label><input type="text" name="Naam">
+        </div>
+        <div class="row">
+        	<label>Opmerkingen: </label><textarea name="Opmerkingen"></textarea>
+        </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+        <button type="button" class="btn btn-primary" id="btnVoogd">Opslaan</button>
     </div>
 </div>
 <div class="modal fade" id="kindModal" tabindex="-1" role="dialog" aria-labelledby="kindModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                <h4 class="modal-title" id="kindModalTitle">Nieuw kind toevoegen</h4>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+        <h4 class="modal-title" id="kindModalTitle">Nieuw kind toevoegen</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-inline" id="kindForm">
+            <input type="hidden" name="Id" value="0">
+            <div class="row">
+                <label class="control-label" for="Voornaam">Voornaam: </label>
+                <input type="text" name="Voornaam" value="">
             </div>
-            <div class="modal-body">
-                <form class="form-inline" id="kindForm">
-                    <input type="hidden" name="Id" value="0">
-                    <div class="row">
-                        <label class="control-label" for="Voornaam">Voornaam: </label>
-                        <input type="text" name="Voornaam" value="">
-                    </div>
-                    <div class="row">
-                        <label for="Naam" class="control-label">Naam: </label>
-                        <input type="text" name="Naam" value="">
-                    </div>
-                    <div class="row">
-                        <label class="control-label" for="Geboortejaar">Geboortejaar: </label>
-                        <input type="text" name="Geboortejaar" value="">
-                    </div>
-                    <div class="row">
-                        <label class="control-label" for="DefaultWerking">Werking*: </label>
-                        $werkingen_select
-                    </div> 
-                    <div class="row">
-                        <i>*Deze werking is de standaardinstelling bij de aanwezigheden</i>
-                    </div>
-                    <div class="row">
-                        <label class="control-label" for="Belangrijk">Belangrijk: </label>
-                        <textarea name="Belangrijk"></textarea>
-                    </div>
-                    <div class="row">
-                        <h3>Voogd:</h3>
-                        <!--<input type="hidden" name="voogd_amount" value="0">-->
-                    </div>
-                    <div class="row">
-                    <label class="control-label">Bestaande voogd toevoegen: </label><br>
-                    <input type="text" class="form-control" name="VoogdQuery"><br>
-                    </div>
-                    <div class="row">
-                    <label class="control-label">Nieuwe voogd toevoegen: </label><br>
-                    <button id="btnNieuweVoogd" class="btn btn-default" data-toggle="modal" href="#voogdModal">Nieuwe voogd</button>
-                    </div>
-                    <div class="row">
-                    <ul id="lstVoogden">
-                    </ul>
-                    </div>
-                </form>
+            <div class="row">
+                <label for="Naam" class="control-label">Naam: </label>
+                <input type="text" name="Naam" value="">
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
-                <button type="button" class="btn btn-primary" id="submitKind">Opslaan</button>
+            <div class="row">
+                <label class="control-label" for="Geboortejaar">Geboortejaar: </label>
+                <input type="text" name="Geboortejaar" value="">
             </div>
-        </div>
+            <div class="row">
+                <label class="control-label" for="DefaultWerking">Werking*: </label>
+                $werkingen_select
+            </div> 
+            <div class="row">
+                <i>*Deze werking is de standaardinstelling bij de aanwezigheden</i>
+            </div>
+            <div class="row">
+                <label class="control-label" for="Belangrijk">Belangrijk: </label>
+                <textarea name="Belangrijk"></textarea>
+            </div>
+            <div class="row">
+                <h3>Voogd:</h3>
+                <!--<input type="hidden" name="voogd_amount" value="0">-->
+            </div>
+            <div class="row">
+            <label class="control-label">Bestaande voogd toevoegen: </label><br>
+            <input type="text" class="form-control" name="VoogdQuery"><br>
+            </div>
+            <div class="row">
+            <label class="control-label">Nieuwe voogd toevoegen: </label><br>
+            <button id="btnNieuweVoogd" class="btn btn-default" data-toggle="modal" href="#voogdModal">Nieuwe voogd</button>
+            </div>
+            <div class="row">
+            <ul id="lstVoogden">
+            </ul>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+        <button type="button" class="btn btn-primary" id="submitKind">Opslaan</button>
     </div>
 </div>
 HERE;

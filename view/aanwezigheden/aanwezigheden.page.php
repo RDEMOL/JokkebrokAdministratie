@@ -37,44 +37,42 @@ HERE;
         $extraatjes_list = $this->getExtraatjesList();
         $content = <<<HERE
 <div class="modal fade" id="aanwezigheidModal" tabindex="-1" role="dialog" aria-labelledby="aanwezigheidModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                <h4 class="modal-title">Nieuwe aanwezigheid toevoegen</h4>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+        <h4 class="modal-title">Nieuwe aanwezigheid toevoegen</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-inline" id="aanwezigheidForm">
+            <div class="row">
+            
+                <input type="hidden" name="AanwezigheidId" value="0">
+                <input type="hidden" name="KindId" value="0">
+                
+                <label class="control-label" for="Datum">Datum: </label>
+                <input type="text" name="Datum" value="" >
+                <br>
+                
+                <span>
+                <label class="control-label" for="VolledigeNaamKind">Voornaam + naam: </label>
+                <input type="text" value="" class="form-control typeahead" name="VolledigeNaamKind">
+                </span>
+                <br>
+                <label class="control-label" for="KindVoogdId">Voogd:</label>
+                <select name="KindVoogdId" class="form-control"></select>
+                <br>
+                <label class="control-label" for="WerkingId">Werking: </label>
+                $werkingen_select
+                <br>
+                <div id="ExtraatjesDiv">
+                $extraatjes_list
+                </div>
+                <br>
+                <label class="control-label" for="Opmerkingen">Opmerkingen: </label>
+                <textarea name="Opmerkingen" class="form-control"></textarea>
             </div>
-            <div class="modal-body">
-                <form class="form-inline" id="aanwezigheidForm">
-                    <div class="row">
-                    
-                        <input type="hidden" name="AanwezigheidId" value="0">
-                        <input type="hidden" name="KindId" value="0">
-                        
-                        <label class="control-label" for="Datum">Datum: </label>
-                        <input type="text" name="Datum" value="" >
-                        <br>
-                        
-                        <span>
-                        <label class="control-label" for="VolledigeNaamKind">Voornaam + naam: </label>
-                        <input type="text" value="" class="form-control typeahead" name="VolledigeNaamKind">
-                        </span>
-                        <br>
-                        <label class="control-label" for="KindVoogdId">Voogd:</label>
-                        <select name="KindVoogdId" class="form-control"></select>
-                        <br>
-                        <label class="control-label" for="WerkingId">Werking: </label>
-                        $werkingen_select
-                        <br>
-                        <div id="ExtraatjesDiv">
-                        $extraatjes_list
-                        </div>
-                        <br>
-                        <label class="control-label" for="Opmerkingen">Opmerkingen: </label>
-                        <textarea name="Opmerkingen" class="form-control"></textarea>
-                    </div>
-                </form>
-            </div>
-            <style type="text/css">
+        </form>
+    </div>
+        <style type="text/css">
 /*adapted from typeahead examples*/
 typeahead, .tt-query, .tt-hint {
     border-radius: 8px 8px 8px 8px;
@@ -110,49 +108,47 @@ typeahead, .tt-query, .tt-hint {
 .tt-suggestion p {
     margin: 0;
 }
-            </style>
-            <script>
-            $(document).ready(function(e){
-                function loadKind(kind){
-                    $('input[name="KindId"]').val(kind.Id);
-                    $('select[name="KindVoogdId"]').empty();
-                    $('textarea[name="OpmerkingId"]').empty();
-                    if(kind.Id != 0){
-                        for(var i = 0; i < kind.Voogden.length; ++i){
-                            $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].KindVoogdId).text(kind.Voogden[i].VolledigeNaam));
-                        }
-                        $('select[name="WerkingId"]').val(kind.DefaultWerkingId);
-                    }
-                };
-                var suggesties = new Bloodhound({
-                   datumTokenizer:function(d){return Bloodhound.tokenizers.whitespace(d.value); },
-                   queryTokenizer: Bloodhound.tokenizers.whitespace,
-                   remote:{
-                       url:'index.php?action=data&data=kinderenSuggesties&query=%QUERY',
-                       filter: function(kind){
-                           console.log("bloodhound received this data: "+JSON.stringify(kind));
-                           return $.map(kind.content, function(k){
-                              return { 'display_value':(k.Voornaam+" "+k.Naam), 'id':k.Id, 'Voogden':k.Voogden, 'DefaultWerkingId': k.DefaultWerkingId}; 
-                           });
-                       }
-                   }
-                });
-                suggesties.initialize();
-                $('input[name="VolledigeNaamKind"]').typeahead(null, {
-                    displayKey:'display_value',
-                    source: suggesties.ttAdapter()
-                }).bind('typeahead:selected', function(obj, kind, dataset_name){
-                    loadKind(kind);
-                });
-                $('#aanwezigheidForm .tt-hint').addClass('form-control');
-            });
-            </script>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
-                <button type="button" class="btn btn-primary" id="submitAanwezigheid">Toevoegen</button>
-            </div>
-        </div>
-    </div>
+    </style>
+    <script>
+    $(document).ready(function(e){
+        function loadKind(kind){
+            $('input[name="KindId"]').val(kind.Id);
+            $('select[name="KindVoogdId"]').empty();
+            $('textarea[name="OpmerkingId"]').empty();
+            if(kind.Id != 0){
+                for(var i = 0; i < kind.Voogden.length; ++i){
+                    $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].KindVoogdId).text(kind.Voogden[i].VolledigeNaam));
+                }
+                $('select[name="WerkingId"]').val(kind.DefaultWerkingId);
+            }
+        };
+        var suggesties = new Bloodhound({
+           datumTokenizer:function(d){return Bloodhound.tokenizers.whitespace(d.value); },
+           queryTokenizer: Bloodhound.tokenizers.whitespace,
+           remote:{
+               url:'index.php?action=data&data=kinderenSuggesties&query=%QUERY',
+               filter: function(kind){
+                   console.log("bloodhound received this data: "+JSON.stringify(kind));
+                   return $.map(kind.content, function(k){
+                      return { 'display_value':(k.Voornaam+" "+k.Naam), 'id':k.Id, 'Voogden':k.Voogden, 'DefaultWerkingId': k.DefaultWerkingId}; 
+                   });
+               }
+           }
+        });
+        suggesties.initialize();
+        $('input[name="VolledigeNaamKind"]').typeahead(null, {
+            displayKey:'display_value',
+            source: suggesties.ttAdapter()
+        }).bind('typeahead:selected', function(obj, kind, dataset_name){
+            loadKind(kind);
+});
+	    $('#aanwezigheidForm .tt-hint').addClass('form-control');
+	});
+	</script>
+	<div class="modal-footer">
+	    <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+	    <button type="button" class="btn btn-primary" id="submitAanwezigheid">Toevoegen</button>
+	</div>
 </div>
 HERE;
         return $content;
@@ -161,23 +157,19 @@ HERE;
     private function getVerwijderenModal(){
         $content = <<<HERE
 <div class="modal fade" id="verwijderAanwezigheidModal" tabindex="-1" role="dialog" aria-labelledby="verwijderAanwezigheidModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="buton" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="verwijderAanwezigheidModalTitle">Aanwezigheid verwijderen</h4>
-            </div>
-            <div class="modal-body">
-                <form id="verwijderAanwezigheidForm">
-                    <input type="hidden" name="Id">
-                </form>
-                <p>Bent u zeker dat u deze aanwezigheid wilt verwijderen?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
-                <button type="button" class="btn btn-primary" id="btnVerwijderAanwezigheid">Verwijderen</button>
-            </div>
-        </div>
+    <div class="modal-header">
+        <button type="buton" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="verwijderAanwezigheidModalTitle">Aanwezigheid verwijderen</h4>
+    </div>
+    <div class="modal-body">
+        <form id="verwijderAanwezigheidForm">
+            <input type="hidden" name="Id">
+        </form>
+        <p>Bent u zeker dat u deze aanwezigheid wilt verwijderen?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+        <button type="button" class="btn btn-primary" id="btnVerwijderAanwezigheid">Verwijderen</button>
     </div>
 </div>
 HERE;
@@ -186,36 +178,32 @@ HERE;
 	private function getPDFModal(){
 		$content = <<<HERE
 <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="pdfModalTitle">PDF genereren</h4>
-			</div>
-			<div class="modal-body">
-				Welke kolommen wilt u afdrukken?
-				<div class="row">
-				<div class="col-md-6">
-				Weergeven
-				<ul id="pdfSelectedFields" class="pdfFields">
-				<li>a
-				<li>b
-				</ul>
-				</div>
-				<div class="col-md-6">
-				Verbergen
-				<ul id="pdfUnselectedFields" class="pdfFields">
-				<li>c
-				<li>d
-				</ul>
-				</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
-				<button type="button" class="btn btn-primary" id="btnPDF">PDF genereren</button>
-			</div>
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h4 class="modal-title" id="pdfModalTitle">PDF genereren</h4>
+	</div>
+	<div class="modal-body">
+		Welke kolommen wilt u afdrukken?
+		<div class="row">
+		<div class="col-md-6">
+		Weergeven
+		<ul id="pdfSelectedFields" class="pdfFields">
+		<li>a
+		<li>b
+		</ul>
 		</div>
+		<div class="col-md-6">
+		Verbergen
+		<ul id="pdfUnselectedFields" class="pdfFields">
+		<li>c
+		<li>d
+		</ul>
+		</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+		<button type="button" class="btn btn-primary" id="btnPDF">PDF genereren</button>
 	</div>
 </div>
 HERE;

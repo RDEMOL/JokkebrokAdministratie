@@ -9,54 +9,47 @@ class UitstappenPage extends Page{
     private function getUitstapModal(){
         $content = <<<HERE
 <div class="modal fade" id="VerwijderUitstapModal" tabindex="-1" role="dialog" aria-labelledby="VerwijderUitstapModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                <h4 class="modal-title">Uitstap verwijderen</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-inline" id="VerwijderUitstapForm">
-                    <input type="hidden" name="Id" value="0">
-                    Weet u zeker dat u deze uitstap wilt verwijderen?
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
-                <button type="button" class="btn btn-primary" id="btnVerwijderUitstap">Verwijderen</button>
-            </div>
-        </div>
+	<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+        <h4 class="modal-title">Uitstap verwijderen</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-inline" id="VerwijderUitstapForm">
+            <input type="hidden" name="Id" value="0">
+            Weet u zeker dat u deze uitstap wilt verwijderen?
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+        <button type="button" class="btn btn-primary" id="btnVerwijderUitstap">Verwijderen</button>
+
     </div>
 </div>
 <div class="modal fade" id="UitstapModal" tabindex="-1" role="dialog" aria-labelledby="UitstapModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                <h4 class="modal-title">Nieuwe uitstap toevoegen</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-inline" id="UitstapForm">
-                    <input type="hidden" name="Id" value="0">
-                    <div class="row">
-                        <label class="control-label" for="Datum">Datum: </label>
-                        <input type="text" value="" name="Datum">
-                    </div>
-                    <div class="row">
-                        <label for="Omschrijving" class="control-label">Omschrijving: </label>
-                        <input type="text" name="Omschrijving" value="">
-                    </div>
-                    <div class="row">
-                        <label for="Actief" class="control-label">Actief: </label>
-                        <input type="checkbox" name="Actief" checked>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
-                <button type="button" class="btn btn-primary" id="btnUitstapOpslaan">Opslaan</button>
-            </div>
-        </div>
+	<div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+	    <h4 class="modal-title">Nieuwe uitstap toevoegen</h4>
+	</div>
+	<div class="modal-body">
+	    <form class="form-inline" id="UitstapForm">
+	        <input type="hidden" name="Id" value="0">
+	        <div class="row">
+	            <label class="control-label" for="Datum">Datum: </label>
+	            <input type="text" value="" name="Datum">
+	        </div>
+	        <div class="row">
+	            <label for="Omschrijving" class="control-label">Omschrijving: </label>
+	            <input type="text" name="Omschrijving" value="">
+	        </div>
+	        <div class="row">
+	            <label for="Actief" class="control-label">Actief: </label>
+	            <input type="checkbox" name="Actief" checked>
+	        </div>
+	    </form>
+	</div>
+	<div class="modal-footer">
+	    <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+	    <button type="button" class="btn btn-primary" id="btnUitstapOpslaan">Opslaan</button>
     </div>
 </div>
 <script>

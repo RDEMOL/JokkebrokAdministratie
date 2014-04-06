@@ -121,8 +121,8 @@ if(!$this){
 		<script src="libs/bootstrap/js/bootstrap.min.js"></script>
 		<script src="libs/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 		<script src="libs/typeahead.bundle.js"></script>
-		<script src="libs/bootstrap-modal/js/bootstrap-modal.js"></script>
 		<script src="libs/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+		<script src="libs/bootstrap-modal/js/bootstrap-modal.js"></script>
 		<script>
 		    $('#navbar li#<?php echo $this->getCurrentTab(); ?>').addClass('active');
 		</script>
