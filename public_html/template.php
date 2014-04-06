@@ -14,7 +14,7 @@ if(!$this){
         <script data-main="js/main" src="./libs/require.js"></script>
 		<link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	    <link href="libs/bootstrap-datepicker/css/datepicker.css" rel="stylesheet">
-	    <link href="libs/bootstrap-modal/css/" rel="stylesheet">
+	    <link href="libs/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet">
 	    <link href="libs/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet">
 		<style type="text/css">
 			html, body {
@@ -112,6 +112,9 @@ if(!$this){
 			<div class="container">
 				<p class="text-muted text-center">
 					&copy; 2013-2014 Jokkebrok Administratie by Floris Kint &amp; Roderick Demol
+				</p>
+				<p class="text-muted text-center">
+					<a href='?page=about'>About</a>
 				</p>
 			</div>
 		</div>

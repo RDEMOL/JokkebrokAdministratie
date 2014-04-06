@@ -14,6 +14,7 @@ require_once (dirname(__FILE__) . "/../helpers/pdf/pdf_generator.class.php");
 require_once (dirname(__FILE__) . "/uitstappen/uitstap.pdf.php");
 require_once (dirname(__FILE__) . "/aanwezigheden/aanwezigheden.pdf.php");
 require_once (dirname(__FILE__) . "/kinderen/kinderen.pdf.php");
+require_once (dirname(__FILE__) . "/about/about.page.php");
 
 class View {
     protected $controller,$model;
@@ -251,6 +252,9 @@ class View {
                     case "uitstappen":
                         $p = new UitstappenPage();
                         break;
+					case "about":
+						$p = new AboutPage();
+						break;
                     default:
                         $p = new Page("Not found","Page not found!","");
                         break;
