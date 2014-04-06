@@ -172,6 +172,15 @@ class View {
                         }
                         echo json_encode($result);
                         break;
+					case 'werkingenTabel':
+						$werkingen = Werking::getWerkingen();
+						$result = array();
+						$result['content']=array();
+						foreach($werkingen as $w){
+							$result['content'][] = $w->getJSONData();
+						}
+						echo json_encode($result);
+						break;
                     case 'extraatjesTabel':
                         $extraatjes = Extraatje::getExtraatjes();
                         $result = array();

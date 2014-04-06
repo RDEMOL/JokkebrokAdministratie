@@ -7,12 +7,19 @@ class Werking extends Record{
     }
     protected function insert(){
         $query = Database::getPDO()->prepare("INSERT INTO Werking (Omschrijving, Afkorting) VALUES (:omschrijving, :afkorting)");
+		Log::writeLog("insert werking", $this->Omschrijving." ".$this->Afkorting);
         $query->bindParam(':omschrijving', $this->Omschrijving, PDO::PARAM_STR);
         $query->bindParam(':afkorting', $this->Afkorting, PDO::PARAM_STR);
         $query->execute();
-        return $query->lastInsertId();
+        return Database::getPDO()->lastInsertId();
     }
     protected function update(){
+        $query = Database::getPDO()->prepare('UPDATE Werking SET Omschrijving=:omschrijving, Afkorting=:afkorting WHERE Id=:id');
+        $query->bindParam(':omschrijving', $this->Omschrijving, PDO::PARAM_STR);
+        $query->bindParam(':afkorting', $this->Afkorting, PDO::PARAM_STR);
+        $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
+        $res = $query->execute();
+        return $res;
         
     }
     protected function select(){
@@ -22,7 +29,9 @@ class Werking extends Record{
         return $query->fetch(PDO::FETCH_OBJ);
     }
     protected function delete(){
-        
+        $query = Database::getPDO()->prepare("DELETE FROM Werking WHERE Id = :id");
+        $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
+        return $query->execute();
     }
     public static function getWerkingen(){
         $query = Database::getPDO()->prepare("SELECT * FROM Werking WHERE 1");
@@ -39,5 +48,12 @@ class Werking extends Record{
     public function getAfkorting(){
         return $this->Afkorting;
     }
+	public function getJSONData(){
+		$obj = new stdClass();
+		$obj->Id = $this->getId();
+		$obj->Omschrijving = $this->getOmschrijving();
+		$obj->Afkorting = $this->getAfkorting();
+		return $obj;	
+	}
 }
 ?>

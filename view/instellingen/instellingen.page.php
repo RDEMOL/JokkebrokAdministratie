@@ -10,23 +10,19 @@ class InstellingenPage extends Page{
     private function getVerwijderExtraatjeModal(){
         $content = <<<HERE
 <div class="modal fade" id="VerwijderExtraatjeModal" tabindex="-1" role="dialog" aria-labelledby="VerwijderExtraatjeModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="buton" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="VerwijderExtraatjeModalTitle">Extraatje verwijderen</h4>
-            </div>
-            <div class="modal-body">
-                <form id="VerwijderExtraatjeForm">
-                    <input type="hidden" name="Id">
-                </form>
-                <p>Bent u zeker dat u dit extraatje wilt verwijderen?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
-                <button type="button" class="btn btn-primary" id="btnVerwijderExtraatje">Verwijderen</button>
-            </div>
-        </div>
+    <div class="modal-header">
+        <button type="buton" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="VerwijderExtraatjeModalTitle">Extraatje verwijderen</h4>
+    </div>
+    <div class="modal-body">
+        <form id="VerwijderExtraatjeForm">
+            <input type="hidden" name="Id">
+        </form>
+        <p>Bent u zeker dat u dit extraatje wilt verwijderen?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+        <button type="button" class="btn btn-primary" id="btnVerwijderExtraatje">Verwijderen</button>
     </div>
 </div>
 HERE;
@@ -35,88 +31,156 @@ HERE;
     private function getExtraatjeModal(){
         $content = <<<HERE
 <div class="modal fade" id="ExtraatjeModal" tabindex="-1" role="dialog" aria-labelledby="ExtraatjeModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                <h4 class="modal-title">Extraatje</h4>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+        <h4 class="modal-title">Extraatje</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-inline">
+        <input type="hidden" name="Id" value="0"></input>
+            <div class="row">
+                <label class="control-label" for="Omschrijving">Omschrijving: </label>
+                <input type="text" name="Omschrijving" value="">
             </div>
-            <div class="modal-body">
-                <form class="form-inline">
-                <input type="hidden" name="Id" value="0"></input>
-                    <div class="row">
-                        <label class="control-label" for="Omschrijving">Omschrijving: </label>
-                        <input type="text" name="Omschrijving" value="">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
-                <button type="button" class="btn btn-primary" id="btnExtraatjeOpslaan">Opslaan</button>
-            </div>
-        </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+        <button type="button" class="btn btn-primary" id="btnExtraatjeOpslaan">Opslaan</button>
     </div>
 </div>
-<script>
-
-</script>
 HERE;
         return $content;
     }
-    private function getNieuweWerkingModal(){
+    private function getWerkingModal(){
         $content = <<<HERE
-<div class="modal fade" id="nieuweWerkingModal" tabindex="-1" role="dialog" aria-labelledby="nieuweWerkingModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                <h4 class="modal-title">Nieuwe Werking toevoegen</h4>
+<div class="modal fade" id="WerkingModal" tabindex="-1" role="dialog" aria-labelledby="WerkingModal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+        <h4 class="modal-title">Nieuwe Werking toevoegen</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-inline">
+        	<input type="hidden" name="Id">
+            <div class="row">
+                <label class="control-label" for="Afkorting">Afkorting: </label>
+                <input type="text" value="" name="Afkorting">
             </div>
-            <div class="modal-body">
-                <form class="form-inline">
-                    <div class="row">
-                        <label class="control-label" for="afkorting">Afkorting: </label>
-                        <input type="text" value="">
-                    </div>
-                    <div class="row">
-                        <label for="omschrijving" class="control-label">Omschrijving: </label>
-                        <input type="text" value="">
-                    </div>
-                </form>
+            <div class="row">
+                <label for="omschrijving" class="control-label">Omschrijving: </label>
+                <input type="text" value="" name="Omschrijving">
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
-                <button type="button" class="btn btn-primary">Toevoegen</button>
-            </div>
-        </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+        <button type="button" class="btn btn-primary" id="btnWerkingOpslaan">Toevoegen</button>
     </div>
 </div>
 HERE;
         return $content;
+    }
+    private function getVerwijderWerkingModal(){
+    	$content = <<<HERE
+<div class="modal fade" id="VerwijderWerkingModal" tabindex="-1" role="dialog" aria-labelledby="VerwijderWerkingModal">
+    <div class="modal-header">
+        <button type="buton" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="VerwijderWerkingModalTitle">Werking verwijderen</h4>
+    </div>
+    <div class="modal-body">
+        <form id="VerwijderWerkingForm">
+            <input type="hidden" name="Id">
+        </form>
+        <p>Bent u zeker dat u deze werking wilt verwijderen?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+        <button type="button" class="btn btn-primary" id="btnVerwijderWerking">Verwijderen</button>
+    </div>
+</div>
+HERE;
+		return $content;
     }
     private function getWerkingenContent(){
-        $nieuweWerkingModal = $this->getNieuweWerkingModal();
+        $werkingModal = $this->getWerkingModal();
+		$verwijderWerkingModal = $this->getVerwijderWerkingModal();
         $content = <<<HERE
-$nieuweWerkingModal
-<table class="table table-striped table-bordered">
-<thead>
-<tr>
-    <th>Omschrijving
-    <th>Afkorting
-    <th>
-</tr>
-<tbody>    
-HERE;
-        $werkingen = Werking::getWerkingen();
-        foreach($werkingen as $w){
-            $content .= "<tr><td>".$w->getOmschrijving()."</td><td>".$w->getAfkorting()."</td><td><button class='btn btn-sm'>Wijzigen</button>&nbsp;<button class='btn btn-sm'>Verwijderen</button></td></tr>";
-        }
-        $content .= "</tbody></table>";
-        $content .= <<<HERE
-<button class="btn btn-large btn-primary" data-toggle="modal" data-target="#nieuweWerkingModal">Nieuwe werking toevoegen</button>
+$werkingModal
+$verwijderWerkingModal
+<table class="table table-striped table-bordered" id="tblWerkingen">
+</table>
+<button class="btn btn-large btn-primary" id="btnNieuweWerking">Nieuwe werking toevoegen</button>
 <script>
-
+require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, require){
+    function wijzig_werking(data){
+        clearWerkingForm();
+        $('#WerkingModal input[name=Omschrijving]').val(data['Omschrijving']);
+        $('#WerkingModal input[name=Afkorting]').val(data['Afkorting']);
+        $('#WerkingModal input[name=Id]').val(data['Id']);
+        $('#WerkingModal').modal('show');
+    };
+    function verwijder_werking(data){
+        console.log("verwijder werking: "+JSON.stringify(data));
+        $('#VerwijderWerkingModal input[name=Id]').val(data['Id']);
+        $('#VerwijderWerkingModal').modal('show');
+    };
+    function clearWerkingForm(){
+      $('#WerkingModal input[name=Omschrijving]').val('');
+      $('#WerkingModal input[name=Afkorting]').val('');
+      $('#WerkingModal input[name=Id]').val('0');
+    }
+    function nieuwe_werking(){
+        clearWerkingForm();
+      $('#WerkingModal').modal('show');  
+    };
+    var k = new Array();
+    //k.push(new Kolom('Id','Id'));
+    k.push(new Kolom('Omschrijving','Omschrijving'));
+	k.push(new Kolom('Afkorting','Afkorting'));
+    var controls = new Array();
+    controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_werking));
+    controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_werking));
+    k.push(new ControlsKolom(controls));
+    var werkingen_tabel = new Tabel('index.php?action=data&data=werkingenTabel', k);
+    werkingen_tabel.setUp($('table#tblWerkingen'));
+    $('#btnNieuweWerking').click(function(){
+       nieuwe_werking(); 
+    });
+    $(document).ready(function(){
+        werkingen_tabel.laadTabel();
+    });
+    $('#btnWerkingOpslaan').click(function(){
+        $('#WerkingModal form').submit();
+		return false;
+    });
+    $('#WerkingModal form').submit(function(){
+       $.post('index.php?action=updateWerking', $('#WerkingModal form').serialize(), function(r){
+           r = $.trim(r);
+           console.log("update werking result: "+r);
+           if(r == "1"){
+                werkingen_tabel.laadTabel();
+                $('#WerkingModal').modal('hide');
+           }else{
+               console.log("update Werking mislukt");
+           }
+       });
+       return false;
+    });
+    $('#btnVerwijderWerking').click(function(){
+       console.log("data: "+$('#VerwijderWerkingForm').serialize());
+       $.post('index.php?action=removeWerking', $('#VerwijderWerkingForm').serialize(), function(res){
+           res = $.trim(res);
+            if(res == "1"){
+                $('#VerwijderWerkingModal').modal('hide');
+                werkingen_tabel.laadTabel();
+            }else{
+                console.log("werking verwijderen mislukt, error code: "+res);
+            }
+       });
+   });
+});
 </script>
+
 HERE;
         return $content;
     }
@@ -125,15 +189,6 @@ HERE;
         $content .= $this->getVerwijderExtraatjeModal();
         $content .= <<<HERE
 <table class="table table-striped table-bordered" id="Extraatjes">
-
-<!--<tbody>
-HERE;
-        $extraatjes = Extraatje::getExtraatjes();
-        foreach($extraatjes as $e){
-            $content .= "<tr><td>".$e->getOmschrijving()."</td><td><button class='btn btn-sm'>Wijzigen</button>&nbsp;<button class='btn btn-sm'>Verwijderen</button></tr>";
-        }
-        $content .= <<<HERE
-</tbody>-->
 </table>
 <button class="btn btn-large btn-primary" id="btnNieuwExtraatje">Nieuw extraatje toevoegen</button>
 <script>

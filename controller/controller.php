@@ -65,6 +65,20 @@ class Controller {
                     $extraatje->deleteFromDatabase();
                     echo "1";
                     exit;
+				case 'updateWerking':
+					$data = new stdClass();
+					$data->Id = $_POST['Id'];
+					$data->Omschrijving = $_POST['Omschrijving'];
+					$data->Afkorting = $_POST['Afkorting'];
+					$werking = new Werking($data);
+					$werking->updateDatabase();
+					echo "1";
+					exit;
+				case 'removeWerking':
+					$werking = new Werking($_POST['Id']);
+					$werking->deleteFromDatabase();
+					echo "1";
+					exit;
                 case 'updateUitstap':
                     $data = new stdClass();
                     $data->Id = $_POST['Id'];
