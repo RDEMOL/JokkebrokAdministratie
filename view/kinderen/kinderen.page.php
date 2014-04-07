@@ -506,7 +506,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
 	
 	   });
 	   $('#btnNieuweVoogd').click(function(){
-	   		$('#voogdForm input,textarea').val('');
+	   		$('#voogdForm input').val('');
+			$('#voogdForm textarea').val('');
 			$('#voogdForm input[name=Add]').val('1');
 			$('#voogdForm input[name=Id]').val('0');
 	   });
