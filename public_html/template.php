@@ -21,7 +21,7 @@ if(!$this){
 				height: 100%;
 			}
 			body {
-				padding-top: 50px;
+				padding: 70px 0 0 0;
 			}
 			#wrap {
 				min-height: 100%;
@@ -29,11 +29,8 @@ if(!$this){
 				/* Negative indent footer by its height */
 				margin: 0 auto -60px;
 				/* Pad bottom by footer height */
-				padding: 0 0 60px;
+				padding: 0 0 60px 0px;
 			}
-            #content-container{
-                margin-top:20px;
-            }
 			/* Set the fixed height of the footer here */
 			#footer {
 				height: 60px;
