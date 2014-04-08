@@ -168,7 +168,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('#UitstapModal').modal('show');
     };
     function verwijder_uitstap(data){
-        console.log("verwijder uitstap: "+JSON.stringify(data));
         $('#VerwijderUitstapModal input[name=Id]').val(data['Id']);
         $('#VerwijderUitstapModal').modal('show');
     };
@@ -181,15 +180,12 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
       $('#UitstapModal').modal('show');  
     };
     var uitstap_deelnemers_tabel = null;
-	console.log("laad_uitstap_details_placeholder set");
 	laad_uitstap_details_placeholder = function(){
 		$('#UitstapEigenschappenDiv').css('display', 'none');
 		$('#UitstapDeelnamesDiv').empty()
 			.append($('<div>').addClass('text-center').css('width', '100%').html('<em>details van de uitstap</em>'));
 	}
-	console.log("setting done");
     laad_uitstap = function(data){
-    	console.log("data = "+JSON.stringify(data));
         var eigenschappen_div = $('#UitstapEigenschappenDiv').css('display', 'inline');
 		eigenschappen_div.find('#txtDatum').text(data['Datum']);
 		eigenschappen_div.find('#txtOmschrijving').text(data['Omschrijving']);
@@ -213,7 +209,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
            remote:{
                url:'index.php?action=data&data=kinderenSuggesties&query=%QUERY',
                filter: function(kind){
-                   console.log("bloodhound received this data: "+JSON.stringify(kind));
                    return $.map(kind.content, function(k){
                       return { 'display_value':(k.Voornaam+" "+k.Naam), 'Id':k.Id/*, 'Voogden':k.Voogden*/, 'DefaultWerkingId': k.DefaultWerkingId}; 
                    });
@@ -229,8 +224,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             $('input[name=VolledigeNaamKind]').typeahead('val', '');
         });
         var div = $('#UitstapDeelnamesDiv').empty();
-        //add omschrijving/datum/actief
-        //add table
         var tabel_div = $('<div>');
         div.append(tabel_div);
         var tabel = $('<table>').addClass('table table-hover table-bordered table-condensed');
@@ -249,13 +242,11 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         controls.push(new Control('Verwijderen', 'btn btn-xs', verwijder_deelname));
         uitstap_deelnemers_kolommen.push(new ControlsKolom(controls));
         var id = parseInt(data['Id']);
-        console.log("id = "+id);
         uitstap_deelnemers_tabel = new Tabel('index.php?action=data&data=uitstapDeelnamesTabel&uitstap_id='+id, uitstap_deelnemers_kolommen);
         uitstap_deelnemers_tabel.setUp(tabel);
         uitstap_deelnemers_tabel.laadTabel();
     };
     function uitstap_clicked(row){
-        //row.getElement().addClass('active').siblings().removeClass('active');
         laad_uitstap(row.getData());
     };
     var k = new Array();
@@ -278,16 +269,13 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     });
     $('#UitstapModal form').submit(function(){
     	var id = $('#UitstapModal form input[name=Id]').val();
-        console.log("serialized gives: "+$('#UitstapModal form').serialize());
        	$.post('index.php?action=updateUitstap', $('#UitstapModal form').serialize(), function(r){
            r = $.trim(r);
-           console.log("update uitstap result: "+r);
            if(r == "1"){
            		var d = new Object();
 			   	d.Id = id;
 				uitstappen_tabel.laadTabel();
            		$.post('index.php?action=data&data=uitstapDetails', d, function(res){
-           			console.log("res = "+res);
            			laad_uitstap(JSON.parse(res).content);
            		});
                 $('#UitstapModal').modal('hide');
@@ -298,7 +286,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
        return false;
     });
     $('#btnVerwijderUitstap').click(function(){
-       console.log("data: "+$('#VerwijderUitstapForm').serialize());
        $.post('index.php?action=removeUitstap', $('#VerwijderUitstapForm').serialize(), function(res){
            res = $.trim(res);
             if(res == "1"){
@@ -319,11 +306,9 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
 $content .= <<<HERE
 <script>
 init_function = function(){
-	console.log("in init!");
 	var data = new Object();
 	data.Id = $id;
 	$.post('?action=data&data=uitstapDetails', data, function(resp){
-		console.log("got data: "+JSON.stringify(resp));
 		laad_uitstap(JSON.parse(resp).content);
 	});
 };
@@ -333,7 +318,6 @@ HERE;
 			$content .= <<<HERE
 <script>
 init_function = function(){
-			console.log("calling M. placeholder!");
 		laad_uitstap_details_placeholder();};
 </script>
 HERE;

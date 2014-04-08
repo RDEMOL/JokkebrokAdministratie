@@ -6,7 +6,6 @@ require_once(dirname(__FILE__)."/../../model/speelpleindag/speelpleindag.class.p
 require_once(dirname(__FILE__)."/../../model/extraatjes/extraatje_aanwezigheid.class.php");
 require_once(dirname(__FILE__)."/../../model/uitstappen/uitstap.class.php");
 
-
 class DashboardPage extends Page{
     public function __construct(){
         parent::__construct("Dashboard", "", "dashboard");
@@ -137,7 +136,6 @@ foreach($uitstappen as $u){
 	}
 
 	$('table#UitstapOverzicht').on("click", "tr", function() {
-		console.log("click!");
 		uitstap_clicked($(this).find('input[name=Id]').val());
 	}); 
 </script>

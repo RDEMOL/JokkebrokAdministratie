@@ -35,7 +35,6 @@ define(function(){
 			case 'text':
 				el = $('<input>').attr('type', 'text').attr('name',this.id).addClass('form-control');
 				el.keyup(function(){
-					console.log("key up");
 					self.notify();
 				});
 				break;
@@ -90,7 +89,6 @@ define(function(){
 		}
 	};
 	FilterVeld.prototype.getElement = function(){
-		console.log("in getelement");
 		return this.element;
 	};
 	return FilterVeld;

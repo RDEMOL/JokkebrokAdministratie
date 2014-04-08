@@ -93,7 +93,8 @@ class KinderenPage extends Page {
 				<input type="text" name="Naam">
 			</div>
 			<div class="row">
-				<label>Opmerkingen: </label>				<textarea name="Opmerkingen"></textarea>
+				<label>Opmerkingen: </label>
+				<textarea name="Opmerkingen"></textarea>
 			</div>
 		</form>
 	</div>
@@ -130,8 +131,7 @@ class KinderenPage extends Page {
 			</div>
 			<div class="row">
 				<label class="control-label" for="DefaultWerking">Werking*: </label>
-				<select name="DefaultWerking" class="form-control">
-				</select>
+				<select name="DefaultWerking" class="form-control"></select>
 			</div>
 			<div class="row">
 				<i>*Deze werking is de standaardinstelling bij de aanwezigheden</i>
@@ -232,15 +232,13 @@ class KinderenPage extends Page {
 				$('#voogdModal').modal('show');
 			});
 		}
-
+		
 		function laad_voogd(element, id) {
 			element.empty();
 			var data = new Object();
 			data.VoogdId = id;
 			$.get('index.php?action=data&data=voogdInfo', data, function(resp) {
-				console.log("resp = " + resp);
 				resp = JSON.parse(resp);
-				console.log("resp parsed");
 				element.append($('<input>').attr({
 					'type' : 'hidden',
 					'name' : 'Id'
@@ -252,11 +250,11 @@ class KinderenPage extends Page {
 		}
 
 		function voeg_voogd_toe(id) {
-			console.log("voeg voogd toe: " + id);
 			var el = $('<li>');
 			$('#lstVoogden').append(el);
 			laad_voogd(el, id);
 		};
+		
 		function update_voogd(id) {
 			$('#lstVoogden li').each(function(index, value) {
 				if ($(this).find('input[name=Id]').val() == id) {
@@ -264,34 +262,8 @@ class KinderenPage extends Page {
 				}
 			});
 		}
-
-
-		$('#btnVoogd').click(function() {
-			var data = new Object();
-			data.Id = $('#voogdForm input[name=VoogdId]').val();
-			data.Naam = $('#voogdForm input[name=Naam]').val();
-			data.Voornaam = $('#voogdForm input[name=Voornaam]').val();
-			data.Opmerkingen = $('#voogdForm textarea[name=Opmerkingen]').val();
-			$.post('index.php?action=updateVoogd', data, function(resp) {
-				console.log(resp);
-				try {
-					resp = JSON.parse(resp);
-					if ($('#voogdForm input[name=Add]').val() == '1') {
-						console.log("nieuwe");
-						console.log("id = " + resp.Id);
-						voeg_voogd_toe(resp.Id);
-					} else {
-						console.log("oude");
-						update_voogd(resp.Id);
-					}
-				} catch(err) {
-					console.log("error updating voogd: " + resp);
-				}
-				$('#voogdModal').modal('hide');
-			});
-		});
+		
 		function add_voogd_element(data) {
-			console.log("add voogd element");
 			var el = $('<li>').append($('<input>').attr({
 				'name' : 'Id',
 				'type' : 'hidden'
@@ -318,6 +290,27 @@ class KinderenPage extends Page {
 			$('#lstVoogden').append(el);
 		}
 
+		$('#btnVoogd').click(function() {
+			var data = new Object();
+			data.Id = $('#voogdForm input[name=VoogdId]').val();
+			data.Naam = $('#voogdForm input[name=Naam]').val();
+			data.Voornaam = $('#voogdForm input[name=Voornaam]').val();
+			data.Opmerkingen = $('#voogdForm textarea[name=Opmerkingen]').val();
+			$.post('index.php?action=updateVoogd', data, function(resp) {
+				try {
+					resp = JSON.parse(resp);
+					if ($('#voogdForm input[name=Add]').val() == '1') {
+						voeg_voogd_toe(resp.Id);
+					} else {
+						update_voogd(resp.Id);
+					}
+				} catch(err) {
+					console.log("error updating voogd: " + resp);
+				}
+				$('#voogdModal').modal('hide');
+			});
+		});
+		
 		var suggesties = new Bloodhound({
 			datumTokenizer : function(d) {
 				return Bloodhound.tokenizers.whitespace(d.value);
@@ -326,7 +319,6 @@ class KinderenPage extends Page {
 			remote : {
 				url : 'index.php?action=data&data=voogdenSuggesties&query=%QUERY',
 				filter : function(kind) {
-					console.log("bloodhound received this data: " + JSON.stringify(kind));
 					return $.map(kind.content, function(v) {
 						return {
 							'display_value' : (v.Voornaam + " " + v.Naam + " " + v.Kinderen),
@@ -356,7 +348,6 @@ class KinderenPage extends Page {
 
 		function wijzig_kind(data) {
 			clear_kind_form();
-			console.log("wijzigen: " + JSON.stringify(data));
 			$('.voogd_row').remove();
 			$('#kindForm input[name=Id]').val(data.Id);
 			$('#kindForm input[name=Voornaam]').val(data.Voornaam);
@@ -371,7 +362,6 @@ class KinderenPage extends Page {
 			$('#kindModal').modal('show');
 		};
 		function verwijder_kind(data) {
-			console.log("verwijderen: " + JSON.stringify(data));
 			$('#verwijderKindModal input[name=Id]').val(data.Id);
 			$('#verwijderKindModal').modal('show');
 		};
@@ -393,7 +383,6 @@ class KinderenPage extends Page {
 			data.Belangrijk = $('#kindForm textarea[name=Belangrijk]').val();
 			data.VoogdIds = new Array();
 			$('#lstVoogden li').each(function() {
-				console.log("added one!");
 				data.VoogdIds.push($(this).find("input[name=Id]").val());
 			});
 			$.post('index.php?action=updateKind', data, function(res) {
@@ -411,8 +400,6 @@ class KinderenPage extends Page {
 			$('#kindForm').submit();
 		});
 		$('#btnVerwijderKind').click(function() {
-			console.log("sending delete request to server");
-			console.log("data: " + $('#verwijderKindForm').serialize());
 			$.post('index.php?action=removeKind', $('#verwijderKindForm').serialize(), function(res) {
 				res = $.trim(res);
 				if (res == "1") {
@@ -441,10 +428,8 @@ class KinderenPage extends Page {
 			var data = new Object();
 			data.kolommen = new Array();
 			$('#pdfSelectedFields li').each(function(index, value) {
-				console.log("text = " + $(this).text());
 				data.kolommen.push($(this).text());
 			});
-			console.log("kolommen = " + JSON.stringify(data.kolommen));
 			data.action = "data";
 			data.data = "kinderenPDF";
 			data.filter = t.getFilter();
@@ -459,16 +444,14 @@ class KinderenPage extends Page {
 			$('#voogdForm input[name=Add]').val('1');
 			$('#voogdForm input[name=Id]').val('0');
 		});
-		//tabel
 		var t;
 		var js_array = new Array();
 		$(document).ready(function() {
 			$.get('index.php?action=data&data=werkingenTabel', null, function(resp) {
-				console.log("werkingen_tabel = "+JSON.stringify(resp));
 				var s = $('select[name=DefaultWerking]').empty();
 				js_array = new Array();
 				for (var i = 0; i < resp.content.length; ++i) {
-					s.append($('<option>').val(resp.content[i].Id).text(resp.content[i].Afkorting+" - "+resp.content[i].Omschrijving));
+					s.append($('<option>').val(resp.content[i].Id).text(resp.content[i].Afkorting + " - " + resp.content[i].Omschrijving));
 					var obj = new Object();
 					obj.value = resp.content[i].Id;
 					obj.label = resp.content[i].Afkorting;
@@ -518,7 +501,7 @@ class KinderenPage extends Page {
 </script>
 <?php
 
-	}
+}
 }
 ?>
 

@@ -39,18 +39,14 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 		var data = new Object();
 		data.filter = this.filter;
 		data.order = this.getSort();
-		console.log("url = "+this.url+", data = "+JSON.stringify(data));
 		$.post(this.url, data, function(res){
-			console.log("res = "+res);
 			self.data = JSON.parse(res).content;
-			console.log("new self data = "+JSON.stringify(self.data));
 			self.updateBody();
 		});
 	};
 	Tabel.prototype.getTHead = function(){
 		var headTR = $('<tr>');
 		for(var i = 0; i < this.kolommen.length; ++i){
-			//headTR.append($('<th>').html(this.kolommen[i].getHeadContent()));
 			headTR.append(this.kolommen[i].getHeadTH());
 		}
 		var thead = $('<thead>').append(headTR);
@@ -80,7 +76,6 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 			}
 			this.tabelBody.append(rij.getElement());
 		}
-		console.log("body updated");
 	};
 	Tabel.prototype.getRowClickListener = function(){
 		return this.row_click_listener;

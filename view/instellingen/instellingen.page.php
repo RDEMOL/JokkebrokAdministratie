@@ -65,7 +65,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('#WerkingModal').modal('show');
     };
     function verwijder_werking(data){
-        console.log("verwijder werking: "+JSON.stringify(data));
         $('#VerwijderWerkingModal input[name=Id]').val(data['Id']);
         $('#VerwijderWerkingModal').modal('show');
     };
@@ -79,7 +78,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
       $('#WerkingModal').modal('show');  
     };
     var k = new Array();
-    //k.push(new Kolom('Id','Id'));
     k.push(new Kolom('Omschrijving','Omschrijving'));
 	k.push(new Kolom('Afkorting','Afkorting'));
     var controls = new Array();
@@ -101,7 +99,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     $('#WerkingModal form').submit(function(){
        $.post('index.php?action=updateWerking', $('#WerkingModal form').serialize(), function(r){
            r = $.trim(r);
-           console.log("update werking result: "+r);
            if(r == "1"){
                 werkingen_tabel.laadTabel();
                 $('#WerkingModal').modal('hide');
@@ -112,7 +109,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
        return false;
     });
     $('#btnVerwijderWerking').click(function(){
-       console.log("data: "+$('#VerwijderWerkingForm').serialize());
        $.post('index.php?action=removeWerking', $('#VerwijderWerkingForm').serialize(), function(res){
            res = $.trim(res);
             if(res == "1"){
@@ -179,7 +175,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('#ExtraatjeModal').modal('show');
     };
     function verwijder_extraatje(data){
-        console.log("verwijder extraatje: "+JSON.stringify(data));
         $('#VerwijderExtraatjeModal input[name=Id]').val(data['Id']);
         $('#VerwijderExtraatjeModal').modal('show');
     };
@@ -192,7 +187,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
       $('#ExtraatjeModal').modal('show');  
     };
     var k = new Array();
-    //k.push(new Kolom('Id','Id'));
     k.push(new Kolom('Omschrijving','Omschrijving'));
     var controls = new Array();
     controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_extraatje));
@@ -212,7 +206,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     $('#ExtraatjeModal form').submit(function(){
        $.post('index.php?action=updateExtraatje', $('#ExtraatjeModal form').serialize(), function(r){
            r = $.trim(r);
-           console.log("update extraatje result: "+r);
            if(r == "1"){
                 extraatjes_tabel.laadTabel();
                 $('#ExtraatjeModal').modal('hide');
@@ -223,7 +216,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
        return false;
     });
     $('#btnVerwijderExtraatje').click(function(){
-       console.log("data: "+$('#VerwijderExtraatjeForm').serialize());
        $.post('index.php?action=removeExtraatje', $('#VerwijderExtraatjeForm').serialize(), function(res){
            res = $.trim(res);
             if(res == "1"){

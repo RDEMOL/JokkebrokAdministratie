@@ -79,15 +79,11 @@ HERE;
 		<div class="col-md-6">
 		Weergeven
 		<ul id="pdfSelectedFields" class="pdfFields">
-		<li>a
-		<li>b
 		</ul>
 		</div>
 		<div class="col-md-6">
 		Verbergen
 		<ul id="pdfUnselectedFields" class="pdfFields">
-		<li>c
-		<li>d
 		</ul>
 		</div>
 		</div>
@@ -207,7 +203,6 @@ typeahead, .tt-query, .tt-hint {
            remote:{
                url:'index.php?action=data&data=kinderenSuggesties&query=%QUERY',
                filter: function(kind){
-                   console.log("bloodhound received this data: "+JSON.stringify(kind));
                    return $.map(kind.content, function(k){
                       return { 'display_value':(k.Voornaam+" "+k.Naam), 'id':k.Id, 'Voogden':k.Voogden, 'DefaultWerkingId': k.DefaultWerkingId}; 
                    });
@@ -263,7 +258,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         var d = new Object();
         d.id = data['Id'];
         $.get('?action=data&data=aanwezigheidDetails', d, function(r){
-            console.log("response: "+r);
             var obj = JSON.parse(r);
             $('input[name="AanwezigheidId"]').val(obj.Id);
             $('input[name="KindId"]').val(obj.KindId);
@@ -284,7 +278,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('#aanwezigheidModal').modal('show');
     };
     var verwijder_aanwezigheid = function(data){
-        console.log("Verwijder aanwezigheid: "+JSON.stringify(data));
         $('#verwijderAanwezigheidModal input[name=Id]').val(data.Id);
         $('#verwijderAanwezigheidModal').modal('show');
     };
@@ -300,14 +293,12 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     k.push(new Kolom('Werking','Werking'));
     k.push(new Kolom('Extraatjes', 'Extraatjes', function(data){
         var td = $('<td>');
-        console.log("kolom extraatjes: "+data['Extraatjes'].length);
         for(var i = 0; i < data['Extraatjes'].length; ++i){
             var extra = $('<a>').addClass('glyphicon glyphicon-plus').attr('title', data['Extraatjes'][i].Omschrijving).tooltip();
             td.append(extra);
         }
         return td;
     }));
-    //TODO: insert extraatjes
     k.push(new Kolom('Info', 'Extra Info', function(data){
         var td = $('<td>');
         if(data['Belangrijk']){
@@ -372,10 +363,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
        d.Opmerkingen = opmerkingen;
        d.Extraatjes = new Array();
        $('#aanwezigheidForm input[type=checkbox].Extraatjes:checked').each(function(index, e){
-           console.log("checked: val = "+$(e).val());
             d.Extraatjes.push($(e).val());
        });
-	   console.log("submit aanwezigheid data: "+JSON.stringify(d));
        $.post('?action=updateAanwezigheid', d, function(res){ 
            res = $.trim(res);
            if(res == "1"){
@@ -388,8 +377,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
        return false;
     });
     $('#btnVerwijderAanwezigheid').click(function(){
-       console.log("sending delete request to server");
-       console.log("data: "+$('#verwijderAanwezigheidForm').serialize());
        $.post('index.php?action=removeAanwezigheid', $('#verwijderAanwezigheidForm').serialize(), function(res){
            res = $.trim(res);
             if(res == "1"){
@@ -415,10 +402,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
    		var data = new Object();
 		data.kolommen = new Array();
 		$('#pdfSelectedFields li').each(function(index, value){
-			console.log("text = "+$(this).text());
 			data.kolommen.push($(this).text());
 		});
-		console.log("kolommen = "+JSON.stringify(data.kolommen));
 		data.action="data";
 		data.data="aanwezighedenPDF";
 		data.filter = t.getFilter();

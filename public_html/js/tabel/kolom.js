@@ -72,7 +72,6 @@ define(function(){
 			th.append(this.th_up_arrow);
 			th.append(this.th_down_arrow);
 			th.click(function(){
-				console.log("th click");
 				self.sortChange();
 			});
 		}

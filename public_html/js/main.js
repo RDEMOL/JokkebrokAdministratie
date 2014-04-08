@@ -1,3 +1,3 @@
 define([], function(){
-	console.log("require succeeded");
+	console.log("in main, nothing to do?");
 });
