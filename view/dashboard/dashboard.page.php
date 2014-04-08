@@ -10,7 +10,6 @@ require_once(dirname(__FILE__)."/../../model/uitstappen/uitstap.class.php");
 class DashboardPage extends Page{
     public function __construct(){
         parent::__construct("Dashboard", "", "dashboard");
-        $this->buildContent();
     }
     private function getAanwezighedenContent(){
         $vandaag = new SpeelpleinDag();
@@ -118,7 +117,7 @@ $('table#UitstapOverzicht').on("click", "tr", function(){
 HERE;
 		return $content;		
 	}
-    public function buildContent(){
+    public function printContent(){
         $aanwezighedenContent = $this->getAanwezighedenContent();
 		$uitstappenContent = $this->getUitstappenContent();
         $content = <<<HERE
@@ -141,7 +140,7 @@ $uitstappenContent
 </div>
 </div>
 HERE;
-        $this->setContent($content);
+        echo $content;
     }
 }
 ?>

@@ -102,7 +102,7 @@ if(!$this){
 				</div>
 			</div>
 			<div class="container" id="content-container">
-				<?php echo $this->getContent(); ?>
+				<?php $this->printContent(); ?>
 			</div>
 		</div>
 		<div id="footer">

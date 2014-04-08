@@ -6,7 +6,6 @@ require_once (dirname(__FILE__) . "/../../model/extraatjes/extraatje.class.php")
 class AanwezighedenPage extends Page {
     public function __construct() {
         parent::__construct("Aanwezigheden","","aanwezigheden");
-        $this->buildContent();
     }
 
     private function getWerkingenSelect() {
@@ -209,7 +208,7 @@ HERE;
 HERE;
 		return $content;
 	}
-    public function buildContent() {
+    public function printContent() {
         
         $werkingen = Werking::getWerkingen();
         $werkingen_js_array = array();
@@ -264,7 +263,6 @@ HERE;
 </div>
 <script>
 $(document).ready(function(){
-    //$('#datum').datepicker({'format':'yyyy-mm-dd'}).data('datepicker');
     $('input[name="Datum"]').datepicker({'format':'yyyy-mm-dd'}).on('changeDate', function(){
         $('input[name="Datum"]').datepicker('hide');
     });
@@ -451,8 +449,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
 });
 </script>
 HERE;
-        $this->setContent($content);
-    }
+	echo $content;
+}
 
 }
 ?>

@@ -27,8 +27,8 @@ class Page {
         $this->content = $content;
     }
 
-    public function getContent() {
-        return $this->content;
+    public function printContent() {
+    	echo $this->content;
     }
 
     public function output() {
