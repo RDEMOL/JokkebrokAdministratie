@@ -11,7 +11,7 @@ class DashboardPage extends Page{
     public function __construct(){
         parent::__construct("Dashboard", "", "dashboard");
     }
-    private function getAanwezighedenContent(){
+    private function printAanwezighedenContent(){
         $vandaag = new SpeelpleinDag();
         $werkingen = Werking::getWerkingen();
         $werkingen_amount = count($werkingen);
@@ -78,55 +78,17 @@ $werkingen_extraatjes_tbody
 $werkingen_footer
 </table>
 HERE;
-        return $content;
+        echo $content;
     }
-	private function getUitstappenContent(){
-		$uitstappen_rows = "";
-		$uitstappen = Uitstap::getUitstappen();
-		foreach($uitstappen as $u){
-			$uitstappen_rows.="<tr><td><input name=\"Id\" type=\"hidden\" value=\"".$u->getId()."\">".$u->getDatum()."</td><td>".$u->getOmschrijving()."</td><td>".$u->getAantalDeelnemers()."</td></tr>\n";
-		}
-		$content = <<<HERE
-<style type="text/css">
-table#UitstapOverzicht tr :hover{
-    cursor:pointer;
-}
-</style>
-<table class="table table-bordered table-hover" id="UitstapOverzicht">
-<thead>
-	<tr>
-		<th>Datum</th>
-		<th>Beschrijving</th>
-		<th>#</th>
-	</tr>
-</thead>
-<tbody>
-$uitstappen_rows
-</tbody>
-</table>
-<script>
-
-function uitstap_clicked(id){
-	window.location.href = '?page=uitstappen&UitstapId='+id;
-}
-$('table#UitstapOverzicht').on("click", "tr", function(){
-	console.log("click!");
-	uitstap_clicked($(this).find('input[name=Id]').val());	
-});
-</script>
-HERE;
-		return $content;		
-	}
     public function printContent(){
-        $aanwezighedenContent = $this->getAanwezighedenContent();
-		$uitstappenContent = $this->getUitstappenContent();
-        $content = <<<HERE
+?>
+
 <div class="row">
 <div class="col-md-6">
 <div class="panel panel-default">
 <div class="panel-heading"><strong>Aanwezigheden</strong></div>
 <div class="panel-body">
-$aanwezighedenContent
+<?php $this->printAanwezighedenContent(); ?>
 </div>
 </div>
 </div>
@@ -134,13 +96,56 @@ $aanwezighedenContent
 <div class="panel panel-default">
 <div class="panel-heading"><strong>Uitstappen</strong></div>
 <div class="panel-body">
-$uitstappenContent
+<style type="text/css">
+	table#UitstapOverzicht tr :hover {
+		cursor: pointer;
+	}
+</style>
+<table class="table table-bordered table-hover" id="UitstapOverzicht">
+<thead>
+<tr>
+<th>Datum</th>
+<th>Beschrijving</th>
+<th>#</th>
+</tr>
+</thead>
+<tbody>
+<?php
+$uitstappen = Uitstap::getUitstappen();
+foreach($uitstappen as $u){
+?>
+<tr>
+<td>
+<input name="Id" type="hidden" value="<?php echo $u->getId(); ?>">
+<?php echo $u->getDatum(); ?>
+</td>
+<td>
+<?php echo $u->getOmschrijving(); ?>
+</td>
+<td>
+<?php echo $u->getAantalDeelnemers(); ?>
+</td>
+</tr>
+<?php
+}
+?>
+</tbody>
+</table>
+<script>
+	function uitstap_clicked(id) {
+		window.location.href = '?page=uitstappen&UitstapId=' + id;
+	}
+
+	$('table#UitstapOverzicht').on("click", "tr", function() {
+		console.log("click!");
+		uitstap_clicked($(this).find('input[name=Id]').val());
+	}); 
+</script>
 </div>
 </div>
 </div>
 </div>
-HERE;
-        echo $content;
-    }
+<?php
+}
 }
 ?>

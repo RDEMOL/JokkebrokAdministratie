@@ -31,10 +31,90 @@ HERE;
         return $result;
     }
 
-    private function getAanwezigheidModal() {
-        $werkingen_select = $this->getWerkingenSelect();
-        $extraatjes_list = $this->getExtraatjesList();
-        $content = <<<HERE
+    public function printContent() {
+        
+        $werkingen = Werking::getWerkingen();
+        $werkingen_js_array = array();
+        $werkingen_js_array[] = array('value'=>'', 'label'=>'Alle');
+        foreach($werkingen as $w){
+            $werkingen_js_array[] = array('value' => $w->getId(), 'label' => $w->getAfkorting());
+        }
+        $werkingen_js_array = json_encode($werkingen_js_array);
+        
+        $extraatjes = Extraatje::getExtraatjes();
+        $extraatjes_js_array = array();
+        $extraatjes_js_array[] = array('value'=>'', 'label'=>'Alle');
+        foreach($extraatjes as $e){
+            $extraatjes_js_array[] = array('value'=>$e->getId(), 'label'=>$e->getOmschrijving());
+        }
+        $extraatjes_js_array = json_encode($extraatjes_js_array);
+        
+		//filter
+        $vandaag = new SpeelpleinDag();
+        $datum = $vandaag->getDatum();
+		$werking = "";
+		$extraatje = "";
+		if(isset($_REQUEST['filter'])){
+			$filter = $_REQUEST['filter'];
+			if(isset($filter['Datum'])){
+				$datum = $filter['Datum'];
+			}
+			if(isset($filter['Extraatje'])){
+				$extraatje = $filter['Extraatje'];	
+			}
+			if(isset($filter['Werking'])){
+				$werking = $filter['Werking'];
+			}
+		}
+		
+?>
+<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h4 class="modal-title" id="pdfModalTitle">PDF genereren</h4>
+	</div>
+	<div class="modal-body">
+		Welke kolommen wilt u afdrukken?
+		<div class="row">
+		<div class="col-md-6">
+		Weergeven
+		<ul id="pdfSelectedFields" class="pdfFields">
+		<li>a
+		<li>b
+		</ul>
+		</div>
+		<div class="col-md-6">
+		Verbergen
+		<ul id="pdfUnselectedFields" class="pdfFields">
+		<li>c
+		<li>d
+		</ul>
+		</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+		<button type="button" class="btn btn-primary" id="btnPDF">PDF genereren</button>
+	</div>
+</div>
+
+<div class="modal fade" id="verwijderAanwezigheidModal" tabindex="-1" role="dialog" aria-labelledby="verwijderAanwezigheidModal">
+    <div class="modal-header">
+        <button type="buton" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="verwijderAanwezigheidModalTitle">Aanwezigheid verwijderen</h4>
+    </div>
+    <div class="modal-body">
+        <form id="verwijderAanwezigheidForm">
+            <input type="hidden" name="Id">
+        </form>
+        <p>Bent u zeker dat u deze aanwezigheid wilt verwijderen?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
+        <button type="button" class="btn btn-primary" id="btnVerwijderAanwezigheid">Verwijderen</button>
+    </div>
+</div>
+
 <div class="modal fade" id="aanwezigheidModal" tabindex="-1" role="dialog" aria-labelledby="aanwezigheidModal">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
@@ -60,10 +140,10 @@ HERE;
                 <select name="KindVoogdId" class="form-control"></select>
                 <br>
                 <label class="control-label" for="WerkingId">Werking: </label>
-                $werkingen_select
+<?php echo $this->getWerkingenSelect(); ?>
                 <br>
                 <div id="ExtraatjesDiv">
-                $extraatjes_list
+<?php echo $this->getExtraatjesList(); ?>
                 </div>
                 <br>
                 <label class="control-label" for="Opmerkingen">Opmerkingen: </label>
@@ -149,107 +229,8 @@ typeahead, .tt-query, .tt-hint {
 	    <button type="button" class="btn btn-primary" id="submitAanwezigheid">Toevoegen</button>
 	</div>
 </div>
-HERE;
-        return $content;
-    }
 
-    private function getVerwijderenModal(){
-        $content = <<<HERE
-<div class="modal fade" id="verwijderAanwezigheidModal" tabindex="-1" role="dialog" aria-labelledby="verwijderAanwezigheidModal">
-    <div class="modal-header">
-        <button type="buton" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="verwijderAanwezigheidModalTitle">Aanwezigheid verwijderen</h4>
-    </div>
-    <div class="modal-body">
-        <form id="verwijderAanwezigheidForm">
-            <input type="hidden" name="Id">
-        </form>
-        <p>Bent u zeker dat u deze aanwezigheid wilt verwijderen?</p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
-        <button type="button" class="btn btn-primary" id="btnVerwijderAanwezigheid">Verwijderen</button>
-    </div>
-</div>
-HERE;
-        return $content;
-    }
-	private function getPDFModal(){
-		$content = <<<HERE
-<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModal">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h4 class="modal-title" id="pdfModalTitle">PDF genereren</h4>
-	</div>
-	<div class="modal-body">
-		Welke kolommen wilt u afdrukken?
-		<div class="row">
-		<div class="col-md-6">
-		Weergeven
-		<ul id="pdfSelectedFields" class="pdfFields">
-		<li>a
-		<li>b
-		</ul>
-		</div>
-		<div class="col-md-6">
-		Verbergen
-		<ul id="pdfUnselectedFields" class="pdfFields">
-		<li>c
-		<li>d
-		</ul>
-		</div>
-		</div>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
-		<button type="button" class="btn btn-primary" id="btnPDF">PDF genereren</button>
-	</div>
-</div>
-HERE;
-		return $content;
-	}
-    public function printContent() {
-        
-        $werkingen = Werking::getWerkingen();
-        $werkingen_js_array = array();
-        $werkingen_js_array[] = array('value'=>'', 'label'=>'Alle');
-        foreach($werkingen as $w){
-            $werkingen_js_array[] = array('value' => $w->getId(), 'label' => $w->getAfkorting());
-        }
-        $werkingen_js_array = json_encode($werkingen_js_array);
-        
-        $extraatjes = Extraatje::getExtraatjes();
-        $extraatjes_js_array = array();
-        $extraatjes_js_array[] = array('value'=>'', 'label'=>'Alle');
-        foreach($extraatjes as $e){
-            $extraatjes_js_array[] = array('value'=>$e->getId(), 'label'=>$e->getOmschrijving());
-        }
-        $extraatjes_js_array = json_encode($extraatjes_js_array);
-        
-		//filter
-        $vandaag = new SpeelpleinDag();
-        $datum = $vandaag->getDatum();
-		$werking = "";
-		$extraatje = "";
-		if(isset($_REQUEST['filter'])){
-			$filter = $_REQUEST['filter'];
-			if(isset($filter['Datum'])){
-				$datum = $filter['Datum'];
-			}
-			if(isset($filter['Extraatje'])){
-				$extraatje = $filter['Extraatje'];	
-			}
-			if(isset($filter['Werking'])){
-				$werking = $filter['Werking'];
-			}
-		}
-		
-		
-        $content = $this->getAanwezigheidModal();
-        $content .= $this->getVerwijderenModal();
-		$content .= $this->getPDFModal();
-        $content .= <<<HERE
-        
+
 <div class="row">
     <button class="btn btn-large btn-primary" id="btnNieuweAanwezigheid">Aanwezigheid</button>
     <div class="pull-right">
@@ -362,10 +343,10 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     k.push(new ControlsKolom(controls));
     var t = new Tabel('index.php?action=data&data=aanwezighedenTabel', k);
     var filter_velden = new Array();
-    filter_velden.push(new FilterVeld('Datum', 1, 'datepicker', null, null, '$datum'));
+    filter_velden.push(new FilterVeld('Datum', 1, 'datepicker', null, null, '<?php echo $datum; ?> '));
     filter_velden.push(new FilterVeld('VolledigeNaam', 2, 'text', null));
-    filter_velden.push(new FilterVeld('Werking', 1, 'select', {options:$werkingen_js_array}, null, '$werking'));
-    filter_velden.push(new FilterVeld('Extraatjes', 1, 'select', {options:$extraatjes_js_array}, null, '$extraatje'));
+    filter_velden.push(new FilterVeld('Werking', 1, 'select', {options: <?php echo $werkingen_js_array; ?>}, null, '<?php echo $werking; ?>'));
+    filter_velden.push(new FilterVeld('Extraatjes', 1, 'select', {options:<?php echo $extraatjes_js_array; ?>}, null, '<?php echo $extraatje; ?>'));
     t.setFilterRij(new FilterRij(filter_velden,t));
     t.setUp($('#aanwezigheden_tabel'));
     $(document).ready(function(){
@@ -448,8 +429,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
    });
 });
 </script>
-HERE;
-	echo $content;
+<?php
 }
 
 }
