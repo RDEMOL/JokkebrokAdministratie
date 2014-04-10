@@ -170,6 +170,14 @@ class View {
                         foreach($extraatjes as $e){
                             $result['Extraatjes'][]=$e->getId();
                         }
+						$vorderingen = $aanwezigheid->getVorderingen();
+						if(count($vorderingen) > 0){
+							$result['Vorderingen'] = array();
+							foreach($vorderingen as $v){
+								$result['Vorderingen'][] = $v->getJSONData();
+							}
+						}
+						
                         echo json_encode($result);
                         break;
 					case 'werkingenTabel':

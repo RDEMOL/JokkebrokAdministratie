@@ -144,6 +144,10 @@ HERE;
                 <br>
                 <label class="control-label" for="Opmerkingen">Opmerkingen: </label>
                 <textarea name="Opmerkingen" class="form-control"></textarea>
+                <br>
+                <div "VorderingenDiv">
+                	<ul id="lstVorderingen"></ul>
+                </div>
             </div>
         </form>
     </div>
@@ -253,6 +257,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('select[name="WerkingId"]').val('0');
         $('input[type=checkbox].Extraatjes').prop('checked', false);
         $('textarea[name="Opmerkingen"]').val('');
+        $('ul#lstVorderingen').hide();
     };
     var wijzig_aanwezigheid = function(data){
         var d = new Object();
@@ -273,6 +278,13 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             $('select[name="KindVoogdId"]').val(obj.KindVoogdId);
             $('select[name="WerkingId"]').val(obj.Werking);
             $('textarea[name="Opmerkingen"]').val(obj.Opmerkingen);
+            if(obj.Vorderingen){
+            	$('ul#lstVorderingen').show();
+            	for(var i = 0; i < obj.Vorderingen.length; ++i){
+            		$('ul#lstVorderingen').append($('<li>').append($('<input>').attr({'type':'hidden'}).val(obj.Vorderingen[i].Id))
+            			.append($('<span>').text(obj.Vorderingen[i].Bedrag+" ("+obj.Vorderingen[i].Opmerking+")")));
+            	}
+            }
         });
         clearAanwezigheidModal();
         $('#aanwezigheidModal').modal('show');

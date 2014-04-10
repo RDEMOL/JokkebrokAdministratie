@@ -1,6 +1,7 @@
 <?php
 require_once(dirname(__FILE__)."/../record.class.php");
 require_once(dirname(__FILE__)."/../kindvoogden/kindvoogd.class.php");
+require_once(dirname(__FILE__)."/../betalingen/vordering.class.php");
 class Aanwezigheid extends Record{
     protected function setLocalData($data){
         $this->Datum = $data->Datum;
@@ -214,5 +215,10 @@ class Aanwezigheid extends Record{
         $ea = new ExtraatjeAanwezigheid($obj);
         $ea->updateDatabase();
     }
+	public function getVorderingen(){
+		$filter = array();
+		$filter['Aanwezigheid'] = $this->getId();
+		return Vordering::getVorderingen($filter);
+	}
 }
 ?>
