@@ -130,6 +130,20 @@ class Controller {
 					$return_data->Id = $voogd->getId();
 					echo json_encode($return_data);
 					exit;
+				case 'updateVordering':
+					$data = new stdClass();
+					if(isset($_REQUEST['Id'])){
+						$data->Id = $_REQUEST['Id'];
+					}else{
+						$data->Id = 0;
+					}
+					$data->Bedrag = $_REQUEST['Bedrag'];
+					$data->Opmerking = $_REQUEST['Opmerking'];
+					$data->Aanwezigheid = $_REQUEST['Aanwezigheid'];
+					$vordering = new Vordering($data);
+					$vordering->updateDatabase();
+					echo json_encode($vordering->getJSONData());
+					exit;
                 default:
                     return;
             }

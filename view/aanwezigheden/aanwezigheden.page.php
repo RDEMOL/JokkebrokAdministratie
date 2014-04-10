@@ -111,6 +111,27 @@ HERE;
     </div>
 </div>
 
+<div class="modal fade" id="vorderingModal" tabindex="-1" role="dialog" aria-labelledby="vorderingModal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+        <h4 class="modal-title">Nieuwe vordering toevoegen</h4>
+	</div>
+	<div class="modal-body">
+		<form id="vorderingForm">
+			<input type="hidden" name="Id">
+			<input type="hidden" name="Aanwezigheid">
+			<label for="Bedrag">Bedrag:</label>
+			<input type="text" name="Bedrag"><br>
+			<label for="Opmerking">Opmerking:</label>
+			<textarea name="Opmerking"></textarea>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+	    <button type="button" class="btn btn-primary" id="submitVordering">Toevoegen</button>
+	</div>
+</div>
+
 <div class="modal fade" id="aanwezigheidModal" tabindex="-1" role="dialog" aria-labelledby="aanwezigheidModal">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
@@ -146,6 +167,7 @@ HERE;
                 <textarea name="Opmerkingen" class="form-control"></textarea>
                 <br>
                 <div "VorderingenDiv">
+                	<button id="btnNieuweVordering" class="btn btn-default">Nieuwe Vordering</button>
                 	<ul id="lstVorderingen"></ul>
                 </div>
             </div>
@@ -257,7 +279,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('select[name="WerkingId"]').val('0');
         $('input[type=checkbox].Extraatjes').prop('checked', false);
         $('textarea[name="Opmerkingen"]').val('');
-        $('ul#lstVorderingen').hide();
+        $('ul#lstVorderingen').empty();
     };
     var wijzig_aanwezigheid = function(data){
         var d = new Object();
@@ -278,11 +300,16 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             $('select[name="KindVoogdId"]').val(obj.KindVoogdId);
             $('select[name="WerkingId"]').val(obj.Werking);
             $('textarea[name="Opmerkingen"]').val(obj.Opmerkingen);
+            $('#btnNieuweVordering').unbind('click').click(function(){
+            	//TODO: working on this part
+            	clearVorderingModal();
+            	$('form#vorderingForm input[name=Aanwezigheid]').val(obj.Aanwezigheid);
+            	$('#vorderingModal').modal('show');
+            	return false;
+            });
             if(obj.Vorderingen){
-            	$('ul#lstVorderingen').show();
             	for(var i = 0; i < obj.Vorderingen.length; ++i){
-            		$('ul#lstVorderingen').append($('<li>').append($('<input>').attr({'type':'hidden'}).val(obj.Vorderingen[i].Id))
-            			.append($('<span>').text(obj.Vorderingen[i].Bedrag+" ("+obj.Vorderingen[i].Opmerking+")")));
+            		voeg_vordering_toe(obj.Vorderingen[i]);
             	}
             }
         });
@@ -363,10 +390,10 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         nieuwe_aanwezigheid();
     });
     $('#aanwezigheidForm').submit(function(){
-       var aanwezigheidId = $('input[name="AanwezigheidId"]').val();
-       var kindVoogdId = $('select[name="KindVoogdId"]').val();
-       var werking = $('select[name="WerkingId"]').val();
-       var opmerkingen = $('textarea[name="Opmerkingen"]').val();
+       var aanwezigheidId = $('#aanwezigheidForm input[name="AanwezigheidId"]').val();
+       var kindVoogdId = $('#aanwezigheidForm select[name="KindVoogdId"]').val();
+       var werking = $('#aanwezigheidForm select[name="WerkingId"]').val();
+       var opmerkingen = $('#aanwezigheidForm textarea[name="Opmerkingen"]').val();
        var d = new Object();
        d.Id = aanwezigheidId;
        d.KindVoogd = kindVoogdId;
@@ -423,6 +450,57 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
 		window.open('index.php?'+$.param(data));
 		$('#pdfModal').modal('hide');
 
+   });
+   function clearVorderingModal(){
+   	$('form#vorderingForm input[name=Id]').val('0');
+   	$('form#vorderingForm input[name=Aanwezigheid]').val('0');
+   	$('form#vorderingForm textarea[name=Opmerking]').val('');
+   	$('form#vorderingForm input[name=Bedrag]').val('0');
+   }
+   function wijzig_vordering(vordering_data){
+   	$('form#vorderingForm input[name=Id]').val(vordering_data.Id);
+   	$('form#vorderingForm input[name=Aanwezigheid]').val(vordering_data.Aanwezigheid);
+   	$('form#vorderingForm textarea[name=Opmerking]').val(vordering_data.Opmerking);
+   	$('form#vorderingForm input[name=Bedrag]').val(vordering_data.Bedrag);
+   	$('#vorderingModal').modal('show');
+   }
+   function voeg_vordering_toe(vordering_data){
+   	var li;
+   	var found = false;
+   	$('ul#lstVorderingen li').each(function(index, element){
+   		if($(this).find('input[name=Id]').val() == vordering_data.Id){
+   			li = $(this);
+   			li.empty();
+   			found = true;
+   		}
+   	});
+   	if(!found){
+   		li = $('<li>');
+   	}
+   	li.append($('<input>').attr({'type':'hidden', 'name':'Id'}).val(vordering_data.Id))
+            			.append($('<span>').text(vordering_data.Bedrag+" ("+vordering_data.Opmerking+")"));
+	li.append($('<button>').text('edit').click(function(){
+		wijzig_vordering(vordering_data);
+		return false;
+	}));
+   	$('ul#lstVorderingen').append(li);
+   }
+   $('#submitVordering').click(function(){
+   	$('form#vorderingForm').submit();
+   	return false;
+   });
+   $('form#vorderingForm').submit(function(){
+   		var data = new Object();
+   		data.Id = $('form#vorderingForm input[name=Id]').val();
+   		data.Aanwezigheid = $('form#vorderingForm input[name=Aanwezigheid]').val();
+   		data.Bedrag = $('form#vorderingForm input[name=Bedrag]').val();
+   		data.Opmerking = $('form#vorderingForm textarea[name=Opmerking]').val();
+   		$.post('index.php?action=updateVordering', data, function(resp){
+   			var result = JSON.parse(resp);
+   			$('#vorderingModal').modal('hide');
+   			voeg_vordering_toe(result);
+   		});
+   		return false;
    });
 });
 </script>
