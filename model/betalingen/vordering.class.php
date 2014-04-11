@@ -1,5 +1,6 @@
 <?php
 require_once (dirname(__FILE__)."/../record.class.php");
+require_once (dirname(__FILE__)."/../aanwezigheden/aanwezigheid.class.php");
 class Vordering extends Record{
 	protected function setLocalData($data){
         $this->AanwezigheidId = $data->Aanwezigheid;
@@ -8,6 +9,9 @@ class Vordering extends Record{
     }
 	public function getAanwezigheidId(){
 		return $this->AanwezigheidId;
+	}
+	public function getAanwezigheid(){
+		return new Aanwezigheid($this->getAanwezigheidId());
 	}
 	public function getBedrag(){
 		return $this->Bedrag;
@@ -48,15 +52,30 @@ class Vordering extends Record{
 		if(isset($filter['Aanwezigheid'])){
 			$sql .= " AND Aanwezigheid = :aanwezigheid_id ";
 		}
+		if(isset($filter['KindVoogd'])){
+			$sql .= " AND A.KindVoogd = :kind_voogd_id ";
+		}
 		return $sql;
 	}
 	protected static function applyFilterParameters($query, $filter){
 		if(isset($filter['Aanwezigheid'])){
 			$query->bindParam(':aanwezigheid_id', $filter['Aanwezigheid'], PDO::PARAM_INT);
 		}
+		if(isset($filter['KindVoogd'])){
+			$query->bindParam(':kind_voogd_id', $filter['KindVoogd'], PDO::PARAM_INT);
+		}
+	}
+	protected static function getFilterJoinsSQL($filter){
+		$slq = "";
+		if(isset($filter['KindVoogd'])){
+			$sql .= "LEFT JOIN Aanwezigheid A ON Vordering.Aanwezigheid=A.Id ";
+		}
+		return $sql;
 	}
 	public static function getVorderingen($filter){
-		$sql = "SELECT * FROM Vordering WHERE 1 ";
+		$sql = "SELECT * FROM Vordering ";
+		$sql .= static::getFilterJoinsSQL($filter);
+		$sql .= "WHERE 1 ";
         $sql .= static::getFilterSQL($filter);
         $query = Database::getPDO()->prepare($sql);
         static::applyFilterParameters($query, $filter);

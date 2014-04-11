@@ -73,6 +73,24 @@ class KinderenPage extends Page {
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="financieelModal" tabindex="-1" role="dialog" aria-labelledby="financieelModal">
+	<div class="modal-header">
+		<button type="buton" class="close" data-dismiss="modal" aria-hidden="true">
+			&times;
+		</button>
+		<h4 class="modal-title" id="kindToevoegenModalTitle">Financieel overzicht</h4>
+	</div>
+	<div class="modal-body">
+		<select name="financieelKindVoogd"></select>
+		<table id="financieelTable" class="table table-striped table-bordered table-condensed"></table>
+		<button id="btnBetaling">Betaling invoeren</button>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">
+			Sluiten
+		</button>
+	</div>
+</div>
 <div class="modal fade" id="voogdModal" tabindex="-1" role="dialog" aria-labelledby="voogdModal">
 	<div class="modal-header">
 		<button type="buton" class="close" data-dismiss="modal" aria-hidden="true">
@@ -485,6 +503,13 @@ class KinderenPage extends Page {
 						'data-original-title' : voogden_string
 					}).append($('<span>').addClass('glyphicon glyphicon-home')).tooltip()).append('&nbsp;');
 				}
+				if (data['Schulden']){
+					td.append($('<a>').attr({
+						'data-original-title' : 'Schulden!'
+					}).append($('<span>').addClass('glyphicon glyphicon-euro')).tooltip().click(function(){
+						laad_financien_modal(data);
+					})).append('&nbsp;');
+				}
 				return td;
 			}));
 			var controls = new Array();
@@ -502,7 +527,52 @@ class KinderenPage extends Page {
 			kinderen_tabel.setUp($('#kinderen_tabel'));
 			kinderen_tabel.laadTabel();
 		}
-
+		function empty_saldo_details(){
+			$('#financieelTable').empty();
+			$('#btnBetaling').hide();
+		}
+		function wijzig_vordering(vordering_data){}
+		function verwijder_vordering(vordering_data){}
+		function laad_saldo_details(kind_voogd_id){
+			console.log("not implemented yet");	
+			empty_saldo_details();
+			$('#btnBetaling').show();
+			var saldo_kolommen = new Array();
+			saldo_kolommen.push(new Kolom('Datum', 'Datum'));
+			saldo_kolommen.push(new Kolom('Bedrag', 'Bedrag'));
+			saldo_kolommen.push(new Kolom('Opmerking', 'Opmerking'));
+			var controls = new Array();
+			controls.push(new Control('Wijzigen', 'btn btn-xs', wijzig_vordering));
+			controls.push(new Control('Verwijderen', 'btn btn-xs', verwijder_vordering));
+			saldo_kolommen.push(new ControlsKolom(controls));
+			console.log("url = "+'index.php?action=data&data=saldoTabel&KindVoogdId='+parseInt(kind_voogd_id));
+			var transacties_tabel = new Tabel('index.php?action=data&data=saldoTabel&KindVoogdId='+parseInt(kind_voogd_id), saldo_kolommen);
+			transacties_tabel.setUp($('#financieelTable'));
+			transacties_tabel.laadTabel();
+		}
+		function laad_financien_modal(kind){
+			$('select[name=financieelKindVoogd]').empty().append($('<option>').val(0).text('-'));
+			$('#btnBetaling').hide();
+			var data = new Object();
+			data.KindId = kind.Id;
+			$.get('index.php?action=data&data=kindVoogden', data, function(res){
+				for(var i = 0; i < res.content.length; ++i){
+					$('select[name=financieelKindVoogd]').append($('<option>').val(res.content[i].Id).text(res.content[i].Voornaam+" "+res.content[i].Naam));
+				}
+			}, "json");
+			$('select[name=financieelKindVoogd]').unbind('change').change(function(){
+				if($('select[name=financieelKindVoogd]').val() == '0'){
+					empty_saldo_details();	
+				}else{
+					laad_saldo_details($('select[name=financieelKindVoogd]').val());
+				}
+			});
+			$('#btnBetaling').unbind('click').click(function(){
+				alert("not implemented yet");
+			});
+			
+			$('#financieelModal').modal('show');
+		}
 	}); 
 </script>
 <?php

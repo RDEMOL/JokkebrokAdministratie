@@ -6,6 +6,7 @@ class KindVoogd extends Record{
     protected function setLocalData($data){
         $this->VoogdId = $data->Voogd;
         $this->KindId = $data->Kind;
+		$this->Saldo = $data->Saldo;
     }
     public function getVoogd(){
         return new Voogd($this->VoogdId);
@@ -32,6 +33,7 @@ class KindVoogd extends Record{
         $query->bindParam(':voogd', $this->VoogdId, PDO::PARAM_INT);
         $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
         $res = $query->execute();
+		$this->updateSaldo();
         return $res;
     }
     protected function select(){
@@ -53,5 +55,11 @@ class KindVoogd extends Record{
         $obj = $query->fetch(PDO::FETCH_OBJ);
         return $obj; 
     }
+	public function getSaldo(){
+		return $this->Saldo;
+	}
+	public function updateSaldo(){
+		//TODO: implement!
+	}
 }
 ?>

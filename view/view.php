@@ -246,6 +246,37 @@ class View {
                         }
                         echo json_encode($result);
                         break;
+					case 'kindVoogden':
+						$kind_id = $_REQUEST['KindId'];
+						$kind = new Kind($kind_id);
+						$kindvoogden = $kind->getKindVoogden();
+						$result = array();
+						$result['content']=array();
+						foreach($kindvoogden as $kv){
+							$obj = new stdClass();
+							$obj->Id = $kv->getId();
+							$voogd = $kv->getVoogd();
+							$obj->Naam = $voogd->getNaam();
+							$obj->Voornaam = $voogd->getVoornaam();
+							$result['content'][] = $obj;
+						}
+						echo json_encode($result);
+						exit;
+					case 'saldoTabel':
+						$result = array();
+						$result['content']=array();
+						$filter = array("KindVoogd"=>$_REQUEST['KindVoogdId']);
+						$vorderingen = Vordering::getVorderingen($filter);
+						foreach($vorderingen as $v){
+							$obj = new stdClass();
+							$obj->Id = $v->getId();
+							$obj->Bedrag = $v->getBedrag();
+							$obj->Datum = $v->getAanwezigheid()->getDatum();
+							$obj->Opmerking = $v->getOpmerking();
+							$result['content'][] = $obj;
+						}
+						echo json_encode($result);
+						exit;
                 }
             } else {
                 $page = "dashboard";

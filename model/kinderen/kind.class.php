@@ -199,6 +199,14 @@ class Kind extends Record{
 			$this->addVoogd($vi);
 		}
 	}
+	public function getHeeftSchulden(){
+		$kindvoogden = $this->getKindVoogden();
+		foreach($kindvoogden as $kv){
+			if($kv->getSaldo() != 0.0)
+			return true;
+		}
+		return false;
+	}
     public function getJSONData(){
         $query = Database::getPDO()->prepare("SELECT K.Id as Id, K.Voornaam as Voornaam, K.Naam as Naam, K.Geboortejaar as Geboortejaar, K.Belangrijk as Belangrijk, W.Afkorting as Werking, K.DefaultWerking as DefaultWerking FROM Kind K LEFT JOIN Werking W ON K.DefaultWerking=W.Id WHERE K.Id=:id");
         $id = $this->getId();
@@ -206,6 +214,7 @@ class Kind extends Record{
         $query->execute();
         $obj = $query->fetch(PDO::FETCH_OBJ);
         $obj->VoogdenIds = $this->getVoogdenIds();
+		$obj->Schulden = $this->getHeeftSchulden();
         return $obj; 
     }
 }
