@@ -264,7 +264,7 @@ class View {
 						exit;
 					case 'kindVoogdSaldo':
 						$kindvoogd = new KindVoogd($_REQUEST['KindVoogdId']);
-						$kindvoogd->updateSaldo();
+						//$kindvoogd->updateSaldo();
 						$result = array();
 						$result['Saldo']=$kindvoogd->getSaldo();
 						echo json_encode($result);

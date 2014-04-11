@@ -30,6 +30,7 @@ class Betaling extends Record{
         $query->bindParam(':bedrag', $this->Bedrag, PDO::PARAM_STR);
         $query->bindParam(':datum', $this->Datum, PDO::PARAM_STR);
         $query->execute();
+		$this->getKindVoogd()->updateSaldo();
         return Database::getPDO()->lastInsertId();
     }
     protected function update(){
@@ -39,6 +40,7 @@ class Betaling extends Record{
         $query->bindParam(':bedrag', $this->Bedrag, PDO::PARAM_STR);
         $query->bindParam(':datum', $this->Datum, PDO::PARAM_STR);
         $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
+		$this->getKindVoogd()->updateSaldo();
         return $query->execute();
     }
     protected function select(){

@@ -25,6 +25,7 @@ class Vordering extends Record{
         $query->bindParam(':opmerking', $this->Opmerking, PDO::PARAM_STR);
         $query->bindParam(':bedrag', $this->Bedrag, PDO::PARAM_STR);
         $query->execute();
+		$this->getAanwezigheid()->getKindVoogd()->updateSaldo();
         return Database::getPDO()->lastInsertId();
     }
     protected function update(){
@@ -33,6 +34,7 @@ class Vordering extends Record{
         $query->bindParam(':opmerking', $this->Opmerking, PDO::PARAM_STR);
         $query->bindParam(':bedrag', $this->Bedrag, PDO::PARAM_STR);
         $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
+		$this->getAanwezigheid()->getKindVoogd()->updateSaldo();
         return $query->execute();
     }
     protected function select(){

@@ -73,7 +73,7 @@ class KinderenPage extends Page {
 		</div>
 	</div>
 </div>
-<div class="modal fade" id="financieelModal" tabindex="-1" role="dialog" aria-labelledby="financieelModal">
+<div class="modal fade" id="financieelModal" tabindex="-1" role="dialog" aria-labelledby="financieelModal" data-width="60%">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 			&times;
