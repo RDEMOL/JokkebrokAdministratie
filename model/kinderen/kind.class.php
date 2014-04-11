@@ -182,6 +182,19 @@ class Kind extends Record{
         $v->updateDatabase();
     }
 	public function setVoogdIds($voogd_ids){
+		$current_voogden = $this->getKindVoogden();
+		foreach($current_voogden as $cv){
+			$good = false;
+			foreach($voogd_ids as $vi){
+				if($vi == $cv->getId()){
+					$good = true;
+					break;
+				}
+			}
+			if(!$good){
+				$cv->deleteFromDatabase();
+			}
+		}
 		foreach($voogd_ids as $vi){
 			$this->addVoogd($vi);
 		}

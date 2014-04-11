@@ -240,12 +240,18 @@ class KinderenPage extends Page {
 			$.get('index.php?action=data&data=voogdInfo', data, function(resp) {
 				resp = JSON.parse(resp);
 				element.append($('<input>').attr({
-					'type' : 'hidden',
-					'name' : 'Id'
-				}).val(resp.Id)).append($('<span>').text(resp.Voornaam + " " + resp.Naam)).attr('title', resp.Opmerkingen).append($('<button>').text('edit').click(function() {
-					edit_voogd(id);
-					return false;
-				}));
+						'type' : 'hidden',
+						'name' : 'Id'
+					}).val(resp.Id))
+					.append($('<span>').text(resp.Voornaam + " " + resp.Naam))
+					.attr('title', resp.Opmerkingen)
+					.append($('<button>').text('edit').click(function() {
+						edit_voogd(id);
+						return false;
+					})).append($('<button>').text('remove').click(function(){
+						element.remove();
+						return false;
+					}));
 			});
 		}
 
@@ -389,7 +395,7 @@ class KinderenPage extends Page {
 				res = $.trim(res);
 				if (res == "1") {
 					$('#kindModal').modal('hide');
-					t.laadTabel();
+					kinderen_tabel.laadTabel();
 				} else {
 					console.log("kind update mislukt, error code: '" + res + "'");
 				}
@@ -404,7 +410,7 @@ class KinderenPage extends Page {
 				res = $.trim(res);
 				if (res == "1") {
 					$('#verwijderKindModal').modal('hide');
-					t.laadTabel();
+					kinderen_tabel.laadTabel();
 				} else {
 					console.log("kind verwijderen mislukt, error code: " + res);
 				}
@@ -485,16 +491,16 @@ class KinderenPage extends Page {
 			controls.push(new Control('Wijzigen', 'btn btn-xs', wijzig_kind));
 			controls.push(new Control('Verwijderen', 'btn btn-xs', verwijder_kind));
 			k.push(new ControlsKolom(controls));
-			var t = new Tabel('index.php?action=data&data=kinderenTabel', k);
+			kinderen_tabel = new Tabel('index.php?action=data&data=kinderenTabel', k);
 			var filter_velden = new Array();
 			filter_velden.push(new FilterVeld('VolledigeNaam', 2, 'text', null));
 			filter_velden.push(new FilterVeld('Geboortejaar', 1, 'text', null));
 			filter_velden.push(new FilterVeld('Werking', 1, 'select', {
 				options : js_array
 			}));
-			t.setFilterRij(new FilterRij(filter_velden, t));
-			t.setUp($('#kinderen_tabel'));
-			t.laadTabel();
+			kinderen_tabel.setFilterRij(new FilterRij(filter_velden, kinderen_tabel));
+			kinderen_tabel.setUp($('#kinderen_tabel'));
+			kinderen_tabel.laadTabel();
 		}
 
 	}); 
