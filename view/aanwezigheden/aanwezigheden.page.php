@@ -165,7 +165,7 @@ HERE;
                 <label class="control-label" for="Opmerkingen">Opmerkingen: </label>
                 <textarea name="Opmerkingen" class="form-control"></textarea>
                 <br>
-                <div "VorderingenDiv">
+                <div id="VorderingenDiv">
                 	<button id="btnNieuweVordering" class="btn btn-default">Nieuwe Vordering</button>
                 	<ul id="lstVorderingen"></ul>
                 </div>
@@ -299,13 +299,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             $('select[name="KindVoogdId"]').val(obj.KindVoogdId);
             $('select[name="WerkingId"]').val(obj.Werking);
             $('textarea[name="Opmerkingen"]').val(obj.Opmerkingen);
-            $('#btnNieuweVordering').unbind('click').click(function(){
-            	//TODO: working on this part
-            	clearVorderingModal();
-            	$('form#vorderingForm input[name=Aanwezigheid]').val(obj.Aanwezigheid);
-            	$('#vorderingModal').modal('show');
-            	return false;
-            });
+            
             if(obj.Vorderingen){
             	for(var i = 0; i < obj.Vorderingen.length; ++i){
             		voeg_vordering_toe(obj.Vorderingen[i]);
@@ -315,6 +309,12 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         clearAanwezigheidModal();
         $('#aanwezigheidModal').modal('show');
     };
+    $('#btnNieuweVordering').unbind('click').click(function(){
+    	//TODO: working on this part
+    	clearVorderingModal();
+    	$('#vorderingModal').modal('show');
+    	return false;
+    });
     var verwijder_aanwezigheid = function(data){
         $('#verwijderAanwezigheidModal input[name=Id]').val(data.Id);
         $('#verwijderAanwezigheidModal').modal('show');
