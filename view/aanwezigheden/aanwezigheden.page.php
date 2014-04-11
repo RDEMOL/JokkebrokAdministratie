@@ -119,7 +119,6 @@ HERE;
 	<div class="modal-body">
 		<form id="vorderingForm">
 			<input type="hidden" name="Id">
-			<input type="hidden" name="Aanwezigheid">
 			<label for="Bedrag">Bedrag:</label>
 			<input type="text" name="Bedrag"><br>
 			<label for="Opmerking">Opmerking:</label>
@@ -404,6 +403,14 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
        $('#aanwezigheidForm input[type=checkbox].Extraatjes:checked').each(function(index, e){
             d.Extraatjes.push($(e).val());
        });
+       d.Vorderingen = new Array();
+       $('ul#lstVorderingen li').each(function(index, e){
+       		var v = new Object();
+       		v.Id = $(this).find('input[name=Id]').val();
+       		v.Opmerking = $(this).find('input[name=Opmerking]').val();
+       		v.Bedrag = $(this).find('input[name=Bedrag]').val();
+       		d.Vorderingen.push(v);
+       });
        $.post('?action=updateAanwezigheid', d, function(res){ 
            res = $.trim(res);
            if(res == "1"){
@@ -453,13 +460,11 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
    });
    function clearVorderingModal(){
    	$('form#vorderingForm input[name=Id]').val('0');
-   	$('form#vorderingForm input[name=Aanwezigheid]').val('0');
    	$('form#vorderingForm textarea[name=Opmerking]').val('');
    	$('form#vorderingForm input[name=Bedrag]').val('0');
    }
    function wijzig_vordering(vordering_data){
    	$('form#vorderingForm input[name=Id]').val(vordering_data.Id);
-   	$('form#vorderingForm input[name=Aanwezigheid]').val(vordering_data.Aanwezigheid);
    	$('form#vorderingForm textarea[name=Opmerking]').val(vordering_data.Opmerking);
    	$('form#vorderingForm input[name=Bedrag]').val(vordering_data.Bedrag);
    	$('#vorderingModal').modal('show');
@@ -478,7 +483,9 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
    		li = $('<li>');
    	}
    	li.append($('<input>').attr({'type':'hidden', 'name':'Id'}).val(vordering_data.Id))
-            			.append($('<span>').text(vordering_data.Bedrag+" ("+vordering_data.Opmerking+")"));
+   		.append($('<input>').attr({'type':'hidden', 'name':'Opmerking'}).val(vordering_data.Opmerking))
+   		.append($('<input>').attr({'type':'hidden', 'name':'Bedrag'}).val(vordering_data.Bedrag))
+    	.append($('<span>').text(vordering_data.Bedrag+" ("+vordering_data.Opmerking+")"));
 	li.append($('<button>').text('edit').click(function(){
 		wijzig_vordering(vordering_data);
 		return false;
@@ -492,14 +499,10 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
    $('form#vorderingForm').submit(function(){
    		var data = new Object();
    		data.Id = $('form#vorderingForm input[name=Id]').val();
-   		data.Aanwezigheid = $('form#vorderingForm input[name=Aanwezigheid]').val();
    		data.Bedrag = $('form#vorderingForm input[name=Bedrag]').val();
    		data.Opmerking = $('form#vorderingForm textarea[name=Opmerking]').val();
-   		$.post('index.php?action=updateVordering', data, function(resp){
-   			var result = JSON.parse(resp);
-   			$('#vorderingModal').modal('hide');
-   			voeg_vordering_toe(result);
-   		});
+   		$('#vorderingModal').modal('hide');
+   		voeg_vordering_toe(data);
    		return false;
    });
 });

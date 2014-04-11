@@ -130,7 +130,7 @@ class Controller {
 					$return_data->Id = $voogd->getId();
 					echo json_encode($return_data);
 					exit;
-				case 'updateVordering':
+				/*case 'updateVordering':
 					$data = new stdClass();
 					if(isset($_REQUEST['Id'])){
 						$data->Id = $_REQUEST['Id'];
@@ -143,7 +143,7 @@ class Controller {
 					$vordering = new Vordering($data);
 					$vordering->updateDatabase();
 					echo json_encode($vordering->getJSONData());
-					exit;
+					exit;*/
                 default:
                     return;
             }
@@ -181,9 +181,20 @@ class Controller {
         $extraatjes = array();
         if(isset($data['Extraatjes'])){
             $extraatjes = $data['Extraatjes'];
-            
         }
         $a->setExtraatjes($extraatjes);
+		$vorderingen_data = $data['Vorderingen'];
+		$vorderingen = array();
+		foreach($vorderingen_data as $v_data){
+			$v = new stdClass();
+			$v->Id = $v_data['Id'];
+			$v->Bedrag = $v_data['Bedrag'];
+			$v->Opmerking = $v_data['Opmerking'];
+			$v->Aanwezigheid = $a->getId();
+			$vordering = new Vordering($v);
+			$vorderingen[] = $vordering;
+		}
+		$a->setVorderingen($vorderingen);
         echo "1";
     }
 

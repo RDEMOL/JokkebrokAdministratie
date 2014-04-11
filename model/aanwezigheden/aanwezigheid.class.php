@@ -220,5 +220,23 @@ class Aanwezigheid extends Record{
 		$filter['Aanwezigheid'] = $this->getId();
 		return Vordering::getVorderingen($filter);
 	}
+	public function setVorderingen($vorderingen){
+		$original_vorderingen = $this->getVorderingen();
+		foreach($original_vorderingen as $v){
+			$good = false;
+			foreach($vorderingen as $v2){
+				if($v->getId() == $v2->getId()){
+					$good = true;
+					break;
+				}
+			}
+			if(!$good){
+				$v->deleteFromDatabase();
+			}
+		}
+		foreach($vorderingen as $v){
+			$v->updateDatabase();
+		}
+	}
 }
 ?>
