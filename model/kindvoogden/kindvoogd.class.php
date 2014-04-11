@@ -2,6 +2,8 @@
 require_once(dirname(__FILE__)."/../record.class.php");
 require_once(dirname(__FILE__)."/../voogden/voogd.class.php");
 require_once(dirname(__FILE__)."/../kinderen/kind.class.php");
+require_once(dirname(__FILE__)."/../betalingen/betaling.class.php");
+require_once(dirname(__FILE__)."/../betalingen/vordering.class.php");
 class KindVoogd extends Record{
     protected function setLocalData($data){
         $this->VoogdId = $data->Voogd;
@@ -55,11 +57,33 @@ class KindVoogd extends Record{
         $obj = $query->fetch(PDO::FETCH_OBJ);
         return $obj; 
     }
+	public function getVorderingen(){
+		$filter = array('KindVoogd'=>$this->Id);
+		return Vordering::getVorderingen($filter);
+	}
+	public function getBetalingen(){
+		$filter = array('KindVoogd'=>$this->getId());
+		return Betaling::getBetalingen($filter);
+	}
 	public function getSaldo(){
 		return $this->Saldo;
 	}
 	public function updateSaldo(){
-		//TODO: implement!
+		$betalingen = $this->getBetalingen();
+		$vorderingen = $this->getVorderingen();
+		$saldo = 0;
+		foreach($betalingen as $b){
+			$saldo += $b->getBedrag();
+		}
+		foreach($vorderingen as $v){
+			$saldo -= $v->getBedrag();
+		}
+		$this->Saldo = $saldo;
+		$sql = "UPDATE KindVoogd SET Saldo=:saldo WHERE Id=:kind_voogd_id ";
+		$query = Database::getPDO()->prepare($sql);
+		$query->bindParam(':kind_voogd_id', $this->Id, PDO::PARAM_INT);
+		$query->bindParam(':saldo', $this->Saldo);
+		$query->execute();
 	}
 }
 ?>

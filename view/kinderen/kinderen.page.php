@@ -49,7 +49,7 @@ class KinderenPage extends Page {
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="buton" class="close" data-dismiss="modal" aria-hidden="true">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 					&times;
 				</button>
 				<h4 class="modal-title" id="verwijderKindModalTitle">Kind verwijderen</h4>
@@ -75,14 +75,15 @@ class KinderenPage extends Page {
 </div>
 <div class="modal fade" id="financieelModal" tabindex="-1" role="dialog" aria-labelledby="financieelModal">
 	<div class="modal-header">
-		<button type="buton" class="close" data-dismiss="modal" aria-hidden="true">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 			&times;
 		</button>
-		<h4 class="modal-title" id="kindToevoegenModalTitle">Financieel overzicht</h4>
+		<h4 class="modal-title" id="financieelModalTitle">Financieel overzicht</h4>
 	</div>
 	<div class="modal-body">
 		<select name="financieelKindVoogd"></select>
 		<table id="financieelTable" class="table table-striped table-bordered table-condensed"></table>
+		<span id="financieelNetto">Netto:<span id="financieelNettoBedrag"></span></span>
 		<button id="btnBetaling">Betaling invoeren</button>
 	</div>
 	<div class="modal-footer">
@@ -91,9 +92,31 @@ class KinderenPage extends Page {
 		</button>
 	</div>
 </div>
+<div class="modal fade" id="betalingModal" tabindex="-1" role="dialog" aria-labelledby="betalingModal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+			&times;
+		</button>
+		<h4 class="modal-title" id="betalingModalTitle">Betaling</h4>
+	</div>
+	<div class="modal-body">
+		<form id="betalingForm">
+			<input type="hidden" name="Id">
+			<label for="Bedrag">Bedrag: </label><input type="text" name="Bedrag"><br>
+			<label for="Datum">Datum: </label><input type="text" name="Datum"><br>
+			<label for="Opmerking">Opmerking: </label><textarea name="Opmerking"></textarea><br>
+		</form>		
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">
+			Sluiten
+		</button>
+		<button type="button" class="btn btn-primary" id="btnBetalingOpslaan">Opslaan</button>
+	</div>
+</div>
 <div class="modal fade" id="voogdModal" tabindex="-1" role="dialog" aria-labelledby="voogdModal">
 	<div class="modal-header">
-		<button type="buton" class="close" data-dismiss="modal" aria-hidden="true">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 			&times;
 		</button>
 		<h4 class="modal-title" id="kindToevoegenModalTitle">Voogd Toevoegen</h4>
@@ -527,15 +550,54 @@ class KinderenPage extends Page {
 			kinderen_tabel.setUp($('#kinderen_tabel'));
 			kinderen_tabel.laadTabel();
 		}
+		
+		function empty_betaling(){
+			$('#betalingForm input').val('');
+			$('#betalingForm textarea').val('');
+		}
+		$('#btnBetaling').show().click(function(){
+			empty_betaling();
+			$('#betalingModal').modal('show');
+			return false;
+		});
+		$('#btnBetalingOpslaan').click(function(){
+			$('#betalingForm').submit();
+			return false;
+		});
+		$('#betalingForm input[name="Datum"]').datepicker({'format':'yyyy-mm-dd'}).on('changeDate', function(){
+	        $('#betalingForm input[name="Datum"]').datepicker('hide');
+	    });
 		function empty_saldo_details(){
 			$('#financieelTable').empty();
 			$('#btnBetaling').hide();
+			$('#financieelNetto').hide();
+			$('#financieelNettoBedrag').text('');
 		}
-		function wijzig_vordering(vordering_data){}
+		function wijzig_vordering(vordering_data){
+			switch(vordering_data.Type){
+				case 'vordering':
+					alert("vordering not implemented yet");
+					break;
+				case 'betaling':
+					empty_betaling();
+					$('#betalingModal').modal('show');
+					$('#betalingForm input[name=Id]').val(vordering_data.Id);
+					$('#betalingForm input[name=Bedrag]').val(vordering_data.Bedrag);
+					$('#betalingForm textarea[name=Opmerking]').val(vordering_data.Opmerking);
+					$('#betalingForm input[name=Datum]').val(vordering_data.Datum);
+					break;
+			}
+			
+		}
 		function verwijder_vordering(vordering_data){}
 		function laad_saldo_details(kind_voogd_id){
-			console.log("not implemented yet");	
 			empty_saldo_details();
+			var data = new Object();
+			data.KindVoogdId = kind_voogd_id;
+			$.get('index.php?action=data&data=kindVoogdSaldo', data, function(resp){
+				$('#financieelNettoBedrag').text(resp.Saldo);
+			}, "json");
+			$('#financieelNetto').show();
 			$('#btnBetaling').show();
 			var saldo_kolommen = new Array();
 			saldo_kolommen.push(new Kolom('Datum', 'Datum'));
@@ -545,14 +607,28 @@ class KinderenPage extends Page {
 			controls.push(new Control('Wijzigen', 'btn btn-xs', wijzig_vordering));
 			controls.push(new Control('Verwijderen', 'btn btn-xs', verwijder_vordering));
 			saldo_kolommen.push(new ControlsKolom(controls));
-			console.log("url = "+'index.php?action=data&data=saldoTabel&KindVoogdId='+parseInt(kind_voogd_id));
 			var transacties_tabel = new Tabel('index.php?action=data&data=saldoTabel&KindVoogdId='+parseInt(kind_voogd_id), saldo_kolommen);
 			transacties_tabel.setUp($('#financieelTable'));
 			transacties_tabel.laadTabel();
+			$('#betalingForm').unbind('submit').submit(function(){
+				var data = new Object();
+				data.Id = $('#betalingForm input[name=Id]').val();
+				data.Bedrag = $('#betalingForm input[name=Bedrag]').val();
+				data.Opmerking = $('#betalingForm textarea[name=Opmerking]').val();
+				data.Datum = $('#betalingForm input[name=Datum]').val();
+				data.KindVoogd = kind_voogd_id;
+				$.get('index.php?action=updateBetaling', data, function(resp){
+					if($.trim(resp) == "1"){
+						laad_saldo_details(kind_voogd_id);
+						$('#betalingModal').modal('hide');	
+					}	
+			});
+				return false;
+			});
 		}
 		function laad_financien_modal(kind){
 			$('select[name=financieelKindVoogd]').empty().append($('<option>').val(0).text('-'));
-			$('#btnBetaling').hide();
+			empty_saldo_details();
 			var data = new Object();
 			data.KindId = kind.Id;
 			$.get('index.php?action=data&data=kindVoogden', data, function(res){
@@ -567,10 +643,6 @@ class KinderenPage extends Page {
 					laad_saldo_details($('select[name=financieelKindVoogd]').val());
 				}
 			});
-			$('#btnBetaling').unbind('click').click(function(){
-				alert("not implemented yet");
-			});
-			
 			$('#financieelModal').modal('show');
 		}
 	}); 

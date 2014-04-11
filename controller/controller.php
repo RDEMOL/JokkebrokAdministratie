@@ -130,6 +130,20 @@ class Controller {
 					$return_data->Id = $voogd->getId();
 					echo json_encode($return_data);
 					exit;
+				case 'updateBetaling':
+					$data = new stdClass();
+					$data->Id = 0;
+					if(isset($_REQUEST['Id'])){
+						$data->Id = $_REQUEST['Id'];
+					}
+					$data->KindVoogd = $_REQUEST['KindVoogd'];
+					$data->Bedrag = $_REQUEST['Bedrag'];
+					$data->Opmerking = $_REQUEST['Opmerking'];
+					$data->Datum = $_REQUEST['Datum'];
+					$betaling = new Betaling($data);
+					$betaling->updateDatabase();
+					echo "1";
+					exit;
 				/*case 'updateVordering':
 					$data = new stdClass();
 					if(isset($_REQUEST['Id'])){

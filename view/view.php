@@ -262,17 +262,37 @@ class View {
 						}
 						echo json_encode($result);
 						exit;
+					case 'kindVoogdSaldo':
+						$kindvoogd = new KindVoogd($_REQUEST['KindVoogdId']);
+						$kindvoogd->updateSaldo();
+						$result = array();
+						$result['Saldo']=$kindvoogd->getSaldo();
+						echo json_encode($result);
+						exit;
 					case 'saldoTabel':
 						$result = array();
 						$result['content']=array();
-						$filter = array("KindVoogd"=>$_REQUEST['KindVoogdId']);
-						$vorderingen = Vordering::getVorderingen($filter);
+						//$filter = array("KindVoogd"=>$_REQUEST['KindVoogdId']);
+						//$vorderingen = Vordering::getVorderingen($filter);
+						$kindvoogd = new KindVoogd($_REQUEST['KindVoogdId']);
+						$vorderingen = $kindvoogd->getVorderingen();
 						foreach($vorderingen as $v){
 							$obj = new stdClass();
+							$obj->Type="vordering";
 							$obj->Id = $v->getId();
-							$obj->Bedrag = $v->getBedrag();
+							$obj->Bedrag = -$v->getBedrag();
 							$obj->Datum = $v->getAanwezigheid()->getDatum();
 							$obj->Opmerking = $v->getOpmerking();
+							$result['content'][] = $obj;
+						}
+						$betalingen = $kindvoogd->getBetalingen();
+						foreach($betalingen as $b){
+							$obj = new stdClass();
+							$obj->Type = "betaling";
+							$obj->Id = $b->getId();
+							$obj->Bedrag = $b->getBedrag();
+							$obj->Datum = $b->getDatum();
+							$obj->Opmerking = $b->getOpmerking();
 							$result['content'][] = $obj;
 						}
 						echo json_encode($result);
