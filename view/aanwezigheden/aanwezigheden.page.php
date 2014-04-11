@@ -490,6 +490,9 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
 		wijzig_vordering(vordering_data);
 		return false;
 	}));
+	li.append($('<button>').text('remove').click(function(){
+		li.remove();
+	}));
    	$('ul#lstVorderingen').append(li);
    }
    $('#submitVordering').click(function(){

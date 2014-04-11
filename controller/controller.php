@@ -183,16 +183,19 @@ class Controller {
             $extraatjes = $data['Extraatjes'];
         }
         $a->setExtraatjes($extraatjes);
-		$vorderingen_data = $data['Vorderingen'];
+		
 		$vorderingen = array();
-		foreach($vorderingen_data as $v_data){
-			$v = new stdClass();
-			$v->Id = $v_data['Id'];
-			$v->Bedrag = $v_data['Bedrag'];
-			$v->Opmerking = $v_data['Opmerking'];
-			$v->Aanwezigheid = $a->getId();
-			$vordering = new Vordering($v);
-			$vorderingen[] = $vordering;
+		if(isset($data['Vorderingen'])){
+			$vorderingen_data = $data['Vorderingen'];
+			foreach($vorderingen_data as $v_data){
+				$v = new stdClass();
+				$v->Id = $v_data['Id'];
+				$v->Bedrag = $v_data['Bedrag'];
+				$v->Opmerking = $v_data['Opmerking'];
+				$v->Aanwezigheid = $a->getId();
+				$vordering = new Vordering($v);
+				$vorderingen[] = $vordering;
+			}
 		}
 		$a->setVorderingen($vorderingen);
         echo "1";
