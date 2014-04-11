@@ -9,6 +9,7 @@ aanwezigheden per dag opschuiven
 
 form validation aanwezigheid/kinderen
 	kindvoogden waarvoor aanwezigheden bestaan kunnen niet verwijderd worden
+	no duplicate aanwezigheid
 extraatjes enkel voor bepaalde werkingen
 snellere queries
 

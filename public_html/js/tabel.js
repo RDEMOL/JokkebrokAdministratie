@@ -12,6 +12,7 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 		this.tabelElement = null;
 		this.filterRij = null;
 		this.sorting_settings = new Array();
+		this.rij_styler = null;
 	};
 	Tabel.prototype.setUp = function(tabelElement){
 		this.tabelElement = tabelElement;
@@ -74,7 +75,11 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 			if(this.getRowClickListener()){
 				rij.setRowClickListener(this.getRowClickListener());
 			}
-			this.tabelBody.append(rij.getElement());
+			var tr = rij.getElement();
+			if(this.getRijStyler()){
+				(this.getRijStyler())(tr, this.data[i]);
+			}
+			this.tabelBody.append(tr);
 		}
 	};
 	Tabel.prototype.getRowClickListener = function(){
@@ -111,6 +116,12 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 	};
 	Tabel.prototype.getSort = function(){
 		return this.sorting_settings;
+	};
+	Tabel.prototype.setRijStyler = function(rij_styler){
+		this.rij_styler = rij_styler;
+	};
+	Tabel.prototype.getRijStyler = function(){
+		return this.rij_styler;
 	};
 	return Tabel;
 });

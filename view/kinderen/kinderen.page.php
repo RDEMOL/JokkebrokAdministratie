@@ -82,7 +82,7 @@ class KinderenPage extends Page {
 	</div>
 	<div class="modal-body">
 		<select name="financieelKindVoogd"></select>
-		<table id="financieelTable" class="table table-striped table-bordered table-condensed"></table>
+		<table id="financieelTable" class="table table-bordered table-condensed"></table>
 		<span id="financieelNetto">Netto:<span id="financieelNettoBedrag"></span></span>
 		<button id="btnBetaling">Betaling invoeren</button>
 	</div>
@@ -90,6 +90,31 @@ class KinderenPage extends Page {
 		<button type="button" class="btn btn-default" data-dismiss="modal">
 			Sluiten
 		</button>
+	</div>
+</div>
+<style type="text/css">
+	tr.betaling{
+		background-color:green;
+	}
+	tr.vordering{
+		background-color:red;
+	}
+</style>
+<div class="modal fade" id="verwijderVorderingBetalingModal" tabindex="-1" role="dialog" aria-labelledby="verwijderVorderingBetalingModal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+			&times;
+		</button>
+		<h4 class="modal-title" id="verwijderVorderingBetalingModalTitle">Verwijderen</h4>
+	</div>
+	<div class="modal-body">
+		Bent u zeker dat u deze betaling/vordering wilt verwijderen?
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">
+			Sluiten
+		</button>
+		<button type="button" class="btn btn-primary" id="btnVerwijderVorderingBetaling">Verwijderen</button>
 	</div>
 </div>
 <div class="modal fade" id="betalingModal" tabindex="-1" role="dialog" aria-labelledby="betalingModal">
@@ -589,8 +614,32 @@ class KinderenPage extends Page {
 			}
 			
 		}
-		function verwijder_vordering(vordering_data){}
+		var transacties_tabel;
+		
+		
 		function laad_saldo_details(kind_voogd_id){
+			function verwijder_vordering_betaling(vordering_data){
+				$('#verwijderVorderingBetalingModal').modal('show');
+				$('#btnVerwijderVorderingBetaling').unbind('click').click(function(){
+					var data = new Object();
+					data.Id = vordering_data.Id;
+					switch(vordering_data.Type){
+						case 'betaling':
+							$.get('index.php?action=removeBetaling', data, function(resp){
+								laad_saldo_details(kind_voogd_id);
+								$('#verwijderVorderingBetalingModal').modal('hide');
+							});
+							break;
+						case 'vordering':
+							$.get('index.php?action=removeVordering', data, function(data){
+								laad_saldo_details(kind_voogd_id)
+								$('#verwijderVorderingBetalingModal').modal('hide');
+							});
+							break;
+					}
+					return false;
+				});
+			}
 			empty_saldo_details();
 			var data = new Object();
 			data.KindVoogdId = kind_voogd_id;
@@ -605,10 +654,20 @@ class KinderenPage extends Page {
 			saldo_kolommen.push(new Kolom('Opmerking', 'Opmerking'));
 			var controls = new Array();
 			controls.push(new Control('Wijzigen', 'btn btn-xs', wijzig_vordering));
-			controls.push(new Control('Verwijderen', 'btn btn-xs', verwijder_vordering));
+			controls.push(new Control('Verwijderen', 'btn btn-xs', verwijder_vordering_betaling));
 			saldo_kolommen.push(new ControlsKolom(controls));
-			var transacties_tabel = new Tabel('index.php?action=data&data=saldoTabel&KindVoogdId='+parseInt(kind_voogd_id), saldo_kolommen);
+			transacties_tabel = new Tabel('index.php?action=data&data=saldoTabel&KindVoogdId='+parseInt(kind_voogd_id), saldo_kolommen);
 			transacties_tabel.setUp($('#financieelTable'));
+			transacties_tabel.setRijStyler(function(tr, data){
+				switch(data.Type){
+					case 'betaling':
+						tr.addClass('betaling')
+						break;
+					case 'vordering':
+						tr.addClass('vordering');
+						break;
+				}
+			});
 			transacties_tabel.laadTabel();
 			$('#betalingForm').unbind('submit').submit(function(){
 				var data = new Object();

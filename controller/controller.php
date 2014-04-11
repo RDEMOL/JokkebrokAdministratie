@@ -144,7 +144,19 @@ class Controller {
 					$betaling->updateDatabase();
 					echo "1";
 					exit;
-				/*case 'updateVordering':
+				case 'removeBetaling':
+					$id = $_REQUEST['Id'];
+					$betaling = new Betaling($id);
+					$betaling->deleteFromDatabase();
+					echo "1";
+					exit;
+				case 'removeVordering':
+					$id = $_REQUEST['Id'];
+					$vordering = new Vordering($id);
+					$vordering->deleteFromDatabase();
+					echo "1";
+					exit;
+				case 'updateVordering':
 					$data = new stdClass();
 					if(isset($_REQUEST['Id'])){
 						$data->Id = $_REQUEST['Id'];
@@ -157,7 +169,7 @@ class Controller {
 					$vordering = new Vordering($data);
 					$vordering->updateDatabase();
 					echo json_encode($vordering->getJSONData());
-					exit;*/
+					exit;
                 default:
                     return;
             }
