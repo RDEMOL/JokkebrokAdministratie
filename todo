@@ -1,8 +1,8 @@
-saldo
 uitstappen:	
 	kinderen toevoegen via kinderenoverzicht
 	kinderen toevoegen via aanwezighedenoverzicht
 	uitstappen deactiveren (Floris op een pintje trakteren om hem terug te krijgen :D)
+	enkel actieve tonen op dashboard
 
 abort queries
 aanwezigheden per dag opschuiven

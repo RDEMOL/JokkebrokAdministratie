@@ -56,8 +56,24 @@ define(function(){
 					self.notify();
 				}));
 				this.element.append('&nbsp;');
+				this.element.append($('<button>').addClass('btn btn-sm').append($('<span>').addClass('glyphicon glyphicon-backward')).click(function(){
+					var d = new Date(self.input_element.val());
+					d.setDate(d.getDate()-1);
+					self.input_element.val(d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate());
+					self.input_element.datepicker('update');
+					self.notify();
+				}));
+				this.element.append('&nbsp;');
 				this.element.append($('<button>').addClass('btn btn-sm').append($('<span>').addClass('glyphicon glyphicon-calendar')).click(function(){
 					var d = new Date();
+					self.input_element.val(d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate());
+					self.input_element.datepicker('update');
+					self.notify();
+				}));
+				this.element.append('&nbsp;');
+				this.element.append($('<button>').addClass('btn btn-sm').append($('<span>').addClass('glyphicon glyphicon-forward')).click(function(){
+					var d = new Date(self.input_element.val());
+					d.setDate(d.getDate()+1);
 					self.input_element.val(d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate());
 					self.input_element.datepicker('update');
 					self.notify();
