@@ -2,10 +2,9 @@ uitstappen:
 	kinderen toevoegen via kinderenoverzicht
 	kinderen toevoegen via aanwezighedenoverzicht
 	uitstappen deactiveren (Floris op een pintje trakteren om hem terug te krijgen :D)
-	enkel actieve tonen op dashboard
+	enkel actieve tonen op dashboard/aanwezigheidsuggesties
 
 abort queries
-aanwezigheden per dag opschuiven
 
 form validation aanwezigheid/kinderen
 	kindvoogden waarvoor aanwezigheden bestaan kunnen niet verwijderd worden

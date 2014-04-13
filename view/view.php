@@ -94,7 +94,10 @@ class View {
                     case 'uitstappenTabel':
                         $result = array();
                         $result['content']=array();
-                        $filter = null;
+                        $filter = array();
+						if(isset($_REQUEST['filter'])){
+							$filter = $_REQUEST['filter'];
+						}
                         $uitstappen = Uitstap::getUitstappen($filter);
                         foreach($uitstappen as $u){
                             $result['content'][]=$u->getJSONData();

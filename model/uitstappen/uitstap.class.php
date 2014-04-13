@@ -49,8 +49,28 @@ class Uitstap extends Record{
         $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
         return $query->execute();
      }
-     public static function getUitstappen(){
-         $query = Database::getPDO()->prepare("SELECT * FROM Uitstap");
+	 
+	protected static function getFilterSQL($filter){
+		$sql = "";
+		if(isset($filter['Actief'])){
+			$sql .= " AND Actief = :actief ";
+		}
+		return $sql;
+	}
+	protected static function applyFilterParameters($query, $filter){
+		if(isset($filter['Actief'])){
+			$query->bindParam(':actief', $filter['Actief'], PDO::PARAM_INT);
+		}
+	}
+	protected static function getFilterJoinsSQL($filter){
+		$slq = "";
+		return $sql;
+	}
+     public static function getUitstappen($filter){
+     	 $sql = "SELECT * FROM Uitstap WHERE 1 ";
+		 $sql .= static::getFilterSQL($filter);
+         $query = Database::getPDO()->prepare($sql);
+         static::applyFilterParameters($query, $filter);
          $query->execute();
          $uitstappen = array();
          while($rs = $query->fetch(PDO::FETCH_OBJ)){

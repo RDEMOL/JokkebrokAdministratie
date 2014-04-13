@@ -110,7 +110,9 @@ HERE;
 </thead>
 <tbody>
 <?php
-$uitstappen = Uitstap::getUitstappen();
+$filter = array();
+$filter['Actief']=true;
+$uitstappen = Uitstap::getUitstappen($filter);
 foreach($uitstappen as $u){
 ?>
 <tr>
