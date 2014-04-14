@@ -40,8 +40,9 @@ class Betaling extends Record{
         $query->bindParam(':bedrag', $this->Bedrag, PDO::PARAM_STR);
         $query->bindParam(':datum', $this->Datum, PDO::PARAM_STR);
         $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
+        $res = $query->execute();
 		$this->getKindVoogd()->updateSaldo();
-        return $query->execute();
+		return $res;
     }
     protected function select(){
         $query = Database::getPDO()->prepare("SELECT * FROM Betaling WHERE Id = :id");

@@ -27,9 +27,6 @@ define(['./rij'], function(Kolom){
 			aantal_kolommen += this.filter_velden[i].getSpan();
 			this.element.append(this.filter_velden[i].getElement());
 		}
-		/*for(var i = aantal_kolommen; i < this.parent_tabel.getKolommenAmount(); ++i){
-			this.element.append($('<td>'));
-		}*/
 		this.element.append($('<td>').attr('colspan', this.parent_tabel.getKolommenAmount()-aantal_kolommen).append($('<button>').text('Reset filter').click(function(){
 			for(var i = 0; i < self.filter_velden.length; ++i){
 				self.filter_velden[i].setValue(null);
