@@ -1,14 +1,13 @@
 uitstappen:	
 	kinderen toevoegen via kinderenoverzicht
 	kinderen toevoegen via aanwezighedenoverzicht
-	uitstappen deactiveren (Floris op een pintje trakteren om hem terug te krijgen :D)
-	enkel actieve tonen op dashboard/aanwezigheidsuggesties
 
-abort queries
+abort queries, keep track of time-of-request!
 
 form validation aanwezigheid/kinderen
 	kindvoogden waarvoor aanwezigheden bestaan kunnen niet verwijderd worden
 	no duplicate aanwezigheid
+	vordering/betaling positief!
 extraatjes enkel voor bepaalde werkingen
 snellere queries
 

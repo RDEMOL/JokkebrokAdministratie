@@ -5,6 +5,7 @@ define(function(){
 		this.type = type;
 		this.element = $('<td>');
 		this.input_element = null;
+		this.default_value = "";
 		if(custom_filter){
 			this.getFilter = custom_filter;
 		}
@@ -40,6 +41,7 @@ define(function(){
 				break;
 			case 'select':
 				el = $('<select>').attr('name', this.id).addClass('form-control');
+				this.default_value = this.data.options[0].value;
 				for(var i = 0; i < this.data.options.length; ++i){
 					el.append($('<option>').val(this.data.options[i].value).text(this.data.options[i].label));
 				}
@@ -48,9 +50,11 @@ define(function(){
 				});
 				break;
 			case 'datepicker':
+				var d = new Date();
+				this.default_value = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
 				this.element.append($('<button>').addClass('btn btn-sm').append($('<span>').addClass('glyphicon glyphicon-remove')).click(function(){
 					var d = new Date();
-					self.input_element.val(d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate());
+					self.input_element.val(this.default_value);
 					self.input_element.datepicker('update');
 					self.input_element.val('');
 					self.notify();
@@ -106,6 +110,15 @@ define(function(){
 	};
 	FilterVeld.prototype.getElement = function(){
 		return this.element;
+	};
+	FilterVeld.prototype.setValue = function(v){
+		if(this.input_element){
+			if(v == null){
+				this.input_element.val(this.default_value);
+			}else{
+				this.input_element.val(v);
+			}
+		}
 	};
 	return FilterVeld;
 });

@@ -522,6 +522,10 @@ class KinderenPage extends Page {
 			$.get('index.php?action=data&data=werkingenTabel', null, function(resp) {
 				var s = $('select[name=DefaultWerking]').empty();
 				js_array = new Array();
+				var alle_obj = new Object();
+				alle_obj.value = "";
+				alle_obj.label = "Alle";
+				js_array.push(alle_obj);
 				for (var i = 0; i < resp.content.length; ++i) {
 					s.append($('<option>').val(resp.content[i].Id).text(resp.content[i].Afkorting + " - " + resp.content[i].Omschrijving));
 					var obj = new Object();
