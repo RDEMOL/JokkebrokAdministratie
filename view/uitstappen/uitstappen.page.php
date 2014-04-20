@@ -40,8 +40,12 @@ class UitstappenPage extends Page{
 	            <input type="text" name="Omschrijving" value="">
 	        </div>
 	        <div class="row">
-	            <label for="Actief" class="control-label">Actief: </label>
-	            <input type="checkbox" name="Actief" checked>
+	            <label for="AanwezigheidZichtbaar" class="control-label">Zichtbaar in aanwezigheidformulier: </label>
+	            <input type="checkbox" name="AanwezigheidZichtbaar" checked>
+	        </div>
+	        <div class="row">
+	            <label for="DashboardZichtbaar" class="control-label">Zichtbaar op dashboard: </label>
+	            <input type="checkbox" name="DashboardZichtbaar" checked>
 	        </div>
 	    </form>
 	</div>
@@ -164,7 +168,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('#UitstapModal input[name=Datum]').val(data['Datum']).datepicker('update');
         $('#UitstapModal input[name=Omschrijving]').val(data['Omschrijving']);
         $('#UitstapModal input[name=Id]').val(data['Id']);
-        $('#UitstapModal input[name=Actief]').prop('checked', data['Actief']=='1');
+        $('#UitstapModal input[name=DashboardZichtbaar]').prop('checked', data['DashboardZichtbaar']=='1');
+        $('#UitstapModal input[name=AanwezigheidZichtbaar]').prop('checked', data['AanwezigheidZichtbaar'] == '1');
         $('#UitstapModal').modal('show');
     };
     function verwijder_uitstap(data){
@@ -252,7 +257,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     var k = new Array();
     k.push(new Kolom('Datum','Datum'));
     k.push(new Kolom('Omschrijving', 'Omschrijving'));
-    k.push(new Kolom('Actief', 'Actief'));
     
     var uitstappen_tabel = new Tabel('index.php?action=data&data=uitstappenTabel', k);
     uitstappen_tabel.setRowClickListener(new RowClickListener(uitstap_clicked));
@@ -270,6 +274,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     $('#UitstapModal form').submit(function(){
     	var id = $('#UitstapModal form input[name=Id]').val();
        	$.post('index.php?action=updateUitstap', $('#UitstapModal form').serialize(), function(r){
+       		
            r = $.trim(r);
            if(r == "1"){
            		var d = new Object();

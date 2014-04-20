@@ -304,10 +304,9 @@ class KinderenPage extends Page {
 			var id = kind_data.Id;
 			$('#uitstappenModal').modal('show');
 			var k = new Array();
-			k.push(new Kolom('Datum', 'Datum', null, true));
-			k.push(new Kolom('Omschrijving', 'Omschrijving', null, true));
-			k.push(new Kolom('Actief', 'Actief', null, false));
-			
+			k.push(new Kolom('Datum', 'Datum', null, false));
+			k.push(new Kolom('Omschrijving', 'Omschrijving', null, false));
+
 			uitstappen_tabel = new Tabel('index.php?action=data&data=kindUitstappen&KindId='+id, k);
 			uitstappen_tabel.setUp($('#uitstappen_tabel'));
 			uitstappen_tabel.laadTabel();

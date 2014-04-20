@@ -84,9 +84,12 @@ class Controller {
                     $data->Id = $_POST['Id'];
                     $data->Omschrijving = $_POST['Omschrijving'];
                     $data->Datum = $_POST['Datum'];
-                    $data->Actief = isset($_POST['Actief']);
+                    $data->AanwezigheidZichtbaar = isset($_POST['AanwezigheidZichtbaar']);
+                    $data->DashboardZichtbaar = isset($_POST['DashboardZichtbaar']);
+					
                     $uitstap = new Uitstap($data);
                     $uitstap->updateDatabase();
+					
                     echo "1";
                     exit;
 				case 'removeUitstap':

@@ -1,7 +1,5 @@
 uitstappen:	
-	kinderenoverzicht (enkel overzicht)
 	kinderen toevoegen via aanwezighedenoverzicht (lijst met checkboxen van actieve uitstappen)
-	uitstap-Actief wordt gesplitst in: DashboardVisible, AanwezigheidVisible
 schulden filter
 
 abort queries, keep track of time-of-request!

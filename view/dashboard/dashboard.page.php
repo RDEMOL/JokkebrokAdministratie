@@ -111,7 +111,7 @@ HERE;
 <tbody>
 <?php
 $filter = array();
-$filter['Actief']=true;
+$filter['DashboardZichtbaar']=true;
 $uitstappen = Uitstap::getUitstappen($filter);
 foreach($uitstappen as $u){
 ?>

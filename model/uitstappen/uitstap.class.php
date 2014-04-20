@@ -5,7 +5,8 @@ class Uitstap extends Record{
     protected function setLocalData($data){
         $this->Datum = $data->Datum;
         $this->Omschrijving = $data->Omschrijving;
-        $this->Actief = $data->Actief;
+        $this->AanwezigheidZichtbaar = $data->AanwezigheidZichtbaar;
+		$this->DashboardZichtbaar = $data->DashboardZichtbaar;
     }
 	public function getOmschrijving(){
 		return $this->Omschrijving;
@@ -22,18 +23,20 @@ class Uitstap extends Record{
         return $query->fetch(PDO::FETCH_OBJ);        
     }
      protected function insert(){
-        $query = Database::getPDO()->prepare("INSERT INTO Uitstap (Datum, Omschrijving, Actief) VALUES (:datum, :omschrijving, :actief)");
+        $query = Database::getPDO()->prepare("INSERT INTO Uitstap (Datum, Omschrijving, AanwezigheidZichtbaar, DashboardZichtbaar) VALUES (:datum, :omschrijving, :aanwezigheid_zichtbaar, :dashboard_zichtbaar)");
         $query->bindParam(':datum', $this->Datum, PDO::PARAM_STR);
         $query->bindParam(':omschrijving', $this->Omschrijving, PDO::PARAM_STR);
-        $query->bindParam(':actief', $this->Actief, PDO::PARAM_BOOL);
+        $query->bindParam(':aanwezigheid_zichtbaar', $this->AanwezigheidZichtbaar, PDO::PARAM_BOOL);
+		$query->bindParam(':dashboard_zichtbaar', $this->DashboardZichtbaar, PDO::PARAM_BOOL);
         $query->execute();
         return Database::getPDO()->lastInsertId();
      }
      protected function update(){
-        $query = Database::getPDO()->prepare('UPDATE Uitstap SET Datum=:datum, Omschrijving=:omschrijving, Actief=:actief WHERE Id=:id');
+        $query = Database::getPDO()->prepare('UPDATE Uitstap SET Datum=:datum, Omschrijving=:omschrijving, DashboardZichtbaar=:dashboard_zichtbaar, AanwezigheidZichtbaar=:aanwezigheid_zichtbaar WHERE Id=:id');
         $query->bindParam(':datum', $this->Datum, PDO::PARAM_STR);
         $query->bindParam(':omschrijving', $this->Omschrijving, PDO::PARAM_STR);
-        $query->bindParam(':actief', $this->Actief, PDO::PARAM_BOOL);
+        $query->bindParam(':aanwezigheid_zichtbaar', $this->AanwezigheidZichtbaar, PDO::PARAM_BOOL);
+        $query->bindParam(':dashboard_zichtbaar', $this->DashboardZichtbaar, PDO::PARAM_BOOL);
         $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
         $res = $query->execute();
         return $res;
@@ -52,14 +55,20 @@ class Uitstap extends Record{
 	 
 	protected static function getFilterSQL($filter){
 		$sql = "";
-		if(isset($filter['Actief'])){
-			$sql .= " AND Actief = :actief ";
+		if(isset($filter['AanwezigheidZichtbaar'])){
+			$sql .= " AND AanwezigheidZichtbaar = :aanwezigheid_zichtbaar ";
+		}
+		if(isset($filter['DashboardZichtbaar'])){
+			$sql .= " AND DashboardZichtbaar = :dashboard_zichtbaar ";
 		}
 		return $sql;
 	}
 	protected static function applyFilterParameters($query, $filter){
-		if(isset($filter['Actief'])){
-			$query->bindParam(':actief', $filter['Actief'], PDO::PARAM_INT);
+		if(isset($filter['DashboardZichtbaar'])){
+			$query->bindParam(':dashboard_zichtbaar', $filter['DashboardZichtbaar'], PDO::PARAM_BOOL);
+		}
+		if(isset($filter['AanwezigheidZichtbaar'])){
+			$query->bindParam(':aanwezigheid_zichtbaar', $filter['AanwezigheidZichtbaar'], PDO::PARAM_BOOL);
 		}
 	}
 	protected static function getFilterJoinsSQL($filter){
