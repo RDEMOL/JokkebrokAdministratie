@@ -204,7 +204,6 @@ class View {
                             $result['content'][]=array('Id'=>$e->getId(), 'Omschrijving'=>$e->getOmschrijving());
                         }
                         echo json_encode($result);
-                        Log::writeLog("result encoded ",json_encode($result));
                         break;
                     case 'voogdInfo':
 						$voogd = null;

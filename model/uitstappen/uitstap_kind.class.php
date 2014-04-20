@@ -24,7 +24,6 @@ class UitstapKind extends Record{
         return Database::getPDO()->lastInsertId();
      }
      protected function update(){
-         Log::writeLog("in UitstapKind update", "");
         $query = Database::getPDO()->prepare('UPDATE UitstapKind SET Uitstap=:uitstap_id, Kind=:kind_id WHERE Id=:id');
         $query->bindParam(':uitstap_id', $this->UitstapId, PDO::PARAM_STR);
         $query->bindParam(':kind_id', $this->KindId, PDO::PARAM_INT);

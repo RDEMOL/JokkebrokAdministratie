@@ -7,7 +7,6 @@ class Werking extends Record{
     }
     protected function insert(){
         $query = Database::getPDO()->prepare("INSERT INTO Werking (Omschrijving, Afkorting) VALUES (:omschrijving, :afkorting)");
-		Log::writeLog("insert werking", $this->Omschrijving." ".$this->Afkorting);
         $query->bindParam(':omschrijving', $this->Omschrijving, PDO::PARAM_STR);
         $query->bindParam(':afkorting', $this->Afkorting, PDO::PARAM_STR);
         $query->execute();

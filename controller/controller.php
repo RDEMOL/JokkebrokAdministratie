@@ -98,7 +98,6 @@ class Controller {
 					echo "1";
 					exit;
                 case 'updateDeelname':
-                    Log::writeLog("update deelname", json_encode($_GET));
                     $data = new stdClass();
                     if(isset($_GET['Id'])){
                         $data->Id = $_GET['Id'];

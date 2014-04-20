@@ -3,7 +3,6 @@ require_once(dirname(__FILE__)."/../record.class.php" );
 require_once(dirname(__FILE__)."/../kinderen/kind.class.php");
 class Voogd extends Record{
     protected function setLocalData($data){
-        //Log::writeLog("setlocal voogd data",json_encode($data));
         $this->Voornaam = $data->Voornaam;
         $this->Naam = $data->Naam;
         $this->Opmerkingen = $data->Opmerkingen;
@@ -81,7 +80,6 @@ class Voogd extends Record{
 		if(intval($max_amount)){
 			$sql .= " LIMIT ".intval($max_amount);
 		}
-		Log::writeLog("getvoogden", $sql);
 		$query = Database::getPDO()->prepare($sql);
 		static::applyFilterParameters($query, $filter);
 		$query->execute();

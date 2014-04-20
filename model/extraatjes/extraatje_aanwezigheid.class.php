@@ -36,7 +36,6 @@ class ExtraatjeAanwezigheid extends Record{
         return $query->fetch(PDO::FETCH_OBJ);
     }
     protected function delete(){
-        Log::writeLog("deleting!", "");
         $query = Database::getPDO()->prepare("DELETE FROM ExtraatjeAanwezigheid WHERE ID = :id");
         $id = $this->getId();
         $query->bindParam(':id', $id, PDO::PARAM_INT);
@@ -101,9 +100,7 @@ class ExtraatjeAanwezigheid extends Record{
         static::applyFilterParameters($query, $filter);
         $query->execute();
         $extraatje_aanwezigheden = array();
-        //Log::writeLog("extraatje aanwezigheid", "searching! aanwezigheid id = ".$filter['AanwezigheidId']." sql = ".$sql);
         while($rs = $query->fetch(PDO::FETCH_OBJ)){
-            //Log::writeLog("extraatje aanwezigheid", "found!");
             $extraatje_aanwezigheden[] = new ExtraatjeAanwezigheid($rs);
         }
         return $extraatje_aanwezigheden;
