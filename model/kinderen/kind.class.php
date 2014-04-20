@@ -1,6 +1,7 @@
 <?php
 require_once(dirname(__FILE__)."/../record.class.php");
 require_once(dirname(__FILE__)."/../kindvoogden/kindvoogd.class.php");
+require_once(dirname(__FILE__)."/../uitstappen/uitstap_kind.class.php");
 class Kind extends Record{
     protected function setLocalData($data){
         $this->Voornaam = $data->Voornaam;
@@ -217,5 +218,12 @@ class Kind extends Record{
 		$obj->Schulden = $this->getHeeftSchulden();
         return $obj; 
     }
+	public function getUitstapDeelnames($filter=null){
+		if($filter == null){
+			$filter = array();
+		}
+		$filter['Kind']=$this->getId();
+		return UitstapKind::getUitstapKinderen($filter);
+	}
 }
 ?>

@@ -45,32 +45,46 @@ class KinderenPage extends Page {
 		margin: 0;
 	}
 </style>
+<div class="modal fade" id="uitstappenModal" tabindex="-1" role="dialog" aria-labelledby="uitstappenModal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+			&times;
+		</button>
+		<h4 class="modal-title" id="uitstappenModalTitle">Uitstappen overzicht</h4>
+	</div>
+	<div class="modal-body">
+		<table id="uitstappen_tabel" class="table-bordered table-striped table">
+			
+		</table>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">
+			Sluiten
+		</button>
+	</div>
+</div>
 <div class="modal fade" id="verwijderKindModal" tabindex="-1" role="dialog" aria-labelledby="verwijderKindModal">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					&times;
-				</button>
-				<h4 class="modal-title" id="verwijderKindModalTitle">Kind verwijderen</h4>
-			</div>
-			<div class="modal-body">
-				<form id="verwijderKindForm">
-					<input type="hidden" name="Id">
-				</form>
-				<p>
-					Bent u zeker dat u dit kind wilt verwijderen?
-				</p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">
-					Annuleren
-				</button>
-				<button type="button" class="btn btn-primary" id="btnVerwijderKind">
-					Verwijderen
-				</button>
-			</div>
-		</div>
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+			&times;
+		</button>
+		<h4 class="modal-title" id="verwijderKindModalTitle">Kind verwijderen</h4>
+	</div>
+	<div class="modal-body">
+		<form id="verwijderKindForm">
+			<input type="hidden" name="Id">
+		</form>
+		<p>
+			Bent u zeker dat u dit kind wilt verwijderen?
+		</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">
+			Annuleren
+		</button>
+		<button type="button" class="btn btn-primary" id="btnVerwijderKind">
+			Verwijderen
+		</button>
 	</div>
 </div>
 <div class="modal fade" id="financieelModal" tabindex="-1" role="dialog" aria-labelledby="financieelModal" data-width="60%">
@@ -285,6 +299,19 @@ class KinderenPage extends Page {
 </div>
 <script>
 	require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, require) {
+		var uitstappen_tabel = null;
+		function laad_kind_uitstappen(kind_data){
+			var id = kind_data.Id;
+			$('#uitstappenModal').modal('show');
+			var k = new Array();
+			k.push(new Kolom('Datum', 'Datum', null, true));
+			k.push(new Kolom('Omschrijving', 'Omschrijving', null, true));
+			k.push(new Kolom('Actief', 'Actief', null, false));
+			
+			uitstappen_tabel = new Tabel('index.php?action=data&data=kindUitstappen&KindId='+id, k);
+			uitstappen_tabel.setUp($('#uitstappen_tabel'));
+			uitstappen_tabel.laadTabel();
+		}
 		function edit_voogd(id) {
 			var data = new Object();
 			data.VoogdId = id;
@@ -565,6 +592,7 @@ class KinderenPage extends Page {
 				return td;
 			}));
 			var controls = new Array();
+			controls.push(new Control('Uitstappen', 'btn btn-xs', laad_kind_uitstappen));
 			controls.push(new Control('Wijzigen', 'btn btn-xs', wijzig_kind));
 			controls.push(new Control('Verwijderen', 'btn btn-xs', verwijder_kind));
 			k.push(new ControlsKolom(controls));

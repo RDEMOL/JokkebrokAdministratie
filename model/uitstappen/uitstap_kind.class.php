@@ -44,14 +44,20 @@ class UitstapKind extends Record{
         if(isset($filter['Uitstap'])){
             $sql .= "AND Uitstap = :uitstap_id ";
         }
+        if(isset($filter['Kind'])){
+        	$sql .= "AND Kind = :kind_id ";
+        }
         return $sql;
     }
     protected static function applyFilterParameters($query, $filter){
         if(isset($filter['Uitstap'])){
             $query->bindParam(':uitstap_id', $filter['Uitstap']);
         }
+		if(isset($filter['Kind'])){
+			$query->bindParam(':kind_id', $filter['Kind']);
+		}
     }
-    public static function getUitstapKinderen($filter){
+    public static function getUitstapKinderen($filter=array()){
         $sql = "SELECT * FROM UitstapKind WHERE 1 ";
         $sql .= static::getFilterSQL($filter);
         $query = Database::getPDO()->prepare($sql);
@@ -63,5 +69,8 @@ class UitstapKind extends Record{
         }
         return $uitstap_kinderen;
     }
+	public function getUitstap(){
+		return new Uitstap($this->UitstapId);
+	}
 }
 ?>

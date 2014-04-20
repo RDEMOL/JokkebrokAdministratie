@@ -300,6 +300,18 @@ class View {
 						}
 						echo json_encode($result);
 						exit;
+				case 'kindUitstappen':
+					$result = array();
+					$result['content'] = array();
+					$kind = new Kind($_REQUEST['KindId']);
+					$uitstap_deelnames = $kind->getUitstapDeelnames();
+					foreach($uitstap_deelnames as $uk){
+						$o = new stdClass();
+						$o = $uk->getUitstap()->getJSONData();
+						$result['content'][] = $o;
+					}
+					echo json_encode($result);
+					exit;
                 }
             } else {
                 $page = "dashboard";
