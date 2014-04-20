@@ -19,5 +19,9 @@ class Database{
         }
         return Database::$pdo;
     }
+	public function getDatabaseDump(){
+		$command = 'mysqldump --user='.DB_USER. ' --password='.DB_PASS.' --host='.DB_HOST.' '. DB_NAME;
+		return shell_exec($command);
+	}
 }
 ?>

@@ -25,6 +25,10 @@ class View {
 
     public function output() {
         if($this->model->getSession()->getLoggedIn()) {
+        	if(isset($_GET['action']) && $_GET['action']=='backup'){
+        		echo Database::getDatabaseDump();
+        		exit;
+        	}
             if(isset($_GET['action']) && $_GET['action'] == 'data') {
                 if(!isset($_GET['data']))
                     return;

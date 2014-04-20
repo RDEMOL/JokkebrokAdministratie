@@ -232,6 +232,9 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
 </div>
 </div>
 </div>
+<div class='row'>
+	<a href='index.php?action=backup' download="<?php echo date("Ymd-His"); ?>.sql">Download backup</a>
+</div>
 <?php
 	}
 }
