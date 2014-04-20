@@ -94,5 +94,19 @@ class Uitstap extends Record{
          $filter = array('Uitstap'=>$this->getId());
          return UitstapKind::getUitstapKinderen($filter);
      }
+	public function isIngeschreven($kind_id){
+		$deelnemers = $this->getDeelnemers();
+		foreach($deelnemers as $k){
+			if($k->getKindId() == $kind_id)
+			 return true;
+		}
+		return false;
+	}
+	public function addKind($kind_id){
+		UitstapKind::addDeelname($this->getId(), $kind_id);
+	}
+	public function removeKind($kind_id){
+		UitstapKind::removeDeelname($this->getId(), $kind_id);
+	}
 }
 ?>

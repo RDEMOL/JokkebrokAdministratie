@@ -5,6 +5,9 @@ class UitstapKind extends Record{
         $this->KindId = $data->Kind;
         $this->UitstapId = $data->Uitstap;
     }
+	public function getKindId(){
+		return $this->KindId;
+	}
     public function getJSONData(){
         $db = new Database();
         $query = $db->getPDO()->prepare("SELECT UK.Id as Id, K.Naam as Naam, K.Voornaam as Voornaam, W.Afkorting as Werking, K.Geboortejaar as Geboortejaar FROM UitstapKind UK LEFT JOIN Kind K ON UK.Kind=K.Id LEFT JOIN Werking W ON K.DefaultWerking = W.Id WHERE UK.Id= :id ");
@@ -71,6 +74,30 @@ class UitstapKind extends Record{
     }
 	public function getUitstap(){
 		return new Uitstap($this->UitstapId);
+	}
+	public static function getDeelname($uitstap_id, $kind_id){
+		$filter = array();
+		$filter['Kind']=$kind_id;
+		$filter['Uitstap']=$uitstap_id;
+		$uitstappen = static::getUitstapKinderen($filter);
+		if(count($uitstappen) == 0)
+			return null;
+		return $uitstappen[0];
+	}
+	public static function addDeelname($uitstap_id, $kind_id){
+		if(static::getDeelname($uitstap_id, $kind_id)==null){
+			$d = new stdClass();
+			$d->Uitstap = $uitstap_id;
+			$d->Kind = $kind_id;
+			$uk = new UitstapKind($d);
+			$uk->updateDatabase();
+		}
+	}
+	public static function removeDeelname($uitstap_id, $kind_id){
+		$d = static::getDeelname($uitstap_id, $kind_id);
+		if($d != null){
+			$d->deleteFromDatabase();
+		}
 	}
 }
 ?>

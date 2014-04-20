@@ -225,5 +225,18 @@ class Kind extends Record{
 		$filter['Kind']=$this->getId();
 		return UitstapKind::getUitstapKinderen($filter);
 	}
+	/**
+	 * @param uitstappen: array consisting of (uitstap_id, ingeschreven) tuples
+	 */
+	public function applyUitstappen($uitstappen){
+		foreach($uitstappen as $u){
+			$uitstap = new Uitstap($u['Id']);
+			if($u['Ingeschreven']){
+				$uitstap->addKind($this->getId());
+			}else{
+				$uitstap->removeKind($this->getId());
+			}
+		}
+	}
 }
 ?>

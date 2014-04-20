@@ -159,7 +159,12 @@ HERE;
 <?php echo $this->getWerkingenSelect(); ?>
                 <br>
                 <div id="ExtraatjesDiv">
+                	<h5>Extraatjes:</h5>
 <?php echo $this->getExtraatjesList(); ?>
+                </div>
+                <div id="UitstappenDiv">
+                	<h5>Uitstappen:</h5>
+                	<ul id="lstUitstappen"></ul>
                 </div>
                 <br>
                 <label class="control-label" for="Opmerkingen">Opmerkingen: </label>
@@ -269,7 +274,7 @@ $(document).ready(function(){
     });
 });
 require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, require){
-    function clearAanwezigheidModal(){
+    function clear_aanwezigheid_modal(){
         $('input[name="AanwezigheidId"]').val('0');
         $('input[name="KindId"]').val('0');
         $('input[name="VolledigeNaamKind"]').val('');
@@ -279,8 +284,26 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('input[type=checkbox].Extraatjes').prop('checked', false);
         $('textarea[name="Opmerkingen"]').val('');
         $('ul#lstVorderingen').empty();
+        $('ul#lstUitstappen').empty();
     };
+    function laad_aanwezigheid_uitstappen(kind_id){
+    	var data = new Object();
+    	if(kind_id)
+    		data.KindId=kind_id;
+    	$.get('index.php?action=data&data=aanwezigheidUitstappen', data, function(res){
+    		var uitstappen = JSON.parse(res).content;
+    		for(var i = 0; i < uitstappen.length; ++i){
+    			$('ul#lstUitstappen').append(
+    				$('<li>')
+    					.append($('<input>').attr({'type':'hidden', 'value':uitstappen[i].Id, 'name':'Id'}))
+    					.append($('<input>').attr({'type':'checkbox', 'checked':uitstappen[i].Ingeschreven, 'name':'Ingeschreven'}))
+    					.append($('<span>').text(uitstappen[i].Datum+": "+uitstappen[i].Omschrijving)));
+    		}
+    	});
+    }
     var wijzig_aanwezigheid = function(data){
+        clear_aanwezigheid_modal();
+        laad_aanwezigheid_uitstappen(data.Id);
         var d = new Object();
         d.id = data['Id'];
         $.get('?action=data&data=aanwezigheidDetails', d, function(r){
@@ -306,7 +329,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             	}
             }
         });
-        clearAanwezigheidModal();
         $('#aanwezigheidModal').modal('show');
     };
     $('#btnNieuweVordering').unbind('click').click(function(){
@@ -320,7 +342,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('#verwijderAanwezigheidModal').modal('show');
     };
     function nieuwe_aanwezigheid(){
-        clearAanwezigheidModal();
+        clear_aanwezigheid_modal();
+        laad_aanwezigheid_uitstappen();
         $('form input[name="Datum"]').val($('td input[name="Datum"]').val());
         $('#aanwezigheidModal').modal('show');  
     };
@@ -410,6 +433,13 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
        		v.Opmerking = $(this).find('input[name=Opmerking]').val();
        		v.Bedrag = $(this).find('input[name=Bedrag]').val();
        		d.Vorderingen.push(v);
+       });
+       d.Uitstappen = new Array();
+       $('ul#lstUitstappen li').each(function(index, e){
+       		var u = new Object();
+       		u.Id = $(this).find('input[name=Id]').val();
+       		u.Ingeschreven = $(this).find('input[name=Ingeschreven]').is(':checked')?1:0;
+       		d.Uitstappen.push(u);
        });
        $.post('?action=updateAanwezigheid', d, function(res){ 
            res = $.trim(res);

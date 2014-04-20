@@ -274,7 +274,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     $('#UitstapModal form').submit(function(){
     	var id = $('#UitstapModal form input[name=Id]').val();
        	$.post('index.php?action=updateUitstap', $('#UitstapModal form').serialize(), function(r){
-       		
            r = $.trim(r);
            if(r == "1"){
            		var d = new Object();

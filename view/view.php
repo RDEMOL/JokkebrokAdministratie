@@ -312,6 +312,29 @@ class View {
 					}
 					echo json_encode($result);
 					exit;
+				case 'aanwezigheidUitstappen':
+					$kind_id = null;
+					if(isset($_REQUEST['KindId'])){
+						$kind_id = $_REQUEST['KindId'];
+					}
+					
+					$filter = array();
+					$filter['AanwezigheidZichtbaar']=true;
+					$uitstappen = Uitstap::getUitstappen($filter);
+					$result = array();
+					$result['content']=array();
+					foreach($uitstappen as $u){
+						$o = $u->getJSONData();
+						$o->Ingeschreven = false;
+						if($kind_id){
+							if($u->isIngeschreven($kind_id)){
+								$o->Ingeschreven=true;	
+							}
+						}
+						$result['content'][]=$o;
+					}
+					echo json_encode($result);
+					exit;
                 }
             } else {
                 $page = "dashboard";
