@@ -68,6 +68,9 @@ class KindVoogd extends Record{
 	public function getSaldo(){
 		return $this->Saldo;
 	}
+	public function getHeeftSchulden(){
+		return $this->getSaldo() != 0;
+	}
 	public function updateSaldo(){
 		$betalingen = $this->getBetalingen();
 		$vorderingen = $this->getVorderingen();

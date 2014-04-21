@@ -150,6 +150,11 @@ class View {
 						if(isset($_POST['order'])){
 							$order = $_POST['order'];
 						}
+						if(isset($filter['Andere'])){
+							if($filter['Andere']=='Schulden'){
+								$filter['Schulden']=true;
+							}
+						}
                         $result = array();
                         $result['content'] = array();
                         $aanwezigheden = Aanwezigheid::getAanwezigheden($filter, $order);

@@ -152,7 +152,11 @@ class Aanwezigheid extends Record{
         $query->execute();
         $aanwezigheden = array();
         while($rs = $query->fetch(PDO::FETCH_OBJ)){
-            $aanwezigheden[] = new Aanwezigheid($rs);
+            $a = new Aanwezigheid($rs);
+			if(isset($filter['Schulden']) && $filter['Schulden'] && !$a->getKindVoogd()->getHeeftSchulden()){
+				continue;
+			}
+			$aanwezigheden[]=$a;
         }
         return $aanwezigheden;
     }
@@ -193,6 +197,7 @@ class Aanwezigheid extends Record{
         $aanwezigheid = $query->fetch(PDO::FETCH_OBJ);
         $aanwezigheid->Extraatjes = array();
         $extraatjes = $this->getExtraatjes();
+		$aanwezigheid->Schulden = $this->getKindVoogd()->getSaldo();
         foreach($extraatjes as $e){
             $aanwezigheid->Extraatjes[] = array('Id'=>$e->getId(), 'Omschrijving'=>$e->getOmschrijving());
         }

@@ -384,8 +384,16 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
 				$('<a>').attr({
 					'data-original-title':'Voogd: '+data['VoogdVolledigeNaam']
 				}).append($('<span>').addClass('glyphicon glyphicon-home'))
-				.tooltip()
-            .append('&nbsp;'));
+				.tooltip())
+            .append('&nbsp;');
+		}
+		if(data['Schulden'] != 0){
+			td.append(
+				$('<a>').attr({
+					'data-original-title':'Het saldo van de voogd voor dit kind bedraagt: €'+data['Schulden']+".\nBij het wijzigen van de aanwezigheid of in het kindoverzicht kunt u betalingen toevoegen."
+				}).append($('<span>').addClass('glyphicon glyphicon-euro'))
+				.tooltip())
+			.append('&nbsp;');
 		}
         return td;
     }));
@@ -399,6 +407,16 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     filter_velden.push(new FilterVeld('VolledigeNaam', 2, 'text', null));
     filter_velden.push(new FilterVeld('Werking', 1, 'select', {options: <?php echo $werkingen_js_array; ?>}, null, '<?php echo $werking; ?>'));
     filter_velden.push(new FilterVeld('Extraatjes', 1, 'select', {options:<?php echo $extraatjes_js_array; ?>}, null, '<?php echo $extraatje; ?>'));
+    var andere_opties = new Array();
+    var alle = new Object();
+    alle.label = "Alle";
+    alle.value = 0;
+    andere_opties.push(alle);
+    var schulden = new Object();
+    schulden.label = "Schulden";
+    schulden.value = "Schulden";
+    andere_opties.push(schulden);
+    filter_velden.push(new FilterVeld('Andere', 1, 'select', {options: andere_opties}));
     t.setFilterRij(new FilterRij(filter_velden,t));
     t.setUp($('#aanwezigheden_tabel'));
     $(document).ready(function(){
