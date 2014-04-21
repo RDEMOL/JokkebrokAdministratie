@@ -145,7 +145,11 @@ class Kind extends Record{
         $query->execute();
         $kinderen = array();
         while($rs = $query->fetch(PDO::FETCH_OBJ)){
-            $kinderen[] = new Kind($rs);
+      		$k = new Kind($rs);
+			if(isset($filter['Schulden']) && $filter['Schulden'] && !$k->getHeeftSchulden()){
+				continue;
+			}
+            $kinderen[] = $k;
         }
         return $kinderen;
     }

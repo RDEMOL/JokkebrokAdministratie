@@ -602,6 +602,18 @@ class KinderenPage extends Page {
 			filter_velden.push(new FilterVeld('Werking', 1, 'select', {
 				options : js_array
 			}));
+			var andere_filters = new Array();
+			var alle = new Object();
+			alle.label = "Alle";
+			alle.value = "0";
+			var schulden = new Object();
+			schulden.label = "Schulden";
+			schulden.value = "Schulden";
+			andere_filters.push(alle);
+			andere_filters.push(schulden);
+			filter_velden.push(new FilterVeld('Andere', 1, 'select', {
+				options :  andere_filters
+			}));
 			kinderen_tabel.setFilterRij(new FilterRij(filter_velden, kinderen_tabel));
 			kinderen_tabel.setUp($('#kinderen_tabel'));
 			kinderen_tabel.laadTabel();

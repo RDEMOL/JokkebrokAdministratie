@@ -35,12 +35,18 @@ class View {
                 switch($_GET['data']){
                     case 'kinderenTabel':
                         $filter = null;
-                        if(isset($_POST['filter'])){
-                            $filter = $_POST['filter'];
+                        if(isset($_REQUEST['filter'])){
+                            $filter = $_REQUEST['filter'];
                         }
 						$order = array();
-						if(isset($_POST['order'])){
-							$order = $_POST['order'];
+						if(isset($_REQUEST['order'])){
+							$order = $_REQUEST['order'];
+						}
+						if($filter['Andere']){
+							//echo $filter['Andere'];
+							if($filter['Andere']=='Schulden'){
+								$filter['Schulden']=true;
+							}
 						}
                         $result = array();
                         $result['content']=array();
