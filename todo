@@ -1,5 +1,3 @@
-schulden filter
-
 abort queries, keep track of time-of-request!
 
 form validation aanwezigheid/kinderen
@@ -8,6 +6,7 @@ form validation aanwezigheid/kinderen
 	vordering/betaling positief!
 extraatjes enkel voor bepaalde werkingen
 snellere queries
+enter in forms -> submit (not previously clicked button)
 
 vorderingen gewijzigd, niet opslaan -> verwittiging
 geen dubbele voogdsuggesties
