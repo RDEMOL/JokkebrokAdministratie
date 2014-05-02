@@ -298,7 +298,7 @@ class KinderenPage extends Page {
 	<table class="table table-striped table-bordered table-condensed" id="kinderen_tabel"></table>
 </div>
 <script>
-	require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, require) {
+	require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'validator'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, Validator, require) {
 		var uitstappen_tabel = null;
 		function laad_kind_uitstappen(kind_data){
 			var id = kind_data.Id;
@@ -471,6 +471,9 @@ class KinderenPage extends Page {
 		$('#btnNieuwKind').click(function() {
 			nieuw_kind();
 		});
+		function kind_form_error(msg){
+			alert(msg);
+		};
 		$('#kindForm').submit(function() {
 			var data = new Object();
 			data.Id = $('#kindForm input[name=Id]').val();
@@ -483,6 +486,22 @@ class KinderenPage extends Page {
 			$('#lstVoogden li').each(function() {
 				data.VoogdIds.push($(this).find("input[name=Id]").val());
 			});
+			if(!Validator.isNonZeroInteger(data.DefaultWerking)){
+				kind_form_error("Kies een geldige werking");
+				return false;
+			}
+			if(Validator.isEmpty(data.Naam) || Validator.isEmpty(data.Voornaam)){
+				kind_form_error("Vul de naam en voornaam in");
+				return false;
+			}
+			if(data.VoogdIds.length == 0){
+				kind_form_error("Kies een voogd");
+				return false;
+			}
+			if(!Validator.isBirthYear(data.Geboortejaar)){
+				kind_form_error("Vul een geldig geboortejaar in");
+				return false;
+			}
 			$.post('index.php?action=updateKind', data, function(res) {
 				res = $.trim(res);
 				if (res == "1") {
