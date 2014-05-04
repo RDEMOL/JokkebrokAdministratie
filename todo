@@ -1,7 +1,11 @@
 abort queries, keep track of time-of-request!
+vordering wijzigen in kinderen overzicht
+fix kinderen pdf
+fix pdf modal
 
 form validation aanwezigheid/kinderen
 	kindvoogden waarvoor aanwezigheden bestaan kunnen niet verwijderd worden
+    kinderen met aanwezigheden kunnen ook niet verwijderd worden
 	no duplicate aanwezigheid
 	vordering/betaling positief!
 extraatjes enkel voor bepaalde werkingen
