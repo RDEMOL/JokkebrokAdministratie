@@ -11,6 +11,9 @@ define([],function(){
 	Validator.isInteger = function(data){
 		return Validator.isNumber(data) && Math.floor(data) == data;
 	};
+	Validator.isPositiveInteger = function(data){
+		return Validator.isInteger(data) && data > 0;
+	};
 	Validator.isNumber = function(data){
 		return $.isNumeric(data);
 	};

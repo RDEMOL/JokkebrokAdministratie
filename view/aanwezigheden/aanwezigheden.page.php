@@ -220,12 +220,19 @@ typeahead, .tt-query, .tt-hint {
             $('input[name="KindId"]').val(kind.Id);
             $('select[name="KindVoogdId"]').empty();
             $('textarea[name="OpmerkingId"]').empty();
+            $('input[type=checkbox]').removeAttr('checked');
+            $('ul#lstVorderingen').empty();
             if(kind.Id != 0){
                 for(var i = 0; i < kind.Voogden.length; ++i){
                     $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].KindVoogdId).text(kind.Voogden[i].VolledigeNaam));
                 }
                 $('select[name="WerkingId"]').val(kind.DefaultWerkingId);
             }
+        };
+        function unloadKind(kind){
+        	var d = new Object();
+        	d.Id = 0;
+        	loadKind(d);
         };
         var suggesties = new Bloodhound({
            datumTokenizer:function(d){return Bloodhound.tokenizers.whitespace(d.value); },
@@ -240,7 +247,9 @@ typeahead, .tt-query, .tt-hint {
            }
         });
         suggesties.initialize();
-        $('input[name="VolledigeNaamKind"]').typeahead(null, {
+        $('input[name="VolledigeNaamKind"]').keydown(function(){
+        		unloadKind();
+        	}).typeahead(null, {
             displayKey:'display_value',
             source: suggesties.ttAdapter()
         }).bind('typeahead:selected', function(obj, kind, dataset_name){
@@ -273,7 +282,7 @@ $(document).ready(function(){
         $('input[name="Datum"]').datepicker('hide');
     });
 });
-require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, require){
+require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'validator'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, Validator, require){
     function clear_aanwezigheid_modal(){
         $('input[name="AanwezigheidId"]').val('0');
         $('input[name="KindId"]').val('0');
@@ -429,6 +438,9 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     $('#btnNieuweAanwezigheid').click(function(){
         nieuwe_aanwezigheid();
     });
+    function aanwezigheid_form_error(msg){
+    	alert(msg);
+    };
     $('#aanwezigheidForm').submit(function(){
        var aanwezigheidId = $('#aanwezigheidForm input[name="AanwezigheidId"]').val();
        var kindVoogdId = $('#aanwezigheidForm select[name="KindVoogdId"]').val();
@@ -459,6 +471,14 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
        		u.Ingeschreven = $(this).find('input[name=Ingeschreven]').is(':checked')?1:0;
        		d.Uitstappen.push(u);
        });
+       if(!Validator.isPositiveInteger(d.KindVoogd)){
+       		aanwezigheid_form_error("Kies een kind/voogd-combinatie");
+       		return false;
+       }
+       if(!Validator.isGoodDate(d.Datum)){
+       		aanwezigheid_form_error("Selecteer een geldige datum");
+       		return false;
+       }
        $.post('?action=updateAanwezigheid', d, function(res){ 
            res = $.trim(res);
            if(res == "1"){
@@ -547,11 +567,18 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
    	$('form#vorderingForm').submit();
    	return false;
    });
+   function vordering_form_error(msg){
+   		alert(msg);
+   };
    $('form#vorderingForm').submit(function(){
    		var data = new Object();
    		data.Id = $('form#vorderingForm input[name=Id]').val();
    		data.Bedrag = $('form#vorderingForm input[name=Bedrag]').val();
    		data.Opmerking = $('form#vorderingForm textarea[name=Opmerking]').val();
+   		if(!Validator.isPositivePayment(data.Bedrag)){
+   			vordering_form_error("Vul een geldig positief bedrag in (max. 2 cijfers na de decimale punt).");
+   			return false;
+   		}
    		$('#vorderingModal').modal('hide');
    		voeg_vordering_toe(data);
    		return false;
