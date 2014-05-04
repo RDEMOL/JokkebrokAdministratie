@@ -404,7 +404,7 @@ class KinderenPage extends Page {
 				$('#voogdModal').modal('hide');
 			});
 		});
-		
+		var kinderen_tabel;
 		var suggesties = new Bloodhound({
 			datumTokenizer : function(d) {
 				return Bloodhound.tokenizers.whitespace(d.value);
@@ -545,8 +545,8 @@ class KinderenPage extends Page {
 			});
 			data.action = "data";
 			data.data = "kinderenPDF";
-			data.filter = t.getFilter();
-			data.order = t.getSort();
+			data.filter = kinderen_tabel.getFilter();
+			data.order = kinderen_tabel.getSort();
 			window.open('index.php?' + $.param(data));
 			$('#pdfModal').modal('hide');
 
