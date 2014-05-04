@@ -152,7 +152,7 @@ typeahead, .tt-query, .tt-hint {
 var laad_uitstap;
 var laad_uitstap_details_placeholder;
 var init_function = function(){};
-require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, require){
+require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener', 'validator'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, Validator, require){
     function voeg_kind_toe(kind_id, uitstap_id){
         var d = new Object();
         d.Id = 0;
@@ -271,15 +271,37 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     $('#btnUitstapOpslaan').click(function(){
         $('#UitstapModal form').submit();
     });
+    function uitstap_form_error(msg){
+    	alert(msg);
+    };
     $('#UitstapModal form').submit(function(){
     	var id = $('#UitstapModal form input[name=Id]').val();
-       	$.post('index.php?action=updateUitstap', $('#UitstapModal form').serialize(), function(r){
+    	var data = new Object();
+    	data.Id = id;
+    	data.Datum = $('#UitstapModal form input[name=Datum]').val();
+    	data.Omschrijving = $('#UitstapModal form input[name=Omschrijving]').val();
+    	if($('#UitstapModal form input[name=AanwezigheidZichtbaar]').prop('checked')){
+    		data.AanwezigheidZichtbaar = true;	
+    	}
+    	if($('#UitstapModal form input[name=DashboardZichtbaar]').prop('checked')){
+    		data.DashboardZichtbaar = true;
+    	}
+    	if(!Validator.isGoodDate(data.Datum)){
+    		uitstap_form_error("Selecteer een geldige datum");
+    		return false;
+    	}
+    	if(Validator.isEmpty(data.Omschrijving)){
+    		uitstap_form_error("Vul een omschrijving in");
+    		return false;	
+    	}
+       	$.post('index.php?action=updateUitstap', data, function(r){
            r = $.trim(r);
            if(r == "1"){
            		var d = new Object();
 			   	d.Id = id;
 				uitstappen_tabel.laadTabel();
            		$.post('index.php?action=data&data=uitstapDetails', d, function(res){
+           			console.log("res = "+res);
            			laad_uitstap(JSON.parse(res).content);
            		});
                 $('#UitstapModal').modal('hide');
