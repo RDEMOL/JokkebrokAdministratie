@@ -498,7 +498,7 @@ class KinderenPage extends Page {
 				kind_form_error("Kies een voogd");
 				return false;
 			}
-			if(!Validator.isBirthYear(data.Geboortejaar)){
+			if(!Validator.isGoodYear(data.Geboortejaar)){
 				kind_form_error("Vul een geldig geboortejaar in");
 				return false;
 			}
@@ -731,6 +731,9 @@ class KinderenPage extends Page {
 				}
 			});
 			transacties_tabel.laadTabel();
+			function betaling_form_error(msg){
+				alert(msg);
+			};
 			$('#betalingForm').unbind('submit').submit(function(){
 				var data = new Object();
 				data.Id = $('#betalingForm input[name=Id]').val();
@@ -738,12 +741,20 @@ class KinderenPage extends Page {
 				data.Opmerking = $('#betalingForm textarea[name=Opmerking]').val();
 				data.Datum = $('#betalingForm input[name=Datum]').val();
 				data.KindVoogd = kind_voogd_id;
+				if(!Validator.isPositivePayment(data.Bedrag)){
+					betaling_form_error("Vul een geldig positief bedrag in (max 2 cijfers na decimale punt).");
+					return false;
+				}
+				if(!Validator.isGoodDate(data.Datum)){
+					betaling_form_error("Kies een geldige datum.");
+					return false;
+				}
 				$.get('index.php?action=updateBetaling', data, function(resp){
 					if($.trim(resp) == "1"){
 						laad_saldo_details(kind_voogd_id);
 						$('#betalingModal').modal('hide');	
 					}	
-			});
+				});
 				return false;
 			});
 		}
