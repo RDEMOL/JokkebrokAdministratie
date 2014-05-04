@@ -251,36 +251,32 @@ class KinderenPage extends Page {
 	</div>
 </div>
 <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					&times;
-				</button>
-				<h4 class="modal-title" id="pdfModalTitle">PDF genereren</h4>
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+			&times;
+		</button>
+		<h4 class="modal-title" id="pdfModalTitle">PDF genereren</h4>
+	</div>
+	<div class="modal-body">
+		Welke kolommen wilt u afdrukken?
+		<div class="row">
+			<div class="col-md-6">
+				Weergeven
+				<ul id="pdfSelectedFields" class="pdfFields"></ul>
 			</div>
-			<div class="modal-body">
-				Welke kolommen wilt u afdrukken?
-				<div class="row">
-					<div class="col-md-6">
-						Weergeven
-						<ul id="pdfSelectedFields" class="pdfFields"></ul>
-					</div>
-					<div class="col-md-6">
-						Verbergen
-						<ul id="pdfUnselectedFields" class="pdfFields"></ul>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">
-					Annuleren
-				</button>
-				<button type="button" class="btn btn-primary" id="btnPDF">
-					PDF genereren
-				</button>
+			<div class="col-md-6">
+				Verbergen
+				<ul id="pdfUnselectedFields" class="pdfFields"></ul>
 			</div>
 		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">
+			Annuleren
+		</button>
+		<button type="button" class="btn btn-primary" id="btnPDF">
+			PDF genereren
+		</button>
 	</div>
 </div>
 <div class="row">
