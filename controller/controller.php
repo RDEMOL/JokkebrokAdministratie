@@ -90,7 +90,10 @@ class Controller {
                     $uitstap = new Uitstap($data);
                     $uitstap->updateDatabase();
 					
-                    echo "1";
+                    $res = new stdClass();
+					$res->Ok = 1;
+					$res->Id = $uitstap->getId();
+					echo json_encode($res);
                     exit;
 				case 'removeUitstap':
 					$uitstap = new Uitstap($_POST['Id']);

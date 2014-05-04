@@ -295,20 +295,18 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     		return false;	
     	}
        	$.post('index.php?action=updateUitstap', data, function(r){
-           r = $.trim(r);
-           if(r == "1"){
+       		if(r.Ok == "1"){
            		var d = new Object();
-			   	d.Id = id;
+			   	d.Id = r.Id;
 				uitstappen_tabel.laadTabel();
            		$.post('index.php?action=data&data=uitstapDetails', d, function(res){
-           			console.log("res = "+res);
            			laad_uitstap(JSON.parse(res).content);
            		});
                 $('#UitstapModal').modal('hide');
            }else{
                console.log("update Uitstap mislukt");
            }
-       });
+       }, "json");
        return false;
     });
     $('#btnVerwijderUitstap').click(function(){
