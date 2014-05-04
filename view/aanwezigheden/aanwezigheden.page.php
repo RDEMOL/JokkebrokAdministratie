@@ -492,14 +492,13 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     });
     $('#btnVerwijderAanwezigheid').click(function(){
        $.post('index.php?action=removeAanwezigheid', $('#verwijderAanwezigheidForm').serialize(), function(res){
-           res = $.trim(res);
-            if(res == "1"){
+            if(res.Ok){
                 $('#verwijderAanwezigheidModal').modal('hide');
                 t.laadTabel();
             }else{
-                console.log("Aanwezigheid verwijderen mislukt, error code: "+res);
+                alert("Aanwezigheid verwijderen mislukt. Controleer dat er geen vorderingen of extraatjes zijn voor deze aanwezigheid.")
             }
-       });
+       }, "json");
    });
    var pdf_fields = new Array('Naam', 'Voornaam', 'Datum', 'Extraatjes', 'Info', 'Werking');
    $('#btnPDFModal').click(function(){

@@ -311,13 +311,12 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     });
     $('#btnVerwijderUitstap').click(function(){
        $.post('index.php?action=removeUitstap', $('#VerwijderUitstapForm').serialize(), function(res){
-           res = $.trim(res);
-            if(res == "1"){
+            if(res.Ok){
                 $('#VerwijderUitstapModal').modal('hide');
                 uitstappen_tabel.laadTabel();
 				laad_uitstap_details_placeholder();
             }else{
-                console.log("uitstap verwijderen mislukt, error code: "+res);
+                alert("Uitstap verwijderen mislukt.");
             }
        });
    });

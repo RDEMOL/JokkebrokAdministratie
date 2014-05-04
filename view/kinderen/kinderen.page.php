@@ -514,14 +514,13 @@ class KinderenPage extends Page {
 		});
 		$('#btnVerwijderKind').click(function() {
 			$.post('index.php?action=removeKind', $('#verwijderKindForm').serialize(), function(res) {
-				res = $.trim(res);
-				if (res == "1") {
+				if (res.Ok) {
 					$('#verwijderKindModal').modal('hide');
 					kinderen_tabel.laadTabel();
 				} else {
-					console.log("kind verwijderen mislukt, error code: " + res);
+					alert("Kind verwijderen mislukt. Controleer dat er geen geassocieerde Voogden of Uitstappen zijn.");
 				}
-			});
+			}, "json");
 		});
 		var pdf_fields = new Array('Naam', 'Voornaam', 'Geboortejaar', 'Belangrijk', 'Werking');
 		$('#btnPDFModal').click(function() {

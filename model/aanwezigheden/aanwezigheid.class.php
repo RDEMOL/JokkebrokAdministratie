@@ -34,6 +34,9 @@ class Aanwezigheid extends Record{
         return $query->fetch(PDO::FETCH_OBJ);
     }
     protected function delete(){
+    	if(count($this->getExtraatjes()) > 0 || count($this->getVorderingen()) > 0){
+    		return false;
+    	}
         $query = Database::getPDO()->prepare("DELETE FROM Aanwezigheid WHERE Id = :id");
         $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
         return $query->execute();
@@ -139,7 +142,7 @@ class Aanwezigheid extends Record{
         $res = $query->fetch();
         return $res['Amount'];
     }
-    public static function getAanwezigheden($filter, $order){
+    public static function getAanwezigheden($filter, $order=null){
         $sql = "SELECT A.Id as Id, A.Datum as Datum, A.KindVoogd as KindVoogd, A.Werking as Werking, A.Opmerkingen as Opmerkingen FROM Aanwezigheid A LEFT JOIN KindVoogd KV on KV.Id=A.KindVoogd LEFT JOIN Kind K ON K.Id=KV.Kind ";
         $sql .= static::getFilterJoinsSQL($filter);
         $sql .= " WHERE 1 ";

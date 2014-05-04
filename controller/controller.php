@@ -42,7 +42,9 @@ class Controller {
                     exit;
                 case 'removeKind':
                     $k = new Kind($_POST['Id']);
-                    echo $k->deleteFromDatabase();
+					$res = new stdClass();
+                    $res->Ok = $k->deleteFromDatabase();
+					echo json_encode($res);
                     exit;
                 case 'updateAanwezigheid':
                     $data = $_POST;
@@ -50,7 +52,9 @@ class Controller {
                     exit;
                 case 'removeAanwezigheid':
                     $a = new Aanwezigheid($_POST['Id']);
-                    echo $a->deleteFromDatabase();
+					$res = new stdClass();
+                    $res->Ok = $a->deleteFromDatabase();
+					echo json_encode($res);
                     exit;
                 case 'updateExtraatje':
                     $data = new stdClass();
@@ -61,9 +65,10 @@ class Controller {
                     echo "1";
                     exit;
                 case 'removeExtraatje':
-                    $extraatje = new Extraatje($_POST['Id']);
-                    $extraatje->deleteFromDatabase();
-                    echo "1";
+                    $extraatje = new Extraatje($_REQUEST['Id']);
+                    $res = new stdClass();
+                    $res->Ok = $extraatje->deleteFromDatabase();
+                    echo json_encode($res);
                     exit;
 				case 'updateWerking':
 					$data = new stdClass();
@@ -75,9 +80,10 @@ class Controller {
 					echo "1";
 					exit;
 				case 'removeWerking':
-					$werking = new Werking($_POST['Id']);
-					$werking->deleteFromDatabase();
-					echo "1";
+					$werking = new Werking($_REQUEST['Id']);
+					$res = new stdClass();
+					$res->Ok = $werking->deleteFromDatabase();
+					echo json_encode($res);
 					exit;
                 case 'updateUitstap':
                     $data = new stdClass();
@@ -97,8 +103,9 @@ class Controller {
                     exit;
 				case 'removeUitstap':
 					$uitstap = new Uitstap($_POST['Id']);
-					$uitstap->deleteFromDatabase();
-					echo "1";
+					$res = new stdClass();
+					$res->Ok = $uitstap->deleteFromDatabase();
+					echo json_encode($res);
 					exit;
                 case 'updateDeelname':
                     $data = new stdClass();

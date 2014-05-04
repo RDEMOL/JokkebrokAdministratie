@@ -1,11 +1,8 @@
 abort queries, keep track of time-of-request!
 vordering wijzigen in kinderen overzicht
 
-form validation aanwezigheid/kinderen
-	kindvoogden waarvoor aanwezigheden bestaan kunnen niet verwijderd worden
-    kinderen met aanwezigheden kunnen ook niet verwijderd worden
-	no duplicate aanwezigheid
-	vordering/betaling positief!
+no duplicate aanwezigheid
+
 extraatjes enkel voor bepaalde werkingen
 snellere queries
 enter in forms -> submit (not previously clicked button)
@@ -17,3 +14,11 @@ wat moet gewist worden per jaar, wat moet blijven staan en wat moet verborgen wo
 clean status in instellingen: 
     vorderingen zonder aanwezigheden
     uitstapdeelnames zonder uitstap/kind
+
+
+Kinderen verwijderen:
+    kindvoogden -> ?
+    uitstappen -> NEE
+Uitstappen verwijderen:
+    deelnames -> ?
+

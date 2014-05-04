@@ -28,6 +28,11 @@ class Werking extends Record{
         return $query->fetch(PDO::FETCH_OBJ);
     }
     protected function delete(){
+    	$filter = array();
+		$filter['Werking']=$this->getId();
+    	if(count(Kind::getKinderen($filter)) > 0 || count(Aanwezigheid::getAanwezigheden($filter)) > 0){
+    		return false;
+    	}
         $query = Database::getPDO()->prepare("DELETE FROM Werking WHERE Id = :id");
         $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
         return $query->execute();

@@ -110,14 +110,13 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     });
     $('#btnVerwijderWerking').click(function(){
        $.post('index.php?action=removeWerking', $('#VerwijderWerkingForm').serialize(), function(res){
-           res = $.trim(res);
-            if(res == "1"){
+            if(res.Ok){
                 $('#VerwijderWerkingModal').modal('hide');
                 werkingen_tabel.laadTabel();
             }else{
-                console.log("werking verwijderen mislukt, error code: "+res);
+                alert("Werking verwijderen mislukt. Controleer dat er geen kinderen of aanwezigheden deze werking ingesteld hebben.");
             }
-       });
+       }, "json");
    });
 });
 </script>
@@ -217,14 +216,13 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     });
     $('#btnVerwijderExtraatje').click(function(){
        $.post('index.php?action=removeExtraatje', $('#VerwijderExtraatjeForm').serialize(), function(res){
-           res = $.trim(res);
-            if(res == "1"){
+            if(res.Ok){
                 $('#VerwijderExtraatjeModal').modal('hide');
                 extraatjes_tabel.laadTabel();
             }else{
-                console.log("extraatje verwijderen mislukt, error code: "+res);
+                alert("Extraatje verwijderen mislukt. Controleer dat dit extraatje niet ingevuld is bij een aanwezigheid.")
             }
-       });
+       }, "json");
    });
 });
 </script>
