@@ -78,9 +78,25 @@ class Uitstap extends Record{
 		$slq = "";
 		return $sql;
 	}
-     public static function getUitstappen($filter){
+	protected static function getOrderSQL($order){
+		if($order == null){
+			return;
+		}
+		$sql = "";
+		if(isset($order['Datum'])){
+			$sql .= " ORDER BY Datum ";
+			if($order['Datum'] == 'asc'){
+				$sql .= "ASC ";
+			}else{
+				$sql .= "DESC ";
+			}
+		}
+		return $sql;
+	}
+     public static function getUitstappen($filter, $order=null){
      	 $sql = "SELECT * FROM Uitstap WHERE 1 ";
 		 $sql .= static::getFilterSQL($filter);
+		 $sql .= static::getOrderSQL($order);
          $query = Database::getPDO()->prepare($sql);
          static::applyFilterParameters($query, $filter);
          $query->execute();

@@ -112,7 +112,9 @@ HERE;
 <?php
 $filter = array();
 $filter['DashboardZichtbaar']=true;
-$uitstappen = Uitstap::getUitstappen($filter);
+$order = array();
+$order['Datum'] = "asc";
+$uitstappen = Uitstap::getUitstappen($filter, $order);
 foreach($uitstappen as $u){
 ?>
 <tr>

@@ -108,7 +108,9 @@ class View {
 						if(isset($_REQUEST['filter'])){
 							$filter = $_REQUEST['filter'];
 						}
-                        $uitstappen = Uitstap::getUitstappen($filter);
+						$order = array('Datum'=> 'asc');
+						
+                        $uitstappen = Uitstap::getUitstappen($filter, $order);
                         foreach($uitstappen as $u){
                             $result['content'][]=$u->getJSONData();
                         }
