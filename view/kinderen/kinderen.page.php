@@ -459,9 +459,13 @@ class KinderenPage extends Page {
 			$('#verwijderKindModal input[name=Id]').val(data.Id);
 			$('#verwijderKindModal').modal('show');
 		};
+		$('#kindModal').on('shown', function(){
+			$('form#kindForm input[name=Voornaam]').focus();
+		});
 		function nieuw_kind() {
 			clear_kind_form();
 			$('#kindModal').modal('show');
+			$('input[name=Voornaam]').focus();
 		};
 
 		$('#btnNieuwKind').click(function() {

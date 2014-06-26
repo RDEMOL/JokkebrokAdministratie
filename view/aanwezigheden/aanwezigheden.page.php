@@ -283,6 +283,10 @@ $(document).ready(function(){
     });
 });
 require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'validator'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, Validator, require){
+	$('#aanwezigheidModal').on('shown', function () {
+//	   $('input:text:visible').next().focus();
+$('input[name=VolledigeNaamKind]').focus();
+	});
     function clear_aanwezigheid_modal(){
         $('input[name="AanwezigheidId"]').val('0');
         $('input[name="KindId"]').val('0');
@@ -354,7 +358,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         clear_aanwezigheid_modal();
         laad_aanwezigheid_uitstappen();
         $('form input[name="Datum"]').val($('td input[name="Datum"]').val());
-        $('#aanwezigheidModal').modal('show');  
+        $('#aanwezigheidModal').modal('show');
+        $('form input[name=VolledigeNaamKind]');
     };
     var k = new Array();
     k.push(new Kolom('Datum', 'Datum', null, true));
