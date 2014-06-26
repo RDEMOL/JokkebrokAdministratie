@@ -188,7 +188,6 @@ class Kind extends Record{
     }
 	public function setVoogdIds($voogd_ids){
 		if($voogd_ids == null || count($voogd_ids) == 0){
-			Log::writeLog("set voogd ids empty list", "");
 			$data = new stdClass();
 			$data->Id = 0;
 			$data->Naam = "";

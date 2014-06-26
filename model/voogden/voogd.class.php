@@ -6,7 +6,6 @@ class Voogd extends Record{
         $this->Voornaam = $data->Voornaam;
         $this->Naam = $data->Naam;
         $this->Opmerkingen = $data->Opmerkingen;
-     	Log::writeLog("voogd set local data", $this->Voornaam."-".$this->Naam."-".$this->Opmerkingen);
     }
     public function getVoornaam(){
         return $this->Voornaam;
@@ -23,7 +22,6 @@ class Voogd extends Record{
         return $query->fetch(PDO::FETCH_OBJ);        
     }
      protected function insert(){
-     	Log::writeLog("voogd insert", $this->Voornaam."-".$this->Naam."-".$this->Opmerkingen);
         $query = Database::getPDO()->prepare("INSERT INTO Voogd (Voornaam, Naam, Opmerkingen) VALUES (:voornaam, :naam, :opmerkingen)");
         $query->bindParam(':voornaam', $this->Voornaam, PDO::PARAM_STR);
         $query->bindParam(':naam', $this->Naam, PDO::PARAM_STR);
@@ -32,7 +30,6 @@ class Voogd extends Record{
         return Database::getPDO()->lastInsertId();
      }
      protected function update(){
-     	Log::writeLog("voogd update", $this->Voornaam."-".$this->Naam."-".$this->Opmerkingen);
         $query = Database::getPDO()->prepare('UPDATE Voogd SET Naam=:naam, Voornaam=:voornaam, Opmerkingen=:opmerkingen WHERE Id=:id');
         $query->bindParam(':naam', $this->Naam, PDO::PARAM_STR);
         $query->bindParam(':voornaam', $this->Voornaam, PDO::PARAM_STR);
