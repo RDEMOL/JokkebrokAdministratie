@@ -204,8 +204,8 @@ class Controller {
         $k = new Kind($stripped_data);
         $res = $k->updateDatabase();
         $voogden = $data['VoogdIds'];
-		$k->setVoogdIds($voogden);
-        echo "1";
+		$voogd_result = $k->setVoogdIds($voogden);
+        echo $voogd_result?"1":"0";
     }
     private function updateAanwezigheid($data){
         $stripped_data = new stdClass();

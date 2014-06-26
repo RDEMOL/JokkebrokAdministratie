@@ -187,6 +187,7 @@ class Kind extends Record{
         $v->updateDatabase();
     }
 	public function setVoogdIds($voogd_ids){
+		$all_succeeded = false;
 		$current_voogden = $this->getKindVoogden();
 		foreach($current_voogden as $cv){
 			$good = false;
@@ -197,12 +198,13 @@ class Kind extends Record{
 				}
 			}
 			if(!$good){
-				$cv->deleteFromDatabase();
+				$all_succeeded = $all_succeeded && $cv->deleteFromDatabase();
 			}
 		}
 		foreach($voogd_ids as $vi){
 			$this->addVoogd($vi);
 		}
+		return $all_succeeded;
 	}
 	public function getHeeftSchulden(){
 		$kindvoogden = $this->getKindVoogden();

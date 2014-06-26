@@ -56,6 +56,9 @@ class Aanwezigheid extends Record{
         if(isset($filter['Extraatjes'])){
             $sql .= "AND EA.Extraatje = :extraatje_id ";
         }
+		if(isset($filter['KindVoogd'])){
+			$sql .= "AND KindVoogd = :kindvoogd_id ";
+		}
         return $sql;
     }
     protected static function getFilterJoinsSQL($filter){
@@ -79,6 +82,9 @@ class Aanwezigheid extends Record{
         }
         if(isset($filter['Extraatjes'])){
             $query->bindParam(':extraatje_id', $filter['Extraatjes'], PDO::PARAM_INT);
+        }
+        if(isset($filter['KindVoogd'])){
+        	$query->bindParam(':kindvoogd_id', $filter['KindVoogd'], PDO::PARAM_INT);
         }
     }
 	protected static function getOrderSQL($order){

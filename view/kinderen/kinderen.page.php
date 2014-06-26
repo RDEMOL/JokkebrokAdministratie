@@ -500,12 +500,12 @@ class KinderenPage extends Page {
 			}
 			$.post('index.php?action=updateKind', data, function(res) {
 				res = $.trim(res);
-				if (res == "1") {
-					$('#kindModal').modal('hide');
-					kinderen_tabel.laadTabel();
-				} else {
+				if(res == "0"){
+					alert("Kind update is niet (helemaal) gelukt. Mogelijk probeerde u een voogd te verwijderen die reeds gekoppeld was aan een aanwezigheid.");
 					console.log("kind update mislukt, error code: '" + res + "'");
 				}
+				$('#kindModal').modal('hide');
+				kinderen_tabel.laadTabel();
 			});
 			return false;
 		});

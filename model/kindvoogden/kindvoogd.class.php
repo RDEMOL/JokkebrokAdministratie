@@ -45,6 +45,9 @@ class KindVoogd extends Record{
         return $query->fetch(PDO::FETCH_OBJ);
     }
     protected function delete(){
+    	if(count($this->getAanwezigheden()) > 0){
+    		return false;
+    	}
         $query = Database::getPDO()->prepare("DELETE FROM KindVoogd WHERE Id = :id");
         $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
         return $query->execute();
@@ -87,6 +90,11 @@ class KindVoogd extends Record{
 		$query->bindParam(':kind_voogd_id', $this->Id, PDO::PARAM_INT);
 		$query->bindParam(':saldo', $this->Saldo);
 		$query->execute();
+	}
+	public function getAanwezigheden(){
+		$filter = array('KindVoogd', $this->getId());
+		$aanwezigheden = Aanwezigheid::getAanwezigheden($filter);
+		return $aanwezigheden;
 	}
 }
 ?>
