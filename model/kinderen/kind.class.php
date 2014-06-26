@@ -187,6 +187,18 @@ class Kind extends Record{
         $v->updateDatabase();
     }
 	public function setVoogdIds($voogd_ids){
+		if($voogd_ids == null || count($voogd_ids) == 0){
+			Log::writeLog("set voogd ids empty list", "");
+			$data = new stdClass();
+			$data->Id = 0;
+			$data->Naam = "";
+			$data->Voornaam = "";
+			$data->Opmerkingen = "";
+			$v = new Voogd($data);
+			$v->updateDatabase();
+			$this->addVoogd($v->getId());
+			return true;	
+		}
 		$all_succeeded = true;
 		$current_voogden = $this->getKindVoogden();
 		foreach($current_voogden as $cv){

@@ -491,8 +491,9 @@ class KinderenPage extends Page {
 				return false;
 			}
 			if(data.VoogdIds.length == 0){
-				kind_form_error("Kies een voogd");
-				return false;
+				//kind_form_error("Kies een voogd");
+				//return false;
+				
 			}
 			if(!Validator.isGoodYear(data.Geboortejaar)){
 				kind_form_error("Vul een geldig geboortejaar in");
