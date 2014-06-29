@@ -136,7 +136,7 @@ HERE;
 <div class="modal fade" id="aanwezigheidModal" tabindex="-1" role="dialog" aria-labelledby="aanwezigheidModal">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-        <h4 class="modal-title">Nieuwe aanwezigheid toevoegen</h4>
+        <h4 class="modal-title" id="AanwezigheidModalTitle">Nieuwe aanwezigheid toevoegen</h4>
     </div>
     <div class="modal-body">
         <form class="form-inline" id="aanwezigheidForm">
@@ -324,6 +324,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     	});
     }
     var wijzig_aanwezigheid = function(data){
+    	$('#AanwezigheidModalTitle').text('Wijzig aanwezigheid');
         clear_aanwezigheid_modal();
         laad_aanwezigheid_uitstappen(data.Id);
         var d = new Object();
@@ -365,6 +366,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('#verwijderAanwezigheidModal').modal('show');
     };
     function nieuwe_aanwezigheid(){
+    	$('#AanwezigheidModalTitle').text('Nieuwe aanwezigheid');
         clear_aanwezigheid_modal();
         laad_aanwezigheid_uitstappen();
         $('form input[name="Datum"]').val($('td input[name="Datum"]').val());

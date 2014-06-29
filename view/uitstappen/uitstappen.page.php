@@ -26,7 +26,7 @@ class UitstappenPage extends Page{
 <div class="modal fade" id="UitstapModal" tabindex="-1" role="dialog" aria-labelledby="UitstapModal">
 	<div class="modal-header">
 	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-	    <h4 class="modal-title">Nieuwe uitstap toevoegen</h4>
+	    <h4 class="modal-title" id="UitstapModalTitle">Nieuwe uitstap toevoegen</h4>
 	</div>
 	<div class="modal-body">
 	    <form class="form-inline" id="UitstapForm">
@@ -165,6 +165,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     };
     function wijzig_uitstap(data){
         clearUitstapForm();
+        $('#UitstapModalTitle').text('Uitstap wijzigen');
         $('#UitstapModal input[name=Datum]').val(data['Datum']).datepicker('update');
         $('#UitstapModal input[name=Omschrijving]').val(data['Omschrijving']);
         $('#UitstapModal input[name=Id]').val(data['Id']);
@@ -182,7 +183,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     }
     function nieuwe_uitstap(){
         clearUitstapForm();
-      $('#UitstapModal').modal('show');  
+        $('#UitstapModalTitle').text('Nieuwe uitstap');
+      $('#UitstapModal').modal('show');
     };
     var uitstap_deelnemers_tabel = null;
 	laad_uitstap_details_placeholder = function(){

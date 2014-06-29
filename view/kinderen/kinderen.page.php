@@ -441,6 +441,7 @@ class KinderenPage extends Page {
 		}
 
 		function wijzig_kind(data) {
+			$('#kindModalTitle').text('Kind wijzigen');
 			clear_kind_form();
 			$('.voogd_row').remove();
 			$('#kindForm input[name=Id]').val(data.Id);
@@ -463,6 +464,7 @@ class KinderenPage extends Page {
 			$('form#kindForm input[name=Voornaam]').focus();
 		});
 		function nieuw_kind() {
+			$('#kindModalTitle').text('Nieuw kind toevoegen');
 			clear_kind_form();
 			$('#kindModal').modal('show');
 			$('input[name=Voornaam]').focus();
