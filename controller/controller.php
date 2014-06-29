@@ -227,7 +227,6 @@ class Controller {
 		if(isset($data['Uitstappen'])){
 			$uitstappen = $data['Uitstappen'];
 		}
-		//echo json_encode($uitstappen);
 		$a->getKindVoogd()->getKind()->applyUitstappen($uitstappen);
 		$vorderingen = array();
 		if(isset($data['Vorderingen'])){
