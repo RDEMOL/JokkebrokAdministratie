@@ -318,7 +318,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             }else{
                 alert("Uitstap verwijderen mislukt.");
             }
-       });
+       }, "json");
    });
 });
 </script>
