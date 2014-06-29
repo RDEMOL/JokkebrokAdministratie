@@ -19,7 +19,18 @@ class AanwezighedenPDF extends PDFGenerator{
 		$aanwezigheden = Aanwezigheid::getAanwezigheden($this->filter, $this->order);
 		$data = array();
 		foreach($aanwezigheden as $a){
-			$data[] = $a->getJSONData();
+			$curr_data = $a->getJSONData();
+			$tmp = $curr_data->Extraatjes;
+			$curr_data->Extraatjes = "";
+			$first = true;
+			foreach($tmp as $e){
+				if(!$first){
+					$curr_data->Extraatjes .= ", ";
+				}
+				$first = false;
+				$curr_data->Extraatjes .= $e['Omschrijving'];
+			}
+			$data[] = $curr_data;
 		}
 		$content .= $this->getTable($data, $this->kolommen);
 		return $content;
