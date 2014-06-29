@@ -208,12 +208,14 @@ class Controller {
         echo $voogd_result?"1":"0";
     }
     private function updateAanwezigheid($data){
+    	Log::writeLog("update aanwezigheid: ", json_encode($data));
         $stripped_data = new stdClass();
         $stripped_data->Id = $data['Id'];
         $stripped_data->KindVoogd = $data['KindVoogd'];
         $stripped_data->Opmerkingen = $data['Opmerkingen'];
         $stripped_data->Datum = $data['Datum'];
         $stripped_data->Werking = $data['Werking'];
+		$stripped_data->MiddagNaarHuis = $data['MiddagNaarHuis'];
         $a = new Aanwezigheid($stripped_data);
         $a->updateDatabase();
         $extraatjes = array();

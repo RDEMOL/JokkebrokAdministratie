@@ -177,6 +177,7 @@ class View {
                         $result['Geboortejaar']=$kind->getGeboortejaar();
                         $result['KindVolledigeNaam']=$kind->getVoornaam()." ".$kind->getNaam();
                         $result['Opmerkingen'] = $aanwezigheid->getOpmerkingen();
+						$result['MiddagNaarHuis'] = $aanwezigheid->getMiddagNaarHuis();
                         $result['Datum']=$aanwezigheid->getDatum();
                         $result['KindVoogdId']=$kindvoogd->getId();
                         $result['KindVoogden']=array();

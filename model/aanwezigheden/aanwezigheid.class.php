@@ -8,23 +8,26 @@ class Aanwezigheid extends Record{
         $this->KindVoogdId = $data->KindVoogd;
         $this->WerkingId = $data->Werking;
         $this->Opmerkingen = $data->Opmerkingen;
+		$this->MiddagNaarHuis = $data->MiddagNaarHuis;
     }
     protected function insert(){
-        $query = Database::getPDO()->prepare("INSERT INTO Aanwezigheid (Datum, KindVoogd, Werking, Opmerkingen) VALUES (:datum, :kind_voogd_id, :werking_id, :opmerkingen)");
+        $query = Database::getPDO()->prepare("INSERT INTO Aanwezigheid (Datum, KindVoogd, Werking, Opmerkingen, MiddagNaarHuis) VALUES (:datum, :kind_voogd_id, :werking_id, :opmerkingen, :middag_naar_huis)");
         $query->bindParam(':datum', $this->Datum, PDO::PARAM_STR);
         $query->bindParam(':kind_voogd_id', $this->KindVoogdId, PDO::PARAM_INT);
         $query->bindParam(':werking_id', $this->WerkingId, PDO::PARAM_INT);
         $query->bindParam(':opmerkingen', $this->Opmerkingen, PDO::PARAM_STR);
+        $query->bindParam(':middag_naar_huis', $this->MiddagNaarHuis, PDO::PARAM_INT);
         $query->execute();
         return Database::getPDO()->lastInsertId();
     }
     protected function update(){
-        $query = Database::getPDO()->prepare("UPDATE Aanwezigheid SET Datum=:datum, KindVoogd=:kind_voogd_id, Werking=:werking_id, Opmerkingen=:opmerkingen WHERE Id=:id");
+        $query = Database::getPDO()->prepare("UPDATE Aanwezigheid SET Datum=:datum, KindVoogd=:kind_voogd_id, Werking=:werking_id, Opmerkingen=:opmerkingen, MiddagNaarHuis=:middag_naar_huis WHERE Id=:id");
         $query->bindParam(':datum', $this->Datum, PDO::PARAM_STR);
         $query->bindParam(':kind_voogd_id', $this->KindVoogdId, PDO::PARAM_INT);
         $query->bindParam(':werking_id', $this->WerkingId, PDO::PARAM_INT);
         $query->bindParam(':opmerkingen', $this->Opmerkingen, PDO::PARAM_STR);
         $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
+		$query->bindParam(':middag_naar_huis', $this->MiddagNaarHuis, PDO::PARAM_INT);
         return $query->execute();
     }
     protected function select(){
@@ -59,6 +62,9 @@ class Aanwezigheid extends Record{
 		if(isset($filter['KindVoogd'])){
 			$sql .= "AND KindVoogd = :kindvoogd_id ";
 		}
+		if(isset($filter['MiddagNaarHuis'])){
+			$sql .= "AND MiddagNaarHuis = :middag_naar_huis";
+		}
         return $sql;
     }
     protected static function getFilterJoinsSQL($filter){
@@ -86,6 +92,9 @@ class Aanwezigheid extends Record{
         if(isset($filter['KindVoogd'])){
         	$query->bindParam(':kindvoogd_id', $filter['KindVoogd'], PDO::PARAM_INT);
         }
+		if(isset($filter['MiddagNaarHuis'])){
+			$query->bindParam(':middag_naar_huis', $filter['MiddagNaarHuis'], PDO::PARAM_INT);
+		}
     }
 	protected static function getOrderSQL($order){
 		if(count($order) == 0)
@@ -149,7 +158,7 @@ class Aanwezigheid extends Record{
         return $res['Amount'];
     }
     public static function getAanwezigheden($filter, $order=null){
-        $sql = "SELECT A.Id as Id, A.Datum as Datum, A.KindVoogd as KindVoogd, A.Werking as Werking, A.Opmerkingen as Opmerkingen FROM Aanwezigheid A LEFT JOIN KindVoogd KV on KV.Id=A.KindVoogd LEFT JOIN Kind K ON K.Id=KV.Kind ";
+        $sql = "SELECT A.Id as Id, A.Datum as Datum, A.KindVoogd as KindVoogd, A.Werking as Werking, A.Opmerkingen as Opmerkingen, A.MiddagNaarHuis as MiddagNaarHuis FROM Aanwezigheid A LEFT JOIN KindVoogd KV on KV.Id=A.KindVoogd LEFT JOIN Kind K ON K.Id=KV.Kind ";
         $sql .= static::getFilterJoinsSQL($filter);
         $sql .= " WHERE 1 ";
         $sql .= static::getFilterSQL($filter);
@@ -184,6 +193,9 @@ class Aanwezigheid extends Record{
     public function getOpmerkingen(){
         return $this->Opmerkingen;
     }
+	public function getMiddagNaarHuis(){
+		return $this->MiddagNaarHuis;
+	}
     public function getExtraatjeAanwezigheden(){
         $filter = array('AanwezigheidId'=>$this->getId());
         $extraatje_aanwezigheden = ExtraatjeAanwezigheid::getExtraatjeAanwezigheden($filter);
@@ -199,7 +211,7 @@ class Aanwezigheid extends Record{
     }
     public function getJSONData(){
         //TODO: collect from local data
-        $query = Database::getPDO()->prepare("SELECT A.Id as Id, K.Voornaam as Voornaam, K.Naam as Naam, K.Belangrijk as Belangrijk, W.Afkorting as Werking, A.Opmerkingen as Opmerkingen, A.Datum as Datum, CONCAT(V.Voornaam, ' ', V.Naam) as VoogdVolledigeNaam FROM Aanwezigheid A LEFT JOIN KindVoogd KV ON A.KindVoogd=KV.Id LEFT JOIN Kind K ON K.Id=KV.Kind LEFT JOIN Werking W ON A.Werking=W.Id LEFT JOIN Voogd V ON V.Id=KV.Voogd WHERE A.Id= :id ");
+        $query = Database::getPDO()->prepare("SELECT A.Id as Id, A.MiddagNaarHuis as MiddagNaarHuis, K.Voornaam as Voornaam, K.Naam as Naam, K.Belangrijk as Belangrijk, W.Afkorting as Werking, A.Opmerkingen as Opmerkingen, A.Datum as Datum, CONCAT(V.Voornaam, ' ', V.Naam) as VoogdVolledigeNaam FROM Aanwezigheid A LEFT JOIN KindVoogd KV ON A.KindVoogd=KV.Id LEFT JOIN Kind K ON K.Id=KV.Kind LEFT JOIN Werking W ON A.Werking=W.Id LEFT JOIN Voogd V ON V.Id=KV.Voogd WHERE A.Id= :id ");
         $id = $this->getId();
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();

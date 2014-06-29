@@ -158,6 +158,10 @@ HERE;
                 <label class="control-label" for="WerkingId">Werking: </label>
 <?php echo $this->getWerkingenSelect(); ?>
                 <br>
+                <div id="MiddagNaarHuisDiv">
+                	<label for="MiddagNaarHuis">Middag naar huis: </label><input type="checkbox" name="MiddagNaarHuis">
+                </div>
+                <br>
                 <div id="ExtraatjesDiv">
                 	<h5>Extraatjes:</h5>
 <?php echo $this->getExtraatjesList(); ?>
@@ -285,7 +289,9 @@ $(document).ready(function(){
 require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'validator'], function(Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, Validator, require){
 	$('#aanwezigheidModal').on('shown', function () {
 //	   $('input:text:visible').next().focus();
-$('input[name=VolledigeNaamKind]').focus();
+		if($('input[name=VolledigeNaamKind]').val() == ""){
+			$('input[name=VolledigeNaamKind]').focus();
+		}
 	});
     function clear_aanwezigheid_modal(){
         $('input[name="AanwezigheidId"]').val('0');
@@ -295,6 +301,7 @@ $('input[name=VolledigeNaamKind]').focus();
         $('select[name="KindVoogdId"]').empty().val('');
         $('select[name="WerkingId"]').val('0');
         $('input[type=checkbox].Extraatjes').prop('checked', false);
+        $('input[name=MiddagNaarHuis]').prop('checked', false);
         $('textarea[name="Opmerkingen"]').val('');
         $('ul#lstVorderingen').empty();
         $('ul#lstUitstappen').empty();
@@ -335,6 +342,7 @@ $('input[name=VolledigeNaamKind]').focus();
             $('select[name="KindVoogdId"]').val(obj.KindVoogdId);
             $('select[name="WerkingId"]').val(obj.Werking);
             $('textarea[name="Opmerkingen"]').val(obj.Opmerkingen);
+            $('form input[name=MiddagNaarHuis]').val(obj.MiddagNaarHuis);
             
             if(obj.Vorderingen){
             	for(var i = 0; i < obj.Vorderingen.length; ++i){
@@ -359,13 +367,20 @@ $('input[name=VolledigeNaamKind]').focus();
         laad_aanwezigheid_uitstappen();
         $('form input[name="Datum"]').val($('td input[name="Datum"]').val());
         $('#aanwezigheidModal').modal('show');
-        $('form input[name=VolledigeNaamKind]');
     };
     var k = new Array();
     k.push(new Kolom('Datum', 'Datum', null, true));
     k.push(new Kolom('Voornaam','Voornaam', null, true));
     k.push(new Kolom('Naam','Naam', null, true));
     k.push(new Kolom('Werking','Werking'));
+    k.push(new Kolom('MiddagNaarHuis', 'MiddagNaarHuis', function(data){
+    	var td = $('<td>');
+    	if(data['MiddagNaarHuis']== "1"){
+    		var middag_naar_huis = $('<a>').addClass('glyphicon glyphicon-home').attr('title', "Moeder heeft visjes gebakken en dus gaat dit kind 's middags thuis eten.").tooltip();
+    		td.append(middag_naar_huis);
+    	}
+    	return td;
+    }));
     k.push(new Kolom('Extraatjes', 'Extraatjes', function(data){
         var td = $('<td>');
         for(var i = 0; i < data['Extraatjes'].length; ++i){
@@ -420,6 +435,7 @@ $('input[name=VolledigeNaamKind]').focus();
     filter_velden.push(new FilterVeld('Datum', 1, 'datepicker', null, null, '<?php echo $datum; ?> '));
     filter_velden.push(new FilterVeld('VolledigeNaam', 2, 'text', null));
     filter_velden.push(new FilterVeld('Werking', 1, 'select', {options: <?php echo $werkingen_js_array; ?>}, null, '<?php echo $werking; ?>'));
+    filter_velden.push(new FilterVeld('MiddagNaarHuis', 1, 'select', {options: [{"value": "", "label":"Alle"}, {"value":"1", "label":"Ja"},{"value":"0", "label":"Nee"}]}));
     filter_velden.push(new FilterVeld('Extraatjes', 1, 'select', {options:<?php echo $extraatjes_js_array; ?>}, null, '<?php echo $extraatje; ?>'));
     var andere_opties = new Array();
     var alle = new Object();
@@ -456,6 +472,7 @@ $('input[name=VolledigeNaamKind]').focus();
        d.KindVoogd = kindVoogdId;
        d.Datum = $('#aanwezigheidForm input[name="Datum"]').val();
        d.Werking = werking;
+       d.MiddagNaarHuis = $('#aanwezigheidForm input[name=MiddagNaarHuis]')[0].checked?"1":"0";
        d.Opmerkingen = opmerkingen;
        d.Extraatjes = new Array();
        $('#aanwezigheidForm input[type=checkbox].Extraatjes:checked').each(function(index, e){
