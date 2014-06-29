@@ -9,6 +9,16 @@ abstract class PdfGenerator{
 	}
 	protected function getTable($data, $columns){
 		$content = "";
+		$content .= <<<HERE
+<style type="text/css">
+table{
+	border-collapse: collapse;
+}
+table, tr, th, td{
+	border: 1px solid black;
+}
+</style>
+HERE;
 		$content .= "<table>";
 		$content .= "<thead>";
 		$content .= "<tr>";

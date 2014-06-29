@@ -524,7 +524,8 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             }
        }, "json");
    });
-   var pdf_fields = new Array('Naam', 'Voornaam', 'Datum', 'Extraatjes', 'Info', 'Werking');
+   var pdf_fields = new Array('Datum', 'Extraatjes', 'Info', 'Werking');
+   var pdf_fields_default = new Array('Naam', 'Voornaam');
    $('#btnPDFModal').click(function(){
    		$('#pdfSelectedFields').empty().unbind('sortupdate');
 		$('#pdfUnselectedFields').empty().unbind('sortupdate');
@@ -532,6 +533,9 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
 			$('#pdfUnselectedFields').append($('<li>').text(pdf_fields[i]).attr('draggable', 'true'));
 		}
 		$('#pdfSelectedFields').append($('<li>').text('Nummer').addClass('disabled'));
+		for(var i = 0; i < pdf_fields_default.length; ++i){
+			$('#pdfSelectedFields').append($('<li>').text(pdf_fields_default[i]).attr('draggable', 'true'));
+		}
 		$('#pdfSelectedFields, #pdfUnselectedFields').sortable({connectWith:'.pdfFields', items:':not(.disabled)'});
    		$('#pdfModal').modal('show');
    });
@@ -548,7 +552,6 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
 		data.title = $('#pdfTitel').val();
 		window.open('index.php?'+$.param(data));
 		$('#pdfModal').modal('hide');
-
    });
    function clearVorderingModal(){
    	$('form#vorderingForm input[name=Id]').val('0');
