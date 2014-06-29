@@ -74,6 +74,8 @@ HERE;
 		<h4 class="modal-title" id="pdfModalTitle">PDF genereren</h4>
 	</div>
 	<div class="modal-body">
+		Geef een titel voor de lijst: <input type="text" name="pdfTitel" id="pdfTitel" value="Aanwezigheden">
+		<br>
 		Welke kolommen wilt u afdrukken?
 		<div class="row">
 		<div class="col-md-6">
@@ -543,6 +545,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
 		data.data="aanwezighedenPDF";
 		data.filter = t.getFilter();
 		data.order = t.getSort();
+		data.title = $('#pdfTitel').val();
 		window.open('index.php?'+$.param(data));
 		$('#pdfModal').modal('hide');
 

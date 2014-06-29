@@ -140,7 +140,8 @@ class View {
 						if(isset($_REQUEST['kolommen'])){
 							$kolommen = $_REQUEST['kolommen'];
 						}
-						$apdf = new AanwezighedenPDF($filter, $order, $kolommen);
+						$title = $_REQUEST['title'];
+						$apdf = new AanwezighedenPDF($filter, $order, $kolommen, $title);
 						$apdf->outputPDF();
 						break;
                     case 'aanwezighedenTabel':
