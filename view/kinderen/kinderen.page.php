@@ -630,8 +630,12 @@ class KinderenPage extends Page {
 			var schulden = new Object();
 			schulden.label = "Schulden";
 			schulden.value = "Schulden";
+			var belangrijk = new Object();
+			belangrijk.label = "Belangrijke info";
+			belangrijk.value = "Belangrijk";
 			andere_filters.push(alle);
 			andere_filters.push(schulden);
+			andere_filters.push(belangrijk);
 			filter_velden.push(new FilterVeld('Andere', 1, 'select', {
 				options :  andere_filters
 			}));
