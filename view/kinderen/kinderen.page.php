@@ -529,7 +529,8 @@ class KinderenPage extends Page {
 				}
 			}, "json");
 		});
-		var pdf_fields = new Array('Naam', 'Voornaam', 'Geboortejaar', 'Belangrijk', 'Werking');
+		var pdf_fields = new Array('Geboortejaar', 'Belangrijk', 'Werking');
+		var pdf_fields_default = new Array('Naam', 'Voornaam');
 		$('#btnPDFModal').click(function() {
 			$('#pdfSelectedFields').empty().unbind('sortupdate');
 			$('#pdfUnselectedFields').empty().unbind('sortupdate');
@@ -537,6 +538,9 @@ class KinderenPage extends Page {
 				$('#pdfUnselectedFields').append($('<li>').text(pdf_fields[i]).attr('draggable', 'true'));
 			}
 			$('#pdfSelectedFields').append($('<li>').text('Nummer').addClass('disabled'));
+			for(var i = 0; i < pdf_fields_default.length; ++i){
+				$('#pdfSelectedFields').append($('<li>').text(pdf_fields_default[i]).attr('draggable', 'true'));
+			}
 			$('#pdfSelectedFields, #pdfUnselectedFields').sortable({
 				connectWith : '.pdfFields',
 				items : ':not(.disabled)'
