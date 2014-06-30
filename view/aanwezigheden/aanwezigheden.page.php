@@ -530,7 +530,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             }
        }, "json");
    });
-   var pdf_fields = new Array('Datum', 'Extraatjes', 'Info', 'Werking');
+   var pdf_fields = new Array('Datum', 'Extraatjes', 'Info', 'Werking', 'Belangrijk', 'Opmerkingen');
    var pdf_fields_default = new Array('Naam', 'Voornaam');
    $('#btnPDFModal').click(function(){
    		$('#pdfSelectedFields').empty().unbind('sortupdate');
