@@ -74,8 +74,8 @@ class Kind extends Record{
         if(isset($filter['Geboortejaar'])){
         	$sql .= "AND Geboortejaar = :geboortejaar ";
         }
-		if(isset($filter['Andere']) && $filter['Andere'] == 'Belangrijk'){
-			$sql .= "AND Belangrijk <> '' AND Belangrijk IS NOT NULL ";	
+		if(isset($filter['Belangrijk'])){
+			$sql .= "AND Belangrijk <> '' ";	
 		}
         return $sql;
     }

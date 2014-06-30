@@ -65,6 +65,9 @@ class Aanwezigheid extends Record{
 		if(isset($filter['MiddagNaarHuis'])){
 			$sql .= "AND MiddagNaarHuis = :middag_naar_huis";
 		}
+		if(isset($filter['Belangrijk'])){
+			$sql .= "AND K.Belangrijk <> '' ";
+		}
         return $sql;
     }
     protected static function getFilterJoinsSQL($filter){

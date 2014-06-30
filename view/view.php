@@ -46,6 +46,8 @@ class View {
 							//echo $filter['Andere'];
 							if($filter['Andere']=='Schulden'){
 								$filter['Schulden']=true;
+							}else if($filter['Andere'] == 'Belangrijk'){
+								$filter['Belangrijk'] = true;
 							}
 						}
                         $result = array();
@@ -156,6 +158,8 @@ class View {
 						if(isset($filter['Andere'])){
 							if($filter['Andere']=='Schulden'){
 								$filter['Schulden']=true;
+							}else if($filter['Andere'] == 'Belangrijk'){
+								$filter['Belangrijk'] = true;
 							}
 						}
                         $result = array();
