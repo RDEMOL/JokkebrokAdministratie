@@ -398,7 +398,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         if(data['Belangrijk']){
             td.append(
                 $('<a>').attr({ 
-                        'data-original-title' : data['Belangrijk']
+                        'data-original-title' : "Belangrijke informatie over het kind: "+data['Belangrijk']
                     })
                     .append($('<span>').addClass('glyphicon glyphicon-info-sign'))
                     .tooltip())
@@ -407,7 +407,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         if(data['Opmerkingen']){
             td.append(
                 $('<a>').attr({
-                    'data-original-title': data['Opmerkingen']
+                    'data-original-title': "Opmerkingen over deze aanwezigheid: "+data['Opmerkingen']
                 }).append($('<span>').addClass('glyphicon glyphicon-info-sign'))
                 .tooltip())
             .append('&nbsp;');
