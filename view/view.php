@@ -158,8 +158,8 @@ class View {
 						if(isset($filter['Andere'])){
 							if($filter['Andere']=='Schulden'){
 								$filter['Schulden']=true;
-							}else if($filter['Andere'] == 'Belangrijk'){
-								$filter['Belangrijk'] = true;
+							}else if($filter['Andere'] == 'BelangrijkOpmerkingen'){
+								$filter['BelangrijkOpmerkingen'] = true;
 							}
 						}
                         $result = array();

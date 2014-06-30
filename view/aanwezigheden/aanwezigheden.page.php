@@ -452,7 +452,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     andere_opties.push(schulden);
     var belangrijk = new Object();
     belangrijk.label = "Belangrijke info";
-    belangrijk.value = "Belangrijk";
+    belangrijk.value = "BelangrijkOpmerkingen";
     andere_opties.push(belangrijk);
     filter_velden.push(new FilterVeld('Andere', 1, 'select', {options: andere_opties}));
     t.setFilterRij(new FilterRij(filter_velden,t));
