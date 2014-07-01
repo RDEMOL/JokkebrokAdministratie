@@ -616,6 +616,10 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
    		voeg_vordering_toe(data);
    		return false;
    });
+	$('#btnNieuweAanwezigheid').focus();
+	$('#aanwezigheidModal, #verwijderAanwezigheidModal, #pdfModal').on('hidden', function(){
+		$('#btnNieuweAanwezigheid').focus();
+	});
 });
 </script>
 <?php

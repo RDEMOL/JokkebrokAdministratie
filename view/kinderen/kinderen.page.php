@@ -787,6 +787,10 @@ class KinderenPage extends Page {
 			});
 			$('#financieelModal').modal('show');
 		}
+		$('#btnNieuwKind').focus();
+		$('#kindModal, #verwijderKindModal, #pdfModal, #financieelModal').on('hidden', function(){
+			$('#btnNieuwKind').focus();
+		});
 	}); 
 </script>
 <?php
