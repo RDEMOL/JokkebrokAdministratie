@@ -22,6 +22,7 @@ class AanwezighedenPDF extends PDFGenerator{
 			$curr_data = $a->getJSONData();
 			$tmp = $curr_data->Extraatjes;
 			$curr_data->Extraatjes = "";
+			$curr_data->MiddagNaarHuis = ($curr_data->MiddagNaarHuis)?"Naar huis":"";
 			$first = true;
 			foreach($tmp as $e){
 				if(!$first){
