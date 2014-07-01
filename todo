@@ -4,7 +4,7 @@ vordering wijzigen in kinderen overzicht
 no duplicate aanwezigheid
 
 extraatjes enkel voor bepaalde werkingen
-snellere queries
+snellere queries (abort query)
 enter in forms -> submit (not previously clicked button)
 
 vorderingen gewijzigd, niet opslaan -> verwittiging
@@ -26,3 +26,7 @@ x titeltjes modals nieuwe aanwezigheid/aanwezigheid update
 x filteren en printen van "belangrijke informatie"
 
 slimme preset nieuw kind -> jaartal/werking
+
+pdf naar huis tussen de middag
+geboortedatum tonen in aanwezigheden
+wijzigen kind: klagen over geboortedatum

@@ -530,7 +530,7 @@ class KinderenPage extends Page {
 			}, "json");
 		});
 		var pdf_fields = new Array('Geboortejaar', 'Belangrijk', 'Werking');
-		var pdf_fields_default = new Array('Naam', 'Voornaam');
+		var pdf_fields_default = new Array('Voornaam', 'Naam');
 		$('#btnPDFModal').click(function() {
 			$('#pdfSelectedFields').empty().unbind('sortupdate');
 			$('#pdfUnselectedFields').empty().unbind('sortupdate');
