@@ -203,21 +203,25 @@ class Kind extends Record{
 		}
 		$all_succeeded = true;
 		$current_voogden = $this->getKindVoogden();
+		Log::writeLog("new voogd", json_encode($voogd_ids));
 		foreach($current_voogden as $cv){
+			Log::writeLog("current voogd", $cv->getVoogdId());
 			$good = false;
 			foreach($voogd_ids as $vi){
-				if($vi == $cv->getId()){
+				if($vi == $cv->getVoogdId()){
 					$good = true;
 					break;
 				}
 			}
 			if(!$good){
+				Log::writeLog("not good", "0");
 				$all_succeeded = $all_succeeded && $cv->deleteFromDatabase();
 			}
 		}
 		foreach($voogd_ids as $vi){
 			$this->addVoogd($vi);
 		}
+		Log::writeLog("All succeeded", true);
 		return $all_succeeded;
 	}
 	public function getHeeftSchulden(){

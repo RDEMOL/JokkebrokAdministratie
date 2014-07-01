@@ -205,10 +205,15 @@ class Controller {
         $res = $k->updateDatabase();
         $voogden = $data['VoogdIds'];
 		$voogd_result = $k->setVoogdIds($voogden);
-        echo $voogd_result?"1":"0";
+		Log::writeLog("voogd_result", $voogd_result);
+		Log::writeLog("res", $res);
+        if($res && $voogd_result){
+        	echo "1";
+        }else{
+        	echo "0";
+        }
     }
     private function updateAanwezigheid($data){
-    	Log::writeLog("update aanwezigheid: ", json_encode($data));
         $stripped_data = new stdClass();
         $stripped_data->Id = $data['Id'];
         $stripped_data->KindVoogd = $data['KindVoogd'];

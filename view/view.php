@@ -82,6 +82,13 @@ class View {
 						$filter = null;
 						if(isset($_REQUEST['filter'])){
 							$filter = $_REQUEST['filter'];
+							if($filter['Andere']){
+								if($filter['Andere']=='Schulden'){
+									$filter['Schulden']=true;
+								}else if($filter['Andere'] == 'Belangrijk'){
+									$filter['Belangrijk'] = true;
+								}
+							}
 						}
 						if(isset($_REQUEST['order'])){
 							$order = $_REQUEST['order'];
@@ -134,6 +141,13 @@ class View {
 						$filter = null;
 						if(isset($_REQUEST['filter'])){
 							$filter = $_REQUEST['filter'];
+							if(isset($filter['Andere'])){
+								if($filter['Andere']=='Schulden'){
+									$filter['Schulden']=true;
+								}else if($filter['Andere'] == 'BelangrijkOpmerkingen'){
+									$filter['BelangrijkOpmerkingen'] = true;
+								}
+							}
 						}
 						if(isset($_REQUEST['order'])){
 							$order = $_REQUEST['order'];
