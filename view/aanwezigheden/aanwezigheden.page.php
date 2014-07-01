@@ -266,7 +266,7 @@ typeahead, .tt-query, .tt-hint {
 	</script>
 	<div class="modal-footer">
 	    <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
-	    <button type="button" class="btn btn-primary" id="submitAanwezigheid">Toevoegen</button>
+	    <button type="button" class="btn btn-primary" id="submitAanwezigheid">Opslaan</button>
 	</div>
 </div>
 
