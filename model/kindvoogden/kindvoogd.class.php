@@ -92,7 +92,7 @@ class KindVoogd extends Record{
 		$query->execute();
 	}
 	public function getAanwezigheden(){
-		$filter = array('KindVoogd', $this->getId());
+		$filter = array('KindVoogd'=> $this->getId());
 		$aanwezigheden = Aanwezigheid::getAanwezigheden($filter);
 		return $aanwezigheden;
 	}

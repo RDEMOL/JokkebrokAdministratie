@@ -205,8 +205,6 @@ class Controller {
         $res = $k->updateDatabase();
         $voogden = $data['VoogdIds'];
 		$voogd_result = $k->setVoogdIds($voogden);
-		Log::writeLog("voogd_result", $voogd_result);
-		Log::writeLog("res", $res);
         if($res && $voogd_result){
         	echo "1";
         }else{

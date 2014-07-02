@@ -60,7 +60,7 @@ class Aanwezigheid extends Record{
             $sql .= "AND EA.Extraatje = :extraatje_id ";
         }
 		if(isset($filter['KindVoogd'])){
-			$sql .= "AND KindVoogd = :kindvoogd_id ";
+			$sql .= "AND A.KindVoogd = :kindvoogd_id ";
 		}
 		if(isset($filter['MiddagNaarHuis'])){
 			$sql .= "AND MiddagNaarHuis = :middag_naar_huis";
