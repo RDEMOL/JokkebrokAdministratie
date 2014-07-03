@@ -51,7 +51,13 @@ define(function(){
 				break;
 			case 'datepicker':
 				var d = new Date();
-				this.default_value = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+				var formatter = function(num){
+					if(num<10){
+						num = "0"+num;
+					}
+					return num;
+				};
+				this.default_value = d.getFullYear()+"-"+formatter(d.getMonth()+1)+"-"+formatter(d.getDate());
 				this.element.append($('<button>').addClass('btn btn-sm').append($('<span>').addClass('glyphicon glyphicon-remove')).click(function(){
 					var d = new Date();
 					self.input_element.val(this.default_value);
@@ -63,14 +69,13 @@ define(function(){
 				this.element.append($('<button>').addClass('btn btn-sm').append($('<span>').addClass('glyphicon glyphicon-backward')).click(function(){
 					var d = new Date(self.input_element.val());
 					d.setDate(d.getDate()-1);
-					self.input_element.val(d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate());
+					self.input_element.val(d.getFullYear()+"-"+formatter(d.getMonth()+1)+"-"+formatter(d.getDate()));
 					self.input_element.datepicker('update');
 					self.notify();
 				}));
 				this.element.append('&nbsp;');
 				this.element.append($('<button>').addClass('btn btn-sm').append($('<span>').addClass('glyphicon glyphicon-calendar')).click(function(){
-					var d = new Date();
-					self.input_element.val(d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate());
+					self.input_element.val(self.default_value);
 					self.input_element.datepicker('update');
 					self.notify();
 				}));
@@ -78,7 +83,7 @@ define(function(){
 				this.element.append($('<button>').addClass('btn btn-sm').append($('<span>').addClass('glyphicon glyphicon-forward')).click(function(){
 					var d = new Date(self.input_element.val());
 					d.setDate(d.getDate()+1);
-					self.input_element.val(d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate());
+					self.input_element.val(d.getFullYear()+"-"+formatter(d.getMonth()+1)+"-"+formatter(d.getDate()));
 					self.input_element.datepicker('update');
 					self.notify();
 				}));
