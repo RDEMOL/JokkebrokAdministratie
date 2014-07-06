@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 04, 2014 at 10:18 PM
+-- Generation Time: Jul 06, 2014 at 03:44 PM
 -- Server version: 5.5.37-0ubuntu0.14.04.1
--- PHP Version: 5.5.9-1ubuntu4
+-- PHP Version: 5.5.9-1ubuntu4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -32,10 +32,11 @@ CREATE TABLE IF NOT EXISTS `Aanwezigheid` (
   `KindVoogd` int(11) NOT NULL,
   `Werking` int(11) NOT NULL,
   `Opmerkingen` text NOT NULL,
+  `MiddagNaarHuis` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id`),
   KEY `KindVoogdId_idx` (`KindVoogd`),
   KEY `WerkingId_idx` (`Werking`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
 -- --------------------------------------------------------
 
@@ -75,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `ExtraatjeAanwezigheid` (
   `Aanwezigheid` int(11) NOT NULL,
   `Extraatje` int(11) NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=65 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=66 ;
 
 -- --------------------------------------------------------
 
@@ -91,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `Kind` (
   `DefaultWerking` int(11) NOT NULL,
   `Belangrijk` text NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
 
 -- --------------------------------------------------------
 
@@ -106,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `KindVoogd` (
   `Saldo` decimal(10,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Kind` (`Kind`,`Voogd`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=90 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=111 ;
 
 -- --------------------------------------------------------
 
@@ -135,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `Uitstap` (
   `DashboardZichtbaar` tinyint(1) NOT NULL,
   `AanwezigheidZichtbaar` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 -- --------------------------------------------------------
 
@@ -149,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `UitstapKind` (
   `Uitstap` int(11) NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Kind_Uitstap` (`Kind`,`Uitstap`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
 
 -- --------------------------------------------------------
 
@@ -163,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `Voogd` (
   `Voornaam` text NOT NULL,
   `Opmerkingen` text NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=78 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=84 ;
 
 -- --------------------------------------------------------
 
