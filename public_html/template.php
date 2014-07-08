@@ -111,8 +111,8 @@ if(!$this){
 					&copy; 2013-2014 Jokkebrok Administratie by Floris Kint &amp; Roderick Demol
 				</p>
 				<p class="text-muted text-center">
-					<a href='?page=about'>About</a>
-				</p>
+                    <a href='?page=about'>About</a>
+                </p>
 			</div>
 		</div>
 		<script src="libs/bootstrap/js/bootstrap.min.js"></script>

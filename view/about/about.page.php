@@ -1,4 +1,5 @@
 <?php
+require_once (dirname(__FILE__) . "/../../config/version.inc.php");
 require_once (dirname(__FILE__) . "/../page.php");
 class AboutPage extends Page {
     public function __construct() {
@@ -9,7 +10,8 @@ class AboutPage extends Page {
 ?>
 <p class="text-center">
 Concept: Roderick Demol &amp; Floris Kint<br>
-Realisatie: Floris Kint
+Realisatie: Floris Kint<br>
+Versie: <?php echo PROGRAM_VERSION; ?>
 <br>
 <br>
 <a href='https://github.com/fkint/JokkebrokAdministratie' target="_blank">Deze applicatie op Github</a>
