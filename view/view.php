@@ -73,7 +73,12 @@ class View {
                                 $voogd = $v->getVoogd();
                                 $voogden_namen_ids[] = array('KindVoogdId'=>$v->getId(), 'VolledigeNaam'=>($voogd->getVoornaam()." ".$voogd->getNaam()));
                             }
-                            $result['content'][] = array('Id'=>$k->getId(), 'Naam'=>$k->getNaam(), 'Voornaam'=>$k->getVoornaam(), 'DefaultWerkingId'=>$k->getDefaultWerkingId(), 'Voogden'=>$voogden_namen_ids);
+                            $uitstapdeelnames = $k->getUitstapDeelnames();
+                            $uitstappen = array();
+                            foreach($uitstapdeelnames as $ud){
+                                $uitstappen[] = $ud->getUitstapId();
+                            }
+                            $result['content'][] = array('Id'=>$k->getId(), 'Naam'=>$k->getNaam(), 'Voornaam'=>$k->getVoornaam(), 'DefaultWerkingId'=>$k->getDefaultWerkingId(), 'Voogden'=>$voogden_namen_ids, 'Uitstappen'=>$uitstappen);
                         }
                         echo json_encode($result);
                         break;

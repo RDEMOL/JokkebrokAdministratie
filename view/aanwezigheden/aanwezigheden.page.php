@@ -233,6 +233,10 @@ typeahead, .tt-query, .tt-hint {
                     $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].KindVoogdId).text(kind.Voogden[i].VolledigeNaam));
                 }
                 $('select[name="WerkingId"]').val(kind.DefaultWerkingId);
+                console.log("kind = "+JSON.stringify(kind));
+                for(var i = 0; i < kind.Uitstappen.length; ++i){
+                    $('input[type=hidden][value='+kind.Uitstappen[i]+']').siblings('input[type=checkbox]').prop('checked', true);
+                }
             }
         };
         function unloadKind(kind){
@@ -247,7 +251,7 @@ typeahead, .tt-query, .tt-hint {
                url:'index.php?action=data&data=kinderenSuggesties&query=%QUERY',
                filter: function(kind){
                    return $.map(kind.content, function(k){
-                      return { 'display_value':(k.Voornaam+" "+k.Naam), 'id':k.Id, 'Voogden':k.Voogden, 'DefaultWerkingId': k.DefaultWerkingId}; 
+                      return { 'display_value':(k.Voornaam+" "+k.Naam), 'Id':k.Id, 'Voogden':k.Voogden, 'DefaultWerkingId': k.DefaultWerkingId, 'Uitstappen': k.Uitstappen}; 
                    });
                }
            }
