@@ -253,7 +253,12 @@ typeahead, .tt-query, .tt-hint {
            }
         });
         suggesties.initialize();
-        $('input[name="VolledigeNaamKind"]').keydown(function(){
+        $('input[name="VolledigeNaamKind"]').keydown(function(event){
+                switch(event.keyCode){
+                    case 13:
+                    case 9:
+                        return true;
+                }
         		unloadKind();
         	}).typeahead(null, {
             displayKey:'display_value',
