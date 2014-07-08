@@ -378,7 +378,12 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         $('#aanwezigheidModal').modal('show');
     };
     var k = new Array();
-    k.push(new Kolom('Datum', 'Datum', null, true));
+    k.push(new Kolom('Datum', 'Datum', function(data){
+        console.log(JSON.stringify(data));
+        var td = $('<td>');
+        td.text(data['Datum']+" (gewijzigd: "+data['LastChanged'].substring(0, 16)+")");
+        return td;
+    }, true));
     k.push(new Kolom('Voornaam','Voornaam', null, true));
     k.push(new Kolom('Naam','Naam', null, true));
     k.push(new Kolom('Werking','Werking'));

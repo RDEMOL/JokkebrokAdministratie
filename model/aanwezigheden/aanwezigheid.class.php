@@ -9,6 +9,7 @@ class Aanwezigheid extends Record{
         $this->WerkingId = $data->Werking;
         $this->Opmerkingen = $data->Opmerkingen;
 		$this->MiddagNaarHuis = $data->MiddagNaarHuis;
+        $this->LastChanged = $data->LastChanged;
     }
     protected function insert(){
         $query = Database::getPDO()->prepare("INSERT INTO Aanwezigheid (Datum, KindVoogd, Werking, Opmerkingen, MiddagNaarHuis) VALUES (:datum, :kind_voogd_id, :werking_id, :opmerkingen, :middag_naar_huis)");
@@ -21,7 +22,7 @@ class Aanwezigheid extends Record{
         return Database::getPDO()->lastInsertId();
     }
     protected function update(){
-        $query = Database::getPDO()->prepare("UPDATE Aanwezigheid SET Datum=:datum, KindVoogd=:kind_voogd_id, Werking=:werking_id, Opmerkingen=:opmerkingen, MiddagNaarHuis=:middag_naar_huis WHERE Id=:id");
+        $query = Database::getPDO()->prepare("UPDATE Aanwezigheid SET Datum=:datum, KindVoogd=:kind_voogd_id, Werking=:werking_id, Opmerkingen=:opmerkingen, MiddagNaarHuis=:middag_naar_huis, LastChanged=CURRENT_TIMESTAMP WHERE Id=:id");
         $query->bindParam(':datum', $this->Datum, PDO::PARAM_STR);
         $query->bindParam(':kind_voogd_id', $this->KindVoogdId, PDO::PARAM_INT);
         $query->bindParam(':werking_id', $this->WerkingId, PDO::PARAM_INT);
@@ -104,7 +105,7 @@ class Aanwezigheid extends Record{
     }
 	protected static function getOrderSQL($order){
 		if(count($order) == 0)
-			return " ORDER BY Id DESC ";
+			return " ORDER BY LastChanged DESC ";
 		$first = true;
 		$sql = "ORDER BY";
 		foreach($order as $o){
@@ -164,7 +165,7 @@ class Aanwezigheid extends Record{
         return $res['Amount'];
     }
     public static function getAanwezigheden($filter, $order=array()){
-        $sql = "SELECT A.Id as Id, A.Datum as Datum, A.KindVoogd as KindVoogd, A.Werking as Werking, A.Opmerkingen as Opmerkingen, A.MiddagNaarHuis as MiddagNaarHuis FROM Aanwezigheid A LEFT JOIN KindVoogd KV on KV.Id=A.KindVoogd LEFT JOIN Kind K ON K.Id=KV.Kind ";
+        $sql = "SELECT A.Id as Id, A.Datum as Datum, A.KindVoogd as KindVoogd, A.Werking as Werking, A.Opmerkingen as Opmerkingen, A.MiddagNaarHuis as MiddagNaarHuis, A.LastChanged as LastChanged FROM Aanwezigheid A LEFT JOIN KindVoogd KV on KV.Id=A.KindVoogd LEFT JOIN Kind K ON K.Id=KV.Kind ";
         $sql .= static::getFilterJoinsSQL($filter);
         $sql .= " WHERE 1 ";
         $sql .= static::getFilterSQL($filter);
@@ -215,7 +216,7 @@ class Aanwezigheid extends Record{
     }
     public function getJSONData(){
         //TODO: collect from local data
-        $query = Database::getPDO()->prepare("SELECT A.Id as Id, A.MiddagNaarHuis as MiddagNaarHuis, K.Voornaam as Voornaam, K.Naam as Naam, K.Belangrijk as Belangrijk, W.Afkorting as Werking, A.Opmerkingen as Opmerkingen, A.Datum as Datum, CONCAT(V.Voornaam, ' ', V.Naam) as VoogdVolledigeNaam FROM Aanwezigheid A LEFT JOIN KindVoogd KV ON A.KindVoogd=KV.Id LEFT JOIN Kind K ON K.Id=KV.Kind LEFT JOIN Werking W ON A.Werking=W.Id LEFT JOIN Voogd V ON V.Id=KV.Voogd WHERE A.Id= :id ");
+        $query = Database::getPDO()->prepare("SELECT A.Id as Id, A.MiddagNaarHuis as MiddagNaarHuis, K.Voornaam as Voornaam, K.Naam as Naam, K.Belangrijk as Belangrijk, W.Afkorting as Werking, A.Opmerkingen as Opmerkingen, A.Datum as Datum, CONCAT(V.Voornaam, ' ', V.Naam) as VoogdVolledigeNaam, A.LastChanged as LastChanged FROM Aanwezigheid A LEFT JOIN KindVoogd KV ON A.KindVoogd=KV.Id LEFT JOIN Kind K ON K.Id=KV.Kind LEFT JOIN Werking W ON A.Werking=W.Id LEFT JOIN Voogd V ON V.Id=KV.Voogd WHERE A.Id= :id ");
         $id = $this->getId();
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();
