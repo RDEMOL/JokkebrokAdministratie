@@ -51,7 +51,7 @@ class Controller {
                     $this->updateAanwezigheid($data);
                     exit;
                 case 'removeAanwezigheid':
-                    $a = new Aanwezigheid($_POST['Id']);
+                    $a = new Aanwezigheid($_REQUEST['Id']);
 					$res = new stdClass();
                     $res->Ok = $a->deleteFromDatabase();
 					echo json_encode($res);

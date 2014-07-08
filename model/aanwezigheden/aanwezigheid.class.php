@@ -37,9 +37,12 @@ class Aanwezigheid extends Record{
         return $query->fetch(PDO::FETCH_OBJ);
     }
     protected function delete(){
-    	if(count($this->getExtraatjes()) > 0 || count($this->getVorderingen()) > 0){
+    	/*if(count($this->getExtraatjes()) > 0 || count($this->getVorderingen()) > 0){
     		return false;
-    	}
+    	}*/        $extraatjes = $this->getExtraatjeAanwezigheden();
+        foreach($extraatjes as $ea){
+            $ea->deleteFromDatabase();
+        }
         $query = Database::getPDO()->prepare("DELETE FROM Aanwezigheid WHERE Id = :id");
         $query->bindParam(':id', $this->Id, PDO::PARAM_INT);
         return $query->execute();
