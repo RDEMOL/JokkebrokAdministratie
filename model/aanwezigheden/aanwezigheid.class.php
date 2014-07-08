@@ -104,7 +104,7 @@ class Aanwezigheid extends Record{
     }
 	protected static function getOrderSQL($order){
 		if(count($order) == 0)
-			return "";
+			return " ORDER BY Id DESC ";
 		$first = true;
 		$sql = "ORDER BY";
 		foreach($order as $o){
@@ -163,14 +163,12 @@ class Aanwezigheid extends Record{
         $res = $query->fetch();
         return $res['Amount'];
     }
-    public static function getAanwezigheden($filter, $order=null){
+    public static function getAanwezigheden($filter, $order=array()){
         $sql = "SELECT A.Id as Id, A.Datum as Datum, A.KindVoogd as KindVoogd, A.Werking as Werking, A.Opmerkingen as Opmerkingen, A.MiddagNaarHuis as MiddagNaarHuis FROM Aanwezigheid A LEFT JOIN KindVoogd KV on KV.Id=A.KindVoogd LEFT JOIN Kind K ON K.Id=KV.Kind ";
         $sql .= static::getFilterJoinsSQL($filter);
         $sql .= " WHERE 1 ";
         $sql .= static::getFilterSQL($filter);
-        if($order){
-        	$sql .= static::getOrderSQL($order);
-        }
+        $sql .= static::getOrderSQL($order);
         $query = Database::getPDO()->prepare($sql);
         static::applyFilterParameters($query, $filter);
         $query->execute();
