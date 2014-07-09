@@ -32,7 +32,7 @@ HERE;
     }
 
     public function printContent() {
-        
+
         $werkingen = Werking::getWerkingen();
         $werkingen_js_array = array();
         $werkingen_js_array[] = array('value'=>'', 'label'=>'Alle');
@@ -40,7 +40,7 @@ HERE;
             $werkingen_js_array[] = array('value' => $w->getId(), 'label' => $w->getAfkorting());
         }
         $werkingen_js_array = json_encode($werkingen_js_array);
-        
+
         $extraatjes = Extraatje::getExtraatjes();
         $extraatjes_js_array = array();
         $extraatjes_js_array[] = array('value'=>'', 'label'=>'Alle');
@@ -48,7 +48,7 @@ HERE;
             $extraatjes_js_array[] = array('value'=>$e->getId(), 'label'=>$e->getOmschrijving());
         }
         $extraatjes_js_array = json_encode($extraatjes_js_array);
-        
+
 		//filter
         $vandaag = new SpeelpleinDag();
         $datum = $vandaag->getDatum();
@@ -60,13 +60,13 @@ HERE;
 				$datum = $filter['Datum'];
 			}
 			if(isset($filter['Extraatje'])){
-				$extraatje = $filter['Extraatje'];	
+				$extraatje = $filter['Extraatje'];
 			}
 			if(isset($filter['Werking'])){
 				$werking = $filter['Werking'];
 			}
 		}
-		
+
 ?>
 <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModal">
 	<div class="modal-header">
@@ -141,14 +141,14 @@ HERE;
     <div class="modal-body">
         <form class="form-inline" id="aanwezigheidForm">
             <div class="row">
-            
+
                 <input type="hidden" name="AanwezigheidId" value="0">
                 <input type="hidden" name="KindId" value="0">
-                
+
                 <label class="control-label" for="Datum">Datum: </label>
                 <input type="text" name="Datum" value="" >
                 <br>
-                
+
                 <span>
                 <label class="control-label" for="VolledigeNaamKind">Voornaam + naam: </label>
                 <input type="text" value="" class="form-control typeahead" name="VolledigeNaamKind">
@@ -251,7 +251,7 @@ typeahead, .tt-query, .tt-hint {
                url:'index.php?action=data&data=kinderenSuggesties&query=%QUERY',
                filter: function(kind){
                    return $.map(kind.content, function(k){
-                      return { 'display_value':(k.Voornaam+" "+k.Naam), 'Id':k.Id, 'Voogden':k.Voogden, 'DefaultWerkingId': k.DefaultWerkingId, 'Uitstappen': k.Uitstappen}; 
+                      return { 'display_value':(k.Voornaam+" "+k.Naam), 'Id':k.Id, 'Voogden':k.Voogden, 'DefaultWerkingId': k.DefaultWerkingId, 'Uitstappen': k.Uitstappen};
                    });
                }
            }
@@ -355,7 +355,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
             $('select[name="WerkingId"]').val(obj.Werking);
             $('textarea[name="Opmerkingen"]').val(obj.Opmerkingen);
             $('form input[name=MiddagNaarHuis]').val(obj.MiddagNaarHuis);
-            
+
             if(obj.Vorderingen){
             	for(var i = 0; i < obj.Vorderingen.length; ++i){
             		voeg_vordering_toe(obj.Vorderingen[i]);
@@ -384,7 +384,15 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
     var k = new Array();
     k.push(new Kolom('Datum', 'Datum', function(data){
         var td = $('<td>');
-        td.text(data['Datum']+" (gewijzigd: "+data['LastChanged'].substring(0, 16)+")");
+        var span = $('<span>')
+        	.css('width', '100%')
+        	.css('display', 'block')
+        	.css('overflow', 'auto')
+        	.css('text-align', 'center')
+        	.text(data['Datum'])
+        	.attr('title', "Laatst gewijzigd op: "+data['LastChanged'].substring(0, 16))
+        	.tooltip();
+        td.append(span);
         return td;
     }, true));
     k.push(new Kolom('Voornaam','Voornaam', null, true));
@@ -410,7 +418,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
         var td = $('<td>');
         if(data['Belangrijk']){
             td.append(
-                $('<a>').attr({ 
+                $('<a>').attr({
                         'data-original-title' : "Belangrijke informatie over het kind: "+data['Belangrijk']
                     })
                     .append($('<span>').addClass('glyphicon glyphicon-info-sign'))
@@ -522,7 +530,7 @@ require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel
        		aanwezigheid_form_error("Selecteer een geldige datum");
        		return false;
        }
-       $.post('?action=updateAanwezigheid', d, function(res){ 
+       $.post('?action=updateAanwezigheid', d, function(res){
            res = $.trim(res);
            if(res == "1"){
                $('#aanwezigheidModal').modal('hide');
