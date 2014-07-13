@@ -49,8 +49,8 @@
 	top: -100%;
 	-webkit-transition: opacity 0.3s linear, top 0.3s ease-out, bottom 0.3s ease-out, margin-top 0.3s ease-out;	
 	   -moz-transition: opacity 0.3s linear, top 0.3s ease-out, bottom 0.3s ease-out, margin-top 0.3s ease-out;
-	     -o-transition: opacity 0.3s linear, top 0.3s ease-out, bottom 0.3s ease-out, margin-top 0.3s ease-out;
-	        transition: opacity 0.3s linear, top 0.3s ease-out, bottom 0.3s ease-out, margin-top 0.3s ease-out;
+		 -o-transition: opacity 0.3s linear, top 0.3s ease-out, bottom 0.3s ease-out, margin-top 0.3s ease-out;
+			transition: opacity 0.3s linear, top 0.3s ease-out, bottom 0.3s ease-out, margin-top 0.3s ease-out;
 }
 
 .modal.fade.in {
@@ -174,12 +174,12 @@ Copyright (c) 2012 Dan Eden*/
 .animated {
 	-webkit-animation-duration: 1s;
 	   -moz-animation-duration: 1s;
-	     -o-animation-duration: 1s;
-	        animation-duration: 1s;
+		 -o-animation-duration: 1s;
+			animation-duration: 1s;
 	-webkit-animation-fill-mode: both;
 	   -moz-animation-fill-mode: both;
-	     -o-animation-fill-mode: both;
-	        animation-fill-mode: both;
+		 -o-animation-fill-mode: both;
+			animation-fill-mode: both;
 }
 
 @-webkit-keyframes shake {

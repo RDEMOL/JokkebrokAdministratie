@@ -2,9 +2,9 @@
 require_once (dirname(__FILE__) . "/../page.php");
 require_once (dirname(__FILE__) . "/../../model/werkingen/werking.class.php");
 class KinderenPage extends Page {
-    public function __construct() {
-        parent::__construct("Kinderen","","kinderen");
-    }
+	public function __construct() {
+		parent::__construct("Kinderen","","kinderen");
+	}
 	public function printContent(){
 ?>
 <style type="text/css">
@@ -662,8 +662,8 @@ class KinderenPage extends Page {
 			return false;
 		});
 		$('#betalingForm input[name="Datum"]').datepicker({'format':'yyyy-mm-dd'}).on('changeDate', function(){
-	        $('#betalingForm input[name="Datum"]').datepicker('hide');
-	    });
+			$('#betalingForm input[name="Datum"]').datepicker('hide');
+		});
 		function empty_saldo_details(){
 			$('#financieelTable').empty();
 			$('#btnBetaling').hide();

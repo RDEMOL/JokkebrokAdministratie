@@ -90,7 +90,7 @@ else {
 $justfinishedblank = false;
 $justfinishedblankinvalid = false;
 
-    		foreach($unicode_ranges AS $urk => $ur) {
+			foreach($unicode_ranges AS $urk => $ur) {
 			if (0 >= $ur['startdec'] && 0 <= $ur['enddec']) {
 				$rangekey = $urk;
 				$range = $ur['range'];
@@ -100,33 +100,33 @@ $justfinishedblankinvalid = false;
 			}
    		}
 	  $lastrange  = $range ;
-    // create HTML content
-    $html .= '<table cellpadding="2" cellspacing="0" style="font-family:'.$font.';text-align:center; border-collapse: collapse; ">';
-    $html .= '<tr><td colspan="18" style="font-family:helvetica;font-weight:bold">'.strtoupper($font).'</td></tr>';
-    $html .= '<tr><td colspan="18" style="font-family:helvetica;font-size:8pt;font-weight:bold">'.strtoupper($range).' (U+'.$rangestart .'-U+'.$rangeend.')</td></tr>';
-    $html .= '<tr><td></td>';
+	// create HTML content
+	$html .= '<table cellpadding="2" cellspacing="0" style="font-family:'.$font.';text-align:center; border-collapse: collapse; ">';
+	$html .= '<tr><td colspan="18" style="font-family:helvetica;font-weight:bold">'.strtoupper($font).'</td></tr>';
+	$html .= '<tr><td colspan="18" style="font-family:helvetica;font-size:8pt;font-weight:bold">'.strtoupper($range).' (U+'.$rangestart .'-U+'.$rangeend.')</td></tr>';
+	$html .= '<tr><td></td>';
 
-    $html .= '<td></td>';
-    for ($i = 0; $i < 16; $i++) {
-            $html .= '<td><b>-'.sprintf('%X', $i).'</b></td>';
-    }
+	$html .= '<td></td>';
+	for ($i = 0; $i < 16; $i++) {
+			$html .= '<td><b>-'.sprintf('%X', $i).'</b></td>';
+	}
 
 
-    // print each character
-    for ($i = 32; $i < $max; ++$i) {
-        if (($i > 0) AND (($i % 16) == 0)) {
+	// print each character
+	for ($i = 32; $i < $max; ++$i) {
+		if (($i > 0) AND (($i % 16) == 0)) {
 		$notthisline = true;
 		while($notthisline) {
-	    	   for ($j = 0; $j < 16; $j++) {
+			   for ($j = 0; $j < 16; $j++) {
 			if ($mpdf->_charDefined($cw, ($i + $j))) {
 			//if (isset($cw[($i+$j)])) { 
 				$notthisline = false; 
 			}
 		   }
 		   if ($notthisline) { 
-		    if ($showmissing) {
+			if ($showmissing) {
 			$range = '';
-	    		foreach($unicode_ranges AS $urk => $ur) {
+				foreach($unicode_ranges AS $urk => $ur) {
 				if ($i >= $ur['startdec'] && $i <= $ur['enddec']) {
 					$rangekey = $urk;
 					$range = $ur['range'];
@@ -136,17 +136,17 @@ $justfinishedblankinvalid = false;
 				}
 	   		}
 			$anyvalid = false;
-	    	   	for ($j = 0; $j < 16; $j++) {
+			   	for ($j = 0; $j < 16; $j++) {
 				if (isset($unichars[$i+$j])) { $anyvalid = true; break; }
 			}
 			if ($range && $range == $lastrange) {
-    				if (!$anyvalid) { 
+					if (!$anyvalid) { 
 					if (!$justfinishedblankinvalid) { 
 						$html .= '<tr><td colspan="18" style="background-color:#555555; font-size: 4pt;">&nbsp;</td></tr>'; 
 					}
 					$justfinishedblankinvalid = true;
 				}
-    				else if (!$justfinishedblank ) { 
+					else if (!$justfinishedblank ) { 
 					$html .= '<tr><td colspan="18" style="background-color:#FFAAAA; font-size: 4pt;">&nbsp;</td></tr>'; 
 					$justfinishedblank = true;
 				}
@@ -155,22 +155,22 @@ $justfinishedblankinvalid = false;
 				$html .= '</tr></table><br />';
 				$mpdf->WriteHTML($html); $html = '';
 				$html .= '<table cellpadding="2" cellspacing="0" style="font-family:'.$font.';text-align:center; border-collapse: collapse; ">';
-    				$html .= '<tr><td colspan="18" style="font-family:helvetica;font-size:8pt;font-weight:bold">'.strtoupper($range).' (U+'.$rangestart.'-U+'.$rangeend.')</td></tr>';
+					$html .= '<tr><td colspan="18" style="font-family:helvetica;font-size:8pt;font-weight:bold">'.strtoupper($range).' (U+'.$rangestart.'-U+'.$rangeend.')</td></tr>';
 				$html .= '<tr><td></td>';
-    				$html .= '<td></td>';
+					$html .= '<td></td>';
 				for ($k = 0; $k < 16; $k++) {
-      			      $html .= '<td><b>-'.sprintf('%X', $k).'</b></td>';
+	  				  $html .= '<td><b>-'.sprintf('%X', $k).'</b></td>';
 				}
 				$justfinishedblank = false;
 				$justfinishedblankinvalid = false;
 			}
 	  		$lastrange = $range ;
-		    }
-		    $i +=16; 
-		    if ($i > $max) { break 2; }
+			}
+			$i +=16; 
+			if ($i > $max) { break 2; }
 		   }
 		}
-    		foreach($unicode_ranges AS $urk => $ur) {
+			foreach($unicode_ranges AS $urk => $ur) {
 			if ($i >= $ur['startdec'] && $i <= $ur['enddec']) {
 				$rangekey = $urk;
 				$range = $ur['range'];
@@ -180,32 +180,32 @@ $justfinishedblankinvalid = false;
 			}
    		}
 
-        	if ($i > 0 && ($i % 16) == 0 && ($range != $lastrange)) {
+			if ($i > 0 && ($i % 16) == 0 && ($range != $lastrange)) {
 			$html .= '</tr></table><br />';
 			$mpdf->WriteHTML($html); $html = '';
 			$html .= '<table cellpadding="2" cellspacing="0" style="font-family:'.$font.';text-align:center; border-collapse: collapse; ">';
-    			$html .= '<tr><td colspan="18" style="font-family:helvetica;font-size:8pt;font-weight:bold">'.strtoupper($range).' (U+'.$rangestart.'-U+'.$rangeend.')</td></tr>';
+				$html .= '<tr><td colspan="18" style="font-family:helvetica;font-size:8pt;font-weight:bold">'.strtoupper($range).' (U+'.$rangestart.'-U+'.$rangeend.')</td></tr>';
 			$html .= '<tr><td></td>';
-    			$html .= '<td></td>';
+				$html .= '<td></td>';
 			for ($k = 0; $k < 16; $k++) {
-      		      $html .= '<td><b>-'.sprintf('%X', $k).'</b></td>';
+	  			  $html .= '<td><b>-'.sprintf('%X', $k).'</b></td>';
 			}
 		}
 	  	$lastrange  = $range ;
 		$justfinishedblank = false;
 		$justfinishedblankinvalid = false;
-            $html .= '</tr><tr><td><i>'.(floor($i / 16)*16).'</i></td>';
-            $html .= '<td><b>'.sprintf('%03X', floor($i / 16)).'-</b></td>';
-        }
+			$html .= '</tr><tr><td><i>'.(floor($i / 16)*16).'</i></td>';
+			$html .= '<td><b>'.sprintf('%03X', floor($i / 16)).'-</b></td>';
+		}
 	  if ($mpdf->_charDefined($cw, $i)) { $html .= '<td>&#'.$i.';</td>'; $counter++; }
 	  else if (isset($unichars[$i])) { $html .= '<td style="background-color: #FFAAAA;"></td>'; }
 	  else { $html .= '<td style="background-color: #555555;"></td>'; }
-    }
+	}
 
-    if (($i % 16) > 0) {
+	if (($i % 16) > 0) {
 	for ($j = ($i % 16); $j < 16; ++$j) { $html .= '<td style="background-color: #555555;"></td>'; }
-    }
-    $html .= '</tr></table><br />';
+	}
+	$html .= '</tr></table><br />';
 //==============================================================
 //==============================================================
 $mpdf->WriteHTML($html);	// Separate Paragraphs  defined by font

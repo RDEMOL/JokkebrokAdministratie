@@ -136,7 +136,7 @@
 			}
 
 			var modalOverflow = $(window).height() - 10 < this.$element.height();
-            
+			
 			if (modalOverflow || this.options.modalOverflow) {
 				this.$element
 					.css('margin-top', 0)
@@ -153,7 +153,7 @@
 
 			if (this.isShown && this.options.consumeTab) {
 				this.$element.on('keydown.tabindex.modal', '[data-tabindex]', function (e) {
-			    	if (e.keyCode && e.keyCode == 9){
+					if (e.keyCode && e.keyCode == 9){
 						var $next = $(this),
 							$rollover = $(this);
 

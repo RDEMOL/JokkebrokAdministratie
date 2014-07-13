@@ -1,19 +1,19 @@
 <?php
 
 /*******************************************************************************
-* TTFontFile class                                                             *
-*                                                                              *
-* Version:  2.01		                                                       *
-* Date:     2012-02-25                                                         *
-* Author:   Ian Back <ianb@bpm1.com>                                           *
-* License:  LGPL                                                               *
-* Copyright (c) Ian Back, 2010                                                 *
-* This class is based on The ReportLab Open Source PDF library                 *
-* written in Python - http://www.reportlab.com/software/opensource/            *
-* together with ideas from the OpenOffice source code and others.              * 
-* This header must be retained in any redistribution or                        *
-* modification of the file.                                                    *
-*                                                                              *
+* TTFontFile class															 *
+*																			  *
+* Version:  2.01															   *
+* Date:	 2012-02-25														 *
+* Author:   Ian Back <ianb@bpm1.com>										   *
+* License:  LGPL															   *
+* Copyright (c) Ian Back, 2010												 *
+* This class is based on The ReportLab Open Source PDF library				 *
+* written in Python - http://www.reportlab.com/software/opensource/			*
+* together with ideas from the OpenOffice source code and others.			  * 
+* This header must be retained in any redistribution or						*
+* modification of the file.													*
+*																			  *
 *******************************************************************************/
 
 // Define the value used in the "head" table of a created TTF file
@@ -113,7 +113,7 @@ var $kerninfo;
 				die("ERROR - Error parsing TrueType Collection: version=".$version." - " . $file);
 			$this->numTTCFonts = $this->read_ulong();
 			for ($i=1; $i<=$this->numTTCFonts; $i++) {
-	      	      $this->TTCFonts[$i]['offset'] = $this->read_ulong();
+		  		  $this->TTCFonts[$i]['offset'] = $this->read_ulong();
 			}
 			$this->seek($this->TTCFonts[$TTCfontID]['offset']);
 			$this->version = $version = $this->read_ulong();	// TTFont version again now
@@ -125,18 +125,18 @@ var $kerninfo;
 
 
 	function readTableDirectory($debug=false) {
-	    $this->numTables = $this->read_ushort();
-            $this->searchRange = $this->read_ushort();
-            $this->entrySelector = $this->read_ushort();
-            $this->rangeShift = $this->read_ushort();
-            $this->tables = array();	
-            for ($i=0;$i<$this->numTables;$i++) {
-                $record = array();
-                $record['tag'] = $this->read_tag();
-                $record['checksum'] = array($this->read_ushort(),$this->read_ushort());
-                $record['offset'] = $this->read_ulong();
-                $record['length'] = $this->read_ulong();
-                $this->tables[$record['tag']] = $record;
+		$this->numTables = $this->read_ushort();
+			$this->searchRange = $this->read_ushort();
+			$this->entrySelector = $this->read_ushort();
+			$this->rangeShift = $this->read_ushort();
+			$this->tables = array();	
+			for ($i=0;$i<$this->numTables;$i++) {
+				$record = array();
+				$record['tag'] = $this->read_tag();
+				$record['checksum'] = array($this->read_ushort(),$this->read_ushort());
+				$record['offset'] = $this->read_ulong();
+				$record['length'] = $this->read_ulong();
+				$this->tables[$record['tag']] = $record;
 		}
 		if ($debug) $this->checksumTables();
 	}
@@ -145,17 +145,17 @@ var $kerninfo;
 		// Check the checksums for all tables
 		foreach($this->tables AS $t) {
 		  if ($t['length'] > 0 && $t['length'] < $this->maxStrLenRead) {	// 1.02
-            	$table = $this->get_chunk($t['offset'], $t['length']);
-            	$checksum = $this->calcChecksum($table);
-            	if ($t['tag'] == 'head') {
+				$table = $this->get_chunk($t['offset'], $t['length']);
+				$checksum = $this->calcChecksum($table);
+				if ($t['tag'] == 'head') {
 				$up = unpack('n*', substr($table,8,4));
 				$adjustment[0] = $up[1];
 				$adjustment[1] = $up[2];
-            		$checksum = $this->sub32($checksum, $adjustment);
+					$checksum = $this->sub32($checksum, $adjustment);
 			}
-            	$xchecksum = $t['checksum'];
-            	if ($xchecksum != $checksum) 
-            	    die(sprintf('TTF file "%s": invalid checksum %s table: %s (expected %s)', $this->filename,dechex($checksum[0]).dechex($checksum[1]),$t['tag'],dechex($xchecksum[0]).dechex($xchecksum[1])));
+				$xchecksum = $t['checksum'];
+				if ($xchecksum != $checksum) 
+					die(sprintf('TTF file "%s": invalid checksum %s table: %s (expected %s)', $this->filename,dechex($checksum[0]).dechex($checksum[1]),$t['tag'],dechex($xchecksum[0]).dechex($xchecksum[1])));
 		  }
 		}
 	}
@@ -328,7 +328,7 @@ var $kerninfo;
 				die("ERROR - Error parsing TrueType Collection: version=".$version." - " . $file);
 			$this->numTTCFonts = $this->read_ulong();
 			for ($i=1; $i<=$this->numTTCFonts; $i++) {
-	      	      $this->TTCFonts[$i]['offset'] = $this->read_ulong();
+		  		  $this->TTCFonts[$i]['offset'] = $this->read_ulong();
 			}
 			$this->seek($this->TTCFonts[$TTCfontID]['offset']);
 			$this->version = $version = $this->read_ulong();	// TTFont version again now
@@ -389,7 +389,7 @@ var $kerninfo;
 		}
 		$this->numTTCFonts = $this->read_ulong();
 		for ($i=1; $i<=$this->numTTCFonts; $i++) {
-	            $this->TTCFonts[$i]['offset'] = $this->read_ulong();
+				$this->TTCFonts[$i]['offset'] = $this->read_ulong();
 		}
 	}
 
@@ -772,7 +772,7 @@ var $kerninfo;
 				die("ERROR - Error parsing TrueType Collection: version=".$version." - " . $file);
 			$this->numTTCFonts = $this->read_ulong();
 			for ($i=1; $i<=$this->numTTCFonts; $i++) {
-	      	      $this->TTCFonts[$i]['offset'] = $this->read_ulong();
+		  		  $this->TTCFonts[$i]['offset'] = $this->read_ulong();
 			}
 			$this->seek($this->TTCFonts[$TTCfontID]['offset']);
 			$this->version = $version = $this->read_ulong();	// TTFont version again now
@@ -1129,11 +1129,11 @@ var $kerninfo;
 		///////////////////////////////////
 		$locastr = '';
 		if ((($pos + 1) >> 1) > 0xFFFF) {
-			$indexToLocFormat = 1;        // long format
+			$indexToLocFormat = 1;		// long format
 			foreach($offsets AS $offset) { $locastr .= pack("N",$offset); }
 		}
 		else {
-			$indexToLocFormat = 0;        // short format
+			$indexToLocFormat = 0;		// short format
 			foreach($offsets AS $offset) { $locastr .= pack("n",($offset/2)); }
 		}
 		$this->add('loca', $locastr);
@@ -1250,7 +1250,7 @@ var $kerninfo;
 				die("ERROR - Error parsing TrueType Collection: version=".$version." - " . $file);
 			$this->numTTCFonts = $this->read_ulong();
 			for ($i=1; $i<=$this->numTTCFonts; $i++) {
-	      	      $this->TTCFonts[$i]['offset'] = $this->read_ulong();
+		  		  $this->TTCFonts[$i]['offset'] = $this->read_ulong();
 			}
 			$this->seek($this->TTCFonts[$TTCfontID]['offset']);
 			$this->version = $version = $this->read_ulong();	// TTFont version again now
@@ -1659,11 +1659,11 @@ var $kerninfo;
 		///////////////////////////////////
 		$locastr = '';
 		if ((($pos + 1) >> 1) > 0xFFFF) {
-			$indexToLocFormat = 1;        // long format
+			$indexToLocFormat = 1;		// long format
 			foreach($offsets AS $offset) { $locastr .= pack("N",$offset); }
 		}
 		else {
-			$indexToLocFormat = 0;        // short format
+			$indexToLocFormat = 0;		// short format
 			foreach($offsets AS $offset) { $locastr .= pack("n",($offset/2)); }
 		}
 		$this->add('loca', $locastr);
@@ -2024,7 +2024,7 @@ var $kerninfo;
 				die("ERROR - Error parsing TrueType Collection: version=".$version." - " . $file);
 			$this->numTTCFonts = $this->read_ulong();
 			for ($i=1; $i<=$this->numTTCFonts; $i++) {
-	      	      $this->TTCFonts[$i]['offset'] = $this->read_ulong();
+		  		  $this->TTCFonts[$i]['offset'] = $this->read_ulong();
 			}
 			$this->seek($this->TTCFonts[$TTCfontID]['offset']);
 			$this->version = $version = $this->read_ulong();	// TTFont version again now

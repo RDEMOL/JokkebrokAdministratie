@@ -89,7 +89,7 @@ function _getBMPimage($data, $file) {
 				for ($y=0;$y<$height;$y++){
 					$y0 = $y*$w_row;
 					for ($x=0;$x<$width;$x++){
-						$n = (ord( $str[$y0 + 2*$x + 1])*256 +    ord( $str[$y0 + 2*$x]));
+						$n = (ord( $str[$y0 + 2*$x + 1])*256 +	ord( $str[$y0 + 2*$x]));
 						$b = ($n & 31)<<3; $g = ($n & 992)>>2; $r = ($n & 31744)>>7128;
 						$bmpdata .= chr($r) . chr($g) . chr($b);
 					}
@@ -98,7 +98,7 @@ function _getBMPimage($data, $file) {
 				for ($y=$height-1;$y>=0;$y--){
 					$y0 = $y*$w_row;
 					for ($x=0;$x<$width;$x++){
-						$n = (ord( $str[$y0 + 2*$x + 1])*256 +    ord( $str[$y0 + 2*$x]));
+						$n = (ord( $str[$y0 + 2*$x + 1])*256 +	ord( $str[$y0 + 2*$x]));
 						$b = ($n & 31)<<3; $g = ($n & 992)>>2; $r = ($n & 31744)>>7;
 						$bmpdata .= chr($r) . chr($g) . chr($b);
 					}
@@ -156,89 +156,89 @@ function _twobytes2int_le($s) {
 # Decoder for RLE8 compression in windows bitmaps
 # see http://msdn.microsoft.com/library/default.asp?url=/library/en-us/gdi/bitmaps_6x0u.asp
 function rle8_decode ($str, $width){
-    $lineWidth = $width + (3 - ($width-1) % 4);
-    $out = '';
-    $cnt = strlen($str);
-    for ($i=0;$i<$cnt;$i++){
-        $o = ord($str[$i]);
-        switch ($o){
-            case 0: # ESCAPE
-                $i++;
-                switch (ord($str[$i])){
-                    case 0: # NEW LINE
-                         $padCnt = $lineWidth - strlen($out)%$lineWidth;
-                        if ($padCnt<$lineWidth) $out .= str_repeat(chr(0), $padCnt); # pad line
-                        break;
-                    case 1: # END OF FILE
-                        $padCnt = $lineWidth - strlen($out)%$lineWidth;
-                        if ($padCnt<$lineWidth) $out .= str_repeat(chr(0), $padCnt); # pad line
-                         break 3;
-                    case 2: # DELTA
-                        $i += 2;
-                        break;
-                    default: # ABSOLUTE MODE
-                        $num = ord($str[$i]);
-                        for ($j=0;$j<$num;$j++)
-                            $out .= $str[++$i];
-                        if ($num % 2) $i++;
-             }
-                break;
-            default:
-                $out .= str_repeat($str[++$i], $o);
-        }
-    }
-    return $out;
+	$lineWidth = $width + (3 - ($width-1) % 4);
+	$out = '';
+	$cnt = strlen($str);
+	for ($i=0;$i<$cnt;$i++){
+		$o = ord($str[$i]);
+		switch ($o){
+			case 0: # ESCAPE
+				$i++;
+				switch (ord($str[$i])){
+					case 0: # NEW LINE
+						 $padCnt = $lineWidth - strlen($out)%$lineWidth;
+						if ($padCnt<$lineWidth) $out .= str_repeat(chr(0), $padCnt); # pad line
+						break;
+					case 1: # END OF FILE
+						$padCnt = $lineWidth - strlen($out)%$lineWidth;
+						if ($padCnt<$lineWidth) $out .= str_repeat(chr(0), $padCnt); # pad line
+						 break 3;
+					case 2: # DELTA
+						$i += 2;
+						break;
+					default: # ABSOLUTE MODE
+						$num = ord($str[$i]);
+						for ($j=0;$j<$num;$j++)
+							$out .= $str[++$i];
+						if ($num % 2) $i++;
+			 }
+				break;
+			default:
+				$out .= str_repeat($str[++$i], $o);
+		}
+	}
+	return $out;
 }
 
 # Decoder for RLE4 compression in windows bitmaps
 # see http://msdn.microsoft.com/library/default.asp?url=/library/en-us/gdi/bitmaps_6x0u.asp
 function rle4_decode ($str, $width){
-    $w = floor($width/2) + ($width % 2);
-    $lineWidth = $w + (3 - ( ($width-1) / 2) % 4);    
-    $pixels = array();
-    $cnt = strlen($str);
-    for ($i=0;$i<$cnt;$i++){
-        $o = ord($str[$i]);
-        switch ($o){
-            case 0: # ESCAPE
-                $i++;
-                switch (ord($str[$i])){
-                    case 0: # NEW LINE                        
-                        while (count($pixels)%$lineWidth!=0)
-                            $pixels[]=0;
-                        break;
-                    case 1: # END OF FILE
-                        while (count($pixels)%$lineWidth!=0)
-                            $pixels[]=0;
-                        break 3;
-                    case 2: # DELTA
-                        $i += 2;
-                        break;
-                    default: # ABSOLUTE MODE
-                        $num = ord($str[$i]);
-                        for ($j=0;$j<$num;$j++){
-                            if ($j%2==0){
-                                $c = ord($str[++$i]);
-                              $pixels[] = ($c & 240)>>4;
-                             } else
-                              $pixels[] = $c & 15;
-                        }
-                        if ($num % 2) $i++;
-             }
-                break;
-            default:
-                $c = ord($str[++$i]);
-                for ($j=0;$j<$o;$j++)
-                    $pixels[] = ($j%2==0 ? ($c & 240)>>4 : $c & 15);
-        }
-    }
-    
-    $out = '';
-    if (count($pixels)%2) $pixels[]=0;
-    $cnt = count($pixels)/2;
-    for ($i=0;$i<$cnt;$i++)
-        $out .= chr(16*$pixels[2*$i] + $pixels[2*$i+1]);
-    return $out;
+	$w = floor($width/2) + ($width % 2);
+	$lineWidth = $w + (3 - ( ($width-1) / 2) % 4);	
+	$pixels = array();
+	$cnt = strlen($str);
+	for ($i=0;$i<$cnt;$i++){
+		$o = ord($str[$i]);
+		switch ($o){
+			case 0: # ESCAPE
+				$i++;
+				switch (ord($str[$i])){
+					case 0: # NEW LINE						
+						while (count($pixels)%$lineWidth!=0)
+							$pixels[]=0;
+						break;
+					case 1: # END OF FILE
+						while (count($pixels)%$lineWidth!=0)
+							$pixels[]=0;
+						break 3;
+					case 2: # DELTA
+						$i += 2;
+						break;
+					default: # ABSOLUTE MODE
+						$num = ord($str[$i]);
+						for ($j=0;$j<$num;$j++){
+							if ($j%2==0){
+								$c = ord($str[++$i]);
+							  $pixels[] = ($c & 240)>>4;
+							 } else
+							  $pixels[] = $c & 15;
+						}
+						if ($num % 2) $i++;
+			 }
+				break;
+			default:
+				$c = ord($str[++$i]);
+				for ($j=0;$j<$o;$j++)
+					$pixels[] = ($j%2==0 ? ($c & 240)>>4 : $c & 15);
+		}
+	}
+	
+	$out = '';
+	if (count($pixels)%2) $pixels[]=0;
+	$cnt = count($pixels)/2;
+	for ($i=0;$i<$cnt;$i++)
+		$out .= chr(16*$pixels[2*$i] + $pixels[2*$i+1]);
+	return $out;
 } 
 
 

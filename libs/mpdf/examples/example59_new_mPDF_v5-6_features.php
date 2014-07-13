@@ -133,24 +133,24 @@ HTML attributes width and height are supported, although not officially part of 
 <p>Example:</p>
 <p class="code">&lt;progress value="5" max="10"&gt;50%&lt;/progress&gt;</p>
 
-       <ul class="compact">
-            <li>
-              <label>Indeterminate</label>
-              <progress max="100"></progress>
-            </li>
-            <li>
-              <label>Progress: 0%</label>
-              <progress max="10" value="0"></progress>
-            </li>
-            <li>
-              <label>Progress: 100%</label>
-              <progress max="3254" value="3254"></progress>
-            </li>
-            <li>
-              <label>Progress: 57%</label>
-              <progress max="0.7" value="0.4"></progress>
-            </li>
-          </ul>
+	   <ul class="compact">
+			<li>
+			  <label>Indeterminate</label>
+			  <progress max="100"></progress>
+			</li>
+			<li>
+			  <label>Progress: 0%</label>
+			  <progress max="10" value="0"></progress>
+			</li>
+			<li>
+			  <label>Progress: 100%</label>
+			  <progress max="3254" value="3254"></progress>
+			</li>
+			<li>
+			  <label>Progress: 57%</label>
+			  <progress max="0.7" value="0.4"></progress>
+			</li>
+		  </ul>
 </div>
 
 <h3>&lt;meter&gt;</h3>
@@ -164,24 +164,24 @@ HTML attributes width and height are supported, although not officially part of 
 
 
 
-          <ul class="compact">
-            <li>
-              <label>Meter: full</label>
-              <meter value="1"></meter>
-            </li>
-            <li>
-              <label>Preferred usage</label>
-              <meter min="1024" max="10240" low="2048" high="8192" value="1824" optimum="1024"></meter>
-            </li>
-            <li>
-              <label>Too much traffic</label>
-              <meter min="1024" max="10240" low="2048" high="8192" value="6216" optimum="1024"></meter>
-            </li>
-            <li>
-              <label>Much too much traffic</label>
-              <meter min="1024" max="10240" low="2048" high="8192" value="9216" optimum="1024"></meter>
-            </li>
-          </ul>
+		  <ul class="compact">
+			<li>
+			  <label>Meter: full</label>
+			  <meter value="1"></meter>
+			</li>
+			<li>
+			  <label>Preferred usage</label>
+			  <meter min="1024" max="10240" low="2048" high="8192" value="1824" optimum="1024"></meter>
+			</li>
+			<li>
+			  <label>Too much traffic</label>
+			  <meter min="1024" max="10240" low="2048" high="8192" value="6216" optimum="1024"></meter>
+			</li>
+			<li>
+			  <label>Much too much traffic</label>
+			  <meter min="1024" max="10240" low="2048" high="8192" value="9216" optimum="1024"></meter>
+			</li>
+		  </ul>
 </div>
 
 <div class="gradient text">
@@ -254,11 +254,11 @@ HTML attributes width and height are supported, although not officially part of 
   <fieldset>
   <legend>Fieldset and legend</legend>
 <p>Support for fieldset and legend was introduced in mPDF v5.5. Consider it experimental!</p>
-    <label for="name">Username:</label>
-    <input type="text" name="name" id="name" />
-    <br />
-    <label for="mail">E-mail:</label>
-    <input type="text" name="mail" id="mail" />
+	<label for="name">Username:</label>
+	<input type="text" name="name" id="name" />
+	<br />
+	<label for="mail">E-mail:</label>
+	<input type="text" name="mail" id="mail" />
   </fieldset>
 </form>
 

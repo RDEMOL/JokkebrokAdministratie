@@ -5,7 +5,7 @@
 //	http://www.godisaduck.com/svg2pdf_with_fpdf
 //	http://rhodopsin.blogspot.com
 //	
-//	cette class etendue est open source, toute modification devra cependant etre repertoriée~
+//	cette class etendue est open source, toute modification devra cependant etre repertoriï¿½e~
 
 
 // NB UNITS - Works in pixels as main units - converting to PDF units when outputing to PDF string
@@ -13,13 +13,13 @@
 
 class SVG {
 
-	var $svg_gradient;	//	array - contient les infos sur les gradient fill du svg classé par id du svg
+	var $svg_gradient;	//	array - contient les infos sur les gradient fill du svg classï¿½ par id du svg
 	var $svg_shadinglist;	//	array - contient les ids des objet shading
 	var $svg_info;		//	array contenant les infos du svg voulue par l'utilisateur
 	var $svg_attribs;		//	array - holds all attributes of root <svg> tag
 	var $svg_style;		//	array contenant les style de groupes du svg
-	var $svg_string;		//	String contenant le tracage du svg en lui même.
-	var $txt_data;		//    array - holds string info to write txt to image
+	var $svg_string;		//	String contenant le tracage du svg en lui mï¿½me.
+	var $txt_data;		//	array - holds string info to write txt to image
 	var $txt_style;		// 	array - current text style
 	var $mpdf_ref;
 	var $xbase;		// mPDF 4.4.003
@@ -313,16 +313,16 @@ class SVG {
 				if ($angle < 0) { $angle += 360; }
 				else if ($angle > 360) { $angle -= 360; }
 				if ($angle!=0 && $angle!=360 && $angle!=90 && $angle!=180 && $angle!=270) { 
-				    if ($w >= $h) {
+					if ($w >= $h) {
 					$y1 *= $h/$w ;
 					$y2 *= $h/$w ;
 					$usew = $useh = $bboxw;
-				    }
-				    else {
+					}
+					else {
 					$x1 *= $w/$h ;
 					$x2 *= $w/$h ;
 					$usew = $useh = $bboxh;
-				    }
+					}
 				}
 			}
 			$a = $usew;		// width
@@ -387,8 +387,8 @@ class SVG {
 				   $newarr = array();
 				   for($i=0;$i<$ns;$i++) {
 					if ($spread=='F') {	// Reflect
-					    $newarr[$i] = $gradient_info['color'][($ns-$i-1)];
-					    if (($gp % 2) == 1) {
+						$newarr[$i] = $gradient_info['color'][($ns-$i-1)];
+						if (($gp % 2) == 1) {
 						$tmp = -$gp+(1-$offs[($ns-$i-1)]);
 							$newarr[$i]['offset'] = $tmp; 
 					   }
@@ -515,20 +515,20 @@ class SVG {
 				if ($angle < 0) { $angle += 360; }
 				else if ($angle > 360) { $angle -= 360; }
 				if ($angle!=0 && $angle!=360 && $angle!=90 && $angle!=180 && $angle!=270) { 
-				    if ($w >= $h) {
+					if ($w >= $h) {
 					$y1 *= $h/$w ;
 					$y0 *= $h/$w ;
 					$rx *= $h/$w ;
 					$ry *= $h/$w ;
 					$usew = $useh = $bboxw;
-				    }
-				    else {
+					}
+					else {
 					$x1 *= $w/$h ;
 					$x0 *= $w/$h ;
 					$rx *= $w/$h ;
 					$ry *= $w/$h ;
 					$usew = $useh = $bboxh;
-				    }
+					}
 				}
 			}
 			$a = $usew;		// width
@@ -911,7 +911,7 @@ $md = $sy * cos($t);
 		$path_style = '';
 		if (substr_count($critere_style['fill'],'url')>0){
 			//
-			// couleur degradé
+			// couleur degradï¿½
 			$id_gradient = preg_replace("/url\(#([\w_]*)\)/i","$1",$critere_style['fill']);
 			if ($id_gradient != $critere_style['fill']) {
 			   if (isset($this->svg_gradient[$id_gradient])) {
@@ -1352,8 +1352,8 @@ $md = $sy * cos($t);
 						$pdfx1 = ($this->xbase + ($x1*2/3));
 						$pdfy1 = ($this->ybase - ($y1*2/3));
 						// mPDF 4.4.003 
-    						$pdfx2 = $pdfx1 + 1/3 *($x); 
-    						$pdfy2 = $pdfy1 + 1/3 *(-$y) ;
+							$pdfx2 = $pdfx1 + 1/3 *($x); 
+							$pdfy2 = $pdfy1 + 1/3 *(-$y) ;
 
 						$this->xbase += $x;
 						$this->ybase += -$y;
@@ -1369,8 +1369,8 @@ $md = $sy * cos($t);
 						$pdfy2 = (-$y-(($y1-$y)*2/3));
 
 						// mPDF 4.4.003 
-    						$pdfx2 = $pdfx1 + 1/3 *($x - $this->xbase); 
-    						$pdfy2 = $pdfy1 + 1/3 *(-$y - $this->ybase) ;
+							$pdfx2 = $pdfx1 + 1/3 *($x - $this->xbase); 
+							$pdfy2 = $pdfy1 + 1/3 *(-$y - $this->ybase) ;
 
 						$this->xbase = $x;
 						$this->ybase = -$y;
@@ -1416,8 +1416,8 @@ $md = $sy * cos($t);
 						$pdfx1 = ($this->xbase + ($x1));	// mPDF 4.4.003 
 						$pdfy1 = ($this->ybase - ($y1));	// mPDF 4.4.003 
 						// mPDF 4.4.003 
-    						$pdfx2 = $pdfx1 + 1/3 *($x); 
-    						$pdfy2 = $pdfy1 + 1/3 *(-$y) ;
+							$pdfx2 = $pdfx1 + 1/3 *($x); 
+							$pdfy2 = $pdfy1 + 1/3 *(-$y) ;
 
 						$this->xbase += $x;
 						$this->ybase += -$y;
@@ -1429,8 +1429,8 @@ $md = $sy * cos($t);
 						$pdfx1 = ($this->xbase + ($x1));	// mPDF 4.4.003 
 						$pdfy1 = ($this->ybase - ($y1));	// mPDF 4.4.003 
 						// mPDF 4.4.003 
-    						$pdfx2 = $pdfx1 + 1/3 *($x - $this->xbase); 
-    						$pdfy2 = $pdfy1 + 1/3 *(-$y - $this->ybase) ;
+							$pdfx2 = $pdfx1 + 1/3 *($x - $this->xbase); 
+							$pdfy2 = $pdfy1 + 1/3 *(-$y - $this->ybase) ;
 
 						$this->xbase = $x;
 						$this->ybase = -$y;
@@ -1543,7 +1543,7 @@ function Arcto($x1, $y1, $x2, $y2, $rx, $ry, $angle, $largeArcFlag, $sweepFlag) 
 		//  exactly one solution (until the ellipse is just big enough).
 
 		// -> find factor s, such that numerator' with rx'=s*rx and
-		//    ry'=s*ry becomes 0 :
+		//	ry'=s*ry becomes 0 :
 		$s = sqrt(1.0 - $numerator/($rx*$rx*$ry*$ry));
 
 		$rx *= $s;
@@ -1713,7 +1713,7 @@ function Arcto($x1, $y1, $x2, $y2, $rx, $ry, $angle, $largeArcFlag, $sweepFlag) 
 
 	//
 	//	fonction retracant les <ellipse /> et <circle />
-	//	 le cercle est tracé grave a 4 bezier cubic, les poitn de controles
+	//	 le cercle est tracï¿½ grave a 4 bezier cubic, les poitn de controles
 	//	sont deduis grace a la constante kappa * rayon
 	function svgEllipse($arguments){
 		if ($arguments['rx']==0 || $arguments['ry']==0) { return ''; }	// mPDF 4.4.003
@@ -2420,7 +2420,7 @@ function svgDefineTxtStyle($critere_style)
 				}
 
 				//
-				//insertion des path et du style dans le flux de donné general.
+				//insertion des path et du style dans le flux de donnï¿½ general.
 				if (isset($path_cmd) && $path_cmd) {	// mPDF 4.4.003
 					// mPDF 5.0
 					list($prestyle,$poststyle) = $svg_class->svgStyle($path_style, $attribs, strtolower($name));
@@ -2524,9 +2524,9 @@ function calc_bezier_bbox($start, $c) {
 	$bounds[0][] = $P3[0];
 	$bounds[1][] = $P3[1];
 	for ($i=0;$i<=1;$i++) {
-            $b = 6 * $P0[$i] - 12 * $P1[$i] + 6 * $P2[$i];
-            $a = -3 * $P0[$i] + 9 * $P1[$i] - 9 * $P2[$i] + 3 * $P3[$i];
-            $c = 3 * $P1[$i] - 3 * $P0[$i];
+			$b = 6 * $P0[$i] - 12 * $P1[$i] + 6 * $P2[$i];
+			$a = -3 * $P0[$i] + 9 * $P1[$i] - 9 * $P2[$i] + 3 * $P3[$i];
+			$c = 3 * $P1[$i] - 3 * $P0[$i];
 		if ($a == 0) {
 			if ($b == 0) { continue; }
 			$t = -$c / $b;

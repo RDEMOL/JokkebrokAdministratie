@@ -2,9 +2,9 @@
 require_once (dirname(__FILE__) . "/../../config/version.inc.php");
 require_once (dirname(__FILE__) . "/../page.php");
 class AboutPage extends Page {
-    public function __construct() {
-        parent::__construct("Over","","about");
-    }
+	public function __construct() {
+		parent::__construct("Over","","about");
+	}
 
 	public function printContent(){
 ?>

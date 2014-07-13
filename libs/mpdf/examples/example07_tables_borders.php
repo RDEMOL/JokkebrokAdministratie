@@ -46,9 +46,9 @@ Border conflict resolution in tables with border-collapse set to "collapse". mPD
 <table class="layout">
 
 <tr>
-    <td class="layout">mPDF</td>
-    <td class="layout">Internet Explorer<br />IE 7</td>
-    <td class="layout">Firefox<br />v 3.0.3</td>
+	<td class="layout">mPDF</td>
+	<td class="layout">Internet Explorer<br />IE 7</td>
+	<td class="layout">Firefox<br />v 3.0.3</td>
 </tr>
 
 <tr>
@@ -57,23 +57,23 @@ Border conflict resolution in tables with border-collapse set to "collapse". mPD
 
 <table>
 <tr>
-    <td style="border:5mm solid green">1</td>
-    <td>1</td>
-    <td>1</td>
+	<td style="border:5mm solid green">1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td rowspan="2" class="redcell" style="border:5mm solid teal">1</td>
-    <td style="border:3mm solid pink">1</td>
-    <td style="border:5mm solid purple">1</td>
+	<td rowspan="2" class="redcell" style="border:5mm solid teal">1</td>
+	<td style="border:3mm solid pink">1</td>
+	<td style="border:5mm solid purple">1</td>
 </tr>
 <tr>
-    <td style="border:2mm solid gray">1</td>
-    <td>1</td>
+	<td style="border:2mm solid gray">1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td class="redcell">1</td>
-    <td>1</td>
-    <td>1</td>
+	<td class="redcell">1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 </table>
 
@@ -81,8 +81,8 @@ Border conflict resolution in tables with border-collapse set to "collapse". mPD
 
 	</td>
 
-    <td class="layout" rowspan="3"><img src="bordersIE.jpg" /></td>
-    <td class="layout" rowspan="3"><img src="bordersFF.jpg" /></td>
+	<td class="layout" rowspan="3"><img src="bordersIE.jpg" /></td>
+	<td class="layout" rowspan="3"><img src="bordersFF.jpg" /></td>
 
 
 </tr>
@@ -92,23 +92,23 @@ Border conflict resolution in tables with border-collapse set to "collapse". mPD
 
 <table style="border: 2.5mm solid aqua">
 <tr>
-    <td class="redcell">1</td>
-    <td>1</td>
-    <td>1</td>
+	<td class="redcell">1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td rowspan="2" class="redcell" style="border:5mm solid green">1</td>
-    <td>1</td>
-    <td>1</td>
+	<td rowspan="2" class="redcell" style="border:5mm solid green">1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td>1</td>
-    <td>1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td class="redcell">1</td>
-    <td>1</td>
-    <td>1</td>
+	<td class="redcell">1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 </table>
 
@@ -121,23 +121,23 @@ Border conflict resolution in tables with border-collapse set to "collapse". mPD
 
 <table>
 <tr>
-    <td class="redcell">1</td>
-    <td>1</td>
-    <td>1</td>
+	<td class="redcell">1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td rowspan="2" >1</td>
-    <td>1</td>
-    <td>1</td>
+	<td rowspan="2" >1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td style="border:5mm solid yellow">1</td>
-    <td>1</td>
+	<td style="border:5mm solid yellow">1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td class="redcell">1</td>
-    <td>1</td>
-    <td>1</td>
+	<td class="redcell">1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 </table>
 
@@ -153,10 +153,10 @@ Border conflict resolution in tables with border-collapse set to "collapse". mPD
 <table class="layout">
 
 <tr>
-    <td class="layout">mPDF</td>
-    <td class="layout">mPDF &lt; v3</td>
-    <td class="layout">Internet Explorer<br />IE 7</td>
-    <td class="layout">Firefox<br />v 3.0.3</td>
+	<td class="layout">mPDF</td>
+	<td class="layout">mPDF &lt; v3</td>
+	<td class="layout">Internet Explorer<br />IE 7</td>
+	<td class="layout">Firefox<br />v 3.0.3</td>
 </tr>
 
 <tr>
@@ -165,23 +165,23 @@ Border conflict resolution in tables with border-collapse set to "collapse". mPD
 
 <table class="table2">
 <tr>
-    <td style="border:2mm solid green">1</td>
-    <td>1</td>
-    <td>1</td>
+	<td style="border:2mm solid green">1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td rowspan="2" class="redcell2" style="border:2mm solid teal">1</td>
-    <td style="border:2mm solid pink">1</td>
-    <td style="border:2mm solid purple">1</td>
+	<td rowspan="2" class="redcell2" style="border:2mm solid teal">1</td>
+	<td style="border:2mm solid pink">1</td>
+	<td style="border:2mm solid purple">1</td>
 </tr>
 <tr>
-    <td style="border:2mm solid gray">1</td>
-    <td>1</td>
+	<td style="border:2mm solid gray">1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td class="redcell2">1</td>
-    <td>1</td>
-    <td>1</td>
+	<td class="redcell2">1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 </table>
 
@@ -189,9 +189,9 @@ Border conflict resolution in tables with border-collapse set to "collapse". mPD
 
 	</td>
 
-    <td class="layout" rowspan="3"><img src="bordersMPDF2.jpg" /></td>
-    <td class="layout" rowspan="3"><img src="borders2IE.jpg" /></td>
-    <td class="layout" rowspan="3"><img src="borders2FF.jpg" /></td>
+	<td class="layout" rowspan="3"><img src="bordersMPDF2.jpg" /></td>
+	<td class="layout" rowspan="3"><img src="borders2IE.jpg" /></td>
+	<td class="layout" rowspan="3"><img src="borders2FF.jpg" /></td>
 
 
 </tr>
@@ -201,23 +201,23 @@ Border conflict resolution in tables with border-collapse set to "collapse". mPD
 
 <table style="border: 2mm solid aqua" class="table2">
 <tr>
-    <td class="redcell2">1</td>
-    <td>1</td>
-    <td>1</td>
+	<td class="redcell2">1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td rowspan="2" class="redcell2" style="border:2mm solid green">1</td>
-    <td>1</td>
-    <td>1</td>
+	<td rowspan="2" class="redcell2" style="border:2mm solid green">1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td>1</td>
-    <td>1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td class="redcell2">1</td>
-    <td>1</td>
-    <td>1</td>
+	<td class="redcell2">1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 </table>
 
@@ -230,23 +230,23 @@ Border conflict resolution in tables with border-collapse set to "collapse". mPD
 
 <table class="table2">
 <tr>
-    <td class="redcell2">1</td>
-    <td>1</td>
-    <td>1</td>
+	<td class="redcell2">1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td rowspan="2" >1</td>
-    <td>1</td>
-    <td>1</td>
+	<td rowspan="2" >1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td style="border:2mm solid yellow">1</td>
-    <td>1</td>
+	<td style="border:2mm solid yellow">1</td>
+	<td>1</td>
 </tr>
 <tr>
-    <td class="redcell2">1</td>
-    <td>1</td>
-    <td>1</td>
+	<td class="redcell2">1</td>
+	<td>1</td>
+	<td>1</td>
 </tr>
 </table>
 

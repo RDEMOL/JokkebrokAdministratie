@@ -298,7 +298,7 @@ function substituteIndic($earr, $lang, $font) {
 	}
 
 
-	// TELUGU Shift Reph to LEFT [E046|E069|E077]    [TelRaSmallOne] => E046    [TelRaSmallTwo] => E069    [TelRaSmallThree] => E077
+	// TELUGU Shift Reph to LEFT [E046|E069|E077]	[TelRaSmallOne] => E046	[TelRaSmallTwo] => E069	[TelRaSmallThree] => E077
 	else if ($lang=='te') {
 		// tefullforms defined earlier
 		$tepartialforms = "E00D|E00E|E00F|E010|E011|E012|E013|E014|E015|E016|E017|E018|E019|E01A|E01B|E01C|E01D|E01E|E01F|E020|E021|E022|E023|E024|E025|E026|E027|E07C|E07D|E07E";

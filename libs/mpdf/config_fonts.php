@@ -279,9 +279,9 @@ $this->BMPonly = array(
 
 // These next 3 arrays do two things:
 // 1. If a font referred to in HTML/CSS is not available to mPDF, these arrays will determine whether
-//    a serif/sans-serif or monospace font is substituted
+//	a serif/sans-serif or monospace font is substituted
 // 2. The first font in each array will be the font which is substituted in circumstances as above
-//     (Otherwise the order is irrelevant)
+//	 (Otherwise the order is irrelevant)
 // Use the mPDF font-family names i.e. lowercase and no spaces (after any translations in $fonttrans)
 // Always include "sans-serif", "serif" and "monospace" etc.
 $this->sans_fonts = array('dejavusanscondensed','dejavusans','freesans','liberationsans','sans','sans-serif','cursive','fantasy', 

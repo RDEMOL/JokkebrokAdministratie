@@ -1,5 +1,5 @@
 -*-text-*- 
-                          GNU FreeFont
+						  GNU FreeFont
 
 The GNU FreeFont project aims to provide a useful set of free scalable
 (i.e., OpenType) fonts covering as much as possible of the ISO 10646/Unicode

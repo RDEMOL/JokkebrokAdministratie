@@ -32,7 +32,7 @@ class TTFontFile_Analysis EXTENDS TTFontFile {
 			else return("ERROR - Error parsing TrueType Collection - " . $file);
 			$this->numTTCFonts = $this->read_ulong();
 			for ($i=1; $i<=$this->numTTCFonts; $i++) {
-	      	      $this->TTCFonts[$i]['offset'] = $this->read_ulong();
+		  		  $this->TTCFonts[$i]['offset'] = $this->read_ulong();
 			}
 			$this->seek($this->TTCFonts[$TTCfontID]['offset']);
 			$this->version = $version = $this->read_ulong();	// TTFont version again now

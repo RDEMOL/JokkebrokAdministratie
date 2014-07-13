@@ -98,16 +98,16 @@ The border-radius shorthand sets all four border-*-radius properties. If values 
 
 would be equivalent to<br />
 
-<span style="font-family: mono; font-size: 9pt;">border-top-left-radius:     4em;<br />
-border-top-right-radius:    4em;<br />
+<span style="font-family: mono; font-size: 9pt;">border-top-left-radius:	 4em;<br />
+border-top-right-radius:	4em;<br />
 border-bottom-right-radius: 4em;<br />
 border-bottom-left-radius:  4em;</span><br />
 <br />
 and<br />
 <span style="font-family: mono; font-size: 9pt;">border-radius: 2em 1em 4em / 0.5em 3em;</span><br />
 would be equivalent to<br />
-<span style="font-family: mono; font-size: 9pt;">border-top-left-radius:     2em 0.5em;<br />
-border-top-right-radius:    1em 3em;<br />
+<span style="font-family: mono; font-size: 9pt;">border-top-left-radius:	 2em 0.5em;<br />
+border-top-right-radius:	1em 3em;<br />
 border-bottom-right-radius: 4em 0.5em;<br />
 border-bottom-left-radius:  1em 3em;</span>
 </div>

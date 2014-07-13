@@ -163,10 +163,10 @@ for ($urgp = 0; $urgp < $nofgroups; $urgp++) {
 
 	foreach($unicode_ranges AS $urk => $ur) {
 	   if ($urk >= ($urgp*$ningroup) && $urk < (($urgp+1)*$ningroup)) {
-	    if ($ur['pua'] || $ur['reserved'] || $ur['control']) {
+		if ($ur['pua'] || $ur['reserved'] || $ur['control']) {
 		$html .= '<td style="background-color: #000000;"></td>'; 
-	    }
-	    else {
+		}
+		else {
 		$rangekey = $urk;
 		$range = $ur['range'];
 		$rangestart = $ur['starthex'];
@@ -204,7 +204,7 @@ for ($urgp = 0; $urgp < $nofgroups; $urgp++) {
 			else { $html .= '<td style="background-color: #555555;">(0/0)</td>'; }
 		}
 		else { $html .= '<td style="background-color: #000000;"></td>'; }
-	    }
+		}
 	   }
 	}
 

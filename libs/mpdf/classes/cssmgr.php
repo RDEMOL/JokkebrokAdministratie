@@ -939,25 +939,25 @@ function _mergeCSS($p, &$t) {
 
 // for CSS handling
 function array_merge_recursive_unique($array1, $array2) {
-    $arrays = func_get_args();
-    $narrays = count($arrays);
-    $ret = $arrays[0];
-    for ($i = 1; $i < $narrays; $i ++) {
-        foreach ($arrays[$i] as $key => $value) {
-            if (((string) $key) === ((string) intval($key))) { // integer or string as integer key - append
-                $ret[] = $value;
-            }
-            else { // string key - merge
-                if (is_array($value) && isset($ret[$key])) {
-                    $ret[$key] = $this->array_merge_recursive_unique($ret[$key], $value);
-                }
-                else {
-                    $ret[$key] = $value;
-                }
-            }
-        }   
-    }
-    return $ret;
+	$arrays = func_get_args();
+	$narrays = count($arrays);
+	$ret = $arrays[0];
+	for ($i = 1; $i < $narrays; $i ++) {
+		foreach ($arrays[$i] as $key => $value) {
+			if (((string) $key) === ((string) intval($key))) { // integer or string as integer key - append
+				$ret[] = $value;
+			}
+			else { // string key - merge
+				if (is_array($value) && isset($ret[$key])) {
+					$ret[$key] = $this->array_merge_recursive_unique($ret[$key], $value);
+				}
+				else {
+					$ret[$key] = $value;
+				}
+			}
+		}   
+	}
+	return $ret;
 }
 
 
@@ -1034,7 +1034,7 @@ function _set_mergedCSS(&$m, &$p, $d=true, $bd=false) {
 
 function _mergeBorders(&$b, &$a) {	// Merges $a['BORDER-TOP-STYLE'] to $b['BORDER-TOP'] etc.
   foreach(array('TOP','RIGHT','BOTTOM','LEFT') AS $side) {
-    foreach(array('STYLE','WIDTH','COLOR') AS $el) {
+	foreach(array('STYLE','WIDTH','COLOR') AS $el) {
 	if (isset($a['BORDER-'.$side.'-'.$el])) {	// e.g. $b['BORDER-TOP-STYLE']
 		$s = trim($a['BORDER-'.$side.'-'.$el]);
 		if (isset($b['BORDER-'.$side])) {	// e.g. $b['BORDER-TOP']
@@ -1054,7 +1054,7 @@ function _mergeBorders(&$b, &$a) {	// Merges $a['BORDER-TOP-STYLE'] to $b['BORDE
 			else { $b['BORDER-'.$side] = '0px none '.$s; }
 		}
 	}
-    }
+	}
   }
 }
 
@@ -1201,31 +1201,31 @@ function MergeCSS($inherit,$tag,$attr) {
 	// Set Inherited properties
 	if ($inherit == 'TOPLIST') {
 		if ($this->listCSSlvl == 1) {
-		    $bilp = $this->mpdf->blk[$this->mpdf->blklvl]['InlineProperties'];
-		    if (isset($bilp[ 'family' ]) && $bilp[ 'family' ]) { $p['FONT-FAMILY'] = $bilp[ 'family' ]; }
-   		    if (isset($bilp[ 'I' ]) && $bilp[ 'I' ]) { $p['FONT-STYLE'] = 'italic'; }
-   		    if (isset($bilp[ 'sizePt' ]) && $bilp[ 'sizePt' ]) { $p['FONT-SIZE'] = $bilp[ 'sizePt' ] . 'pt'; }
-   		    if (isset($bilp[ 'B' ]) && $bilp[ 'B' ]) { $p['FONT-WEIGHT'] = 'bold'; }
-   		    if (isset($bilp[ 'colorarray' ]) && $bilp[ 'colorarray' ]) { 
+			$bilp = $this->mpdf->blk[$this->mpdf->blklvl]['InlineProperties'];
+			if (isset($bilp[ 'family' ]) && $bilp[ 'family' ]) { $p['FONT-FAMILY'] = $bilp[ 'family' ]; }
+   			if (isset($bilp[ 'I' ]) && $bilp[ 'I' ]) { $p['FONT-STYLE'] = 'italic'; }
+   			if (isset($bilp[ 'sizePt' ]) && $bilp[ 'sizePt' ]) { $p['FONT-SIZE'] = $bilp[ 'sizePt' ] . 'pt'; }
+   			if (isset($bilp[ 'B' ]) && $bilp[ 'B' ]) { $p['FONT-WEIGHT'] = 'bold'; }
+   			if (isset($bilp[ 'colorarray' ]) && $bilp[ 'colorarray' ]) { 
 			$cor = $bilp[ 'colorarray' ];
 			$p['COLOR'] = $this->mpdf->_colAtoString($cor);
-		    }
-		    if (isset($bilp[ 'toupper' ]) && $bilp[ 'toupper' ]) { $p['TEXT-TRANSFORM'] = 'uppercase'; }
-		    else if (isset($bilp[ 'tolower' ]) && $bilp[ 'tolower' ]) { $p['TEXT-TRANSFORM'] = 'lowercase'; }
-		    else if (isset($bilp[ 'capitalize' ]) && $bilp[ 'capitalize' ]) { $p['TEXT-TRANSFORM'] = 'capitalize'; }
-		    if (isset($bilp[ 'fontkerning' ])) {
+			}
+			if (isset($bilp[ 'toupper' ]) && $bilp[ 'toupper' ]) { $p['TEXT-TRANSFORM'] = 'uppercase'; }
+			else if (isset($bilp[ 'tolower' ]) && $bilp[ 'tolower' ]) { $p['TEXT-TRANSFORM'] = 'lowercase'; }
+			else if (isset($bilp[ 'capitalize' ]) && $bilp[ 'capitalize' ]) { $p['TEXT-TRANSFORM'] = 'capitalize'; }
+			if (isset($bilp[ 'fontkerning' ])) {
 			if ($bilp[ 'fontkerning' ]) { $p['FONT-KERNING'] = 'normal'; }
 			else { $p['FONT-KERNING'] = 'none'; }
-		    }
-		    if (isset($bilp[ 'lSpacingCSS' ]) && $bilp[ 'lSpacingCSS' ]) { $p['LETTER-SPACING'] = $bilp[ 'lSpacingCSS' ]; }
-		    if (isset($bilp[ 'wSpacingCSS' ]) && $bilp[ 'wSpacingCSS' ]) { $p['WORD-SPACING'] = $bilp[ 'wSpacingCSS' ]; }
+			}
+			if (isset($bilp[ 'lSpacingCSS' ]) && $bilp[ 'lSpacingCSS' ]) { $p['LETTER-SPACING'] = $bilp[ 'lSpacingCSS' ]; }
+			if (isset($bilp[ 'wSpacingCSS' ]) && $bilp[ 'wSpacingCSS' ]) { $p['WORD-SPACING'] = $bilp[ 'wSpacingCSS' ]; }
 			// CSS says text-decoration is not inherited, but IE7 does??
-		    if (isset($bilp[ 'underline' ]) && $bilp[ 'underline' ]) { $p['TEXT-DECORATION'] = 'underline'; }
-		    if (isset($bilp[ 'smCaps' ]) && $bilp[ 'smCaps' ]) { $p['FONT-VARIANT'] = 'small-caps'; }
-		    if ($tag=='LI') {
+			if (isset($bilp[ 'underline' ]) && $bilp[ 'underline' ]) { $p['TEXT-DECORATION'] = 'underline'; }
+			if (isset($bilp[ 'smCaps' ]) && $bilp[ 'smCaps' ]) { $p['FONT-VARIANT'] = 'small-caps'; }
+			if ($tag=='LI') {
 			// Note to self - this should never work, as TOPLIST is not called when LI (see code removed in v5.3)
 			$this->mpdf->Error("If you see this message, please report this as a bug to the mPDF Forum.");
-		    }
+			}
 		}
 	}
 /*-- END LISTS --*/
@@ -1524,7 +1524,7 @@ function PreviewBlockCSS($tag,$attr) {
 		if (is_array($zp)) { $p = array_merge($p,$zp); }
 	}
 	//===============================================
-	// STYLESHEET TAG e.g. div h1    div p
+	// STYLESHEET TAG e.g. div h1	div p
 
 	$this->_set_mergedCSS($oldcascadeCSS[$tag], $p);
 	// STYLESHEET CLASS e.g. .smallone{}  .redletter{}

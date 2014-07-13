@@ -97,7 +97,7 @@ function Write($h,$txt,$currentx=0,$link='',$directionality='ltr',$align='') {
 						// JUSTIFY J using Unicode fonts (Word spacing doesn't work)
 						// WORD SPACING
 						// Change NON_BREAKING SPACE to spaces so they are 'spaced' properly
-					      $tmp = str_replace(chr(194).chr(160),chr(32),$tmp ); 
+						  $tmp = str_replace(chr(194).chr(160),chr(32),$tmp ); 
 						$len_ligne = $this->mpdf->GetStringWidth($tmp );
 						$nb_carac = mb_strlen( $tmp , $this->mpdf->mb_enc ) ;  
 						$nb_spaces = mb_substr_count( $tmp ,' ', $this->mpdf->mb_enc ) ;  
@@ -180,7 +180,7 @@ function Write($h,$txt,$currentx=0,$link='',$directionality='ltr',$align='') {
 						// JUSTIFY J using Unicode fonts (Word spacing doesn't work)
 						// WORD SPACING
 						// Change NON_BREAKING SPACE to spaces so they are 'spaced' properly
-					      $tmp = str_replace(chr(160),chr(32),$tmp );
+						  $tmp = str_replace(chr(160),chr(32),$tmp );
 						$len_ligne = $this->mpdf->GetStringWidth($tmp );
 						$nb_carac = strlen( $tmp ) ;  
 						$nb_spaces = substr_count( $tmp ,' ' ) ;  
@@ -227,7 +227,7 @@ function Write($h,$txt,$currentx=0,$link='',$directionality='ltr',$align='') {
 function CircularText($x, $y, $r, $text, $align='top', $fontfamily='', $fontsizePt=0, $fontstyle='', $kerning=120, $fontwidth=100, $divider='') {	// mPDF 5.5.23
 	if ($font || $fontstyle || $fontsizePt) $this->mpdf->SetFont($fontfamily,$fontstyle,$fontsizePt);
 	$kerning/=100;
-	$fontwidth/=100;        
+	$fontwidth/=100;		
 	if($kerning==0) $this->mpdf->Error('Please use values unequal to zero for kerning (CircularText)');
 	if($fontwidth==0) $this->mpdf->Error('Please use values unequal to zero for font width (CircularText)');
 	$text=str_replace("\r",'',$text);
@@ -377,7 +377,7 @@ function Shaded_box( $text,$font='',$fontstyle='B',$szfont='',$width='70%',$styl
 
 	$mid = ($r1 + $r2 ) / 2;
 	$loop   = 0;
-    
+	
 	while ( $loop == 0 )
 	{
 		$this->mpdf->SetFont( $font, $fontstyle, $szfont );

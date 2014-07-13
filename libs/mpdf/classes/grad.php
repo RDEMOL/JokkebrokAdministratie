@@ -93,10 +93,10 @@ function CoonsPatchMesh($x, $y, $w, $h, $patch_array=array(), $x_min=0, $x_max=1
 
 // type = linear:2; radial: 3;
 // Linear: $coords - array of the form (x1, y1, x2, y2) which defines the gradient vector (see linear_gradient_coords.jpg). 
-//    The default value is from left to right (x1=0, y1=0, x2=1, y2=0).
+//	The default value is from left to right (x1=0, y1=0, x2=1, y2=0).
 // Radial: $coords - array of the form (fx, fy, cx, cy, r) where (fx, fy) is the starting point of the gradient with color1, 
-//    (cx, cy) is the center of the circle with color2, and r is the radius of the circle (see radial_gradient_coords.jpg). 
-//    (fx, fy) should be inside the circle, otherwise some areas will not be defined
+//	(cx, cy) is the center of the circle with color2, and r is the radius of the circle (see radial_gradient_coords.jpg). 
+//	(fx, fy) should be inside the circle, otherwise some areas will not be defined
 // $col = array(R,G,B/255); or array(G/255); or array(C,M,Y,K/100)
 // $stops = array('col'=>$col [, 'opacity'=>0-1] [, 'offset'=>0-1])
 function Gradient($x, $y, $w, $h, $type, $stops=array(), $colorspace='RGB', $coords='', $extend='', $return=false, $is_mask=false) {
@@ -231,17 +231,17 @@ function Gradient($x, $y, $w, $h, $type, $stops=array(), $colorspace='RGB', $coo
 		  if ($angle < 0) { $angle += 360; }
 		  else if ($angle > 360) { $angle -= 360; }
 		  if ($angle!=0 && $angle!=360 && $angle!=90 && $angle!=180 && $angle!=270) { 
-		    if ($w >= $h) {
+			if ($w >= $h) {
 			$coords[1] *= $h/$w ;
 			$coords[3] *= $h/$w ;
 			$usew = $useh = $bboxw;
 			$usey -= ($w-$h);
-		    }
-		    else {
+			}
+			else {
 			$coords[0] *= $w/$h ;
 			$coords[2] *= $w/$h ;
 			$usew = $useh = $bboxh;
-		    }
+			}
 		  }
 		}
 
@@ -284,7 +284,7 @@ function Gradient($x, $y, $w, $h, $type, $stops=array(), $colorspace='RGB', $coo
 		   }
 		   // CIRCLE
 		   else if ($shape=='circle') {
-		    if ($w >= $h) {
+			if ($w >= $h) {
 			$coords[1] = $coords[3] = ($coords[1] * $h/$w) ;
 			$corner1 = sqrt(pow($coords[0],2) + pow($coords[1],2));
 			$corner2 = sqrt(pow($coords[0],2) + pow((($h/$w)-$coords[1]),2));
@@ -296,8 +296,8 @@ function Gradient($x, $y, $w, $h, $type, $stops=array(), $colorspace='RGB', $coo
 			else if ($size=='farthest-corner') { $radius = max($corner1, $corner2, $corner3, $corner4); }	// farthest corner (default)
 			$usew = $useh = $bboxw;
 			$usey -= ($w-$h);
-		    }
-		    else {
+			}
+			else {
 			$coords[0] = $coords[2] = ($coords[0] * $w/$h) ;
 			$corner1 = sqrt(pow($coords[0],2) + pow($coords[1],2));
 			$corner2 = sqrt(pow($coords[0],2) + pow((1-$coords[1]),2));
@@ -308,7 +308,7 @@ function Gradient($x, $y, $w, $h, $type, $stops=array(), $colorspace='RGB', $coo
 			else if ($size=='farthest-side') { $radius = max($coords[0], $coords[1], (($w/$h)-$coords[0]), (1-$coords[1])); }
 			else if ($size=='farthest-corner') { $radius = max($corner1, $corner2, $corner3, $corner4); }	// farthest corner (default)
 			$usew = $useh = $bboxh;
-		    }
+			}
 		   }
 		   if ($radius==0) { $radius=0.001; }	// to prevent error
 		   $coords[4] = $radius; 
@@ -689,14 +689,14 @@ function parseBackgroundGradient($bg) {
 			$g['type'] = 2;
 			//$coords = array(0,0,1,1 );	// 0 0 1 0 or 0 1 1 1 is L 2 R; 1,1,0,1 is R2L; 1,1,1,0 is T2B; 1,0,1,1 is B2T
 			// Linear: $coords - array of the form (x1, y1, x2, y2) which defines the gradient vector (see linear_gradient_coords.jpg). 
-			//    The default value is from left to right (x1=0, y1=0, x2=1, y2=0).
+			//	The default value is from left to right (x1=0, y1=0, x2=1, y2=0).
 			$g['coords'] = array($bgr[3], $bgr[4], $bgr[5], $bgr[6]);
 		}
 		else if (count($bgr)==8) {	// radial
 			$g['type'] = 3;
 			// Radial: $coords - array of the form (fx, fy, cx, cy, r) where (fx, fy) is the starting point of the gradient with color1, 
-			//    (cx, cy) is the center of the circle with color2, and r is the radius of the circle (see radial_gradient_coords.jpg). 
-			//    (fx, fy) should be inside the circle, otherwise some areas will not be defined
+			//	(cx, cy) is the center of the circle with color2, and r is the radius of the circle (see radial_gradient_coords.jpg). 
+			//	(fx, fy) should be inside the circle, otherwise some areas will not be defined
 			$g['coords'] = array($bgr[3], $bgr[4], $bgr[5], $bgr[6], $bgr[7]);
 		}
 		$g['colorspace'] = 'RGB';

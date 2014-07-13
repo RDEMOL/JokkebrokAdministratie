@@ -203,79 +203,79 @@ text direction (RTL arabic characters) remains fully automatic and unconfigurabl
 	$h = array (
   'odd' => 
   array (
-    'R' => 
-    array (
-      'content' => '{PAGENO}',
-      'font-size' => 8,
-      'font-style' => 'B',
-    ),
-    'L' => 
-    array (
-      'content' => "\xd9\x82\xd8\xa7\xd9\x84 \xd8\xa7\xd9\x84\xd8\xb1\xd8\xa6\xd9\x8a\xd8\xb3",
-      'font-size' => 8,
-      'font-style' => 'B',
-    ),
-    'line' => 1,
+	'R' => 
+	array (
+	  'content' => '{PAGENO}',
+	  'font-size' => 8,
+	  'font-style' => 'B',
+	),
+	'L' => 
+	array (
+	  'content' => "\xd9\x82\xd8\xa7\xd9\x84 \xd8\xa7\xd9\x84\xd8\xb1\xd8\xa6\xd9\x8a\xd8\xb3",
+	  'font-size' => 8,
+	  'font-style' => 'B',
+	),
+	'line' => 1,
   ),
   'even' => 
   array (
-    'L' => 
-    array (
-      'content' => '{PAGENO}',
-      'font-size' => 8,
-      'font-style' => 'B',
-    ),
-    'R' => 
-    array (
-      'content' => "\xd9\x82\xd8\xa7\xd9\x84 \xd8\xa7\xd9\x84\xd8\xb1\xd8\xa6\xd9\x8a\xd8\xb3",
-      'font-size' => 8,
-      'font-style' => 'B',
-    ),
-    'line' => 1,
+	'L' => 
+	array (
+	  'content' => '{PAGENO}',
+	  'font-size' => 8,
+	  'font-style' => 'B',
+	),
+	'R' => 
+	array (
+	  'content' => "\xd9\x82\xd8\xa7\xd9\x84 \xd8\xa7\xd9\x84\xd8\xb1\xd8\xa6\xd9\x8a\xd8\xb3",
+	  'font-size' => 8,
+	  'font-style' => 'B',
+	),
+	'line' => 1,
   ),
 );
 
 	$f = array (
   'odd' => 
   array (
-    'L' => 
-    array (
-      'content' => '{DATE Y-m-d}',
-      'font-size' => 8,
-      'font-style' => 'BI',
-    ),
-    'C' => 
-    array (
-      'content' => '- {PAGENO} -',
-      'font-size' => 8,
-    ),
-    'R' => 
-    array (
-      'content' => "\xd8\xa7\xd9\x84\xd8\xb1\xd8\xa6\xd9\x8a\xd8\xb3",
-      'font-size' => 8,
-    ),
-    'line' => 1,
+	'L' => 
+	array (
+	  'content' => '{DATE Y-m-d}',
+	  'font-size' => 8,
+	  'font-style' => 'BI',
+	),
+	'C' => 
+	array (
+	  'content' => '- {PAGENO} -',
+	  'font-size' => 8,
+	),
+	'R' => 
+	array (
+	  'content' => "\xd8\xa7\xd9\x84\xd8\xb1\xd8\xa6\xd9\x8a\xd8\xb3",
+	  'font-size' => 8,
+	),
+	'line' => 1,
   ),
   'even' => 
   array (
-    'L' => 
-    array (
-      'content' => "\xd8\xa7\xd9\x84\xd8\xb1\xd8\xa6\xd9\x8a\xd8\xb3",
-      'font-size' => 8,
-      'font-style' => 'B',
-    ),
-    'C' => 
-    array (
-      'content' => '- {PAGENO} -',
-      'font-size' => 8,
-    ),
-    'R' => 
-    array (
-      'content' => '{DATE Y-m-d}',
-      'font-size' => 8,
-      'font-style' => 'BI',
-    ),
-    'line' => 1,
+	'L' => 
+	array (
+	  'content' => "\xd8\xa7\xd9\x84\xd8\xb1\xd8\xa6\xd9\x8a\xd8\xb3",
+	  'font-size' => 8,
+	  'font-style' => 'B',
+	),
+	'C' => 
+	array (
+	  'content' => '- {PAGENO} -',
+	  'font-size' => 8,
+	),
+	'R' => 
+	array (
+	  'content' => '{DATE Y-m-d}',
+	  'font-size' => 8,
+	  'font-style' => 'BI',
+	),
+	'line' => 1,
   ),
 );
 

@@ -156,24 +156,24 @@ function print_graph($g,$pgwidth) {
 	$totals = array();
 	for ($r=($rowbegin-1);$r<$rowend;$r++) {
 		for ($c=($colbegin-1);$c<$colend;$c++) {
-		    if (isset($g['data'][$r][$c])) { $g['data'][$r][$c] = floatval($g['data'][$r][$c] ); }
-		    else { $g['data'][$r][$c] = 0; }
-		    if ($dataseries=='rows') { 
+			if (isset($g['data'][$r][$c])) { $g['data'][$r][$c] = floatval($g['data'][$r][$c] ); }
+			else { $g['data'][$r][$c] = 0; }
+			if ($dataseries=='rows') { 
 			$data[($r+1-$rowbegin)][($c+1-$colbegin)] = $g['data'][$r][$c] ; 
 			$totals[($r+1-$rowbegin)] += $g['data'][$r][$c] ; 
-		    }
-		    else { 
+			}
+			else { 
 			$data[($c+1-$colbegin)][($r+1-$rowbegin)] = $g['data'][$r][$c] ; 
 			if (isset($totals[($c+1-$colbegin)])) { $totals[($c+1-$colbegin)] += $g['data'][$r][$c] ; }
 			else { $totals[($c+1-$colbegin)] = $g['data'][$r][$c] ; }
-		    }
+			}
 		}
 	}
 	// PERCENT
 	if ($percent && $type != 'pie' && $type != 'pie3d') {
 		for ($r=0;$r<count($data);$r++) {
 			for ($c=0;$c<count($data[$r]);$c++) {
-		    		$data[$r][$c] = $data[$r][$c]/$totals[$r]  * 100;
+					$data[$r][$c] = $data[$r][$c]/$totals[$r]  * 100;
 			}
 		}
 	}

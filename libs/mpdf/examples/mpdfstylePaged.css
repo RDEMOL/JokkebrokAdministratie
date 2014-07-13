@@ -13,7 +13,7 @@
 	}
 
 	@page :first {
-		margin-top: 5cm;    /* Top margin on first page 10cm */
+		margin-top: 5cm;	/* Top margin on first page 10cm */
 	}
 
 	@page standard {
@@ -23,7 +23,7 @@
 	}
 
 	@page standard :first {
-		margin-top: 7cm;    /* Top margin on first page 10cm */
+		margin-top: 7cm;	/* Top margin on first page 10cm */
 	}
 
 	@page bigsquare {
@@ -58,7 +58,7 @@
 		margin-right: 3cm;
 	}
 	@page rotated :first {
-		margin-top: 7cm;    /* Top margin on first page 10cm */
+		margin-top: 7cm;	/* Top margin on first page 10cm */
 	}
 
 	h1.heading1 {	color: #1188FF;
