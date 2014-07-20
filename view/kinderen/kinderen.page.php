@@ -54,7 +54,7 @@ class KinderenPage extends Page {
 	</div>
 	<div class="modal-body">
 		<table id="uitstappen_tabel" class="table-bordered table-striped table">
-			
+
 		</table>
 	</div>
 	<div class="modal-footer">
@@ -144,7 +144,7 @@ class KinderenPage extends Page {
 			<label for="Bedrag">Bedrag: </label><input type="text" name="Bedrag"><br>
 			<label for="Datum">Datum: </label><input type="text" name="Datum"><br>
 			<label for="Opmerking">Opmerking: </label><textarea name="Opmerking"></textarea><br>
-		</form>		
+		</form>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" data-dismiss="modal">
@@ -320,7 +320,7 @@ class KinderenPage extends Page {
 				$('#voogdModal').modal('show');
 			});
 		}
-		
+
 		function laad_voogd(element, id) {
 			element.empty();
 			var data = new Object();
@@ -348,7 +348,7 @@ class KinderenPage extends Page {
 			$('#lstVoogden').append(el);
 			laad_voogd(el, id);
 		};
-		
+
 		function update_voogd(id) {
 			$('#lstVoogden li').each(function(index, value) {
 				if ($(this).find('input[name=Id]').val() == id) {
@@ -356,7 +356,7 @@ class KinderenPage extends Page {
 				}
 			});
 		}
-		
+
 		function add_voogd_element(data) {
 			var el = $('<li>').append($('<input>').attr({
 				'name' : 'Id',
@@ -390,19 +390,35 @@ class KinderenPage extends Page {
 			data.Naam = $('#voogdForm input[name=Naam]').val();
 			data.Voornaam = $('#voogdForm input[name=Voornaam]').val();
 			data.Opmerkingen = $('#voogdForm textarea[name=Opmerkingen]').val();
-			$.post('index.php?action=updateVoogd', data, function(resp) {
-				try {
+			if($.get('index.php?action=data&data=voogdExists', data, function(resp){
+				console.log("got: "+resp);
+				try{
 					resp = JSON.parse(resp);
-					if ($('#voogdForm input[name=Add]').val() == '1') {
-						voeg_voogd_toe(resp.Id);
-					} else {
-						update_voogd(resp.Id);
+					if(resp.exists){
+						good = window.confirm('Er bestaat al een voogd met dezelfde naam en voornaam. Bent u zeker dat het over een andere voogd gaat? Indien u denkt dat het over dezelfde voogd gaat, klik dan op "Annuleren" en voeg de voogd toe via "Bestaande voogd toevoegen".');
 					}
-				} catch(err) {
-					console.log("error updating voogd: " + resp);
+					if(good){
+						$.post('index.php?action=updateVoogd', data, function(resp) {
+							try {
+								resp = JSON.parse(resp);
+								if ($('#voogdForm input[name=Add]').val() == '1') {
+									voeg_voogd_toe(resp.Id);
+								} else {
+									update_voogd(resp.Id);
+								}
+							} catch(err) {
+								console.log("error updating voogd: " + resp);
+							}
+							$('#voogdModal').modal('hide');
+						});
+					}else{
+						$('#voogdModal').modal('hide');
+					}
+				}catch(err){
+					console.log("error finding out whether voogd exists: "+resp);
 				}
-				$('#voogdModal').modal('hide');
-			});
+			}));
+
 		});
 		var kinderen_tabel;
 		var suggesties = new Bloodhound({
@@ -499,7 +515,7 @@ class KinderenPage extends Page {
 			if(data.VoogdIds.length == 0){
 				//kind_form_error("Kies een voogd");
 				//return false;
-				
+
 			}
 			if(!Validator.isGoodYear(data.Geboortejaar)){
 				kind_form_error("Vul een geldig geboortejaar in");
@@ -647,7 +663,7 @@ class KinderenPage extends Page {
 			kinderen_tabel.setUp($('#kinderen_tabel'));
 			kinderen_tabel.laadTabel();
 		}
-		
+
 		function empty_betaling(){
 			$('#betalingForm input').val('');
 			$('#betalingForm textarea').val('');
@@ -684,11 +700,11 @@ class KinderenPage extends Page {
 					$('#betalingForm input[name=Datum]').val(vordering_data.Datum);
 					break;
 			}
-			
+
 		}
 		var transacties_tabel;
-		
-		
+
+
 		function laad_saldo_details(kind_voogd_id){
 			function verwijder_vordering_betaling(vordering_data){
 				$('#verwijderVorderingBetalingModal').modal('show');
@@ -762,8 +778,8 @@ class KinderenPage extends Page {
 				$.get('index.php?action=updateBetaling', data, function(resp){
 					if($.trim(resp) == "1"){
 						laad_saldo_details(kind_voogd_id);
-						$('#betalingModal').modal('hide');	
-					}	
+						$('#betalingModal').modal('hide');
+					}
 				});
 				return false;
 			});
@@ -780,7 +796,7 @@ class KinderenPage extends Page {
 			}, "json");
 			$('select[name=financieelKindVoogd]').unbind('change').change(function(){
 				if($('select[name=financieelKindVoogd]').val() == '0'){
-					empty_saldo_details();	
+					empty_saldo_details();
 				}else{
 					laad_saldo_details($('select[name=financieelKindVoogd]').val());
 				}
@@ -791,7 +807,7 @@ class KinderenPage extends Page {
 		$('#kindModal, #verwijderKindModal, #pdfModal, #financieelModal').on('hidden', function(){
 			$('#btnNieuwKind').focus();
 		});
-	}); 
+	});
 </script>
 <?php
 

@@ -19,7 +19,7 @@ class Voogd extends Record{
 		$id = $this->getId();
 		$query->bindParam(':id', $id, PDO::PARAM_INT);
 		$query->execute();
-		return $query->fetch(PDO::FETCH_OBJ);		
+		return $query->fetch(PDO::FETCH_OBJ);
 	}
 	 protected function insert(){
 		$query = Database::getPDO()->prepare("INSERT INTO Voogd (Voornaam, Naam, Opmerkingen) VALUES (:voornaam, :naam, :opmerkingen)");
@@ -67,6 +67,16 @@ class Voogd extends Record{
 	 	if(isset($filter['VolledigeNaam'])){
 	 		$sql .= "AND (CONCAT(Naam, ' ', Voornaam) LIKE :volledige_naam ";
 			$sql .= " OR CONCAT(Voornaam, ' ', Naam) LIKE :volledige_naam2) ";
+	 	}else{
+	 		if(isset($filter['Naam'])){
+	 			$sql .= "AND Naam LIKE :naam ";
+	 		}
+			if(isset($filter['Voornaam'])){
+				$sql .= "AND Voornaam LIKE :voornaam ";
+			}
+			if(isset($filter['Id'])){
+				$sql .= "AND Id != :id ";
+			}
 	 	}
 		return $sql;
 	 }
@@ -75,9 +85,19 @@ class Voogd extends Record{
 			$tmp = '%'.$filter['VolledigeNaam'].'%';
 			$query->bindParam(':volledige_naam', $tmp, PDO::PARAM_STR);
 			$query->bindParam(':volledige_naam2', $tmp = '%'.$filter['VolledigeNaam'].'%', PDO::PARAM_STR);
+		}else{
+			if(isset($filter['Naam'])){
+				$query->bindValue(':naam', $filter['Naam']);
+			}
+			if(isset($filter['Voornaam'])){
+				$query->bindValue(':voornaam', $filter['Voornaam']);
+			}
+			if(isset($filter['Id'])){
+				$query->bindValue(':id', $filter['Id']);
+			}
 		}
 	}
-	 public static function getVoogden($filter, $max_amount){
+	 public static function getVoogden($filter, $max_amount=0){
 	 	$sql = "SELECT Id FROM Voogd WHERE 1 ";
 		$sql .= static::getFilterSQL($filter);
 		if(intval($max_amount)){

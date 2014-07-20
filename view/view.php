@@ -33,6 +33,21 @@ class View {
 				if(!isset($_GET['data']))
 					return;
 				switch($_GET['data']){
+					case 'voogdExists':
+						$filter = array();
+						if(isset($_REQUEST['Naam'])){
+							$filter['Naam'] = $_REQUEST['Naam'];
+						}
+						if(isset($_REQUEST['Voornaam'])){
+							$filter['Voornaam'] = $_REQUEST['Voornaam'];
+						}
+						if(isset($_REQUEST['Id'])){
+							$filter['Id'] = $_REQUEST['Id'];
+						}
+						$result = array();
+						$result['exists'] = count(Voogd::getVoogden($filter)) > 0;
+						echo json_encode($result);
+						break;
 					case 'kinderenTabel':
 						$filter = null;
 						if(isset($_REQUEST['filter'])){
@@ -123,7 +138,7 @@ class View {
 							$filter = $_REQUEST['filter'];
 						}
 						$order = array('Datum'=> 'asc');
-						
+
 						$uitstappen = Uitstap::getUitstappen($filter, $order);
 						foreach($uitstappen as $u){
 							$result['content'][]=$u->getJSONData();
@@ -196,7 +211,7 @@ class View {
 						$kind = $kindvoogd->getKind();
 						$voogden = $kind->getKindVoogden();
 						$result = array();
-						$result['Id']=$aanwezigheid->getId();						
+						$result['Id']=$aanwezigheid->getId();
 						$result['KindId']=$kind->getId();
 						$result['Geboortejaar']=$kind->getGeboortejaar();
 						$result['KindVolledigeNaam']=$kind->getVoornaam()." ".$kind->getNaam();
@@ -222,7 +237,7 @@ class View {
 								$result['Vorderingen'][] = $v->getJSONData();
 							}
 						}
-						
+
 						echo json_encode($result);
 						break;
 					case 'werkingenTabel':
@@ -358,7 +373,7 @@ class View {
 					if(isset($_REQUEST['KindId'])){
 						$kind_id = $_REQUEST['KindId'];
 					}
-					
+
 					$filter = array();
 					$filter['AanwezigheidZichtbaar']=true;
 					$uitstappen = Uitstap::getUitstappen($filter);
@@ -369,7 +384,7 @@ class View {
 						$o->Ingeschreven = false;
 						if($kind_id){
 							if($u->isIngeschreven($kind_id)){
-								$o->Ingeschreven=true;	
+								$o->Ingeschreven=true;
 							}
 						}
 						$result['content'][]=$o;
