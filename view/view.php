@@ -269,7 +269,7 @@ class View {
 						echo json_encode($voogd->getJSONData());
 						break;
 					case 'voogdenSuggesties':
-						$query = $_GET['query'];
+						$query = $_REQUEST['query'];
 						$result = array();
 						$result['content']=array();
 						$filter = array();
@@ -286,6 +286,29 @@ class View {
 								}
 							}
 						}
+						$resulting_voogden = array();
+						foreach($voogden as $v){
+							$good = true;
+							foreach($resulting_voogden as $rv){
+								if($rv->getId() == $v->getId()){
+									$good = false;
+									break;
+								}
+							}
+							if(isset($_REQUEST['current_voogden'])){
+								foreach($_REQUEST['current_voogden'] as $vid){
+									if(intval($vid) == $v->getId()){
+										$good = false;
+										break;
+									}
+								}
+							}
+							if(!$good){
+								continue;
+							}
+							$resulting_voogden[] = $v;
+						}
+						$voogden = $resulting_voogden;
 						foreach($voogden as $v){
 							$kinderen_string = "";
 							$kinderen = $v->getKinderen();

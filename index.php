@@ -8,6 +8,7 @@ if(!$coming_from_public_html){
 require_once(dirname(__FILE__)."/model/model.php");
 require_once(dirname(__FILE__)."/controller/controller.php");
 require_once(dirname(__FILE__)."/view/view.php");
+//Log::writeLog("request", json_encode($_REQUEST));
 $model = new Model();
 $controller = new Controller($model);
 $view = new View($controller, $model);

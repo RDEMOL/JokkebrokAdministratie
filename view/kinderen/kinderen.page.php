@@ -422,12 +422,22 @@ class KinderenPage extends Page {
 		});
 		var kinderen_tabel;
 		var suggesties = new Bloodhound({
-			datumTokenizer : function(d) {
+			datumTokenizer : function(d){
 				return Bloodhound.tokenizers.whitespace(d.value);
 			},
-			queryTokenizer : Bloodhound.tokenizers.whitespace,
+			queryTokenizer: Bloodhound.tokenizers.whitespace,
 			remote : {
-				url : 'index.php?action=data&data=voogdenSuggesties&query=%QUERY',
+				url : 'index.php?action=data&data=voogdenSuggesties',
+				replace : function(url, query){
+					var data = new Object();
+					data.query = query;
+					data.current_voogden = new Array();
+					$('ul#lstVoogden li').each(function(){
+						data.current_voogden.push($(this).find('input[name="Id"]').val());
+					});
+					var target_url = url+"&"+$.param(data);
+					return target_url;
+				},
 				filter : function(kind) {
 					return $.map(kind.content, function(v) {
 						return {
