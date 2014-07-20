@@ -7,6 +7,7 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 			this.kolommen[i].setParent(this);
 		}
 		this.data = new Array();
+		this.rows_loaded = 0;
 		this.tabelBody = $('<tbody>');
 		this.filter = new Object();
 		this.tabelElement = null;
@@ -14,11 +15,14 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 		this.sorting_settings = new Array();
 		this.rij_styler = null;
 	};
+	Tabel.default_rows_per_time = 20;
 	Tabel.prototype.setUp = function(tabelElement){
 		this.tabelElement = tabelElement;
 		this.tabelElement.empty();
 		this.tabelElement.append(this.getTHead());
 		this.tabelBody = $('<tbody>');
+		this.next_rows_element = null;
+		this.rows_loaded = 0;
 		this.tabelElement.append(this.tabelBody);
 		this.updateBody();
 	};
@@ -37,12 +41,18 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 		if(!this.tabelElement){
 			return;
 		}
+		//var start_time = window.performance.now();
 		var data = new Object();
+		this.rows_loaded = 0;
 		data.filter = this.filter;
 		data.order = this.getSort();
 		$.post(this.url, data, function(res){
+			//var data_received_time = window.performance.now();
+			//console.log("Total time to receive data: "+(data_received_time-start_time)+" ms.");
 			self.data = JSON.parse(res).content;
 			self.updateBody();
+			//var end_time = window.performance.now();
+			//console.log("Total time elapsed: "+(end_time-start_time)+ " ms.");
 		});
 	};
 	Tabel.prototype.getTHead = function(){
@@ -66,21 +76,50 @@ define(['tabel/kolom', 'tabel/rij'], function(Kolom, Rij){
 		this.tabelElement.append(this.tabelBody);
 		this.updateBody();
 	};
+	Tabel.prototype.load_next_row = function(index){
+		var rij = new Rij(this.data[index], this);
+		if(this.getRowClickListener()){
+			rij.setRowClickListener(this.getRowClickListener());
+		}
+		var tr = rij.getElement();
+		if(this.getRijStyler()){
+			(this.getRijStyler())(tr, this.data[index]);
+		}
+		this.tabelBody.append(tr);
+		this.rows_loaded++;
+	};
+	Tabel.prototype.load_next_rows = function(amount){
+		var self = this;
+		var start = this.rows_loaded;
+		var end = Math.min(this.rows_loaded + amount, this.data.length);
+		if(this.next_rows_element != null){
+			this.next_rows_element.remove();
+			this.next_rows_element = null;
+		}
+		for(var i = this.rows_loaded; i < end; ++i){
+			this.load_next_row(i);
+		}
+		if(this.rows_loaded < this.data.length){
+			this.next_rows_element = $('<tr>').append(
+				$('<td>')
+					.text('Klik voor de volgende rijen data...')
+					.css('text-align', 'center')
+					.click(function(){
+						console.log("klik");
+						self.load_next_rows(Tabel.default_rows_per_time);
+					})
+					.attr('colspan', this.kolommen.length)
+			);
+			this.tabelBody.append(this.next_rows_element);
+		}
+	};
 	Tabel.prototype.updateBody = function(){
 		this.tabelBody.empty();
+		this.rows_loaded = 0;
 		if(!this.data)
 			return;
-		for(var i = 0; i < this.data.length; ++i){
-			var rij = new Rij(this.data[i], this);
-			if(this.getRowClickListener()){
-				rij.setRowClickListener(this.getRowClickListener());
-			}
-			var tr = rij.getElement();
-			if(this.getRijStyler()){
-				(this.getRijStyler())(tr, this.data[i]);
-			}
-			this.tabelBody.append(tr);
-		}
+		this.load_next_rows(Tabel.default_rows_per_time);
+		
 	};
 	Tabel.prototype.getRowClickListener = function(){
 		return this.row_click_listener;
