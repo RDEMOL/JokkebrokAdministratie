@@ -555,7 +555,7 @@ class KinderenPage extends Page {
 				}
 			}, "json");
 		});
-		var pdf_fields = new Array('Geboortejaar', 'Belangrijk', 'Werking');
+		var pdf_fields = new Array('Geboortejaar', 'Belangrijk', 'Werking','Aanwezigheden');
 		var pdf_fields_default = new Array('Voornaam', 'Naam');
 		$('#btnPDFModal').click(function() {
 			$('#pdfSelectedFields').empty().unbind('sortupdate');
@@ -639,6 +639,17 @@ class KinderenPage extends Page {
 						laad_financien_modal(data);
 					})).append('&nbsp;');
 				}
+
+				var aanwezigheden_string = "";
+				for(var i = 0; i < data['Aanwezigheden'].length; ++i){
+					console.log("hier");
+					aanwezigheden_string += "Voogd '"+data['Aanwezigheden'][i]['Voogd']+"': "+data['Aanwezigheden'][i]['Aanwezigheden']+ " dagen aanwezig.\n";
+				}
+				console.log("aanwezigheden string = "+aanwezigheden_string);
+				console.log("aanwezigheden length = "+data['Aanwezigheden'].length);
+				td.append($('<a>').attr({
+					'data-original-title':aanwezigheden_string
+				}).append($('<span>').addClass('glyphicon glyphicon-envelope')).tooltip()).append('&nbsp;');
 				return td;
 			}));
 			var controls = new Array();

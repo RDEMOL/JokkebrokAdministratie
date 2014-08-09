@@ -68,7 +68,7 @@ class Kind extends Record{
 	}
 	protected static function getFilterJoinsSQL($filter){
 		$sql = "";
-		
+
 		return $sql;
 	}
 	protected static function getFilterSQL($filter){
@@ -84,7 +84,7 @@ class Kind extends Record{
 			$sql .= "AND Geboortejaar = :geboortejaar ";
 		}
 		if(isset($filter['Belangrijk'])){
-			$sql .= "AND Belangrijk <> '' ";	
+			$sql .= "AND Belangrijk <> '' ";
 		}
 		return $sql;
 	}
@@ -208,7 +208,7 @@ class Kind extends Record{
 			$v = new Voogd($data);
 			$v->updateDatabase();
 			$this->addVoogd($v->getId());
-			return true;	
+			return true;
 		}
 		$all_succeeded = true;
 		$current_voogden = $this->getKindVoogden();
@@ -245,7 +245,16 @@ class Kind extends Record{
 		$obj = $query->fetch(PDO::FETCH_OBJ);
 		$obj->VoogdenIds = $this->getVoogdenIds();
 		$obj->Schulden = $this->getHeeftSchulden();
-		return $obj; 
+		$obj->Aanwezigheden = array();
+		$kindvoogden = $this->getKindVoogden();
+		foreach($kindvoogden as $kv){
+			$voogd = $kv->getVoogd();
+			$data = array();
+			$data['Voogd'] = $voogd->getVoornaam()." ".$voogd->getNaam();
+			$data['Aanwezigheden'] = $kv->getAantalAanwezigheden();
+			$obj->Aanwezigheden[] = $data;
+		}
+		return $obj;
 	}
 	public function getUitstapDeelnames($filter=null){
 		if($filter == null){

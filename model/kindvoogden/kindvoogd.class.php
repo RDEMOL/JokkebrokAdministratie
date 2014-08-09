@@ -58,7 +58,7 @@ class KindVoogd extends Record{
 		$query->bindParam(':id', $id, PDO::PARAM_INT);
 		$query->execute();
 		$obj = $query->fetch(PDO::FETCH_OBJ);
-		return $obj; 
+		return $obj;
 	}
 	public function getVorderingen(){
 		$filter = array('KindVoogd'=>$this->Id);
@@ -95,6 +95,13 @@ class KindVoogd extends Record{
 		$filter = array('KindVoogd'=> $this->getId());
 		$aanwezigheden = Aanwezigheid::getAanwezigheden($filter);
 		return $aanwezigheden;
+	}
+	public function getAantalAanwezigheden(){
+		$sql = "SELECT COUNT(DISTINCT Datum) FROM Aanwezigheid WHERE KindVoogd = :kind_voogd_id";
+		$query = Database::getPDO()->prepare($sql);
+		$query->bindParam(':kind_voogd_id', $this->Id, PDO::PARAM_INT);
+		$res = $query->execute();
+		return $query->fetchColumn(0);
 	}
 }
 ?>
