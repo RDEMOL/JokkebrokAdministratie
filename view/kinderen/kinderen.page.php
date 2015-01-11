@@ -391,33 +391,28 @@ class KinderenPage extends Page {
 			data.Voornaam = $('#voogdForm input[name=Voornaam]').val();
 			data.Opmerkingen = $('#voogdForm textarea[name=Opmerkingen]').val();
 			if($.get('index.php?action=data&data=voogdExists', data, function(resp){
-				console.log("got: "+resp);
-				try{
-					resp = JSON.parse(resp);
-					if(resp.exists){
-						good = window.confirm('Er bestaat al een voogd met dezelfde naam en voornaam. Bent u zeker dat het over een andere voogd gaat? Indien u denkt dat het over dezelfde voogd gaat, klik dan op "Annuleren" en voeg de voogd toe via "Bestaande voogd toevoegen".');
-					}
-					if(good){
-						$.post('index.php?action=updateVoogd', data, function(resp) {
-							try {
-								resp = JSON.parse(resp);
-								if ($('#voogdForm input[name=Add]').val() == '1') {
-									voeg_voogd_toe(resp.Id);
-								} else {
-									update_voogd(resp.Id);
-								}
-							} catch(err) {
-								console.log("error updating voogd: " + resp);
-							}
-							$('#voogdModal').modal('hide');
-						});
-					}else{
-						$('#voogdModal').modal('hide');
-					}
-				}catch(err){
-					console.log("error finding out whether voogd exists: "+resp);
+				var good = true;
+				if(resp.exists){
+					good = window.confirm('Er bestaat al een voogd met dezelfde naam en voornaam. Bent u zeker dat het over een andere voogd gaat? Indien u denkt dat het over dezelfde voogd gaat, klik dan op "Annuleren" en voeg de voogd toe via "Bestaande voogd toevoegen".');
 				}
-			}));
+				if(good){
+					$.post('index.php?action=updateVoogd', data, function(resp) {
+						try {
+							resp = JSON.parse(resp);
+							if ($('#voogdForm input[name=Add]').val() == '1') {
+								voeg_voogd_toe(resp.Id);
+							} else {
+								update_voogd(resp.Id);
+							}
+						} catch(err) {
+							console.log("error updating voogd: " + resp);
+						}
+						$('#voogdModal').modal('hide');
+					});
+				}else{
+					$('#voogdModal').modal('hide');
+				}
+			}, "json"));
 
 		});
 		var kinderen_tabel;
