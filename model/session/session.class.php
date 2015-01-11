@@ -1,4 +1,7 @@
 <?php
+require_once(dirname(__FILE__)."/../../helpers/database/database.php");
+
+
 class Session {
 	private $logged_in, $username;
 	public function __construct($model) {
@@ -21,7 +24,7 @@ class Session {
 		if(!isset($data['username']) || !isset($data['password'])) {
 			return false;
 		}
-		if($data['username'] == 'ijsjesop1stok' && $data['password'] == 'rakettenop2') {
+		if($user_id = Session::checkCredentials($data['username'], $data['password'])){
 			$this->setLoggedIn(true);
 			$this->setUsername($data['username']);
 			return true;
@@ -46,6 +49,21 @@ class Session {
 	public function logout() {
 		$this->setLoggedIn(false);
 		return true;
+	}
+
+	public static function checkCredentials($username, $password){
+		$query = Database::getPDO()->prepare("SELECT Id, Password FROM Users WHERE Username=:username");
+		$query->bindParam(':username', $username, PDO::PARAM_STR);
+		$query->execute();
+		$res = $query->fetch(PDO::FETCH_OBJ);
+		if($res === FALSE){
+			return null;
+		}else{
+			if(!password_verify($password, $res->Password)){
+				return null;
+			}
+			return $res->Id;
+		}
 	}
 
 }
