@@ -48,6 +48,17 @@ class View {
 						$result['exists'] = count(Voogd::getVoogden($filter)) > 0;
 						echo json_encode($result);
 						break;
+					case 'voogdKinderenTabel':
+						$voogd_id = $_REQUEST['voogdId'];
+						$voogd = new Voogd($voogd_id);
+						$kinderen = $voogd->getKinderen();
+						$result = array();
+						$result['content'] = array();
+						foreach($kinderen as $k){
+							$result['content'][] = $k->getJSONData();
+						}
+						echo json_encode($result);
+						break;
 					case 'kinderenTabel':
 						$filter = null;
 						if(isset($_REQUEST['filter'])){

@@ -45,6 +45,9 @@ class KinderenPage extends Page {
 		margin: 0;
 	}
 </style>
+		<?php
+include(dirname(__FILE__)."/../voogden/voogd.modal.php");
+		?>
 <div class="modal fade" id="uitstappenModal" tabindex="-1" role="dialog" aria-labelledby="uitstappenModal">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
