@@ -73,7 +73,7 @@ HERE;
                 $werking = $filter['Werking'];
             }
         }
-
+        include(dirname(__FILE__)."/../voogden/voogd.modal.php");
         ?>
         <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModal">
             <div class="modal-dialog">
@@ -344,7 +344,7 @@ HERE;
                     $('input[name="Datum"]').datepicker('hide');
                 });
             });
-            require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'validator'], function (Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, Validator, require) {
+            require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener', 'validator'], function (Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, Validator, require) {
                 $('#aanwezigheidModal').on('shown', function () {
 //	   $('input:text:visible').next().focus();
                     if ($('input[name=VolledigeNaamKind]').val() == "") {
@@ -538,6 +538,11 @@ HERE;
                 belangrijk.value = "BelangrijkOpmerkingen";
                 andere_opties.push(belangrijk);
                 filter_velden.push(new FilterVeld('Andere', 1, 'select', {options: andere_opties}));
+                t.setRowClickListener(new RowClickListener(function(rij){
+                        var data = rij.getData();
+                        laad_voogd_overzicht(data.VoogdId);
+                    }
+                ));
                 t.setFilterRij(new FilterRij(filter_velden, t));
                 t.setUp($('#aanwezigheden_tabel'));
                 $(document).ready(function () {

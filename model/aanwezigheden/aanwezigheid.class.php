@@ -40,7 +40,8 @@ class Aanwezigheid extends Record{
 	protected function delete(){
 		/*if(count($this->getExtraatjes()) > 0 || count($this->getVorderingen()) > 0){
 			return false;
-		}*/		$extraatjes = $this->getExtraatjeAanwezigheden();
+		}*/
+		$extraatjes = $this->getExtraatjeAanwezigheden();
 		foreach($extraatjes as $ea){
 			$ea->deleteFromDatabase();
 		}
@@ -221,6 +222,7 @@ class Aanwezigheid extends Record{
 		$query->bindParam(':id', $id, PDO::PARAM_INT);
 		$query->execute();
 		$aanwezigheid = $query->fetch(PDO::FETCH_OBJ);
+		$aanwezigheid->VoogdId = $this->getKindVoogd()->getVoogdId();
 		$aanwezigheid->Extraatjes = array();
 		$extraatjes = $this->getExtraatjes();
 		$aanwezigheid->Schulden = $this->getKindVoogd()->getSaldo();

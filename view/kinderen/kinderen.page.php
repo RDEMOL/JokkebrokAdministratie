@@ -349,7 +349,7 @@ class KinderenPage extends Page
             <table class="table table-striped table-bordered table-condensed" id="kinderen_tabel"></table>
         </div>
         <script>
-            require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'validator'], function (Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, Validator, require) {
+            require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener', 'validator'], function (Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, Validator, require) {
                 var uitstappen_tabel = null;
 
                 function laad_kind_uitstappen(kind_data) {
@@ -733,6 +733,11 @@ class KinderenPage extends Page
                         options: andere_filters
                     }));
                     kinderen_tabel.setFilterRij(new FilterRij(filter_velden, kinderen_tabel));
+                    kinderen_tabel.setRowClickListener(new RowClickListener(function(rij){
+                            var data = rij.getData();
+                            laad_voogd_overzicht()
+                        }
+                    ));
                     kinderen_tabel.setUp($('#kinderen_tabel'));
                     kinderen_tabel.laadTabel();
                 }

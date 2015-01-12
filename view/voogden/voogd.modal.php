@@ -28,7 +28,7 @@
 
         var voogd_kinderen_tabel;
 
-        window.laad_voogd = function (voogd_id) {
+        window.laad_voogd_overzicht = function (voogd_id) {
             $('#voogdDetailsModal').modal('show');
             laad_voogd_kinderen_tabel(voogd_id);
         };
