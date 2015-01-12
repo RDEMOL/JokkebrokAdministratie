@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 12, 2015 at 02:34 AM
+-- Generation Time: Jan 12, 2015 at 11:31 PM
 -- Server version: 5.5.40-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.5
 
@@ -51,7 +51,8 @@ CREATE TABLE IF NOT EXISTS `Betaling` (
   `Bedrag` decimal(10,2) NOT NULL,
   `Opmerking` text NOT NULL,
   `Datum` date NOT NULL,
-  PRIMARY KEY (`Id`)
+  PRIMARY KEY (`Id`),
+  KEY `KindVoogd` (`KindVoogd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -76,7 +77,9 @@ CREATE TABLE IF NOT EXISTS `ExtraatjeAanwezigheid` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Aanwezigheid` int(11) NOT NULL,
   `Extraatje` int(11) NOT NULL,
-  PRIMARY KEY (`Id`)
+  PRIMARY KEY (`Id`),
+  KEY `Aanwezigheid` (`Aanwezigheid`),
+  KEY `Extraatje` (`Extraatje`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=947 ;
 
 -- --------------------------------------------------------
@@ -92,8 +95,9 @@ CREATE TABLE IF NOT EXISTS `Kind` (
   `Geboortejaar` year(4) NOT NULL,
   `DefaultWerking` int(11) NOT NULL,
   `Belangrijk` text NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=428 ;
+  PRIMARY KEY (`Id`),
+  KEY `DefaultWerking` (`DefaultWerking`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=429 ;
 
 -- --------------------------------------------------------
 
@@ -107,8 +111,9 @@ CREATE TABLE IF NOT EXISTS `KindVoogd` (
   `Voogd` int(11) NOT NULL,
   `Saldo` decimal(10,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `Kind` (`Kind`,`Voogd`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=499 ;
+  UNIQUE KEY `Kind` (`Kind`,`Voogd`),
+  KEY `Voogd` (`Voogd`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=498 ;
 
 -- --------------------------------------------------------
 
@@ -122,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `Log` (
   `Title` text NOT NULL,
   `Value` text NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=42 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -150,7 +155,8 @@ CREATE TABLE IF NOT EXISTS `UitstapKind` (
   `Kind` int(11) NOT NULL,
   `Uitstap` int(11) NOT NULL,
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `Kind_Uitstap` (`Kind`,`Uitstap`)
+  UNIQUE KEY `Kind_Uitstap` (`Kind`,`Uitstap`),
+  KEY `Uitstap` (`Uitstap`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
 
 -- --------------------------------------------------------
@@ -192,7 +198,8 @@ CREATE TABLE IF NOT EXISTS `Vordering` (
   `Aanwezigheid` int(11) NOT NULL,
   `Bedrag` decimal(10,2) NOT NULL,
   `Opmerking` text NOT NULL,
-  PRIMARY KEY (`Id`)
+  PRIMARY KEY (`Id`),
+  KEY `Aanwezigheid` (`Aanwezigheid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -207,6 +214,56 @@ CREATE TABLE IF NOT EXISTS `Werking` (
   `Afkorting` text NOT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `Aanwezigheid`
+--
+ALTER TABLE `Aanwezigheid`
+  ADD CONSTRAINT `Aanwezigheid_ibfk_2` FOREIGN KEY (`Werking`) REFERENCES `Werking` (`Id`),
+  ADD CONSTRAINT `Aanwezigheid_ibfk_1` FOREIGN KEY (`KindVoogd`) REFERENCES `KindVoogd` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `Betaling`
+--
+ALTER TABLE `Betaling`
+  ADD CONSTRAINT `Betaling_ibfk_1` FOREIGN KEY (`KindVoogd`) REFERENCES `KindVoogd` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `ExtraatjeAanwezigheid`
+--
+ALTER TABLE `ExtraatjeAanwezigheid`
+  ADD CONSTRAINT `ExtraatjeAanwezigheid_ibfk_2` FOREIGN KEY (`Extraatje`) REFERENCES `Extraatje` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ExtraatjeAanwezigheid_ibfk_1` FOREIGN KEY (`Aanwezigheid`) REFERENCES `Aanwezigheid` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `Kind`
+--
+ALTER TABLE `Kind`
+  ADD CONSTRAINT `Kind_ibfk_1` FOREIGN KEY (`DefaultWerking`) REFERENCES `Voogd` (`Id`);
+
+--
+-- Constraints for table `KindVoogd`
+--
+ALTER TABLE `KindVoogd`
+  ADD CONSTRAINT `KindVoogd_ibfk_2` FOREIGN KEY (`Voogd`) REFERENCES `Voogd` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `KindVoogd_ibfk_1` FOREIGN KEY (`Kind`) REFERENCES `Kind` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `UitstapKind`
+--
+ALTER TABLE `UitstapKind`
+  ADD CONSTRAINT `UitstapKind_ibfk_2` FOREIGN KEY (`Uitstap`) REFERENCES `Uitstap` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `UitstapKind_ibfk_1` FOREIGN KEY (`Kind`) REFERENCES `Kind` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `Vordering`
+--
+ALTER TABLE `Vordering`
+  ADD CONSTRAINT `Vordering_ibfk_1` FOREIGN KEY (`Aanwezigheid`) REFERENCES `Aanwezigheid` (`Id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
