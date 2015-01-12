@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 13, 2015 at 12:47 AM
+-- Generation Time: Jan 13, 2015 at 12:50 AM
 -- Server version: 5.5.40-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.5
 
@@ -244,7 +244,7 @@ ALTER TABLE `ExtraatjeAanwezigheid`
 -- Constraints for table `Kind`
 --
 ALTER TABLE `Kind`
-  ADD CONSTRAINT `Kind_ibfk_1` FOREIGN KEY (`DefaultWerking`) REFERENCES `Voogd` (`Id`);
+  ADD CONSTRAINT `Kind_ibfk_1` FOREIGN KEY (`DefaultWerking`) REFERENCES `Werking` (`Id`);
 
 --
 -- Constraints for table `KindVoogd`
