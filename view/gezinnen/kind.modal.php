@@ -50,6 +50,7 @@
             var k = new Array();
             k.push(new Kolom('Voornaam', 'Voornaam', null, false));
             k.push(new Kolom('Naam', 'Naam', null, false));
+            k.push(new Kolom('Telefoon', 'Telefoon', null, false));
             k.push(new Kolom('Opmerkingen', 'Opmerkingen', null, false));
 
             kind_voogden_tabel = new Tabel('index.php?action=data&data=kindVoogdenTabel&KindId=' + kind_id, k);

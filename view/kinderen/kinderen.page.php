@@ -217,6 +217,10 @@ class KinderenPage extends Page
                                 <input type="text" name="Naam">
                             </div>
                             <div class="row">
+                                <label>Telefoonnummer: </label>
+                                <input type="text" name="Telefoon" />
+                            </div>
+                            <div class="row">
                                 <label>Opmerkingen: </label>
                                 <textarea name="Opmerkingen"></textarea>
                             </div>
@@ -373,6 +377,7 @@ class KinderenPage extends Page
                         $('#voogdForm input[name=VoogdId]').val(resp.Id);
                         $('#voogdForm input[name=Naam]').val(resp.Naam);
                         $('#voogdForm input[name=Voornaam]').val(resp.Voornaam);
+                        $('#voogdForm input[name=Telefoon]').val(resp.Telefoon);
                         $('#voogdForm textarea[name=Opmerkingen]').val(resp.Opmerkingen);
                         $('#voogdForm input[name=Add]').val('0');
                         $('#voogdModal').modal('show');
@@ -448,6 +453,7 @@ class KinderenPage extends Page
                     data.Naam = $('#voogdForm input[name=Naam]').val();
                     data.Voornaam = $('#voogdForm input[name=Voornaam]').val();
                     data.Opmerkingen = $('#voogdForm textarea[name=Opmerkingen]').val();
+                    data.Telefoon = $('#voogdForm input[name=Telefoon]').val();
                     if ($.get('index.php?action=data&data=voogdExists', data, function (resp) {
                             var good = true;
                             if (resp.exists) {

@@ -136,6 +136,7 @@ class Controller {
 					$data->Naam = $_REQUEST['Naam'];
 					$data->Voornaam = $_REQUEST['Voornaam'];
 					$data->Opmerkingen = $_REQUEST['Opmerkingen'];
+					$data->Telefoon = $_REQUEST['Telefoon'];
 					$voogd = new Voogd($data);
 					$voogd->updateDatabase();
 					$return_data = new stdClass();
