@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 20, 2014 at 10:46 PM
--- Server version: 5.5.38-0ubuntu0.14.04.1
--- PHP Version: 5.5.9-1ubuntu4.3
+-- Generation Time: Jan 12, 2015 at 02:34 AM
+-- Server version: 5.5.40-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `Kind` (
   `DefaultWerking` int(11) NOT NULL,
   `Belangrijk` text NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=426 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=428 ;
 
 -- --------------------------------------------------------
 
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `KindVoogd` (
   `Saldo` decimal(10,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Kind` (`Kind`,`Voogd`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=493 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=499 ;
 
 -- --------------------------------------------------------
 
@@ -156,6 +156,19 @@ CREATE TABLE IF NOT EXISTS `UitstapKind` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Users`
+--
+
+CREATE TABLE IF NOT EXISTS `Users` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Username` varchar(255) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Voogd`
 --
 
@@ -164,8 +177,9 @@ CREATE TABLE IF NOT EXISTS `Voogd` (
   `Naam` text NOT NULL,
   `Voornaam` text NOT NULL,
   `Opmerkingen` text NOT NULL,
+  `Telefoon` text NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=381 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=382 ;
 
 -- --------------------------------------------------------
 
