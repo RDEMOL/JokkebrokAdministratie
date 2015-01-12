@@ -108,7 +108,7 @@ if(!$this){
 		<div id="footer">
 			<div class="container">
 				<p class="text-muted text-center">
-					&copy; 2013-2014 Jokkebrok Administratie by Floris Kint &amp; Roderick Demol
+					&copy; 2013-2015 Jokkebrok Administratie by Floris Kint &amp; Roderick Demol
 				</p>
 				<p class="text-muted text-center">
 					<a href='?page=about'>About</a>
