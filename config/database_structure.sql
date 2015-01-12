@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 12, 2015 at 11:31 PM
+-- Generation Time: Jan 13, 2015 at 12:47 AM
 -- Server version: 5.5.40-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.5
 
@@ -35,9 +35,10 @@ CREATE TABLE IF NOT EXISTS `Aanwezigheid` (
   `MiddagNaarHuis` tinyint(1) NOT NULL DEFAULT '0',
   `LastChanged` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Id`),
+  UNIQUE KEY `KindVoogd` (`KindVoogd`,`Datum`),
   KEY `KindVoogdId_idx` (`KindVoogd`),
   KEY `WerkingId_idx` (`Werking`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1359 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1363 ;
 
 -- --------------------------------------------------------
 
@@ -97,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `Kind` (
   `Belangrijk` text NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `DefaultWerking` (`DefaultWerking`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=429 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=430 ;
 
 -- --------------------------------------------------------
 
@@ -113,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `KindVoogd` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Kind` (`Kind`,`Voogd`),
   KEY `Voogd` (`Voogd`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=498 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=499 ;
 
 -- --------------------------------------------------------
 
@@ -157,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `UitstapKind` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Kind_Uitstap` (`Kind`,`Uitstap`),
   KEY `Uitstap` (`Uitstap`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
 -- --------------------------------------------------------
 
@@ -223,8 +224,8 @@ CREATE TABLE IF NOT EXISTS `Werking` (
 -- Constraints for table `Aanwezigheid`
 --
 ALTER TABLE `Aanwezigheid`
-  ADD CONSTRAINT `Aanwezigheid_ibfk_2` FOREIGN KEY (`Werking`) REFERENCES `Werking` (`Id`),
-  ADD CONSTRAINT `Aanwezigheid_ibfk_1` FOREIGN KEY (`KindVoogd`) REFERENCES `KindVoogd` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `Aanwezigheid_ibfk_1` FOREIGN KEY (`KindVoogd`) REFERENCES `KindVoogd` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Aanwezigheid_ibfk_2` FOREIGN KEY (`Werking`) REFERENCES `Werking` (`Id`);
 
 --
 -- Constraints for table `Betaling`
