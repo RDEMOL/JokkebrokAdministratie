@@ -14,8 +14,8 @@ if(!$this){
 		<script data-main="js/main" src="./libs/require.js"></script>
 		<link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<link href="libs/bootstrap-datepicker/css/datepicker.css" rel="stylesheet">
-		<!--<link href="libs/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet">-->
 		<link href="libs/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet">
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 		<style type="text/css">
 			html, body {
 				height: 100%;

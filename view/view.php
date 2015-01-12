@@ -90,7 +90,6 @@ class View {
 							$order = $_REQUEST['order'];
 						}
 						if($filter['Andere']){
-							//echo $filter['Andere'];
 							if($filter['Andere']=='Schulden'){
 								$filter['Schulden']=true;
 							}else if($filter['Andere'] == 'Belangrijk'){

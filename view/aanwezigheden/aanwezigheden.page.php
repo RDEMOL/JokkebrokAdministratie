@@ -273,7 +273,6 @@ HERE;
                                 $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].KindVoogdId).text(kind.Voogden[i].VolledigeNaam));
                             }
                             $('select[name="WerkingId"]').val(kind.DefaultWerkingId);
-                            console.log("kind = " + JSON.stringify(kind));
                             for (var i = 0; i < kind.Uitstappen.length; ++i) {
                                 $('input[type=hidden][value=' + kind.Uitstappen[i] + ']').siblings('input[type=checkbox]').prop('checked', true);
                             }

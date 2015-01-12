@@ -733,7 +733,6 @@ class KinderenPage extends Page
                     kinderen_tabel.setFilterRij(new FilterRij(filter_velden, kinderen_tabel));
                     kinderen_tabel.setRowClickListener(new RowClickListener(function(rij){
                             var data = rij.getData();
-                            console.log(JSON.stringify(data));
                             laad_kind_overzicht(data.Id);
                         }
                     ));
