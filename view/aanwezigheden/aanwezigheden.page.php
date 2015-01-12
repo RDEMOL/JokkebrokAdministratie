@@ -308,7 +308,6 @@ HERE;
                                 switch (event.keyCode) {
                                     case 13:
                                     case 9:
-                                        console.log("tab");
                                         return true;
                                 }
                                 unloadKind();
@@ -323,7 +322,10 @@ HERE;
                     </script>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
-                        <button type="button" class="btn btn-primary" id="submitAanwezigheid">Opslaan</button>
+                        <button type="button" class="btn btn-default" id="submitAanwezigheid">Opslaan</button>
+                        <button type="button" class="btn btn-primary" id="submitAanwezigheidAndNext">Opslaan en volgende
+                            toevoegen
+                        </button>
                     </div>
                 </div>
             </div>
@@ -424,7 +426,6 @@ HERE;
                     $('#aanwezigheidModal').modal('show');
                 };
                 $('#btnNieuweVordering').unbind('click').click(function () {
-                    //TODO: working on this part
                     clearVorderingModal();
                     $('#vorderingModal').modal('show');
                     return false;
@@ -552,7 +553,11 @@ HERE;
                     t.laadTabel();
                 });
                 $('#submitAanwezigheid').click(function () {
-                    $('#aanwezigheidForm').submit();
+                    submitForm(false);
+                    return false;
+                });
+                $('#submitAanwezigheidAndNext').click(function () {
+                    submitForm(true);
                     return false;
                 });
                 $('#btnNieuweAanwezigheid').click(function () {
@@ -561,7 +566,7 @@ HERE;
                 function aanwezigheid_form_error(msg) {
                     alert(msg);
                 };
-                $('#aanwezigheidForm').submit(function () {
+                function submitForm(add_next){
                     var aanwezigheidId = $('#aanwezigheidForm input[name="AanwezigheidId"]').val();
                     var kindVoogdId = $('#aanwezigheidForm select[name="KindVoogdId"]').val();
                     var werking = $('#aanwezigheidForm select[name="WerkingId"]').val();
@@ -603,13 +608,20 @@ HERE;
                     $.post('?action=updateAanwezigheid', d, function (res) {
                         res = $.trim(res);
                         if (res == "1") {
-                            $('#aanwezigheidModal').modal('hide');
                             t.laadTabel();
+                            if(add_next){
+                                nieuwe_aanwezigheid();
+                            }else{
+                                $('#aanwezigheidModal').modal('hide');
+                            }
                         } else {
                             console.log("kind update mislukt, error code: '" + res + "'");
                         }
                     });
                     return false;
+                }
+                $('#aanwezigheidForm').submit(function () {
+                    return submitForm(false);
                 });
                 $('#btnVerwijderAanwezigheid').click(function () {
                     $.post('index.php?action=removeAanwezigheid', $('#verwijderAanwezigheidForm').serialize(), function (res) {
