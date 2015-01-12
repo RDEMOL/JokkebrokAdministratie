@@ -10,6 +10,7 @@ define(function(){
 			.addClass(this.className)
 			.click(function(e){
 				self.handler(data);
+				return false;
 			});
 		return el;
 	};
