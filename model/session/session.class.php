@@ -1,4 +1,5 @@
 <?php
+require_once(dirname(__FILE__)."/../../libs/phpPasswordHashingLib/passwordLib.php");
 require_once(dirname(__FILE__)."/../../helpers/database/database.php");
 
 
