@@ -6,11 +6,10 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     &times;
                 </button>
-                <h4 class="modal-title" id="voogdModalTitle">Voogd overzicht</h4>
+                <h4 id="voogdNaam" class="modal-title"></h4>
             </div>
             <div class="modal-body">
-                <h1 id="voogdNaam"></h1>
-                <h2>Kinderen</h2>
+                <b>Kinderen</b><br>
                 <table id="voogd_kinderen_tabel" class="table-bordered table-striped table">
 
                 </table>
@@ -36,12 +35,12 @@
         };
         function laad_voogd_details(voogd_id){
             $.get("?action=data&data=voogd&VoogdId="+voogd_id, function(res){
-                $("h1#voogdNaam").text(res.Voornaam+ " " + res.Naam);
+                $("h4#voogdNaam").text("Gezin: "+res.Voornaam+ " " + res.Naam);
             }, "json");
         }
         function empty_fields(){
             $('#voogd_kinderen_tabel').empty();
-            $('h1#voogdNaam').text('');
+            $('h4#voogdNaam').text('');
         }
 
         function laad_voogd_kinderen_tabel(voogd_id) {

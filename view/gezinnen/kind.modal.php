@@ -6,11 +6,11 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     &times;
                 </button>
-                <h4 class="modal-title" id="voogdModalTitle">Kind overzicht</h4>
+                <h4 id="kindNaam" class="modal-title"></h4>
             </div>
             <div class="modal-body">
-                <h1 id="kindNaam"></h1>
-                <h2>Voogden</h2>
+
+                <b>Voogden</b><br>
                 <table id="kind_voogden_tabel" class="table-bordered table-striped table">
 
                 </table>
@@ -37,12 +37,12 @@
 
         function empty_fields(){
             $("#kind_voogden_tabel").empty();
-            $('h1#kindNaam').text('');
+            $('h4#kindNaam').text('');
         }
 
         function laad_kind_details(kind_id){
             $.get("?action=data&data=kind&KindId="+kind_id, function(res){
-                $('#kindNaam').text(res.Voornaam + " " +res.Naam);
+                $('h4#kindNaam').text(res.Voornaam + " " +res.Naam);
             }, "json");
         }
 
