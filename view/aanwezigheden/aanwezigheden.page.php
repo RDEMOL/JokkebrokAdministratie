@@ -73,7 +73,8 @@ HERE;
                 $werking = $filter['Werking'];
             }
         }
-        include(dirname(__FILE__)."/../voogden/voogd.modal.php");
+        include(dirname(__FILE__) . "/../gezinnen/voogd.modal.php");
+        include(dirname(__FILE__) . "/../gezinnen/kind.modal.php");
         ?>
         <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModal">
             <div class="modal-dialog">

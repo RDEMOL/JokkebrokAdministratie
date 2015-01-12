@@ -33,6 +33,16 @@ class View {
 				if(!isset($_GET['data']))
 					return;
 				switch($_GET['data']){
+					case 'kind':
+						$kindId = $_REQUEST['KindId'];
+						$kind = new Kind($kindId);
+						echo json_encode($kind->getJSONData());
+						break;
+					case 'voogd':
+						$voogdId = $_REQUEST['VoogdId'];
+						$voogd = new Voogd($voogdId);
+						echo json_encode($voogd->getJSONData());
+						break;
 					case 'voogdExists':
 						$filter = array();
 						if(isset($_REQUEST['Naam'])){
@@ -49,13 +59,24 @@ class View {
 						echo json_encode($result);
 						break;
 					case 'voogdKinderenTabel':
-						$voogd_id = $_REQUEST['voogdId'];
+						$voogd_id = $_REQUEST['VoogdId'];
 						$voogd = new Voogd($voogd_id);
 						$kinderen = $voogd->getKinderen();
 						$result = array();
 						$result['content'] = array();
 						foreach($kinderen as $k){
 							$result['content'][] = $k->getJSONData();
+						}
+						echo json_encode($result);
+						break;
+					case 'kindVoogdenTabel':
+						$kind_id = $_REQUEST['KindId'];
+						$kind = new Kind($kind_id);
+						$kindvoogden = $kind->getKindVoogden();
+						$result = array();
+						$result['content'] = array();
+						foreach($kindvoogden as $k){
+							$result['content'][] = $k->getVoogd()->getJSONData();
 						}
 						echo json_encode($result);
 						break;

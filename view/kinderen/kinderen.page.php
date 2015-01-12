@@ -58,7 +58,8 @@ class KinderenPage extends Page
             }
         </style>
         <?php
-        include(dirname(__FILE__) . "/../voogden/voogd.modal.php");
+        include(dirname(__FILE__) . "/../gezinnen/voogd.modal.php");
+        include(dirname(__FILE__) . "/../gezinnen/kind.modal.php");
         ?>
         <div class="modal fade" id="uitstappenModal" tabindex="-1" role="dialog" aria-labelledby="uitstappenModal">
             <div class="modal-dialog">
@@ -694,11 +695,8 @@ class KinderenPage extends Page
 
                         var aanwezigheden_string = "";
                         for (var i = 0; i < data['Aanwezigheden'].length; ++i) {
-                            console.log("hier");
                             aanwezigheden_string += "Voogd '" + data['Aanwezigheden'][i]['Voogd'] + "': " + data['Aanwezigheden'][i]['Aanwezigheden'] + " dagen aanwezig.\n";
                         }
-                        console.log("aanwezigheden string = " + aanwezigheden_string);
-                        console.log("aanwezigheden length = " + data['Aanwezigheden'].length);
                         td.append($('<a>').attr({
                             'data-original-title': aanwezigheden_string
                         }).append($('<span>').addClass('glyphicon glyphicon-envelope')).tooltip()).append('&nbsp;');
@@ -735,7 +733,8 @@ class KinderenPage extends Page
                     kinderen_tabel.setFilterRij(new FilterRij(filter_velden, kinderen_tabel));
                     kinderen_tabel.setRowClickListener(new RowClickListener(function(rij){
                             var data = rij.getData();
-                            laad_voogd_overzicht()
+                            console.log(JSON.stringify(data));
+                            laad_kind_overzicht(data.Id);
                         }
                     ));
                     kinderen_tabel.setUp($('#kinderen_tabel'));
