@@ -208,7 +208,7 @@ HERE;
                                 <br>
 
                                 <div id="VorderingenDiv">
-                                    <button id="btnNieuweVordering" class="btn btn-default">Nieuwe Vordering</button>
+                                    <button id="btnNieuweVordering" class="btn btn-default" type="button">Nieuwe Vordering</button>
                                     <ul id="lstVorderingen"></ul>
                                 </div>
                             </div>
@@ -218,7 +218,7 @@ HERE;
             </div>
             <style type="text/css">
                 /*adapted from typeahead examples*/
-                typeahead, .tt-query, .tt-hint {
+                .typeahead, .tt-query, .tt-hint {
                     border-radius: 8px 8px 8px 8px;
                     padding: 8px 12px;
                     width: 396px;
@@ -308,13 +308,14 @@ HERE;
                         switch (event.keyCode) {
                             case 13:
                             case 9:
+                                console.log("tab");
                                 return true;
                         }
                         unloadKind();
                     }).typeahead(null, {
                         displayKey: 'display_value',
                         source: suggesties.ttAdapter()
-                    }).bind('typeahead:selected', function (obj, kind, dataset_name) {
+                    }).bind('typeahead:autocompleted typeahead:selected', function (obj, kind, dataset_name) {
                         loadKind(kind);
                     });
                     $('#aanwezigheidForm .tt-hint').addClass('form-control');

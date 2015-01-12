@@ -14,7 +14,7 @@ class KinderenPage extends Page
         ?>
         <style type="text/css">
             /*adapted from typeahead examples*/
-            typeahead, .tt-query, .tt-hint {
+            .typeahead, .tt-query, .tt-hint {
                 border-radius: 8px 8px 8px 8px;
                 padding: 8px 12px;
                 width: 396px;
