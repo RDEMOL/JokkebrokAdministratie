@@ -208,122 +208,124 @@ HERE;
                                 <br>
 
                                 <div id="VorderingenDiv">
-                                    <button id="btnNieuweVordering" class="btn btn-default" type="button">Nieuwe Vordering</button>
+                                    <button id="btnNieuweVordering" class="btn btn-default" type="button">Nieuwe
+                                        Vordering
+                                    </button>
                                     <ul id="lstVorderingen"></ul>
                                 </div>
                             </div>
                         </form>
                     </div>
+                    <style type="text/css">
+                        /*adapted from typeahead examples*/
+                        .typeahead, .tt-query, .tt-hint {
+                            border-radius: 8px 8px 8px 8px;
+                            padding: 8px 12px;
+                            width: 396px;
+                        }
+
+                        .typeahead {
+                            background-color: #FFFFFF;
+                        }
+
+                        .tt-query {
+                            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+                        }
+
+                        .tt-hint {
+                            color: #999999;
+                        }
+
+                        .tt-dropdown-menu {
+                            background-color: #FFFFFF;
+                            border: 1px solid rgba(0, 0, 0, 0.2);
+                            border-radius: 8px 8px 8px 8px;
+                            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                            padding: 8px 0;
+                            width: 422px;
+                        }
+
+                        .tt-suggestion {
+                            line-height: 24px;
+                            padding: 3px 20px;
+                        }
+
+                        .tt-suggestion.tt-cursor {
+                            background-color: #0097CF;
+                            color: #FFFFFF;
+                            cursor: pointer;
+                        }
+
+                        .tt-suggestion p {
+                            margin: 0;
+                        }
+                    </style>
+                    <script>
+                        $(document).ready(function (e) {
+                            function loadKind(kind) {
+                                $('input[name="KindId"]').val(kind.Id);
+                                $('select[name="KindVoogdId"]').empty();
+                                $('textarea[name="OpmerkingId"]').empty();
+                                $('input[type=checkbox]').removeAttr('checked');
+                                $('ul#lstVorderingen').empty();
+                                if (kind.Id != 0) {
+                                    for (var i = 0; i < kind.Voogden.length; ++i) {
+                                        $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].KindVoogdId).text(kind.Voogden[i].VolledigeNaam));
+                                    }
+                                    $('select[name="WerkingId"]').val(kind.DefaultWerkingId);
+                                    for (var i = 0; i < kind.Uitstappen.length; ++i) {
+                                        $('input[type=hidden][value=' + kind.Uitstappen[i] + ']').siblings('input[type=checkbox]').prop('checked', true);
+                                    }
+                                }
+                            };
+                            function unloadKind(kind) {
+                                var d = new Object();
+                                d.Id = 0;
+                                loadKind(d);
+                            };
+                            var suggesties = new Bloodhound({
+                                datumTokenizer: function (d) {
+                                    return Bloodhound.tokenizers.whitespace(d.value);
+                                },
+                                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                                remote: {
+                                    url: 'index.php?action=data&data=kinderenSuggesties&query=%QUERY',
+                                    filter: function (kind) {
+                                        return $.map(kind.content, function (k) {
+                                            return {
+                                                'display_value': (k.Voornaam + " " + k.Naam),
+                                                'Id': k.Id,
+                                                'Voogden': k.Voogden,
+                                                'DefaultWerkingId': k.DefaultWerkingId,
+                                                'Uitstappen': k.Uitstappen
+                                            };
+                                        });
+                                    }
+                                }
+                            });
+                            suggesties.initialize();
+                            $('input[name="VolledigeNaamKind"]').keydown(function (event) {
+                                switch (event.keyCode) {
+                                    case 13:
+                                    case 9:
+                                        console.log("tab");
+                                        return true;
+                                }
+                                unloadKind();
+                            }).typeahead(null, {
+                                displayKey: 'display_value',
+                                source: suggesties.ttAdapter()
+                            }).bind('typeahead:autocompleted typeahead:selected', function (obj, kind, dataset_name) {
+                                loadKind(kind);
+                            });
+                            $('#aanwezigheidForm .tt-hint').addClass('form-control');
+                        });
+                    </script>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+                        <button type="button" class="btn btn-primary" id="submitAanwezigheid">Opslaan</button>
+                    </div>
                 </div>
-            </div>
-            <style type="text/css">
-                /*adapted from typeahead examples*/
-                .typeahead, .tt-query, .tt-hint {
-                    border-radius: 8px 8px 8px 8px;
-                    padding: 8px 12px;
-                    width: 396px;
-                }
-
-                .typeahead {
-                    background-color: #FFFFFF;
-                }
-
-                .tt-query {
-                    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-                }
-
-                .tt-hint {
-                    color: #999999;
-                }
-
-                .tt-dropdown-menu {
-                    background-color: #FFFFFF;
-                    border: 1px solid rgba(0, 0, 0, 0.2);
-                    border-radius: 8px 8px 8px 8px;
-                    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-                    padding: 8px 0;
-                    width: 422px;
-                }
-
-                .tt-suggestion {
-                    line-height: 24px;
-                    padding: 3px 20px;
-                }
-
-                .tt-suggestion.tt-cursor {
-                    background-color: #0097CF;
-                    color: #FFFFFF;
-                    cursor: pointer;
-                }
-
-                .tt-suggestion p {
-                    margin: 0;
-                }
-            </style>
-            <script>
-                $(document).ready(function (e) {
-                    function loadKind(kind) {
-                        $('input[name="KindId"]').val(kind.Id);
-                        $('select[name="KindVoogdId"]').empty();
-                        $('textarea[name="OpmerkingId"]').empty();
-                        $('input[type=checkbox]').removeAttr('checked');
-                        $('ul#lstVorderingen').empty();
-                        if (kind.Id != 0) {
-                            for (var i = 0; i < kind.Voogden.length; ++i) {
-                                $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].KindVoogdId).text(kind.Voogden[i].VolledigeNaam));
-                            }
-                            $('select[name="WerkingId"]').val(kind.DefaultWerkingId);
-                            for (var i = 0; i < kind.Uitstappen.length; ++i) {
-                                $('input[type=hidden][value=' + kind.Uitstappen[i] + ']').siblings('input[type=checkbox]').prop('checked', true);
-                            }
-                        }
-                    };
-                    function unloadKind(kind) {
-                        var d = new Object();
-                        d.Id = 0;
-                        loadKind(d);
-                    };
-                    var suggesties = new Bloodhound({
-                        datumTokenizer: function (d) {
-                            return Bloodhound.tokenizers.whitespace(d.value);
-                        },
-                        queryTokenizer: Bloodhound.tokenizers.whitespace,
-                        remote: {
-                            url: 'index.php?action=data&data=kinderenSuggesties&query=%QUERY',
-                            filter: function (kind) {
-                                return $.map(kind.content, function (k) {
-                                    return {
-                                        'display_value': (k.Voornaam + " " + k.Naam),
-                                        'Id': k.Id,
-                                        'Voogden': k.Voogden,
-                                        'DefaultWerkingId': k.DefaultWerkingId,
-                                        'Uitstappen': k.Uitstappen
-                                    };
-                                });
-                            }
-                        }
-                    });
-                    suggesties.initialize();
-                    $('input[name="VolledigeNaamKind"]').keydown(function (event) {
-                        switch (event.keyCode) {
-                            case 13:
-                            case 9:
-                                console.log("tab");
-                                return true;
-                        }
-                        unloadKind();
-                    }).typeahead(null, {
-                        displayKey: 'display_value',
-                        source: suggesties.ttAdapter()
-                    }).bind('typeahead:autocompleted typeahead:selected', function (obj, kind, dataset_name) {
-                        loadKind(kind);
-                    });
-                    $('#aanwezigheidForm .tt-hint').addClass('form-control');
-                });
-            </script>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
-                <button type="button" class="btn btn-primary" id="submitAanwezigheid">Opslaan</button>
             </div>
         </div>
 
@@ -539,7 +541,7 @@ HERE;
                 belangrijk.value = "BelangrijkOpmerkingen";
                 andere_opties.push(belangrijk);
                 filter_velden.push(new FilterVeld('Andere', 1, 'select', {options: andere_opties}));
-                t.setRowClickListener(new RowClickListener(function(rij){
+                t.setRowClickListener(new RowClickListener(function (rij) {
                         var data = rij.getData();
                         laad_voogd_overzicht(data.VoogdId);
                     }
