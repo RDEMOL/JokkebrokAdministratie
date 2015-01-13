@@ -220,6 +220,14 @@ class Controller {
 		$stripped_data->Datum = $data['Datum'];
 		$stripped_data->Werking = $data['Werking'];
 		$stripped_data->MiddagNaarHuis = $data['MiddagNaarHuis'];
+		if(!$data['Id']){
+			Log::writeLog("update aanwezigheid", "aanwezigheid id = ".$data['Id']);
+			if(Aanwezigheid::isAanwezig($data['KindVoogd'], $data['Datum'])){
+				$error_msg = array("ok"=>false, "message"=>"Er is al een aanwezigheid voor dit kind geregistreerd.");
+				echo json_encode($error_msg);
+				return;
+			}
+		}
 		$a = new Aanwezigheid($stripped_data);
 		$a->updateDatabase();
 		$extraatjes = array();
@@ -246,7 +254,7 @@ class Controller {
 			}
 		}
 		$a->setVorderingen($vorderingen);
-		echo "1";
+		echo json_encode(array("ok"=>true));
 	}
 
 }

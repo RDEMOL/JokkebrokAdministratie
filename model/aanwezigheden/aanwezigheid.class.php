@@ -49,6 +49,17 @@ class Aanwezigheid extends Record{
 		$query->bindParam(':id', $this->Id, PDO::PARAM_INT);
 		return $query->execute();
 	}
+	public static function isAanwezig($kind_voogd_id, $datum){
+		$kv = new KindVoogd($kind_voogd_id);
+		$kind = $kv->getKind();
+		$kvs = $kind->getKindVoogden();
+		foreach($kvs as $k){
+			if($k->isAanwezig($datum)){
+				return true;
+			}
+		}
+		return false;
+	}
 	protected static function getFilterSQL($filter){
 		$sql = "";
 		if(isset($filter['VolledigeNaam'])){

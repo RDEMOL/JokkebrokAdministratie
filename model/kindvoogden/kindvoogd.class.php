@@ -103,5 +103,9 @@ class KindVoogd extends Record{
 		$res = $query->execute();
 		return $query->fetchColumn(0);
 	}
+	public function isAanwezig($datum){
+		$filter = array("KindVoogd"=>$this->getId(), "Datum"=>$datum);
+		return count(Aanwezigheid::getAanwezigheden($filter))>0;
+	}
 }
 ?>

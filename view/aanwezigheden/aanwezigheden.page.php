@@ -606,8 +606,7 @@ HERE;
                         return false;
                     }
                     $.post('?action=updateAanwezigheid', d, function (res) {
-                        res = $.trim(res);
-                        if (res == "1") {
+                        if (res.ok) {
                             t.laadTabel();
                             if(add_next){
                                 nieuwe_aanwezigheid();
@@ -615,9 +614,10 @@ HERE;
                                 $('#aanwezigheidModal').modal('hide');
                             }
                         } else {
-                            console.log("kind update mislukt, error code: '" + res + "'");
+                            alert(res.message);
+                            console.log("kind update mislukt, error code: '" + res.message + "'");
                         }
-                    });
+                    }, "json");
                     return false;
                 }
                 $('#aanwezigheidForm').submit(function () {
