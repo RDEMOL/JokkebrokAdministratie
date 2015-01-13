@@ -56,9 +56,13 @@ define(['tabel/kolom', 'tabel/rij'], function (Kolom, Rij) {
         this.rows_loaded = 0;
         data.filter = this.filter;
         data.order = this.getSort();
+        var current_request_time = Date.now();
+        this.last_request_time = current_request_time;
         $.post(this.url, data, function (res) {
-            self.data = JSON.parse(res).content;
-            self.updateBody();
+            if(current_request_time == self.last_request_time) {
+                self.data = JSON.parse(res).content;
+                self.updateBody();
+            }
         });
     };
     Tabel.prototype.getTHead = function () {
