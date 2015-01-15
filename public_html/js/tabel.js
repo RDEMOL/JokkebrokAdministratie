@@ -59,6 +59,7 @@ define(['tabel/kolom', 'tabel/rij'], function (Kolom, Rij) {
         var current_request_time = Date.now();
         this.last_request_time = current_request_time;
         $.post(this.url, data, function (res) {
+            console.log("res = "+res);
             if(current_request_time == self.last_request_time) {
                 self.data = JSON.parse(res).content;
                 self.updateBody();

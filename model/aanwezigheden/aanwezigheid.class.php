@@ -79,7 +79,7 @@ class Aanwezigheid extends Record{
 			$sql .= "AND A.KindVoogd = :kindvoogd_id ";
 		}
 		if(isset($filter['MiddagNaarHuis'])){
-			$sql .= "AND MiddagNaarHuis = :middag_naar_huis";
+			$sql .= "AND MiddagNaarHuis = :middag_naar_huis ";
 		}
 		if(isset($filter['BelangrijkOpmerkingen'])){
 			$sql .= "AND (K.Belangrijk <> '' OR Opmerkingen <> '') ";
@@ -184,6 +184,7 @@ class Aanwezigheid extends Record{
 		$sql .= static::getOrderSQL($order);
 		$query = Database::getPDO()->prepare($sql);
 		static::applyFilterParameters($query, $filter);
+		Log::writeLog("get aanwezigheden", $sql);
 		$query->execute();
 		$aanwezigheden = array();
 		while($rs = $query->fetch(PDO::FETCH_OBJ)){

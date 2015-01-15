@@ -223,7 +223,6 @@ class Controller {
 		$stripped_data->Werking = $data['Werking'];
 		$stripped_data->MiddagNaarHuis = $data['MiddagNaarHuis'];
 		if(!$data['Id']){
-			Log::writeLog("update aanwezigheid", "aanwezigheid id = ".$data['Id']);
 			if(Aanwezigheid::isAanwezig($data['KindVoogd'], $data['Datum'])){
 				$error_msg = array("ok"=>false, "message"=>"Er is al een aanwezigheid voor dit kind geregistreerd.");
 				echo json_encode($error_msg);
