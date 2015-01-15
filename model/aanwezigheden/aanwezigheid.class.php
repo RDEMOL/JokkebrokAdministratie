@@ -184,7 +184,6 @@ class Aanwezigheid extends Record{
 		$sql .= static::getOrderSQL($order);
 		$query = Database::getPDO()->prepare($sql);
 		static::applyFilterParameters($query, $filter);
-		Log::writeLog("get aanwezigheden", $sql);
 		$query->execute();
 		$aanwezigheden = array();
 		while($rs = $query->fetch(PDO::FETCH_OBJ)){
