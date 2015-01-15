@@ -43,6 +43,18 @@ class View {
 						$voogd = new Voogd($voogdId);
 						echo json_encode($voogd->getJSONData());
 						break;
+					case 'kindExists':
+						$filter = array();
+						if(isset($_REQUEST['Naam'])) {
+							$filter['Naam'] = $_REQUEST['Naam'];
+						}
+						if(isset($_REQUEST['Voornaam'])){
+							$filter['Voornaam'] = $_REQUEST['Voornaam'];
+						}
+						$result = array();
+						$result['exists'] = count(Kind::getKinderen($filter)) > 0;
+						echo json_encode($result);
+						break;
 					case 'voogdExists':
 						$filter = array();
 						if(isset($_REQUEST['Naam'])){

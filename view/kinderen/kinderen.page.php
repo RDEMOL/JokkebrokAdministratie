@@ -590,15 +590,25 @@ class KinderenPage extends Page
                         kind_form_error("Vul een geldig geboortejaar in");
                         return false;
                     }
-                    $.post('index.php?action=updateKind', data, function (res) {
-                        res = $.trim(res);
-                        if (res == "0") {
-                            alert("Kind update is niet (helemaal) gelukt. Mogelijk probeerde u een voogd te verwijderen die reeds gekoppeld was aan een aanwezigheid.");
-                            console.log("kind update mislukt, error code: '" + res + "'");
-                        }
-                        $('#kindModal').modal('hide');
-                        kinderen_tabel.laadTabel();
-                    });
+                    if ($.get('index.php?action=data&data=kindExists', data, function (resp) {
+                            var good = true;
+                            if (resp.exists) {
+                                good = window.confirm('Er bestaat al een kind met dezelfde naam en voornaam. Bent u zeker dat het over een andere kindgaat? Indien u denkt dat het over hetzelfde kind gaat, klik dan op "Annuleren" en zoek het kind op in de tabel om de informatie bij te werken".');
+                            }
+                            if (good) {
+                                $.post('index.php?action=updateKind', data, function (res) {
+                                    res = $.trim(res);
+                                    if (res == "0") {
+                                        alert("Kind update is niet (helemaal) gelukt. Mogelijk probeerde u een voogd te verwijderen die reeds gekoppeld was aan een aanwezigheid.");
+                                        console.log("kind update mislukt, error code: '" + res + "'");
+                                    }
+                                    $('#kindModal').modal('hide');
+                                    kinderen_tabel.laadTabel();
+                                });
+                            } else {
+                                
+                            }
+                        }, "json"));
                     return false;
                 });
                 $('#submitKind').click(function () {
