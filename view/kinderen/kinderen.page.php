@@ -516,6 +516,20 @@ class KinderenPage extends Page
                     voeg_voogd_toe(voogd.id);
                 });
                 $('#kindForm .tt-hint').addClass('form-control');
+                var werking_jaren = <?php
+                echo json_encode(Werking::getJSONWerkingen());
+                ?>;
+                $('#kindForm input[name=Geboortejaar]').change(function(){
+                   if($('#kindForm select[name=DefaultWerking]').val() == "0"){
+                       var jaar = parseInt($('#kindForm input[name=Geboortejaar]').val());
+                       for(var i = 0; i < werking_jaren.length; ++i){
+                           if(jaar >= werking_jaren[i].Beginjaar && jaar <= werking_jaren[i].Eindjaar){
+                               $('#kindForm select[name=DefaultWerking]').val(werking_jaren[i].Id);
+                               break;
+                           }
+                       }
+                   }
+                });
                 function clear_kind_form() {
                     $('#kindForm #lstVoogden').empty();
                     $('#kindForm input').val('');
@@ -606,7 +620,7 @@ class KinderenPage extends Page
                                     kinderen_tabel.laadTabel();
                                 });
                             } else {
-                                
+
                             }
                         }, "json"));
                     return false;
@@ -672,6 +686,7 @@ class KinderenPage extends Page
                         alle_obj.value = "";
                         alle_obj.label = "Alle";
                         js_array.push(alle_obj);
+                        s.append($('<option>').val("0").text("-"));
                         for (var i = 0; i < resp.content.length; ++i) {
                             s.append($('<option>').val(resp.content[i].Id).text(resp.content[i].Afkorting + " - " + resp.content[i].Omschrijving));
                             var obj = new Object();

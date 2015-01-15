@@ -35,8 +35,16 @@ class InstellingenPage extends Page
                                                 <input type="text" value="" name="Afkorting">
                                             </div>
                                             <div class="row">
-                                                <label for="omschrijving" class="control-label">Omschrijving: </label>
+                                                <label for="Omschrijving" class="control-label">Omschrijving: </label>
                                                 <input type="text" value="" name="Omschrijving">
+                                            </div>
+                                            <div class="row">
+                                                <label for="Beginjaar" class="control-label">Beginjaar:</label>
+                                                <input type="text" value="" name="Beginjaar">
+                                            </div>
+                                            <div class="row">
+                                                <label for="Eindjaar" class="control-label">Eindjaar: </label>
+                                                <input type="text" value="" name="Eindjaar">
                                             </div>
                                         </form>
                                     </div>
@@ -85,6 +93,8 @@ class InstellingenPage extends Page
                                     clearWerkingForm();
                                     $('#WerkingModal input[name=Omschrijving]').val(data['Omschrijving']);
                                     $('#WerkingModal input[name=Afkorting]').val(data['Afkorting']);
+                                    $('#WerkingModal input[name=Beginjaar]').val(data['Beginjaar']);
+                                    $('#WerkingModal input[name=Eindjaar]').val(data['Eindjaar']);
                                     $('#WerkingModal input[name=Id]').val(data['Id']);
                                     $('#WerkingModal').modal('show');
                                 };
@@ -95,6 +105,8 @@ class InstellingenPage extends Page
                                 function clearWerkingForm() {
                                     $('#WerkingModal input[name=Omschrijving]').val('');
                                     $('#WerkingModal input[name=Afkorting]').val('');
+                                    $('#WerkingModal input[name=Eindjaar]').val('');
+                                    $('#WerkingModal input[name=Beginjaar]').val('');
                                     $('#WerkingModal input[name=Id]').val('0');
                                 }
 
@@ -105,6 +117,8 @@ class InstellingenPage extends Page
                                 var k = new Array();
                                 k.push(new Kolom('Omschrijving', 'Omschrijving'));
                                 k.push(new Kolom('Afkorting', 'Afkorting'));
+                                k.push(new Kolom('Beginjaar', 'Beginjaar'));
+                                k.push(new Kolom('Eindjaar', 'Eindjaar'));
                                 var controls = new Array();
                                 controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_werking));
                                 controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_werking));

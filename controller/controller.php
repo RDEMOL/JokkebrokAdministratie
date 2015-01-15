@@ -73,8 +73,10 @@ class Controller {
 				case 'updateWerking':
 					$data = new stdClass();
 					$data->Id = $_POST['Id'];
-					$data->Omschrijving = $_POST['Omschrijving'];
-					$data->Afkorting = $_POST['Afkorting'];
+					$data->Omschrijving = $_REQUEST['Omschrijving'];
+					$data->Afkorting = $_REQUEST['Afkorting'];
+					$data->Beginjaar = $_REQUEST['Beginjaar'];
+					$data->Eindjaar = $_REQUEST['Eindjaar'];
 					$werking = new Werking($data);
 					$werking->updateDatabase();
 					echo "1";
