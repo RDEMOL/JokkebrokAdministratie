@@ -1,4 +1,4 @@
-<div class="modal fade" id="kindDetailsModal" tabindex="-1"  aria-labelledby="kindDetailsModal">
+<div class="modal fade" id="kindDetailsModal" tabindex="-1" aria-labelledby="kindDetailsModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -35,14 +35,14 @@
             laad_voogden_tabel(kind_id);
         };
 
-        function empty_fields(){
+        function empty_fields() {
             $("#kind_voogden_tabel").empty();
             $('h4#kindNaam').text('');
         }
 
-        function laad_kind_details(kind_id){
-            $.get("?action=data&data=kind&KindId="+kind_id, function(res){
-                $('h4#kindNaam').text(res.Voornaam + " " +res.Naam);
+        function laad_kind_details(kind_id) {
+            $.get("?action=data&data=kind&KindId=" + kind_id, function (res) {
+                $('h4#kindNaam').text(res.Voornaam + " " + res.Naam);
             }, "json");
         }
 
@@ -54,7 +54,7 @@
             k.push(new Kolom('Opmerkingen', 'Opmerkingen', null, false));
 
             kind_voogden_tabel = new SinglePageTabel('index.php?action=data&data=kindVoogdenTabel&KindId=' + kind_id, k);
-            kind_voogden_tabel.setRowClickListener(new RowClickListener(function(rij){
+            kind_voogden_tabel.setRowClickListener(new RowClickListener(function (rij) {
                 $('#kindDetailsModal').modal('hide');
                 laad_voogd_overzicht(rij.getData().Id);
             }));

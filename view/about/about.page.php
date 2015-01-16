@@ -1,13 +1,17 @@
 <?php
-require_once (dirname(__FILE__) . "/../../config/version.inc.php");
-require_once (dirname(__FILE__) . "/../page.php");
-class AboutPage extends Page {
-	public function __construct() {
-		parent::__construct("Over","","about");
-	}
+require_once(dirname(__FILE__) . "/../../config/version.inc.php");
+require_once(dirname(__FILE__) . "/../page.php");
 
-	public function printContent(){
-?>
+class AboutPage extends Page
+{
+    public function __construct()
+    {
+        parent::__construct("Over", "", "about");
+    }
+
+    public function printContent()
+    {
+        ?>
 <p class="text-center">
 Concept: Roderick Demol &amp; Floris Kint<br>
 Realisatie: Floris Kint<br>
@@ -29,6 +33,7 @@ Gebruikte technologieën (onvolledig, niet in een bepaalde volgorde):
 </ul>
 </p>
 <?php
-	}
+    }
 }
+
 ?>

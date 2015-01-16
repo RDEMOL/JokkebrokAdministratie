@@ -9,16 +9,16 @@ define(["tabel", "tabel/navigation"], function (Tabel, Navigation) {
         this.pre_title_headers.push(this.navigation);
     };
     NavigationTabel.prototype = Object.create(Tabel.prototype);
-    NavigationTabel.prototype.load_rows = function(){
+    NavigationTabel.prototype.load_rows = function () {
         var self = this;
         var start = this.navigation.getFrom();
         var amount = this.navigation.getAmount();
         var end = Math.min(start + amount, this.data.length);
-        for (var i = 0; i +start < end; ++i) {
-            this.load_next_row(start+i);
+        for (var i = 0; i + start < end; ++i) {
+            this.load_next_row(start + i);
         }
     };
-    NavigationTabel.prototype.navigationUpdated = function(){
+    NavigationTabel.prototype.navigationUpdated = function () {
         this.updateBody();
     };
     return NavigationTabel;

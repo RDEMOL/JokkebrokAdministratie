@@ -1,15 +1,15 @@
 /**
  * Created by fkint on 16/01/15.
  */
-define(["tabel", "tabel/rij"], function(Tabel, Rij){
-    var SinglePageTabel = function(url, kolommen) {
+define(["tabel", "tabel/rij"], function (Tabel, Rij) {
+    var SinglePageTabel = function (url, kolommen) {
         Tabel.call(this, url, kolommen);
         this.rows_loaded = 0;
     };
     SinglePageTabel.prototype = Object.create(Tabel.prototype);
     SinglePageTabel.default_rows_per_time = 20;
 
-    SinglePageTabel.prototype.load_rows = function(){
+    SinglePageTabel.prototype.load_rows = function () {
         this.load_next_rows();
     };
     SinglePageTabel.prototype.load_next_rows = function () {

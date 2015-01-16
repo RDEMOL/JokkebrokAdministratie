@@ -372,7 +372,7 @@ class AanwezighedenPage extends Page
                 });
             });
             require(['single_page_tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener', 'validator'], function (SinglePageTabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, Validator, require) {
-                $(document).ready(function(){
+                $(document).ready(function () {
                     $("body").keypress(function (e) {
                         if (!$(e.target).is("input, textarea") && !$("body").hasClass("modal-open")) {
                             if (e.keyCode == 110) {//N: Nieuw kind

@@ -47,21 +47,27 @@ class UitstappenPage extends Page
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="Datum">Datum: </label>
+
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" value="" name="Datum">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="Omschrijving" class="col-sm-2 control-label">Omschrijving: </label>
+
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="Omschrijving" value="">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="Zichtbaarheid" class="control-label col-sm-2">Zichtbaarheid: </label>
+
                                 <div class="col-sm-10">
-                                    <div class="checkbox"><label><input type="checkbox" name="AanwezigheidZichtbaar" checked>Zichtbaar op het aanwezigheidsformulier</label></div>
-                                    <div class="checkbox"><label><input type="checkbox" name="DashboardZichtbaar" checked>Zichtbaar op het dashboard</label></div>
+                                    <div class="checkbox"><label><input type="checkbox" name="AanwezigheidZichtbaar"
+                                                                        checked>Zichtbaar op het aanwezigheidsformulier</label>
+                                    </div>
+                                    <div class="checkbox"><label><input type="checkbox" name="DashboardZichtbaar"
+                                                                        checked>Zichtbaar op het dashboard</label></div>
                                 </div>
                             </div>
                         </form>
@@ -125,10 +131,12 @@ class UitstappenPage extends Page
 
                                     <form class="form-horizontal">
                                         <div class="form-group">
-                                        <label class="col-sm-2 control-label" for="VolledigeNaamKind">Kind
-                                            toevoegen: </label>
+                                            <label class="col-sm-2 control-label" for="VolledigeNaamKind">Kind
+                                                toevoegen: </label>
+
                                             <div class="col-sm-10">
-                                                <input type="text" value="" class="typeahead form-control" name="VolledigeNaamKind">
+                                                <input type="text" value="" class="typeahead form-control"
+                                                       name="VolledigeNaamKind">
                                             </div>
                                         </div>
                                     </form>

@@ -1,4 +1,4 @@
-<div class="modal fade" id="voogdDetailsModal" tabindex="-1"  aria-labelledby="voogdDetailsModal">
+<div class="modal fade" id="voogdDetailsModal" tabindex="-1" aria-labelledby="voogdDetailsModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -32,12 +32,13 @@
             laad_voogd_details(voogd_id);
             laad_voogd_kinderen_tabel(voogd_id);
         };
-        function laad_voogd_details(voogd_id){
-            $.get("?action=data&data=voogd&VoogdId="+voogd_id, function(res){
-                $("h4#voogdNaam").text("Gezin: "+res.Voornaam+ " " + res.Naam);
+        function laad_voogd_details(voogd_id) {
+            $.get("?action=data&data=voogd&VoogdId=" + voogd_id, function (res) {
+                $("h4#voogdNaam").text("Gezin: " + res.Voornaam + " " + res.Naam);
             }, "json");
         }
-        function empty_fields(){
+
+        function empty_fields() {
             $('#voogd_kinderen_tabel').empty();
             $('h4#voogdNaam').text('');
         }
@@ -78,7 +79,7 @@
             }));
 
             voogd_kinderen_tabel = new SinglePageTabel('index.php?action=data&data=voogdKinderenTabel&VoogdId=' + voogd_id, k);
-            voogd_kinderen_tabel.setRowClickListener(new RowClickListener(function(rij){
+            voogd_kinderen_tabel.setRowClickListener(new RowClickListener(function (rij) {
                 $('#voogdDetailsModal').modal('hide');
                 laad_kind_overzicht(rij.getData().Id);
             }));

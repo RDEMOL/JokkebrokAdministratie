@@ -29,26 +29,34 @@ class InstellingenPage extends Page
                                     <div class="modal-body">
                                         <form class="form-horizontal">
                                             <input type="hidden" name="Id">
+
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2" for="Afkorting">Afkorting: </label>
+                                                <label class="control-label col-sm-2"
+                                                       for="Afkorting">Afkorting: </label>
+
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" value="" name="Afkorting">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="Omschrijving" class="col-sm-2 control-label">Omschrijving: </label>
+                                                <label for="Omschrijving"
+                                                       class="col-sm-2 control-label">Omschrijving: </label>
+
                                                 <div class="col-sm-10">
-                                                    <input type="text" value="" class="form-control" name="Omschrijving">
+                                                    <input type="text" value="" class="form-control"
+                                                           name="Omschrijving">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="Beginjaar" class="col-sm-2 control-label">Beginjaar:</label>
+
                                                 <div class="col-sm-10">
                                                     <input type="text" value="" class="form-control" name="Beginjaar">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="Eindjaar" class="col-sm-2 control-label">Eindjaar: </label>
+
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" value="" name="Eindjaar">
                                                 </div>
@@ -184,12 +192,15 @@ class InstellingenPage extends Page
                                     </div>
                                     <div class="modal-body">
                                         <form class="form-horizontal">
-                                            <input type="hidden" name="Id" value="0" />
+                                            <input type="hidden" name="Id" value="0"/>
 
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2" for="Omschrijving">Omschrijving: </label>
+                                                <label class="control-label col-sm-2"
+                                                       for="Omschrijving">Omschrijving: </label>
+
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" name="Omschrijving" value="">
+                                                    <input type="text" class="form-control" name="Omschrijving"
+                                                           value="">
                                                 </div>
                                             </div>
                                         </form>

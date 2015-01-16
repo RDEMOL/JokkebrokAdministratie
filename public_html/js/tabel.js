@@ -56,7 +56,7 @@ define(['tabel/kolom', 'tabel/rij'], function (Kolom, Rij) {
         var current_request_time = Date.now();
         this.last_request_time = current_request_time;
         $.post(this.url, data, function (res) {
-            if(current_request_time == self.last_request_time) {
+            if (current_request_time == self.last_request_time) {
                 self.data = JSON.parse(res).content;
                 self.notifyDataChangeListeners();
                 self.updateBody();
@@ -64,8 +64,8 @@ define(['tabel/kolom', 'tabel/rij'], function (Kolom, Rij) {
         });
     };
 
-    Tabel.prototype.notifyDataChangeListeners = function(){
-        for(var i = 0; i < this.data_change_listeners.length; ++i){
+    Tabel.prototype.notifyDataChangeListeners = function () {
+        for (var i = 0; i < this.data_change_listeners.length; ++i) {
             this.data_change_listeners[i].dataChanged(this.data);
         }
     };
@@ -75,7 +75,7 @@ define(['tabel/kolom', 'tabel/rij'], function (Kolom, Rij) {
             headTR.append(this.kolommen[i].getHeadTH());
         }
         var thead = $('<thead>');
-        for(var i = 0; i < this.pre_title_headers.length; ++i){
+        for (var i = 0; i < this.pre_title_headers.length; ++i) {
             thead.append(this.pre_title_headers[i].getElement());
         }
         thead.append(headTR);
@@ -106,7 +106,7 @@ define(['tabel/kolom', 'tabel/rij'], function (Kolom, Rij) {
         this.tabelBody.append(tr);
         this.rows_loaded++;
     };
-    Tabel.prototype.load_rows = function(){
+    Tabel.prototype.load_rows = function () {
         console.error("Load rows should be implemented.");
     };
     Tabel.prototype.updateBody = function () {

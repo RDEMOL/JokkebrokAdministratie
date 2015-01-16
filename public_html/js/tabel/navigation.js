@@ -44,10 +44,10 @@ define([], function () {
                 .append(this.btnLast)
         );
     };
-    Navigation.prototype.getElement = function(){
+    Navigation.prototype.getElement = function () {
         return this.element;
     };
-    Navigation.prototype.dataChanged = function(data){
+    Navigation.prototype.dataChanged = function (data) {
         this.total_amount = data.length;
         this.navigationUpdated();
     };
@@ -59,43 +59,43 @@ define([], function () {
     };
     Navigation.prototype.navigationUpdated = function () {
         var last = Math.min(this.from + this.amount, this.total_amount);
-        this.txtCurrent.text(" "+(this.from + 1) + " tot " + last + " van " + this.total_amount+" ")
+        this.txtCurrent.text(" " + (this.from + 1) + " tot " + last + " van " + this.total_amount + " ")
         this.btnFirst.removeClass('disabled');
         this.btnPrevious.removeClass('disabled');
         this.btnNext.removeClass('disabled');
         this.btnLast.removeClass('disabled');
-        if(this.from == 0){
+        if (this.from == 0) {
             this.btnPrevious.addClass('disabled');
             this.btnFirst.addClass('disabled');
         }
-        if(last == this.total_amount){
+        if (last == this.total_amount) {
             this.btnNext.addClass('disabled');
             this.btnLast.addClass('disabled');
         }
     };
-    Navigation.prototype.goToFirst = function(){
+    Navigation.prototype.goToFirst = function () {
         this.from = 0;
         this.navigate();
     };
-    Navigation.prototype.goToPrevious = function(){
+    Navigation.prototype.goToPrevious = function () {
         this.from = Math.max(0, this.from - this.amount);
         this.navigate();
     };
-    Navigation.prototype.goToNext = function(){
-        this.from = Math.min(this.total_amount - this.total_amount%this.amount, this.from + this.amount);
-        if(this.from == this.total_amount){
-            this.from = Math.max(0, this.from-this.amount);
-        }
-        this.navigate();
-    };
-    Navigation.prototype.goToLast = function(){
-        this.from = this.total_amount - this.total_amount%this.amount;
-        if(this.from == this.total_amount){
+    Navigation.prototype.goToNext = function () {
+        this.from = Math.min(this.total_amount - this.total_amount % this.amount, this.from + this.amount);
+        if (this.from == this.total_amount) {
             this.from = Math.max(0, this.from - this.amount);
         }
         this.navigate();
     };
-    Navigation.prototype.navigate = function(){
+    Navigation.prototype.goToLast = function () {
+        this.from = this.total_amount - this.total_amount % this.amount;
+        if (this.from == this.total_amount) {
+            this.from = Math.max(0, this.from - this.amount);
+        }
+        this.navigate();
+    };
+    Navigation.prototype.navigate = function () {
         this.navigationUpdated();
         this.tabel.navigationUpdated();
     };
