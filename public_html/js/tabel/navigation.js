@@ -60,6 +60,18 @@ define([], function () {
     Navigation.prototype.navigationUpdated = function () {
         var last = Math.min(this.from + this.amount, this.total_amount);
         this.txtCurrent.text(" "+(this.from + 1) + " tot " + last + " van " + this.total_amount+" ")
+        this.btnFirst.removeClass('disabled');
+        this.btnPrevious.removeClass('disabled');
+        this.btnNext.removeClass('disabled');
+        this.btnLast.removeClass('disabled');
+        if(this.from == 0){
+            this.btnPrevious.addClass('disabled');
+            this.btnFirst.addClass('disabled');
+        }
+        if(last == this.total_amount){
+            this.btnNext.addClass('disabled');
+            this.btnLast.addClass('disabled');
+        }
     };
     Navigation.prototype.goToFirst = function(){
         this.from = 0;
