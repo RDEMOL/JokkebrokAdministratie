@@ -53,7 +53,9 @@ class Betaling extends Record{
 	protected function delete(){
 		$query = Database::getPDO()->prepare("DELETE FROM Betaling WHERE Id = :id");
 		$query->bindParam(':id', $this->Id, PDO::PARAM_INT);
-		return $query->execute();
+		$res = $query->execute();
+		$this->getKindVoogd()->updateSaldo();
+		return $res;
 	}
 	
 	protected static function getFilterSQL($filter){

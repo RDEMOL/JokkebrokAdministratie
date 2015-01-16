@@ -45,9 +45,12 @@ class Vordering extends Record{
 		return $query->fetch(PDO::FETCH_OBJ);
 	}
 	protected function delete(){
+		Log::writeLog("vordering", "id = ".$this->getId());
 		$query = Database::getPDO()->prepare("DELETE FROM Vordering WHERE Id = :id");
-		$query->bindParam(':id', $this->Id, PDO::PARAM_INT);
-		return $query->execute();
+		$query->bindParam(':id', $this->getId(), PDO::PARAM_INT);
+		$res = $query->execute();
+		$this->getAanwezigheid()->getKindVoogd()->updateSaldo();
+		return $res;
 	}
 	
 	protected static function getFilterSQL($filter){
@@ -69,14 +72,14 @@ class Vordering extends Record{
 		}
 	}
 	protected static function getFilterJoinsSQL($filter){
-		$slq = "";
+		$sql = "";
 		if(isset($filter['KindVoogd'])){
-			$sql .= "LEFT JOIN Aanwezigheid A ON Vordering.Aanwezigheid=A.Id ";
+			$sql .= "LEFT JOIN Aanwezigheid A ON V.Aanwezigheid=A.Id ";
 		}
 		return $sql;
 	}
 	public static function getVorderingen($filter){
-		$sql = "SELECT * FROM Vordering ";
+		$sql = "SELECT V.Id, V.Aanwezigheid, V.Bedrag, V.Opmerking FROM Vordering V ";
 		$sql .= static::getFilterJoinsSQL($filter);
 		$sql .= "WHERE 1 ";
 		$sql .= static::getFilterSQL($filter);

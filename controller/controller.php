@@ -163,13 +163,14 @@ class Controller {
 					$id = $_REQUEST['Id'];
 					$betaling = new Betaling($id);
 					$betaling->deleteFromDatabase();
-					echo "1";
+					echo json_encode(array("ok"=>true));
 					exit;
 				case 'removeVordering':
 					$id = $_REQUEST['Id'];
+					Log::writeLog("vordering id", $id);
 					$vordering = new Vordering($id);
-					$vordering->deleteFromDatabase();
-					echo "1";
+					$result = $vordering->deleteFromDatabase();
+					echo json_encode(array("ok"=>$result));
 					exit;
 				case 'updateVordering':
 					$data = new stdClass();

@@ -476,14 +476,14 @@ class KinderenPage extends Page
                     }).val(-1)).append($('<input>').attr({
                         'name': 'Voornaam',
                         'placeholder': 'Voornaam',
-                        'type': 'text',
+                        'type': 'text'
                     }).css('width', '30%')).append($('<input>').attr({
                         'name': 'Naam',
                         'placeholder': 'Naam',
-                        'type': 'text',
+                        'type': 'text'
                     }).css('width', '30%')).append($('<textarea>').attr({
                         'name': 'Opmerkingen',
-                        'placeholder': 'Opmerkingen',
+                        'placeholder': 'Opmerkingen'
                     }).css('width', '30%')).append($('<button>').text('x').click(function () {
                         $(this).parent().remove();
                     }));
@@ -864,9 +864,13 @@ class KinderenPage extends Page
 
                 var transacties_tabel;
 
-
+                function saldo_updated(kind_voogd_id){
+                    laad_saldo_details(kind_voogd_id);
+                    laad_tabel();
+                }
                 function laad_saldo_details(kind_voogd_id) {
                     function verwijder_vordering_betaling(vordering_data) {
+                        console.log("vordering data = "+JSON.stringify(vordering_data));
                         $('#verwijderVorderingBetalingModal').modal('show');
                         $('#btnVerwijderVorderingBetaling').unbind('click').click(function () {
                             var data = new Object();
@@ -874,15 +878,15 @@ class KinderenPage extends Page
                             switch (vordering_data.Type) {
                                 case 'betaling':
                                     $.get('index.php?action=removeBetaling', data, function (resp) {
-                                        laad_saldo_details(kind_voogd_id);
+                                        saldo_updated(kind_voogd_id);
                                         $('#verwijderVorderingBetalingModal').modal('hide');
-                                    });
+                                    }, "json");
                                     break;
                                 case 'vordering':
                                     $.get('index.php?action=removeVordering', data, function (data) {
-                                        laad_saldo_details(kind_voogd_id)
+                                        saldo_updated(kind_voogd_id);
                                         $('#verwijderVorderingBetalingModal').modal('hide');
-                                    });
+                                    }, "json");
                                     break;
                             }
                             return false;
@@ -940,7 +944,7 @@ class KinderenPage extends Page
                         }
                         $.get('index.php?action=updateBetaling', data, function (resp) {
                             if ($.trim(resp) == "1") {
-                                laad_saldo_details(kind_voogd_id);
+                                saldo_updated(kind_voogd_id);
                                 $('#betalingModal').modal('hide');
                             }
                         });

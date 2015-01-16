@@ -397,8 +397,6 @@ class View {
 					case 'saldoTabel':
 						$result = array();
 						$result['content']=array();
-						//$filter = array("KindVoogd"=>$_REQUEST['KindVoogdId']);
-						//$vorderingen = Vordering::getVorderingen($filter);
 						$kindvoogd = new KindVoogd($_REQUEST['KindVoogdId']);
 						$vorderingen = $kindvoogd->getVorderingen();
 						foreach($vorderingen as $v){
