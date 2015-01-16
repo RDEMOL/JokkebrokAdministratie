@@ -13,6 +13,10 @@ class Controller {
 		$action = $_GET['action'];
 		if(!$this->model->getSession()->getLoggedIn()){
 			switch($action) {
+				case 'ping':
+					echo json_encode(array("session"=>false));
+					exit;
+					break;
 				case 'login':
 					if($this->model->getSession()->login($_POST)){
 						$this->reloadPage();
@@ -27,6 +31,10 @@ class Controller {
 			}
 		}else{
 			switch($action) {
+				case 'ping':
+					echo json_encode(array("session"=>true));
+					exit;
+					break;
 				case 'login':
 					if($this->model->getSession()->login($_POST)){
 						$this->reloadPage();

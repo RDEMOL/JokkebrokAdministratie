@@ -39,7 +39,7 @@
 				</button>
 			</form>
 		</div>
-		<script src="libs/jquery-1.10.2.min.js"></script>
+		<script src="libs/jquery-1.11.0.js"></script>
 		<script src="libs/bootstrap/js/bootstrap.min.js"></script>
 	</body>
 </html>

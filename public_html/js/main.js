@@ -1,3 +1,6 @@
-define([], function(){
-	console.log("in main, nothing to do?");
+define(["pinger"], function(Pinger){
+	var p = new Pinger("?action=ping", function(){
+		window.location = "index.php";
+	});
+	p.start();
 });
