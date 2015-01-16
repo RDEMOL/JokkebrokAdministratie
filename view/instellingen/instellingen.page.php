@@ -27,24 +27,31 @@ class InstellingenPage extends Page
                                         <h4 class="modal-title">Nieuwe Werking toevoegen</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <form class="form-inline">
+                                        <form class="form-horizontal">
                                             <input type="hidden" name="Id">
-
-                                            <div class="row">
-                                                <label class="control-label" for="Afkorting">Afkorting: </label>
-                                                <input type="text" value="" name="Afkorting">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-2" for="Afkorting">Afkorting: </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" value="" name="Afkorting">
+                                                </div>
                                             </div>
-                                            <div class="row">
-                                                <label for="Omschrijving" class="control-label">Omschrijving: </label>
-                                                <input type="text" value="" name="Omschrijving">
+                                            <div class="form-group">
+                                                <label for="Omschrijving" class="col-sm-2 control-label">Omschrijving: </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" value="" class="form-control" name="Omschrijving">
+                                                </div>
                                             </div>
-                                            <div class="row">
-                                                <label for="Beginjaar" class="control-label">Beginjaar:</label>
-                                                <input type="text" value="" name="Beginjaar">
+                                            <div class="form-group">
+                                                <label for="Beginjaar" class="col-sm-2 control-label">Beginjaar:</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" value="" class="form-control" name="Beginjaar">
+                                                </div>
                                             </div>
-                                            <div class="row">
-                                                <label for="Eindjaar" class="control-label">Eindjaar: </label>
-                                                <input type="text" value="" name="Eindjaar">
+                                            <div class="form-group">
+                                                <label for="Eindjaar" class="col-sm-2 control-label">Eindjaar: </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" value="" name="Eindjaar">
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -88,7 +95,7 @@ class InstellingenPage extends Page
                         <button class="btn btn-large btn-primary" id="btnNieuweWerking">Nieuwe werking toevoegen
                         </button>
                         <script>
-                            require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld'], function (Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, require) {
+                            require(['single_page_tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld'], function (SinglePageTabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, require) {
                                 function wijzig_werking(data) {
                                     clearWerkingForm();
                                     $('#WerkingModal input[name=Omschrijving]').val(data['Omschrijving']);
@@ -176,12 +183,14 @@ class InstellingenPage extends Page
                                         <h4 class="modal-title">Extraatje</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <form class="form-inline">
-                                            <input type="hidden" name="Id" value="0"></input>
+                                        <form class="form-horizontal">
+                                            <input type="hidden" name="Id" value="0" />
 
-                                            <div class="row">
-                                                <label class="control-label" for="Omschrijving">Omschrijving: </label>
-                                                <input type="text" name="Omschrijving" value="">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-2" for="Omschrijving">Omschrijving: </label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="Omschrijving" value="">
+                                                </div>
                                             </div>
                                         </form>
                                     </div>

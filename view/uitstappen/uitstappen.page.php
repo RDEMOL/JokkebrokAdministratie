@@ -42,25 +42,27 @@ class UitstappenPage extends Page
                         <h4 class="modal-title" id="UitstapModalTitle">Nieuwe uitstap toevoegen</h4>
                     </div>
                     <div class="modal-body">
-                        <form class="form-inline" id="UitstapForm">
+                        <form class="form-horizontal" id="UitstapForm">
                             <input type="hidden" name="Id" value="0">
 
-                            <div class="row">
-                                <label class="control-label" for="Datum">Datum: </label>
-                                <input type="text" value="" name="Datum">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="Datum">Datum: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="" name="Datum">
+                                </div>
                             </div>
-                            <div class="row">
-                                <label for="Omschrijving" class="control-label">Omschrijving: </label>
-                                <input type="text" name="Omschrijving" value="">
+                            <div class="form-group">
+                                <label for="Omschrijving" class="col-sm-2 control-label">Omschrijving: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="Omschrijving" value="">
+                                </div>
                             </div>
-                            <div class="row">
-                                <label for="AanwezigheidZichtbaar" class="control-label">Zichtbaar in
-                                    aanwezigheidformulier: </label>
-                                <input type="checkbox" name="AanwezigheidZichtbaar" checked>
-                            </div>
-                            <div class="row">
-                                <label for="DashboardZichtbaar" class="control-label">Zichtbaar op dashboard: </label>
-                                <input type="checkbox" name="DashboardZichtbaar" checked>
+                            <div class="form-group">
+                                <label for="Zichtbaarheid" class="control-label col-sm-2">Zichtbaarheid: </label>
+                                <div class="col-sm-10">
+                                    <div class="checkbox"><label><input type="checkbox" name="AanwezigheidZichtbaar" checked>Zichtbaar op het aanwezigheidsformulier</label></div>
+                                    <div class="checkbox"><label><input type="checkbox" name="DashboardZichtbaar" checked>Zichtbaar op het dashboard</label></div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -121,11 +123,14 @@ class UitstappenPage extends Page
                                     <button type="button" class="btn btn-default" id="btnPDFModal">PDF Tonen</button>
                                     <br>
 
-                                    <form class="form">
-                                        <label class="control-label" for="VolledigeNaamKind">Kind
-                                            toevoegen: </label><br>
-                                        <input type="text" value="" class="typeahead form-control"
-                                               name="VolledigeNaamKind">
+                                    <form class="form-horizontal">
+                                        <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="VolledigeNaamKind">Kind
+                                            toevoegen: </label>
+                                            <div class="col-sm-10">
+                                                <input type="text" value="" class="typeahead form-control" name="VolledigeNaamKind">
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
