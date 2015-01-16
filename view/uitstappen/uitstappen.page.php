@@ -189,7 +189,7 @@ class UitstappenPage extends Page
             var laad_uitstap_details_placeholder;
             var init_function = function () {
             };
-            require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener', 'validator'], function (Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, Validator, require) {
+            require(['single_page_tabel', 'navigation_tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener', 'validator'], function (SinglePageTabel, NavigationTabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, Validator, require) {
                 function voeg_kind_toe(kind_id, uitstap_id) {
                     var d = new Object();
                     d.Id = 0;
@@ -294,7 +294,7 @@ class UitstappenPage extends Page
                     controls.push(new Control('Verwijderen', 'btn btn-xs', verwijder_deelname));
                     uitstap_deelnemers_kolommen.push(new ControlsKolom(controls));
                     var id = parseInt(data['Id']);
-                    uitstap_deelnemers_tabel = new Tabel('index.php?action=data&data=uitstapDeelnamesTabel&uitstap_id=' + id, uitstap_deelnemers_kolommen);
+                    uitstap_deelnemers_tabel = new SinglePageTabel('index.php?action=data&data=uitstapDeelnamesTabel&uitstap_id=' + id, uitstap_deelnemers_kolommen);
                     uitstap_deelnemers_tabel.setUp(tabel);
                     uitstap_deelnemers_tabel.laadTabel();
                 };
@@ -305,7 +305,7 @@ class UitstappenPage extends Page
                 k.push(new Kolom('Datum', 'Datum'));
                 k.push(new Kolom('Omschrijving', 'Omschrijving'));
 
-                var uitstappen_tabel = new Tabel('index.php?action=data&data=uitstappenTabel', k);
+                var uitstappen_tabel = new NavigationTabel('index.php?action=data&data=uitstappenTabel', k);
                 uitstappen_tabel.setRowClickListener(new RowClickListener(uitstap_clicked));
                 uitstappen_tabel.setUp($('table#UitstapOverzicht'));
                 $('#btnNieuweUitstap').click(function () {

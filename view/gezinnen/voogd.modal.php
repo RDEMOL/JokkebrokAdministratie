@@ -23,8 +23,7 @@
     </div>
 </div>
 <script>
-    //var laad_voogd = null;
-    require(['tabel', 'tabel/kolom', 'tabel/row_click_listener', 'validator'], function (Tabel, Kolom, RowClickListener, Validator, require) {
+    require(['single_page_tabel', 'tabel/kolom', 'tabel/row_click_listener', 'validator'], function (SinglePageTabel, Kolom, RowClickListener, Validator, require) {
 
         var voogd_kinderen_tabel;
 
@@ -80,7 +79,7 @@
                 return td;
             }));
 
-            voogd_kinderen_tabel = new Tabel('index.php?action=data&data=voogdKinderenTabel&VoogdId=' + voogd_id, k);
+            voogd_kinderen_tabel = new SinglePageTabel('index.php?action=data&data=voogdKinderenTabel&VoogdId=' + voogd_id, k);
             voogd_kinderen_tabel.setRowClickListener(new RowClickListener(function(rij){
                 $('#voogdDetailsModal').modal('hide');
                 laad_kind_overzicht(rij.getData().Id);

@@ -24,7 +24,7 @@
     </div>
 </div>
 <script>
-    require(['tabel', 'tabel/kolom', 'tabel/row_click_listener', 'validator'], function (Tabel, Kolom, RowClickListener, Validator, require) {
+    require(['single_page_tabel', 'tabel/kolom', 'tabel/row_click_listener', 'validator'], function (SinglePageTabel, Kolom, RowClickListener, Validator, require) {
 
         var kind_voogden_tabel;
 
@@ -53,7 +53,7 @@
             k.push(new Kolom('Telefoon', 'Telefoon', null, false));
             k.push(new Kolom('Opmerkingen', 'Opmerkingen', null, false));
 
-            kind_voogden_tabel = new Tabel('index.php?action=data&data=kindVoogdenTabel&KindId=' + kind_id, k);
+            kind_voogden_tabel = new SinglePageTabel('index.php?action=data&data=kindVoogdenTabel&KindId=' + kind_id, k);
             kind_voogden_tabel.setRowClickListener(new RowClickListener(function(rij){
                 $('#kindDetailsModal').modal('hide');
                 laad_voogd_overzicht(rij.getData().Id);

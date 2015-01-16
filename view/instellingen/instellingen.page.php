@@ -123,7 +123,7 @@ class InstellingenPage extends Page
                                 controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_werking));
                                 controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_werking));
                                 k.push(new ControlsKolom(controls));
-                                var werkingen_tabel = new Tabel('index.php?action=data&data=werkingenTabel', k);
+                                var werkingen_tabel = new SinglePageTabel('index.php?action=data&data=werkingenTabel', k);
                                 werkingen_tabel.setUp($('table#tblWerkingen'));
                                 $('#btnNieuweWerking').click(function () {
                                     nieuwe_werking();
@@ -226,7 +226,7 @@ class InstellingenPage extends Page
                         <button class="btn btn-large btn-primary" id="btnNieuwExtraatje">Nieuw extraatje toevoegen
                         </button>
                         <script>
-                            require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld'], function (Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, require) {
+                            require(['single_page_tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld'], function (SinglePageTabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, require) {
                                 function wijzig_extraatje(data) {
                                     clearExtraatjeForm();
                                     $('#ExtraatjeModal input[name=Omschrijving]').val(data['Omschrijving']);
@@ -252,7 +252,7 @@ class InstellingenPage extends Page
                                 controls.push(new Control('Wijzigen', 'btn btn-sm', wijzig_extraatje));
                                 controls.push(new Control('Verwijderen', 'btn btn-sm', verwijder_extraatje));
                                 k.push(new ControlsKolom(controls));
-                                var extraatjes_tabel = new Tabel('index.php?action=data&data=extraatjesTabel', k);
+                                var extraatjes_tabel = new SinglePageTabel('index.php?action=data&data=extraatjesTabel', k);
                                 extraatjes_tabel.setUp($('table#Extraatjes'));
                                 $('#btnNieuwExtraatje').click(function () {
                                     nieuw_extraatje();

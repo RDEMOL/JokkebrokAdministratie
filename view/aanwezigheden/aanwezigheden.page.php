@@ -349,7 +349,7 @@ HERE;
                     $('input[name="Datum"]').datepicker('hide');
                 });
             });
-            require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener', 'validator'], function (Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, Validator, require) {
+            require(['single_page_tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener', 'validator'], function (SinglePageTabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, Validator, require) {
                 $('#aanwezigheidModal').on('shown', function () {
 //	   $('input:text:visible').next().focus();
                     if ($('input[name=VolledigeNaamKind]').val() == "") {
@@ -516,7 +516,7 @@ HERE;
                 controls.push(new Control('Wijzigen', 'btn btn-xs', wijzig_aanwezigheid));
                 controls.push(new Control('Verwijderen', 'btn btn-xs', verwijder_aanwezigheid));
                 k.push(new ControlsKolom(controls));
-                var t = new Tabel('index.php?action=data&data=aanwezighedenTabel', k);
+                var t = new SinglePageTabel('index.php?action=data&data=aanwezighedenTabel', k);
                 var filter_velden = new Array();
                 filter_velden.push(new FilterVeld('Datum', 1, 'datepicker', null, null, '<?php echo $datum; ?> '));
                 filter_velden.push(new FilterVeld('VolledigeNaam', 2, 'text', null));

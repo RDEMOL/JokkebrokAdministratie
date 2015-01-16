@@ -354,7 +354,7 @@ class KinderenPage extends Page
             <table class="table table-striped table-bordered table-condensed" id="kinderen_tabel"></table>
         </div>
         <script>
-            require(['tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener', 'validator'], function (Tabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, Validator, require) {
+            require(['single_page_tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener', 'validator'], function (SinglePageTabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, Validator, require) {
                 var uitstappen_tabel = null;
 
                 function laad_kind_uitstappen(kind_data) {
@@ -364,7 +364,7 @@ class KinderenPage extends Page
                     k.push(new Kolom('Datum', 'Datum', null, false));
                     k.push(new Kolom('Omschrijving', 'Omschrijving', null, false));
 
-                    uitstappen_tabel = new Tabel('index.php?action=data&data=kindUitstappen&KindId=' + id, k);
+                    uitstappen_tabel = new SinglePageTabel('index.php?action=data&data=kindUitstappen&KindId=' + id, k);
                     uitstappen_tabel.setUp($('#uitstappen_tabel'));
                     uitstappen_tabel.laadTabel();
                 }
@@ -738,7 +738,7 @@ class KinderenPage extends Page
                     controls.push(new Control('Wijzigen', 'btn btn-xs', wijzig_kind));
                     controls.push(new Control('Verwijderen', 'btn btn-xs', verwijder_kind));
                     k.push(new ControlsKolom(controls));
-                    kinderen_tabel = new Tabel('index.php?action=data&data=kinderenTabel', k);
+                    kinderen_tabel = new SinglePageTabel('index.php?action=data&data=kinderenTabel', k);
                     var filter_velden = new Array();
                     filter_velden.push(new FilterVeld('VolledigeNaam', 2, 'text', null));
                     filter_velden.push(new FilterVeld('Geboortejaar', 1, 'text', null));
@@ -855,7 +855,7 @@ class KinderenPage extends Page
                     controls.push(new Control('Wijzigen', 'btn btn-xs', wijzig_vordering));
                     controls.push(new Control('Verwijderen', 'btn btn-xs', verwijder_vordering_betaling));
                     saldo_kolommen.push(new ControlsKolom(controls));
-                    transacties_tabel = new Tabel('index.php?action=data&data=saldoTabel&KindVoogdId=' + parseInt(kind_voogd_id), saldo_kolommen);
+                    transacties_tabel = new SinglePageTabel('index.php?action=data&data=saldoTabel&KindVoogdId=' + parseInt(kind_voogd_id), saldo_kolommen);
                     transacties_tabel.setUp($('#financieelTable'));
                     transacties_tabel.setRijStyler(function (tr, data) {
                         switch (data.Type) {
