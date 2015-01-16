@@ -14,7 +14,8 @@ class KinderenPage extends Page
         ?>
         <style type="text/css">
             /*adapted from typeahead examples*/
-            .typeahead, .tt-query, .tt-hint {
+            .twitter-typeahead .tt-query,
+            .twitter-typeahead .tt-hint {
                 border-radius: 8px 8px 8px 8px;
                 padding: 8px 12px;
                 width: 396px;
@@ -39,7 +40,7 @@ class KinderenPage extends Page
                 box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
                 padding: 8px 0;
                 width: 422px;
-                overflow-y: auto;
+                overflow-y: visible;
             }
 
             .tt-suggestion {
@@ -52,9 +53,15 @@ class KinderenPage extends Page
                 color: #FFFFFF;
                 cursor: pointer;
             }
+            .modal-overflow .modal-body{
+                overflow:visible;
+            }
 
             .tt-suggestion p {
                 margin: 0;
+            }
+            .modal-body{
+                overflow-y:visible;
             }
         </style>
         <?php
@@ -112,9 +119,8 @@ class KinderenPage extends Page
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="financieelModal" tabindex="-1" role="dialog" aria-labelledby="financieelModal"
-             data-width="60%">
-            <div class="modal-dialog">
+        <div class="modal fade" id="financieelModal" tabindex="-1" role="dialog" aria-labelledby="financieelModal">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -123,10 +129,30 @@ class KinderenPage extends Page
                         <h4 class="modal-title" id="financieelModalTitle">Financieel overzicht</h4>
                     </div>
                     <div class="modal-body">
-                        <select name="financieelKindVoogd"></select>
-                        <table id="financieelTable" class="table table-bordered table-condensed"></table>
-                        <span id="financieelNetto">Netto:<span id="financieelNettoBedrag"></span></span>
-                        <button id="btnBetaling">Betaling invoeren</button>
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">Voogd: </label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" name="financieelKindVoogd"></select>
+                                </div>
+                            </div>
+                            <div class="form-group" id="divFinancieelTable">
+                                <label class="control-label col-sm-2">Overzicht: </label>
+                                <div class="col-sm-10">
+                                    <table id="financieelTable" class="table table-bordered table-condensed"></table>
+                                </div>
+                            </div>
+                            <div class="form-group" id="divFinancieelNetto">
+                                <label class="control-label col-sm-2">Saldo: </label>
+                                <div class="col-sm-10">€ <span id="financieelNettoBedrag"></span></div>
+                            </div>
+                            <div class="form-group" id="divFinancieelBetaling">
+                                <label class="col-sm-2"></label>
+                                <div class="col-sm-10">
+                                    <button id="btnBetaling" class="btn">Betaling invoeren</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -178,11 +204,26 @@ class KinderenPage extends Page
                         <h4 class="modal-title" id="betalingModalTitle">Betaling</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="betalingForm">
+                        <form id="betalingForm" class="form-horizontal">
                             <input type="hidden" name="Id">
-                            <label for="Bedrag">Bedrag: </label><input type="text" name="Bedrag"><br>
-                            <label for="Datum">Datum: </label><input type="text" name="Datum"><br>
-                            <label for="Opmerking">Opmerking: </label><textarea name="Opmerking"></textarea><br>
+                            <div class="form-group">
+                                <label for="Bedrag" class="control-label col-sm-2">Bedrag: </label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" name="Bedrag">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Datum" class="control-label col-sm-2">Datum: </label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" name="Datum">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Opmerking" class="control-label col-sm-2">Opmerking: </label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="Opmerking"></textarea>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -201,28 +242,36 @@ class KinderenPage extends Page
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                             &times;
                         </button>
-                        <h4 class="modal-title" id="kindToevoegenModalTitle">Voogd Toevoegen</h4>
+                        <h4 class="modal-title" id="kindToevoegenModalTitle">Voogd toevoegen</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="voogdForm">
+                        <form id="voogdForm" class="form-horizontal">
                             <input type="hidden" name="Add" value="0">
                             <input type="hidden" name="VoogdId">
 
-                            <div class="row">
-                                <label>Voornaam: </label>
-                                <input type="text" name="Voornaam">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Voornaam">Voornaam: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="Voornaam" />
+                                </div>
                             </div>
-                            <div class="row">
-                                <label>Naam: </label>
-                                <input type="text" name="Naam">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Naam">Naam: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="Naam" />
+                                </div>
                             </div>
-                            <div class="row">
-                                <label>Telefoonnummer: </label>
-                                <input type="text" name="Telefoon" />
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Telefoon">Telefoon: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="Telefoon" />
+                                </div>
                             </div>
-                            <div class="row">
-                                <label>Opmerkingen: </label>
-                                <textarea name="Opmerkingen"></textarea>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Opmerkingen">Opmerkingen: </label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="Opmerkingen"></textarea>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -238,7 +287,7 @@ class KinderenPage extends Page
             </div>
         </div>
         <div class="modal fade" id="kindModal" tabindex="-1" role="dialog" aria-labelledby="kindModal">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="overflow:visible;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -247,51 +296,48 @@ class KinderenPage extends Page
                         <h4 class="modal-title" id="kindModalTitle">Nieuw kind toevoegen</h4>
                     </div>
                     <div class="modal-body">
-                        <form class="form-inline" id="kindForm">
+                        <form class="form-horizontal" id="kindForm">
                             <input type="hidden" name="Id" value="0">
-
-                            <div class="row">
-                                <label class="control-label" for="Voornaam">Voornaam: </label>
-                                <input type="text" name="Voornaam" value="">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Voornaam">Voornaam: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="Voornaam" value="">
+                                </div>
                             </div>
-                            <div class="row">
-                                <label for="Naam" class="control-label">Naam: </label>
-                                <input type="text" name="Naam" value="">
+                            <div class="form-group">
+                                <label for="Naam" class="control-label col-sm-2">Naam: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="Naam" value="">
+                                </div>
                             </div>
-                            <div class="row">
-                                <label class="control-label" for="Geboortejaar">Geboortejaar: </label>
-                                <input type="text" name="Geboortejaar" value="">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Geboortejaar">Geboortejaar: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="Geboortejaar" value="">
+                                </div>
                             </div>
-                            <div class="row">
-                                <label class="control-label" for="DefaultWerking">Werking*: </label>
-                                <select name="DefaultWerking" class="form-control"></select>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="DefaultWerking">Werking*: </label>
+                                <div class="col-sm-10">
+                                    <select name="DefaultWerking" class="form-control"></select>
+                                    <i>*Deze werking is de standaardinstelling bij de aanwezigheden</i>
+                                </div>
                             </div>
-                            <div class="row">
-                                <i>*Deze werking is de standaardinstelling bij de aanwezigheden</i>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Belangrijk">Belangrijk: </label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="Belangrijk"></textarea>
+                                </div>
                             </div>
-                            <div class="row">
-                                <label class="control-label" for="Belangrijk">Belangrijk: </label>
-                                <textarea name="Belangrijk"></textarea>
-                            </div>
-                            <div class="row">
-                                <h3>Voogd:</h3>
-                            </div>
-                            <div class="row">
-                                <label class="control-label">Bestaande voogd toevoegen: </label>
-                                <br>
-                                <input type="text" class="form-control" name="VoogdQuery">
-                                <br>
-                            </div>
-                            <div class="row">
-                                <label class="control-label">Nieuwe voogd toevoegen: </label>
-                                <br>
-                                <button id="btnNieuweVoogd" class="btn btn-default" data-toggle="modal"
-                                        href="#voogdModal">
-                                    Nieuwe voogd
-                                </button>
-                            </div>
-                            <div class="row">
-                                <ul id="lstVoogden"></ul>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Voogden">Voogd(en): </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" style="width:100%;" placeholder="Bestaande voogd" name="VoogdQuery">
+                                    <button id="btnNieuweVoogd" class="btn btn-default" data-toggle="modal" href="#voogdModal">
+                                        Nieuwe voogd toevoegen
+                                    </button>
+                                    <ul id="lstVoogden"></ul>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -396,10 +442,13 @@ class KinderenPage extends Page
                         }).val(resp.Id))
                             .append($('<span>').text(resp.Voornaam + " " + resp.Naam))
                             .attr('title', resp.Opmerkingen)
-                            .append($('<button>').text('edit').click(function () {
+                            .append('&nbsp;')
+                            .append($('<button>').addClass('btn btn-xs').text('edit').click(function () {
                                 edit_voogd(id);
                                 return false;
-                            })).append($('<button>').text('remove').click(function () {
+                            }))
+                            .append('&nbsp;')
+                            .append($('<button>').addClass('btn btn-xs').text('remove').click(function () {
                                 element.remove();
                                 return false;
                             }));
@@ -791,9 +840,9 @@ class KinderenPage extends Page
                 });
                 function empty_saldo_details() {
                     $('#financieelTable').empty();
-                    $('#btnBetaling').hide();
-                    $('#financieelNetto').hide();
-                    $('#financieelNettoBedrag').text('');
+                    $('#divFinancieelTable').hide();
+                    $('#divFinancieelBetaling').hide();
+                    $('#divFinancieelNetto').hide();
                 }
 
                 function wijzig_vordering(vordering_data) {
@@ -846,8 +895,10 @@ class KinderenPage extends Page
                     $.get('index.php?action=data&data=kindVoogdSaldo', data, function (resp) {
                         $('#financieelNettoBedrag').text(resp.Saldo);
                     }, "json");
-                    $('#financieelNetto').show();
-                    $('#btnBetaling').show();
+
+                    $('#divFinancieelNetto').show();
+                    $('#divFinancieelBetaling').show();
+                    $('#divFinancieelTable').show();
                     var saldo_kolommen = new Array();
                     saldo_kolommen.push(new Kolom('Datum', 'Datum'));
                     saldo_kolommen.push(new Kolom('Bedrag', 'Bedrag'));
