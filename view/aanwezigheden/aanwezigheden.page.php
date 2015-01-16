@@ -11,32 +11,6 @@ class AanwezighedenPage extends Page
         parent::__construct("Aanwezigheden", "", "aanwezigheden");
     }
 
-    private function getWerkingenSelect()
-    {
-        $opties = "";
-        $werkingen = Werking::getWerkingen();
-        foreach ($werkingen as $w) {
-            $opties .= "<option value=\"" . $w->getId() . "\">" . $w->getAfkorting() . " - " . $w->getOmschrijving() . "</option>";
-        }
-        $content = <<<HERE
-<select name="WerkingId" class="form-control">
-$opties
-</select>
-HERE;
-        return $content;
-    }
-
-    private function getExtraatjesList()
-    {
-        $extraatjes = Extraatje::getExtraatjes();
-        $result = "<ul>";
-        foreach ($extraatjes as $e) {
-            $result .= "<li><label class=\"checkbox-inline\"><input class=\"Extraatjes\" type=\"checkbox\" name=\"Extraatjes[]\" value=\"" . $e->getId() . "\"></input>" . $e->getOmschrijving() . "</label></li>\n";
-        }
-        $result .= "</ul>";
-        return $result;
-    }
-
     public function printContent()
     {
 
@@ -138,15 +112,23 @@ HERE;
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                        <h4 class="modal-title">Nieuwe vordering toevoegen</h4>
+                        <h4 class="modal-title" id="vorderingTitle">Nieuwe vordering toevoegen</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="vorderingForm">
+                        <form id="vorderingForm" class="form-horizontal">
                             <input type="hidden" name="Id">
-                            <label for="Bedrag">Bedrag:</label>
-                            <input type="text" name="Bedrag"><br>
-                            <label for="Opmerking">Opmerking:</label>
-                            <textarea name="Opmerking"></textarea>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="Bedrag">Bedrag:</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" name="Bedrag">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="Opmerking">Opmerking:</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="Opmerking"></textarea>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -158,7 +140,6 @@ HERE;
         </div>
 
         <div class="modal fade" id="aanwezigheidModal" tabindex="-1" role="dialog" aria-labelledby="aanwezigheidModal">
-
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -166,48 +147,70 @@ HERE;
                         <h4 class="modal-title" id="AanwezigheidModalTitle">Nieuwe aanwezigheid toevoegen</h4>
                     </div>
                     <div class="modal-body">
-                        <form class="form-inline" id="aanwezigheidForm">
-                            <div class="row">
-
-                                <input type="hidden" name="AanwezigheidId" value="0">
-                                <input type="hidden" name="KindId" value="0">
-
-                                <label class="control-label" for="Datum">Datum: </label>
-                                <input type="text" name="Datum" value="">
-                                <br>
-
-				<span>
-				<label class="control-label" for="VolledigeNaamKind">Voornaam + naam: </label>
-				<input type="text" value="" class="form-control typeahead" name="VolledigeNaamKind">
-				</span>
-                                <br>
-                                <label class="control-label" for="KindVoogdId">Voogd:</label>
-                                <select name="KindVoogdId" class="form-control"></select>
-                                <br>
-                                <label class="control-label" for="WerkingId">Werking: </label>
-                                <?php echo $this->getWerkingenSelect(); ?>
-                                <br>
-
-                                <div id="MiddagNaarHuisDiv">
-                                    <label for="MiddagNaarHuis">Middag naar huis: </label><input type="checkbox"
-                                                                                                 name="MiddagNaarHuis">
+                        <form class="form-horizontal" id="aanwezigheidForm">
+                            <input type="hidden" name="AanwezigheidId" value="0">
+                            <input type="hidden" name="KindId" value="0">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="Datum">Datum: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="Datum" class="form-control" placeholder="" value="" />
                                 </div>
-                                <br>
-
-                                <div id="ExtraatjesDiv">
-                                    <h5>Extraatjes:</h5>
-                                    <?php echo $this->getExtraatjesList(); ?>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="VolledigeNaamKind">Naam: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" value="" class="form-control typeahead" name="VolledigeNaamKind" />
                                 </div>
-                                <div id="UitstappenDiv">
-                                    <h5>Uitstappen:</h5>
-                                    <ul id="lstUitstappen"></ul>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="KindVoogdId">Voogd:</label>
+                                <div class="col-sm-10">
+                                    <select name="KindVoogdId" class="form-control"></select>
                                 </div>
-                                <br>
-                                <label class="control-label" for="Opmerkingen">Opmerkingen: </label>
-                                <textarea name="Opmerkingen" class="form-control"></textarea>
-                                <br>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="WerkingId">Werking: </label>
+                                <div class="col-sm-10">
+                                    <select name="WerkingId" class="form-control">
+                                        <?php
+                                        $werkingen = Werking::getWerkingen();
+                                        foreach ($werkingen as $w) { ?>
+                                        <option value="<?php echo $w->getId(); ?>"><?php echo $w->getAfkorting(); ?> - <?php echo $w->getOmschrijving(); ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="MiddagNaarHuis">Opties: </label>
+                                <div class="col-sm-10">
+                                    <div class="checkbox"><label><input type="checkbox" name="MiddagNaarHuis" />'s Middags naar huis</label></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Extraatjes">Extraatjes: </label>
+                                <div class="col-sm-10">
+                                    <?php
+                                    $extraatjes = Extraatje::getExtraatjes();
+                                    foreach ($extraatjes as $e) { ?>
+                                       <div class="checkbox"><label><input class="Extraatjes" type="checkbox" name="Extraatjes[]" value="<?php echo $e->getId(); ?>"/><?php echo $e->getOmschrijving(); ?></label></div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Uitstappen">Uitstappen: </label>
+                                <div class="col-sm-10" id="lstUitstappen">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Opmerkingen">Opmerkingen: </label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="Opmerkingen"></textarea>
+                                </div>
+                            </div>
 
-                                <div id="VorderingenDiv">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Vorderingen">Vorderingen: </label>
+                                <div class="col-sm-10">
                                     <button id="btnNieuweVordering" class="btn btn-default" type="button">Nieuwe
                                         Vordering
                                     </button>
@@ -215,6 +218,13 @@ HERE;
                                 </div>
                             </div>
                         </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+                        <button type="button" class="btn btn-default" id="submitAanwezigheid">Opslaan</button>
+                        <button type="button" class="btn btn-primary" id="submitAanwezigheidAndNext">Opslaan en volgende
+                            toevoegen
+                        </button>
                     </div>
                     <style type="text/css">
                         /*adapted from typeahead examples*/
@@ -320,13 +330,6 @@ HERE;
                             $('#aanwezigheidForm .tt-hint').addClass('form-control');
                         });
                     </script>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
-                        <button type="button" class="btn btn-default" id="submitAanwezigheid">Opslaan</button>
-                        <button type="button" class="btn btn-primary" id="submitAanwezigheidAndNext">Opslaan en volgende
-                            toevoegen
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -367,7 +370,7 @@ HERE;
                     $('input[name=MiddagNaarHuis]').prop('checked', false);
                     $('textarea[name="Opmerkingen"]').val('');
                     $('ul#lstVorderingen').empty();
-                    $('ul#lstUitstappen').empty();
+                    $('div#lstUitstappen').empty();
                 };
                 function laad_aanwezigheid_uitstappen(kind_id) {
                     var data = new Object();
@@ -376,19 +379,21 @@ HERE;
                     $.get('index.php?action=data&data=aanwezigheidUitstappen', data, function (res) {
                         var uitstappen = JSON.parse(res).content;
                         for (var i = 0; i < uitstappen.length; ++i) {
-                            $('ul#lstUitstappen').append(
-                                $('<li>')
-                                    .append($('<input>').attr({
-                                        'type': 'hidden',
-                                        'value': uitstappen[i].Id,
-                                        'name': 'Id'
-                                    }))
-                                    .append($('<input>').attr({
-                                        'type': 'checkbox',
-                                        'checked': uitstappen[i].Ingeschreven,
-                                        'name': 'Ingeschreven'
-                                    }))
-                                    .append($('<span>').text(uitstappen[i].Datum + ": " + uitstappen[i].Omschrijving)));
+                            $('div#lstUitstappen').append(
+                                $('<div>').addClass('checkbox')
+                                    .append($('<label>')
+                                        .addClass('')
+                                        .text(uitstappen[i].Datum + ": " + uitstappen[i].Omschrijving)
+                                        .append($('<input>').attr({
+                                            'type': 'hidden',
+                                            'value': uitstappen[i].Id,
+                                            'name': 'Id'
+                                        }))
+                                        .append($('<input>').attr({
+                                            'type': 'checkbox',
+                                            'checked': uitstappen[i].Ingeschreven,
+                                            'name': 'Ingeschreven'
+                                        }))));
                         }
                     });
                 }
@@ -427,6 +432,7 @@ HERE;
                 };
                 $('#btnNieuweVordering').unbind('click').click(function () {
                     clearVorderingModal();
+                    $('#vorderingTitle').text("Nieuwe vordering");
                     $('#vorderingModal').modal('show');
                     return false;
                 });
@@ -566,7 +572,7 @@ HERE;
                 function aanwezigheid_form_error(msg) {
                     alert(msg);
                 };
-                function submitForm(add_next){
+                function submitForm(add_next) {
                     var aanwezigheidId = $('#aanwezigheidForm input[name="AanwezigheidId"]').val();
                     var kindVoogdId = $('#aanwezigheidForm select[name="KindVoogdId"]').val();
                     var werking = $('#aanwezigheidForm select[name="WerkingId"]').val();
@@ -591,7 +597,7 @@ HERE;
                         d.Vorderingen.push(v);
                     });
                     d.Uitstappen = new Array();
-                    $('ul#lstUitstappen li').each(function (index, e) {
+                    $('div#lstUitstappen > div').each(function (index, e) {
                         var u = new Object();
                         u.Id = $(this).find('input[name=Id]').val();
                         u.Ingeschreven = $(this).find('input[name=Ingeschreven]').is(':checked') ? 1 : 0;
@@ -606,11 +612,12 @@ HERE;
                         return false;
                     }
                     $.post('?action=updateAanwezigheid', d, function (res) {
+                        console.log("res = "+JSON.stringify(res));
                         if (res.ok) {
                             t.laadTabel();
-                            if(add_next){
+                            if (add_next) {
                                 nieuwe_aanwezigheid();
-                            }else{
+                            } else {
                                 $('#aanwezigheidModal').modal('hide');
                             }
                         } else {
@@ -620,6 +627,7 @@ HERE;
                     }, "json");
                     return false;
                 }
+
                 $('#aanwezigheidForm').submit(function () {
                     return submitForm(false);
                 });
@@ -672,6 +680,7 @@ HERE;
                 }
 
                 function wijzig_vordering(vordering_data) {
+                    $('#vorderingTitle').text("Wijzig vordering");
                     $('form#vorderingForm input[name=Id]').val(vordering_data.Id);
                     $('form#vorderingForm textarea[name=Opmerking]').val(vordering_data.Opmerking);
                     $('form#vorderingForm input[name=Bedrag]').val(vordering_data.Bedrag);
@@ -698,11 +707,13 @@ HERE;
                         }).val(vordering_data.Opmerking))
                         .append($('<input>').attr({'type': 'hidden', 'name': 'Bedrag'}).val(vordering_data.Bedrag))
                         .append($('<span>').text(vordering_data.Bedrag + " (" + vordering_data.Opmerking + ")"));
-                    li.append($('<button>').text('edit').click(function () {
+                    li.append('&nbsp;');
+                    li.append($('<button>').addClass('btn btn-xs').text('edit').click(function () {
                         wijzig_vordering(vordering_data);
                         return false;
                     }));
-                    li.append($('<button>').text('remove').click(function () {
+                    li.append('&nbsp;');
+                    li.append($('<button>').addClass('btn btn-xs').text('remove').click(function () {
                         li.remove();
                     }));
                     $('ul#lstVorderingen').append(li);

@@ -64,9 +64,7 @@
                 if (data['Schulden']) {
                     td.append($('<a>').attr({
                         'data-original-title': 'Schulden!'
-                    }).append($('<span>').addClass('glyphicon glyphicon-euro')).tooltip().click(function () {
-                        laad_financien_modal(data);
-                    })).append('&nbsp;');
+                    }).append($('<span>').addClass('glyphicon glyphicon-euro')).tooltip()).append('&nbsp;');
                 }
 
                 var aanwezigheden_string = "";

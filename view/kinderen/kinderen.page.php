@@ -721,6 +721,7 @@ class KinderenPage extends Page
                                 'data-original-title': 'Schulden!'
                             }).append($('<span>').addClass('glyphicon glyphicon-euro')).tooltip().click(function () {
                                 laad_financien_modal(data);
+                                return false;
                             })).append('&nbsp;');
                         }
 
