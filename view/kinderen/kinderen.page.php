@@ -591,7 +591,7 @@ class KinderenPage extends Page
                         filter: function (kind) {
                             return $.map(kind.content, function (v) {
                                 return {
-                                    'display_value': (v.Voornaam + " " + v.Naam + " " + v.Kinderen),
+                                    'display_value': ("<b>"+v.Voornaam + " " + v.Naam + "</b> " + v.Kinderen),
                                     'id': v.Id
                                 };
                             });
@@ -1022,7 +1022,6 @@ class KinderenPage extends Page
                             return false;
                         }
                         $.get('index.php?action=updateVordering', data, function (resp) {
-                            console.log("resp = "+JSON.stringify(resp));
                             if (resp.ok) {
                                 saldo_updated(kind_voogd_id);
                                 $('#vorderingModal').modal('hide');
