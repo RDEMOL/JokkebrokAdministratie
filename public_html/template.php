@@ -16,6 +16,31 @@ if(!$this){
 		<link href="libs/bootstrap-datepicker/css/datepicker.css" rel="stylesheet">
 		<link href="libs/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet">
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+		<script>
+			if(top.location != location){
+				top.location.href = document.location.href;
+			}
+			$(document).ready(function(){
+				$("body").keypress(function(e){
+					if(!$(e.target).is("input, textarea") && !$("body").hasClass("modal-open")){
+						switch(e.which){
+							case 100://D: Dashboard
+								window.location = "?page=dashboard";
+								break;
+							case 97://A: Aanwezigheden
+								window.location = "?page=aanwezigheden";
+								break;
+							case 107://K: Kinderen
+								window.location = "?page=kinderen";
+								break;
+							case 117://U: Uitstappen
+								window.location = "?page=uitstappen";
+								break;
+						}
+					}
+				});
+			});
+		</script>
 		<style type="text/css">
 			html, body {
 				height: 100%;

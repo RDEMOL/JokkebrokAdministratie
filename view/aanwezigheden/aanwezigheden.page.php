@@ -117,14 +117,17 @@ class AanwezighedenPage extends Page
                     <div class="modal-body">
                         <form id="vorderingForm" class="form-horizontal">
                             <input type="hidden" name="Id">
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="Bedrag">Bedrag:</label>
+
                                 <div class="col-sm-10">
                                     <input class="form-control" type="text" name="Bedrag">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="Opmerking">Opmerking:</label>
+
                                 <div class="col-sm-10">
                                     <textarea class="form-control" name="Opmerking"></textarea>
                                 </div>
@@ -150,59 +153,74 @@ class AanwezighedenPage extends Page
                         <form class="form-horizontal" id="aanwezigheidForm">
                             <input type="hidden" name="AanwezigheidId" value="0">
                             <input type="hidden" name="KindId" value="0">
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="Datum">Datum: </label>
+
                                 <div class="col-sm-10">
-                                    <input type="text" name="Datum" class="form-control" placeholder="" value="" />
+                                    <input type="text" name="Datum" class="form-control" placeholder="" value=""/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="VolledigeNaamKind">Naam: </label>
+
                                 <div class="col-sm-10">
-                                    <input type="text" value="" class="form-control typeahead" name="VolledigeNaamKind" />
+                                    <input type="text" value="" class="form-control typeahead"
+                                           name="VolledigeNaamKind"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="KindVoogdId">Voogd:</label>
+
                                 <div class="col-sm-10">
                                     <select name="KindVoogdId" class="form-control"></select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="WerkingId">Werking: </label>
+
                                 <div class="col-sm-10">
                                     <select name="WerkingId" class="form-control">
                                         <?php
                                         $werkingen = Werking::getWerkingen();
                                         foreach ($werkingen as $w) { ?>
-                                        <option value="<?php echo $w->getId(); ?>"><?php echo $w->getAfkorting(); ?> - <?php echo $w->getOmschrijving(); ?></option>
+                                            <option value="<?php echo $w->getId(); ?>"><?php echo $w->getAfkorting(); ?>
+                                                - <?php echo $w->getOmschrijving(); ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="MiddagNaarHuis">Opties: </label>
+
                                 <div class="col-sm-10">
-                                    <div class="checkbox"><label><input type="checkbox" name="MiddagNaarHuis" />'s Middags naar huis</label></div>
+                                    <div class="checkbox"><label><input type="checkbox" name="MiddagNaarHuis"/>'s
+                                            Middags naar huis</label></div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Extraatjes">Extraatjes: </label>
+
                                 <div class="col-sm-10">
                                     <?php
                                     $extraatjes = Extraatje::getExtraatjes();
                                     foreach ($extraatjes as $e) { ?>
-                                       <div class="checkbox"><label><input class="Extraatjes" type="checkbox" name="Extraatjes[]" value="<?php echo $e->getId(); ?>"/><?php echo $e->getOmschrijving(); ?></label></div>
+                                        <div class="checkbox"><label><input class="Extraatjes" type="checkbox"
+                                                                            name="Extraatjes[]"
+                                                                            value="<?php echo $e->getId(); ?>"/><?php echo $e->getOmschrijving(); ?>
+                                            </label></div>
                                     <?php } ?>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Uitstappen">Uitstappen: </label>
+
                                 <div class="col-sm-10" id="lstUitstappen">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Opmerkingen">Opmerkingen: </label>
+
                                 <div class="col-sm-10">
                                     <textarea class="form-control" name="Opmerkingen"></textarea>
                                 </div>
@@ -210,6 +228,7 @@ class AanwezighedenPage extends Page
 
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Vorderingen">Vorderingen: </label>
+
                                 <div class="col-sm-10">
                                     <button id="btnNieuweVordering" class="btn btn-default" type="button">Nieuwe
                                         Vordering
@@ -353,8 +372,16 @@ class AanwezighedenPage extends Page
                 });
             });
             require(['single_page_tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener', 'validator'], function (SinglePageTabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, Validator, require) {
+                $(document).ready(function(){
+                    $("body").keypress(function (e) {
+                        if (!$(e.target).is("input, textarea") && !$("body").hasClass("modal-open")) {
+                            if (e.keyCode == 110) {//N: Nieuw kind
+                                nieuwe_aanwezigheid();
+                            }
+                        }
+                    });
+                });
                 $('#aanwezigheidModal').on('shown', function () {
-//	   $('input:text:visible').next().focus();
                     if ($('input[name=VolledigeNaamKind]').val() == "") {
                         $('input[name=VolledigeNaamKind]').focus();
                     }
@@ -612,7 +639,7 @@ class AanwezighedenPage extends Page
                         return false;
                     }
                     $.post('?action=updateAanwezigheid', d, function (res) {
-                        console.log("res = "+JSON.stringify(res));
+                        console.log("res = " + JSON.stringify(res));
                         if (res.ok) {
                             t.laadTabel();
                             if (add_next) {

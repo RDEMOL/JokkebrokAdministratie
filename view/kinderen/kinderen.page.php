@@ -53,15 +53,17 @@ class KinderenPage extends Page
                 color: #FFFFFF;
                 cursor: pointer;
             }
-            .modal-overflow .modal-body{
-                overflow:visible;
+
+            .modal-overflow .modal-body {
+                overflow: visible;
             }
 
             .tt-suggestion p {
                 margin: 0;
             }
-            .modal-body{
-                overflow-y:visible;
+
+            .modal-body {
+                overflow-y: visible;
             }
         </style>
         <?php
@@ -132,22 +134,26 @@ class KinderenPage extends Page
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <label class="control-label col-sm-2">Voogd: </label>
+
                                 <div class="col-sm-10">
                                     <select class="form-control" name="financieelKindVoogd"></select>
                                 </div>
                             </div>
                             <div class="form-group" id="divFinancieelTable">
                                 <label class="control-label col-sm-2">Overzicht: </label>
+
                                 <div class="col-sm-10">
                                     <table id="financieelTable" class="table table-bordered table-condensed"></table>
                                 </div>
                             </div>
                             <div class="form-group" id="divFinancieelNetto">
                                 <label class="control-label col-sm-2">Saldo: </label>
+
                                 <div class="col-sm-10">€ <span id="financieelNettoBedrag"></span></div>
                             </div>
                             <div class="form-group" id="divFinancieelBetaling">
                                 <label class="col-sm-2"></label>
+
                                 <div class="col-sm-10">
                                     <button id="btnBetaling" class="btn">Betaling invoeren</button>
                                 </div>
@@ -206,20 +212,24 @@ class KinderenPage extends Page
                     <div class="modal-body">
                         <form id="betalingForm" class="form-horizontal">
                             <input type="hidden" name="Id">
+
                             <div class="form-group">
                                 <label for="Bedrag" class="control-label col-sm-2">Bedrag: </label>
+
                                 <div class="col-sm-10">
                                     <input class="form-control" type="text" name="Bedrag">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="Datum" class="control-label col-sm-2">Datum: </label>
+
                                 <div class="col-sm-10">
                                     <input class="form-control" type="text" name="Datum">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="Opmerking" class="control-label col-sm-2">Opmerking: </label>
+
                                 <div class="col-sm-10">
                                     <textarea class="form-control" name="Opmerking"></textarea>
                                 </div>
@@ -248,20 +258,24 @@ class KinderenPage extends Page
                         <form id="vorderingForm" class="form-horizontal">
                             <input type="hidden" name="Id">
                             <input type="hidden" name="Aanwezigheid">
+
                             <div class="form-group">
                                 <label for="Bedrag" class="control-label col-sm-2">Bedrag: </label>
+
                                 <div class="col-sm-10">
                                     <input class="form-control" type="text" name="Bedrag">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="Datum" class="control-label col-sm-2">Datum: </label>
+
                                 <div class="col-sm-10">
                                     <input class="form-control disabled" type="text" name="Datum">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="Opmerking" class="control-label col-sm-2">Opmerking: </label>
+
                                 <div class="col-sm-10">
                                     <textarea class="form-control" name="Opmerking"></textarea>
                                 </div>
@@ -293,24 +307,28 @@ class KinderenPage extends Page
 
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Voornaam">Voornaam: </label>
+
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="Voornaam" />
+                                    <input type="text" class="form-control" name="Voornaam"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Naam">Naam: </label>
+
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="Naam" />
+                                    <input type="text" class="form-control" name="Naam"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Telefoon">Telefoon: </label>
+
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="Telefoon" />
+                                    <input type="text" class="form-control" name="Telefoon"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Opmerkingen">Opmerkingen: </label>
+
                                 <div class="col-sm-10">
                                     <textarea class="form-control" name="Opmerkingen"></textarea>
                                 </div>
@@ -340,26 +358,31 @@ class KinderenPage extends Page
                     <div class="modal-body">
                         <form class="form-horizontal" id="kindForm">
                             <input type="hidden" name="Id" value="0">
+
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Voornaam">Voornaam: </label>
+
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="Voornaam" value="">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="Naam" class="control-label col-sm-2">Naam: </label>
+
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="Naam" value="">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Geboortejaar">Geboortejaar: </label>
+
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="Geboortejaar" value="">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="DefaultWerking">Werking*: </label>
+
                                 <div class="col-sm-10">
                                     <select name="DefaultWerking" class="form-control"></select>
                                     <i>*Deze werking is de standaardinstelling bij de aanwezigheden</i>
@@ -367,15 +390,19 @@ class KinderenPage extends Page
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Belangrijk">Belangrijk: </label>
+
                                 <div class="col-sm-10">
                                     <textarea class="form-control" name="Belangrijk"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Voogden">Voogd(en): </label>
+
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" style="width:100%;" placeholder="Bestaande voogd" name="VoogdQuery">
-                                    <button id="btnNieuweVoogd" class="btn btn-default" data-toggle="modal" href="#voogdModal">
+                                    <input type="text" class="form-control" style="width:100%;"
+                                           placeholder="Bestaande voogd" name="VoogdQuery">
+                                    <button id="btnNieuweVoogd" class="btn btn-default" data-toggle="modal"
+                                            href="#voogdModal">
                                         Nieuwe voogd toevoegen
                                     </button>
                                     <ul id="lstVoogden"></ul>
@@ -441,8 +468,23 @@ class KinderenPage extends Page
         <div class="row">
             <table class="table table-striped table-bordered table-condensed" id="kinderen_tabel"></table>
         </div>
+
+        <script>
+        </script>
         <script>
             require(['single_page_tabel', 'tabel/kolom', 'tabel/control', 'tabel/controls_kolom', 'tabel/filter_rij', 'tabel/filter_veld', 'tabel/row_click_listener', 'validator'], function (SinglePageTabel, Kolom, Control, ControlsKolom, FilterRij, FilterVeld, RowClickListener, Validator, require) {
+
+
+                $(document).ready(function(){
+                    $("body").keypress(function (e) {
+                        if (!$(e.target).is("input, textarea") && !$("body").hasClass("modal-open")) {
+                            if (e.keyCode == 110) {//N: Nieuw kind
+                                nieuw_kind();
+                            }
+                        }
+                    });
+                });
+
                 var uitstappen_tabel = null;
 
                 function laad_kind_uitstappen(kind_data) {
@@ -591,7 +633,7 @@ class KinderenPage extends Page
                         filter: function (kind) {
                             return $.map(kind.content, function (v) {
                                 return {
-                                    'display_value': ("<b>"+v.Voornaam + " " + v.Naam + "</b> " + v.Kinderen),
+                                    'display_value': ("<b>" + v.Voornaam + " " + v.Naam + "</b> " + v.Kinderen),
                                     'id': v.Id
                                 };
                             });
@@ -610,16 +652,16 @@ class KinderenPage extends Page
                 var werking_jaren = <?php
                 echo json_encode(Werking::getJSONWerkingen());
                 ?>;
-                $('#kindForm input[name=Geboortejaar]').change(function(){
-                   if($('#kindForm select[name=DefaultWerking]').val() == "0"){
-                       var jaar = parseInt($('#kindForm input[name=Geboortejaar]').val());
-                       for(var i = 0; i < werking_jaren.length; ++i){
-                           if(jaar >= werking_jaren[i].Beginjaar && jaar <= werking_jaren[i].Eindjaar){
-                               $('#kindForm select[name=DefaultWerking]').val(werking_jaren[i].Id);
-                               break;
-                           }
-                       }
-                   }
+                $('#kindForm input[name=Geboortejaar]').change(function () {
+                    if ($('#kindForm select[name=DefaultWerking]').val() == "0") {
+                        var jaar = parseInt($('#kindForm input[name=Geboortejaar]').val());
+                        for (var i = 0; i < werking_jaren.length; ++i) {
+                            if (jaar >= werking_jaren[i].Beginjaar && jaar <= werking_jaren[i].Eindjaar) {
+                                $('#kindForm select[name=DefaultWerking]').val(werking_jaren[i].Id);
+                                break;
+                            }
+                        }
+                    }
                 });
                 function clear_kind_form() {
                     $('#kindForm #lstVoogden').empty();
@@ -687,9 +729,6 @@ class KinderenPage extends Page
                         return false;
                     }
                     if (data.VoogdIds.length == 0) {
-                        //kind_form_error("Kies een voogd");
-                        //return false;
-
                     }
                     if (!Validator.isGoodYear(data.Geboortejaar)) {
                         kind_form_error("Vul een geldig geboortejaar in");
@@ -854,7 +893,7 @@ class KinderenPage extends Page
                         options: andere_filters
                     }));
                     kinderen_tabel.setFilterRij(new FilterRij(filter_velden, kinderen_tabel));
-                    kinderen_tabel.setRowClickListener(new RowClickListener(function(rij){
+                    kinderen_tabel.setRowClickListener(new RowClickListener(function (rij) {
                             var data = rij.getData();
                             laad_kind_overzicht(data.Id);
                         }
@@ -863,10 +902,11 @@ class KinderenPage extends Page
                     kinderen_tabel.laadTabel();
                 }
 
-                function empty_vordering(){
+                function empty_vordering() {
                     $('#vorderingForm input').val('');
                     $('#vorderingForm textarea').val('');
                 }
+
                 function empty_betaling() {
                     $('#betalingForm input').val('');
                     $('#betalingForm textarea').val('');
@@ -881,7 +921,7 @@ class KinderenPage extends Page
                     $('#betalingForm').submit();
                     return false;
                 });
-                $('#btnVorderingOpslaan').click(function(){
+                $('#btnVorderingOpslaan').click(function () {
                     $('#vorderingForm').submit();
                     return false;
                 });
@@ -920,13 +960,14 @@ class KinderenPage extends Page
 
                 var transacties_tabel;
 
-                function saldo_updated(kind_voogd_id){
+                function saldo_updated(kind_voogd_id) {
                     laad_saldo_details(kind_voogd_id);
                     laad_tabel();
                 }
+
                 function laad_saldo_details(kind_voogd_id) {
                     function verwijder_vordering_betaling(vordering_data) {
-                        console.log("vordering data = "+JSON.stringify(vordering_data));
+                        console.log("vordering data = " + JSON.stringify(vordering_data));
                         $('#verwijderVorderingBetalingModal').modal('show');
                         $('#btnVerwijderVorderingBetaling').unbind('click').click(function () {
                             var data = new Object();
@@ -1002,7 +1043,7 @@ class KinderenPage extends Page
                             if (res.ok) {
                                 saldo_updated(kind_voogd_id);
                                 $('#betalingModal').modal('hide');
-                            }else{
+                            } else {
                                 betaling_form_error("Bijwerken is mislukt!");
                             }
                         }, "json");
@@ -1025,10 +1066,10 @@ class KinderenPage extends Page
                             if (resp.ok) {
                                 saldo_updated(kind_voogd_id);
                                 $('#vorderingModal').modal('hide');
-                            }else{
+                            } else {
                                 vordering_form_error("Bijwerken is mislukt!");
                             }
-                        },"json");
+                        }, "json");
                         return false;
                     });
                 }
