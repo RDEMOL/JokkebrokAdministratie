@@ -86,6 +86,12 @@ class Kind extends Record{
 		if(isset($filter['Belangrijk'])){
 			$sql .= "AND Belangrijk <> '' ";
 		}
+		if(isset($filter['Naam'])){
+			$sql .= "AND Naam LIKE :naam ";
+		}
+		if(isset($filter['Voornaam'])){
+			$sql .= "AND Voornaam LIKE :voornaam ";
+		}
 		return $sql;
 	}
 	protected static function applyFilterParameters($query, $filter){
@@ -99,6 +105,12 @@ class Kind extends Record{
 		}
 		if(isset($filter['Geboortejaar'])){
 			$query->bindParam(':geboortejaar', $filter['Geboortejaar'], PDO::PARAM_INT);
+		}
+		if(isset($filter['Naam'])){
+			$query->bindParam(':naam', $filter['Naam']);
+		}
+		if(isset($filter['Voornaam'])){
+			$query->bindParam(':voornaam', $filter['Voornaam']);
 		}
 	}
 	protected static function getOrderSQL($order){
@@ -157,9 +169,11 @@ class Kind extends Record{
 		}
 		$query = Database::getPDO()->prepare($sql);
 		static::applyFilterParameters($query, $filter);
+		Log::writeLog("get kinderen", $sql);
 		$query->execute();
 		$kinderen = array();
 		while($rs = $query->fetch(PDO::FETCH_OBJ)){
+			//Log::writeLog("kind gevonden", json_encode($rs));
 	  		$k = new Kind($rs);
 			if(isset($filter['Schulden']) && $filter['Schulden'] && !$k->getHeeftSchulden()){
 				continue;
