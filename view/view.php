@@ -180,7 +180,7 @@ class View {
 						if(isset($_REQUEST['filter'])){
 							$filter = $_REQUEST['filter'];
 						}
-						$order = array('Datum'=> 'asc');
+						$order = array('Datum'=> 'desc');
 
 						$uitstappen = Uitstap::getUitstappen($filter, $order);
 						foreach($uitstappen as $u){
