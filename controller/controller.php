@@ -157,7 +157,7 @@ class Controller {
 					$data->Datum = $_REQUEST['Datum'];
 					$betaling = new Betaling($data);
 					$betaling->updateDatabase();
-					echo "1";
+					echo json_encode(array("ok"=>true));
 					exit;
 				case 'removeBetaling':
 					$id = $_REQUEST['Id'];
@@ -184,7 +184,7 @@ class Controller {
 					$data->Aanwezigheid = $_REQUEST['Aanwezigheid'];
 					$vordering = new Vordering($data);
 					$vordering->updateDatabase();
-					echo json_encode($vordering->getJSONData());
+					echo json_encode(array("ok"=>true, "data"=>$vordering->getJSONData()));
 					exit;
 				default:
 					return;

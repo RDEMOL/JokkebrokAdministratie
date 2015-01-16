@@ -235,6 +235,48 @@ class KinderenPage extends Page
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="vorderingModal" tabindex="-1" role="dialog" aria-labelledby="vorderingModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="vorderingModalTitle">Vordering</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="vorderingForm" class="form-horizontal">
+                            <input type="hidden" name="Id">
+                            <input type="hidden" name="Aanwezigheid">
+                            <div class="form-group">
+                                <label for="Bedrag" class="control-label col-sm-2">Bedrag: </label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" name="Bedrag">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Datum" class="control-label col-sm-2">Datum: </label>
+                                <div class="col-sm-10">
+                                    <input class="form-control disabled" type="text" name="Datum">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Opmerking" class="control-label col-sm-2">Opmerking: </label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" name="Opmerking"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Sluiten
+                        </button>
+                        <button type="button" class="btn btn-primary" id="btnVorderingOpslaan">Opslaan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="voogdModal" tabindex="-1" role="dialog" aria-labelledby="voogdModal">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -821,6 +863,10 @@ class KinderenPage extends Page
                     kinderen_tabel.laadTabel();
                 }
 
+                function empty_vordering(){
+                    $('#vorderingForm input').val('');
+                    $('#vorderingForm textarea').val('');
+                }
                 function empty_betaling() {
                     $('#betalingForm input').val('');
                     $('#betalingForm textarea').val('');
@@ -833,6 +879,10 @@ class KinderenPage extends Page
                 });
                 $('#btnBetalingOpslaan').click(function () {
                     $('#betalingForm').submit();
+                    return false;
+                });
+                $('#btnVorderingOpslaan').click(function(){
+                    $('#vorderingForm').submit();
                     return false;
                 });
                 $('#betalingForm input[name="Datum"]').datepicker({'format': 'yyyy-mm-dd'}).on('changeDate', function () {
@@ -848,7 +898,13 @@ class KinderenPage extends Page
                 function wijzig_vordering(vordering_data) {
                     switch (vordering_data.Type) {
                         case 'vordering':
-                            alert("vordering not implemented yet");
+                            empty_vordering();
+                            $('#vorderingModal').modal('show');
+                            $('#vorderingForm input[name=Id]').val(vordering_data.Id);
+                            $('#vorderingForm input[name=Bedrag]').val(-vordering_data.Bedrag);
+                            $('#vorderingForm textarea[name=Opmerking]').val(vordering_data.Opmerking);
+                            $('#vorderingForm input[name=Datum]').val(vordering_data.Datum);
+                            $('#vorderingForm input[name=Aanwezigheid]').val(vordering_data.Aanwezigheid);
                             break;
                         case 'betaling':
                             empty_betaling();
@@ -943,11 +999,37 @@ class KinderenPage extends Page
                             return false;
                         }
                         $.get('index.php?action=updateBetaling', data, function (resp) {
-                            if ($.trim(resp) == "1") {
+                            if (res.ok) {
                                 saldo_updated(kind_voogd_id);
                                 $('#betalingModal').modal('hide');
+                            }else{
+                                betaling_form_error("Bijwerken is mislukt!");
                             }
-                        });
+                        }, "json");
+                        return false;
+                    });
+                    function vordering_form_error(msg) {
+                        alert(msg);
+                    };
+                    $('#vorderingForm').unbind('submit').submit(function () {
+                        var data = new Object();
+                        data.Id = $('#vorderingForm input[name=Id]').val();
+                        data.Bedrag = $('#vorderingForm input[name=Bedrag]').val();
+                        data.Opmerking = $('#vorderingForm textarea[name=Opmerking]').val();
+                        data.Aanwezigheid = $('#vorderingForm input[name=Aanwezigheid]').val();
+                        if (!Validator.isPositivePayment(data.Bedrag)) {
+                            vordering_form_error("Vul een geldig positief bedrag in (max 2 cijfers na decimale punt).");
+                            return false;
+                        }
+                        $.get('index.php?action=updateVordering', data, function (resp) {
+                            console.log("resp = "+JSON.stringify(resp));
+                            if (resp.ok) {
+                                saldo_updated(kind_voogd_id);
+                                $('#vorderingModal').modal('hide');
+                            }else{
+                                vordering_form_error("Bijwerken is mislukt!");
+                            }
+                        },"json");
                         return false;
                     });
                 }

@@ -405,6 +405,7 @@ class View {
 							$obj->Id = $v->getId();
 							$obj->Bedrag = -$v->getBedrag();
 							$obj->Datum = $v->getAanwezigheid()->getDatum();
+							$obj->Aanwezigheid = $v->getAanwezigheidId();
 							$obj->Opmerking = $v->getOpmerking();
 							$result['content'][] = $obj;
 						}
