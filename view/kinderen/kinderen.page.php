@@ -1086,11 +1086,6 @@ class KinderenPage extends Page
                     empty_saldo_details();
                     var data = new Object();
                     data.KindId = kind.Id;
-                    $.get('index.php?action=data&data=kindVoogden', data, function (res) {
-                        for (var i = 0; i < res.content.length; ++i) {
-                            $('select[name=financieelKindVoogd]').append($('<option>').val(res.content[i].Id).text(res.content[i].Voornaam + " " + res.content[i].Naam));
-                        }
-                    }, "json");
                     $('select[name=financieelKindVoogd]').unbind('change').change(function () {
                         if ($('select[name=financieelKindVoogd]').val() == '0') {
                             empty_saldo_details();
@@ -1098,6 +1093,14 @@ class KinderenPage extends Page
                             laad_saldo_details($('select[name=financieelKindVoogd]').val());
                         }
                     });
+                    $.get('index.php?action=data&data=kindVoogden', data, function (res) {
+                        for (var i = 0; i < res.content.length; ++i) {
+                            $('select[name=financieelKindVoogd]').append($('<option>').val(res.content[i].Id).text(res.content[i].Voornaam + " " + res.content[i].Naam));
+                        }
+                        if(res.content.length == 1){
+                            $('select[name=financieelKindVoogd]').val(res.content[0].Id).change();
+                        }
+                    }, "json");
                     $('#financieelModal').modal('show');
                 }
 
