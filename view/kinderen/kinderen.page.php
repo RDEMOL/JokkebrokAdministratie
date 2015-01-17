@@ -1040,7 +1040,7 @@ class KinderenPage extends Page
                             return false;
                         }
                         $.get('index.php?action=updateBetaling', data, function (resp) {
-                            if (res.ok) {
+                            if (resp.ok) {
                                 saldo_updated(kind_voogd_id);
                                 $('#betalingModal').modal('hide');
                             } else {
