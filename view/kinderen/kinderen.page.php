@@ -745,8 +745,7 @@ class KinderenPage extends Page
                             kinderen_tabel.laadTabel();
                         });
                     };
-
-                    if (data.Id) {
+                    if (data.Id != 0) {
                         save();
                     } else {
                         $.get('index.php?action=data&data=kindExists', data, function (resp) {
@@ -974,7 +973,6 @@ class KinderenPage extends Page
 
                 function laad_saldo_details(kind_voogd_id) {
                     function verwijder_vordering_betaling(vordering_data) {
-                        console.log("vordering data = " + JSON.stringify(vordering_data));
                         $('#verwijderVorderingBetalingModal').modal('show');
                         $('#btnVerwijderVorderingBetaling').unbind('click').click(function () {
                             var data = new Object();

@@ -198,11 +198,9 @@ class Kind extends Record
         }
         $query = Database::getPDO()->prepare($sql);
         static::applyFilterParameters($query, $filter);
-        Log::writeLog("get kinderen", $sql);
         $query->execute();
         $kinderen = array();
         while ($rs = $query->fetch(PDO::FETCH_OBJ)) {
-            //Log::writeLog("kind gevonden", json_encode($rs));
             $k = new Kind($rs);
             if (isset($filter['Schulden']) && $filter['Schulden'] && !$k->getHeeftSchulden()) {
                 continue;
@@ -250,11 +248,9 @@ class Kind extends Record
 
     public function setVoogdIds($voogd_ids)
     {
-        Log::writeLog("in set voogd ids", json_encode($voogd_ids));
         if ($voogd_ids == null) {
             $voogd_ids = array();
         }
-        Log::writeLog("voogd", "andere voogden toevoegen");
         $all_succeeded = true;
         $current_voogden = $this->getKindVoogden();
         foreach ($current_voogden as $cv) {
@@ -266,12 +262,10 @@ class Kind extends Record
                 }
             }
             if (!$good) {
-                Log::writeLog("voogd", "bestaande voogd verwijderd");
                 $all_succeeded = $all_succeeded && $cv->deleteFromDatabase();
             }
         }
         foreach ($voogd_ids as $vi) {
-            Log::writeLog("voogd", "nieuwe voogd toevoegen");
             $this->addVoogd($vi);
         }
         $this->checkVoogd();
@@ -279,9 +273,8 @@ class Kind extends Record
     }
 
     private function checkVoogd(){
-        $voogden = $this->getVoogdenIds();
-        Log::writeLog("voogden", "momenteel ".json_encode($voogden));
-        if(count($voogden) == 0){
+        $voogden = count($this->getVoogdenIds());
+        if($voogden <= 0){
             $data = new stdClass();
             $data->Id = 0;
             $data->Naam = "";
@@ -291,8 +284,6 @@ class Kind extends Record
             $v->updateDatabase();
             $this->addVoogd($v->getId());
         }
-        $voogden = $this->getVoogdenIds();
-        Log::writeLog("voogden", "nu ".json_encode($voogden));
     }
 
     public function getHeeftSchulden()

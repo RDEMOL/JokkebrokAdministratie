@@ -180,7 +180,6 @@ class Controller
                     exit;
                 case 'removeVordering':
                     $id = $_REQUEST['Id'];
-                    Log::writeLog("vordering id", $id);
                     $vordering = new Vordering($id);
                     $result = $vordering->deleteFromDatabase();
                     echo json_encode(array("ok" => $result));
