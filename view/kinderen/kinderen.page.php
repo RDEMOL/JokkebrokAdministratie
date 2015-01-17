@@ -806,7 +806,6 @@ class KinderenPage extends Page
                     $('#voogdForm input[name=Add]').val('1');
                     $('#voogdForm input[name=Id]').val('0');
                 });
-                var t;
                 var js_array = new Array();
                 $(document).ready(function () {
                     $.get('index.php?action=data&data=werkingenTabel', null, function (resp) {
@@ -962,7 +961,7 @@ class KinderenPage extends Page
 
                 function saldo_updated(kind_voogd_id) {
                     laad_saldo_details(kind_voogd_id);
-                    laad_tabel();
+                    kinderen_tabel.updateBody();
                 }
 
                 function laad_saldo_details(kind_voogd_id) {
