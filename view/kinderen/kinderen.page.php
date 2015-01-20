@@ -107,7 +107,7 @@ class KinderenPage extends Page
                             <input type="hidden" name="Id">
                         </form>
                         <p>
-                            Bent u zeker dat u dit kind wilt verwijderen?
+                            Bent u zeker dat u <span id="verwijderKindNaam"></span> wilt verwijderen?
                         </p>
                     </div>
                     <div class="modal-footer">
@@ -690,6 +690,7 @@ class KinderenPage extends Page
                 };
                 function verwijder_kind(data) {
                     $('#verwijderKindModal input[name=Id]').val(data.Id);
+                    $('#verwijderKindModal span#verwijderKindNaam').text(data.Voornaam + " " + data.Naam);
                     $('#verwijderKindModal').modal('show');
                 };
                 $('#kindModal').on('shown', function () {

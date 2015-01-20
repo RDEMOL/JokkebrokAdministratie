@@ -96,7 +96,7 @@ class AanwezighedenPage extends Page
                         <form id="verwijderAanwezigheidForm">
                             <input type="hidden" name="Id">
                         </form>
-                        <p>Bent u zeker dat u deze aanwezigheid wilt verwijderen?</p>
+                        <p>Bent u zeker dat u de aanwezigheid van <span id="verwijderAanwezigheidKindNaam"></span> wilt verwijderen?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
@@ -465,6 +465,7 @@ class AanwezighedenPage extends Page
                 });
                 var verwijder_aanwezigheid = function (data) {
                     $('#verwijderAanwezigheidModal input[name=Id]').val(data.Id);
+                    $('#verwijderAanwezigheidModal span#verwijderAanwezigheidKindNaam').text(data.Voornaam + " "+data.Naam);
                     $('#verwijderAanwezigheidModal').modal('show');
                 };
 
