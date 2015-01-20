@@ -445,7 +445,7 @@ class View
 
                         $filter = array();
                         $filter['AanwezigheidZichtbaar'] = true;
-                        $uitstappen = Uitstap::getUitstappen($filter);
+                        $uitstappen = Uitstap::getUitstappen($filter, array("Datum"=>"asc"));
                         $result = array();
                         $result['content'] = array();
                         foreach ($uitstappen as $u) {
