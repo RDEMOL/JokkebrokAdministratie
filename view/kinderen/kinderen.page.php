@@ -711,7 +711,7 @@ class KinderenPage extends Page
                 };
                 $('#kindForm').submit(function () {
                     var data = new Object();
-                    data.Id = $('#kindForm input[name=Id]verwijderKindNaam').val();
+                    data.Id = $('#kindForm input[name=Id]').val();
                     data.Voornaam = $('#kindForm input[name=Voornaam]').val();
                     data.Naam = $('#kindForm input[name=Naam]').val();
                     data.Geboortejaar = $('#kindForm input[name=Geboortejaar]').val();
