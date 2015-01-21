@@ -711,7 +711,7 @@ class KinderenPage extends Page
                 };
                 $('#kindForm').submit(function () {
                     var data = new Object();
-                    data.Id = $('#kindForm input[name=Id]').val();
+                    data.Id = $('#kindForm input[name=Id]verwijderKindNaam').val();
                     data.Voornaam = $('#kindForm input[name=Voornaam]').val();
                     data.Naam = $('#kindForm input[name=Naam]').val();
                     data.Geboortejaar = $('#kindForm input[name=Geboortejaar]').val();
@@ -918,7 +918,12 @@ class KinderenPage extends Page
                     $('#betalingForm input').val('');
                     $('#betalingForm textarea').val('');
                 }
-
+                $("#betalingModal").on('shown.bs.modal', function(){
+                    $('#betalingModal input[name=Bedrag]').focus();
+                });
+                $("#vorderingModal").on('shown.bs.modal', function(){
+                    $('#vorderingModal input[name=Bedrag]').focus();
+                });
                 $('#btnBetaling').show().click(function () {
                     empty_betaling();
                     $('#betalingModal').modal('show');
@@ -932,7 +937,7 @@ class KinderenPage extends Page
                     $('#vorderingForm').submit();
                     return false;
                 });
-                $('#betalingForm input[name="Datum"]').datepicker({'format': 'yyyy-mm-dd'}).on('changeDate', function () {
+                $('#betalingForm input[name="Datum"]').datepicker({'format': 'yyyy-mm-dd', todayBtn:"linked", language:"nl-BE"}).on('changeDate', function () {
                     $('#betalingForm input[name="Datum"]').datepicker('hide');
                 });
                 function empty_saldo_details() {
@@ -1037,6 +1042,7 @@ class KinderenPage extends Page
                         data.Opmerking = $('#betalingForm textarea[name=Opmerking]').val();
                         data.Datum = $('#betalingForm input[name=Datum]').val();
                         data.KindVoogd = kind_voogd_id;
+                        data.Bedrag = Validator.fixDecimalPoint(data.Bedrag);
                         if (!Validator.isPositivePayment(data.Bedrag)) {
                             betaling_form_error("Vul een geldig positief bedrag in (max 2 cijfers na decimale punt).");
                             return false;

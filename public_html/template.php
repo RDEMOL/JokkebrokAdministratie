@@ -13,7 +13,7 @@ if (!$this) {
     <script src="libs/jquery.sortable.min.js"></script>
     <script data-main="js/main" src="./libs/require.js"></script>
     <link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="libs/bootstrap-datepicker/css/datepicker.css" rel="stylesheet">
+    <link href="libs/eternicode-bootstrap-datepicker/css/datepicker.css" rel="stylesheet">
     <link href="libs/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <script>
@@ -149,7 +149,8 @@ if (!$this) {
     </div>
 </div>
 <script src="libs/bootstrap/js/bootstrap.min.js"></script>
-<script src="libs/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="libs/eternicode-bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="libs/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.nl-BE.js"></script>
 <script src="libs/typeahead.bundle.js"></script>
 <script src="libs/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
 <script src="libs/bootstrap-modal/js/bootstrap-modal.js"></script>

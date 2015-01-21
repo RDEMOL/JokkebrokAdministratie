@@ -29,6 +29,9 @@ define([], function () {
     Validator.isGoodDayOfMonth = function (data) {
         return Validator.isInteger(data) && parseInt(data, 10) > 0 && parseInt(data, 10) <= 31;
     };
+    Validator.fixDecimalPoint = function(number){
+        return number.split(",").join(".");
+    }
     Validator.isGoodDate = function (data) {
         var parts = data.split("-");
         if (parts.length != 3)
