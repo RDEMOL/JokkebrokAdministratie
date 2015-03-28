@@ -588,11 +588,12 @@ class KinderenPage extends Page
                     data.Opmerkingen = $('#voogdForm textarea[name=Opmerkingen]').val();
                     data.Telefoon = $('#voogdForm input[name=Telefoon]').val();
                     if ($.get('index.php?action=data&data=voogdExists', data, function (resp) {
-                            var good = true;
+                            //var good = true;
                             if (resp.exists) {
-                                good = window.confirm('Er bestaat al een voogd met dezelfde naam en voornaam. Bent u zeker dat het over een andere voogd gaat? Indien u denkt dat het over dezelfde voogd gaat, klik dan op "Annuleren" en voeg de voogd toe via "Bestaande voogd toevoegen".');
-                            }
-                            if (good) {
+                                //good = window.confirm('Er bestaat al een voogd met dezelfde naam en voornaam. Bent u zeker dat het over een andere voogd gaat? Indien u denkt dat het over dezelfde voogd gaat, klik dan op "Annuleren" en voeg de voogd toe via "Bestaande voogd toevoegen".');
+                                window.alert("Er bestaat al een voogd met dezelfde naam en voornaam. Gelieve een andere naam en/of voornaam in te vullen (eventueel met extra informatie tussen haakjes)");
+                            }else{
+                            //if (good) {
                                 $.post('index.php?action=updateVoogd', data, function (resp) {
                                     try {
                                         resp = JSON.parse(resp);
@@ -606,9 +607,7 @@ class KinderenPage extends Page
                                     }
                                     $('#voogdModal').modal('hide');
                                 });
-                            } else {
-                                $('#voogdModal').modal('hide');
-                            }
+                            } 
                         }, "json"));
 
                 });
