@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 15, 2015 at 09:54 PM
--- Server version: 5.5.40-0ubuntu0.14.04.1
--- PHP Version: 5.5.9-1ubuntu4.5
+-- Generation Time: Mar 28, 2015 at 11:42 PM
+-- Server version: 5.5.41-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `Aanwezigheid` (
   UNIQUE KEY `KindVoogd` (`KindVoogd`,`Datum`),
   KEY `KindVoogdId_idx` (`KindVoogd`),
   KEY `WerkingId_idx` (`Werking`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1370 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1378 ;
 
 -- --------------------------------------------------------
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `Betaling` (
   `Datum` date NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `KindVoogd` (`KindVoogd`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `Kind` (
   `Belangrijk` text NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `DefaultWerking` (`DefaultWerking`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=430 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=456 ;
 
 -- --------------------------------------------------------
 
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `KindVoogd` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Kind` (`Kind`,`Voogd`),
   KEY `Voogd` (`Voogd`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=503 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=552 ;
 
 -- --------------------------------------------------------
 
@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `Log` (
   `Title` text NOT NULL,
   `Value` text NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
 
 -- --------------------------------------------------------
 
@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `Uitstap` (
   `DashboardZichtbaar` tinyint(1) NOT NULL,
   `AanwezigheidZichtbaar` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `UitstapKind` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Kind_Uitstap` (`Kind`,`Uitstap`),
   KEY `Uitstap` (`Uitstap`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=42 ;
 
 -- --------------------------------------------------------
 
@@ -181,12 +181,13 @@ CREATE TABLE IF NOT EXISTS `Users` (
 
 CREATE TABLE IF NOT EXISTS `Voogd` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Naam` text NOT NULL,
-  `Voornaam` text NOT NULL,
+  `Naam` varchar(250) DEFAULT NULL,
+  `Voornaam` varchar(250) DEFAULT NULL,
   `Opmerkingen` text NOT NULL,
-  `Telefoon` text NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=383 ;
+  `Telefoon` text,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `Naam` (`Naam`,`Voornaam`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=390 ;
 
 -- --------------------------------------------------------
 
@@ -201,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `Vordering` (
   `Opmerking` text NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `Aanwezigheid` (`Aanwezigheid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
