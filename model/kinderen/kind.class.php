@@ -212,8 +212,6 @@ class Kind extends Record
 
     public function getKindVoogden()
     {
-        //TODO: move functionality to Voogd class
-        //$sql = "SELECT KindVoogd.ID as KindVoogd, Voogd.Id as Id, Voogd.Naam as Naam, Voogd.Voornaam as Voornaam, Voogd.Opmerkingen as Opmerkingen FROM Voogd LEFT JOIN KindVoogd ON KindVoogd.Voogd=Voogd.Id WHERE KindVoogd.Kind=:id";
         $sql = "SELECT * FROM KindVoogd WHERE Kind = :id";
         $query = Database::getPDO()->prepare($sql);
         $id = $this->getId();
@@ -277,7 +275,7 @@ class Kind extends Record
         if($voogden <= 0){
             $data = new stdClass();
             $data->Id = 0;
-            $data->Naam = "";
+            $data->Naam = "".$this->getId();
             $data->Voornaam = "";
             $data->Opmerkingen = "";
             $v = new Voogd($data);

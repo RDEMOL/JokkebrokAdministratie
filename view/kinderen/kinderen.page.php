@@ -607,7 +607,7 @@ class KinderenPage extends Page
                                     }
                                     $('#voogdModal').modal('hide');
                                 });
-                            } 
+                            }
                         }, "json"));
 
                 });
