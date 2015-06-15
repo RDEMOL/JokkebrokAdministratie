@@ -316,7 +316,7 @@ class KinderenPage extends Page
                                 <label class="control-label col-sm-2" for="Naam">Naam: </label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="Naam"/>
+                                    <input type="text" class="form-control" name="Naam" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -1112,6 +1112,15 @@ class KinderenPage extends Page
                 $('#kindModal, #verwijderKindModal, #pdfModal, #financieelModal').on('hidden', function () {
                     $('#btnNieuwKind').focus();
                 });
+                $('#voogdModal input[name=Naam], #voogdModal input[name=Voornaam]').on("change keyup", function() {
+                    console.log("auto-capitalizing!");
+                    var current_value = $(this).val().trim();
+                    if (current_value.length == 0 || current_value.charAt(0) == current_value.charAt(0).toUpperCase()) {
+                        return;
+                    }
+                    current_value =current_value.charAt(0).toUpperCase() + current_value.substr(1);
+                    $(this).val(current_value);
+                })
             });
         </script>
     <?php
