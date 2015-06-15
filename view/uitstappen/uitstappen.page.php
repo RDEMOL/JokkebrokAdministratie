@@ -92,7 +92,7 @@ class UitstappenPage extends Page
             }
         </style>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <strong>Uitstapoverzicht</strong>
@@ -107,7 +107,7 @@ class UitstappenPage extends Page
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <strong>Uitstapdetails</strong>
@@ -295,6 +295,7 @@ class UitstappenPage extends Page
                     var uitstap_deelnemers_kolommen = new Array();
                     uitstap_deelnemers_kolommen.push(new Kolom('Naam', 'Naam'));
                     uitstap_deelnemers_kolommen.push(new Kolom('Voornaam', 'Voornaam'));
+
                     var controls = new Array();
 
                     function verwijder_deelname(data) {
@@ -315,9 +316,45 @@ class UitstappenPage extends Page
                     laad_uitstap(row.getData());
                 };
                 var k = new Array();
+                function update_uitstap(id, datum, omschrijving, aanwezigheid_zichtbaar, dashboard_zichtbaar){
+                    var data = new Object();
+                    data.Id = id;
+                    data.Datum = datum;
+                    data.Omschrijving = omschrijving;
+                    if(aanwezigheid_zichtbaar)
+                        data.AanwezigheidZichtbaar = true;
+                    if(dashboard_zichtbaar)
+                        data.DashboardZichtbaar = true;
+                    $.post('index.php?action=updateUitstap', data, function(data){
+                        uitstappen_tabel.laadTabel();
+                    });
+                }
                 k.push(new Kolom('Datum', 'Datum'));
                 k.push(new Kolom('Omschrijving', 'Omschrijving'));
-
+                k.push(new Kolom("AanwezigheidZichtbaar", "Aanwezigheid", function(data){
+                    var td = $('<td>');
+                    var checkbox = $('<input type="checkbox">');
+                    if(data['AanwezigheidZichtbaar'] == "1"){
+                        checkbox.prop("checked", true);
+                    }
+                    checkbox.change(function(e){
+                        update_uitstap(data['Id'], data['Datum'], data['Omschrijving'], $(this).prop("checked"), data['DashboardZichtbaar']=="1");
+                    });
+                    td.append(checkbox);
+                    return td;
+                }));
+                k.push(new Kolom("DashboardZichtbaar", "Dashboard", function(data){
+                    var td = $('<td>');
+                    var checkbox = $('<input type="checkbox">');
+                    if(data['DashboardZichtbaar'] == "1"){
+                        checkbox.prop("checked", true);
+                    }
+                    checkbox.change(function(e){
+                        update_uitstap(data['Id'], data['Datum'], data['Omschrijving'], data["AanwezigheidZichtbaar"] == "1", $(this).prop("checked"));
+                    });
+                    td.append(checkbox);
+                    return td;
+                }));
                 var uitstappen_tabel = new NavigationTabel('index.php?action=data&data=uitstappenTabel', k);
                 uitstappen_tabel.setRowClickListener(new RowClickListener(uitstap_clicked));
                 uitstappen_tabel.setUp($('table#UitstapOverzicht'));
@@ -354,6 +391,7 @@ class UitstappenPage extends Page
                         uitstap_form_error("Vul een omschrijving in");
                         return false;
                     }
+                    console.log("data = "+JSON.stringify(data));
                     $.post('index.php?action=updateUitstap', data, function (r) {
                         if (r.Ok == "1") {
                             var d = new Object();
