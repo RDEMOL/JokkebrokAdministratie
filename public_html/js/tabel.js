@@ -100,6 +100,9 @@ define(['tabel/kolom', 'tabel/rij'], function (Kolom, Rij) {
             rij.setRowClickListener(this.getRowClickListener());
         }
         var tr = rij.getElement();
+        if(this.getRowClickListener() != null){
+            tr.css("cursor", "pointer");
+        }
         if (this.getRijStyler()) {
             (this.getRijStyler())(tr, this.data[index]);
         }
