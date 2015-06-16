@@ -303,8 +303,12 @@ class KinderenPage extends Page
                     <div class="modal-body">
                         <form id="voogdForm" class="form-horizontal">
                             <input type="hidden" name="Add" value="0">
-                            <input type="hidden" name="VoogdId">
-
+                            <div class="form-group" id="voogdIdDiv">
+                                <label class="control-label col-sm-2" for="VoogdId">Voogd ID: </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control disabled" readonly name="VoogdId" />
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Voornaam">Voornaam: </label>
 
@@ -504,6 +508,8 @@ class KinderenPage extends Page
                     data.VoogdId = id;
                     $.get('index.php?action=data&data=voogdInfo', data, function (resp) {
                         resp = JSON.parse(resp);
+
+                        $('#voogdForm div#voogdIdDiv').css("display", "block");
                         $('#voogdForm input[name=VoogdId]').val(resp.Id);
                         $('#voogdForm input[name=Naam]').val(resp.Naam);
                         $('#voogdForm input[name=Voornaam]').val(resp.Voornaam);
@@ -809,6 +815,7 @@ class KinderenPage extends Page
                 });
                 $('#btnNieuweVoogd').click(function () {
                     $('#voogdForm input').val('');
+                    $('#voogdForm div#voogdIdDiv').css("display", "none");
                     $('#voogdForm textarea').val('');
                     $('#voogdForm input[name=Add]').val('1');
                     $('#voogdForm input[name=Id]').val('0');
