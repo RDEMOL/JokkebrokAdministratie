@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 28, 2015 at 11:42 PM
--- Server version: 5.5.41-0ubuntu0.14.04.1
--- PHP Version: 5.5.9-1ubuntu4.7
+-- Generation Time: Jun 20, 2015 at 02:28 PM
+-- Server version: 5.5.43-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `Jokkebrok`
 --
+CREATE DATABASE IF NOT EXISTS `Jokkebrok` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `Jokkebrok`;
 
 -- --------------------------------------------------------
 
@@ -26,6 +28,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `Aanwezigheid`
 --
 
+DROP TABLE IF EXISTS `Aanwezigheid`;
 CREATE TABLE IF NOT EXISTS `Aanwezigheid` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Datum` date NOT NULL,
@@ -38,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `Aanwezigheid` (
   UNIQUE KEY `KindVoogd` (`KindVoogd`,`Datum`),
   KEY `KindVoogdId_idx` (`KindVoogd`),
   KEY `WerkingId_idx` (`Werking`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1378 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1380 ;
 
 -- --------------------------------------------------------
 
@@ -46,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `Aanwezigheid` (
 -- Table structure for table `Betaling`
 --
 
+DROP TABLE IF EXISTS `Betaling`;
 CREATE TABLE IF NOT EXISTS `Betaling` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `KindVoogd` int(11) NOT NULL,
@@ -62,6 +66,7 @@ CREATE TABLE IF NOT EXISTS `Betaling` (
 -- Table structure for table `Extraatje`
 --
 
+DROP TABLE IF EXISTS `Extraatje`;
 CREATE TABLE IF NOT EXISTS `Extraatje` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Omschrijving` text NOT NULL,
@@ -74,6 +79,7 @@ CREATE TABLE IF NOT EXISTS `Extraatje` (
 -- Table structure for table `ExtraatjeAanwezigheid`
 --
 
+DROP TABLE IF EXISTS `ExtraatjeAanwezigheid`;
 CREATE TABLE IF NOT EXISTS `ExtraatjeAanwezigheid` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Aanwezigheid` int(11) NOT NULL,
@@ -81,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `ExtraatjeAanwezigheid` (
   PRIMARY KEY (`Id`),
   KEY `Aanwezigheid` (`Aanwezigheid`),
   KEY `Extraatje` (`Extraatje`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=947 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=948 ;
 
 -- --------------------------------------------------------
 
@@ -89,6 +95,7 @@ CREATE TABLE IF NOT EXISTS `ExtraatjeAanwezigheid` (
 -- Table structure for table `Kind`
 --
 
+DROP TABLE IF EXISTS `Kind`;
 CREATE TABLE IF NOT EXISTS `Kind` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Voornaam` varchar(150) NOT NULL,
@@ -98,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `Kind` (
   `Belangrijk` text NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `DefaultWerking` (`DefaultWerking`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=456 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=459 ;
 
 -- --------------------------------------------------------
 
@@ -106,6 +113,7 @@ CREATE TABLE IF NOT EXISTS `Kind` (
 -- Table structure for table `KindVoogd`
 --
 
+DROP TABLE IF EXISTS `KindVoogd`;
 CREATE TABLE IF NOT EXISTS `KindVoogd` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Kind` int(11) NOT NULL,
@@ -114,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `KindVoogd` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Kind` (`Kind`,`Voogd`),
   KEY `Voogd` (`Voogd`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=552 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=555 ;
 
 -- --------------------------------------------------------
 
@@ -122,6 +130,7 @@ CREATE TABLE IF NOT EXISTS `KindVoogd` (
 -- Table structure for table `Log`
 --
 
+DROP TABLE IF EXISTS `Log`;
 CREATE TABLE IF NOT EXISTS `Log` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -136,6 +145,7 @@ CREATE TABLE IF NOT EXISTS `Log` (
 -- Table structure for table `Uitstap`
 --
 
+DROP TABLE IF EXISTS `Uitstap`;
 CREATE TABLE IF NOT EXISTS `Uitstap` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Datum` date NOT NULL,
@@ -151,6 +161,7 @@ CREATE TABLE IF NOT EXISTS `Uitstap` (
 -- Table structure for table `UitstapKind`
 --
 
+DROP TABLE IF EXISTS `UitstapKind`;
 CREATE TABLE IF NOT EXISTS `UitstapKind` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Kind` int(11) NOT NULL,
@@ -166,6 +177,7 @@ CREATE TABLE IF NOT EXISTS `UitstapKind` (
 -- Table structure for table `Users`
 --
 
+DROP TABLE IF EXISTS `Users`;
 CREATE TABLE IF NOT EXISTS `Users` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Username` varchar(255) NOT NULL,
@@ -179,6 +191,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
 -- Table structure for table `Voogd`
 --
 
+DROP TABLE IF EXISTS `Voogd`;
 CREATE TABLE IF NOT EXISTS `Voogd` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Naam` varchar(250) DEFAULT NULL,
@@ -186,8 +199,8 @@ CREATE TABLE IF NOT EXISTS `Voogd` (
   `Opmerkingen` text NOT NULL,
   `Telefoon` text,
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `Naam` (`Naam`,`Voornaam`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=390 ;
+  KEY `Naam` (`Naam`,`Voornaam`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=396 ;
 
 -- --------------------------------------------------------
 
@@ -195,6 +208,7 @@ CREATE TABLE IF NOT EXISTS `Voogd` (
 -- Table structure for table `Vordering`
 --
 
+DROP TABLE IF EXISTS `Vordering`;
 CREATE TABLE IF NOT EXISTS `Vordering` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Aanwezigheid` int(11) NOT NULL,
@@ -210,6 +224,7 @@ CREATE TABLE IF NOT EXISTS `Vordering` (
 -- Table structure for table `Werking`
 --
 
+DROP TABLE IF EXISTS `Werking`;
 CREATE TABLE IF NOT EXISTS `Werking` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `Omschrijving` text NOT NULL,

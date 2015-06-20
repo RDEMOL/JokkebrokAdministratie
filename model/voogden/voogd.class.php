@@ -31,9 +31,21 @@ class Voogd extends Record
         $query->execute();
         return $query->fetch(PDO::FETCH_OBJ);
     }
-
+    public static function otherVoogdExists($id, $naam, $voornaam){
+        if($naam == "" && $voornaam == "")
+            return false;
+        $query = Database::getPDO()->prepare("SELECT * FROM Voogd WHERE Id <> :id AND Naam = :naam AND Voornaam = :voornaam");
+        $query->bindValue(":id", $id);
+        $query->bindValue(":naam", $naam);
+        $query->bindValue(":voornaam", $voornaam);
+        $query->execute();
+        return $query->rowCount() > 0;
+    }
     protected function insert()
     {
+        if(Voogd::otherVoogdExists($this->getId(), $this->getNaam(), $this->getVoornaam())){
+            return false;
+        }
         $query = Database::getPDO()->prepare("INSERT INTO Voogd (Voornaam, Naam, Opmerkingen, Telefoon) VALUES (:voornaam, :naam, :opmerkingen, :telefoon)");
         $query->bindParam(':voornaam', $this->Voornaam, PDO::PARAM_STR);
         $query->bindParam(':naam', $this->Naam, PDO::PARAM_STR);
@@ -45,6 +57,9 @@ class Voogd extends Record
 
     protected function update()
     {
+        if(Voogd::otherVoogdExists($this->getId(), $this->getNaam(), $this->getVoornaam())){
+            return false;
+        }
         $query = Database::getPDO()->prepare('UPDATE Voogd SET Naam=:naam, Voornaam=:voornaam, Opmerkingen=:opmerkingen, Telefoon=:telefoon WHERE Id=:id');
         $query->bindParam(':naam', $this->Naam, PDO::PARAM_STR);
         $query->bindParam(':voornaam', $this->Voornaam, PDO::PARAM_STR);
@@ -98,9 +113,9 @@ class Voogd extends Record
             if (isset($filter['Voornaam'])) {
                 $sql .= "AND Voornaam LIKE :voornaam ";
             }
-            if (isset($filter['Id'])) {
+            /*if (isset($filter['Id'])) {
                 $sql .= "AND Id != :id ";
-            }
+            }*/
         }
         return $sql;
     }
@@ -118,9 +133,9 @@ class Voogd extends Record
             if (isset($filter['Voornaam'])) {
                 $query->bindValue(':voornaam', $filter['Voornaam']);
             }
-            if (isset($filter['Id'])) {
+            /*if (isset($filter['Id'])) {
                 $query->bindValue(':id', $filter['Id']);
-            }
+            }*/
         }
     }
 

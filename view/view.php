@@ -70,8 +70,24 @@ class View
                         if (isset($_REQUEST['Id'])) {
                             $filter['Id'] = $_REQUEST['Id'];
                         }
+                        $exists = false;
+                        $id = -1;
+                        $naam = "";
+                        $voornaam = "";
+                        if(isset($_REQUEST['Naam'])){
+                            $naam = $_REQUEST['Naam'];
+                        }
+                        if(isset($_REQUEST['Voornaam'])){
+                            $voornaam = $_REQUEST['Voornaam'];
+                        }
+                        if(isset($_REQUEST['Id'])){
+                            $id = $_REQUEST['Id'];
+                        }
+                        if(Voogd::otherVoogdExists($id, $naam, $voornaam)){
+                            $exists = true;
+                        }
                         $result = array();
-                        $result['exists'] = count(Voogd::getVoogden($filter)) > 0;
+                        $result['exists'] = $exists;
                         echo json_encode($result);
                         break;
                     case 'voogdKinderenTabel':
