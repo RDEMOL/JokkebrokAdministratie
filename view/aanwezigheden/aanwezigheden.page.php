@@ -298,7 +298,8 @@ class AanwezighedenPage extends Page
                                 $('input[type=checkbox]').removeAttr('checked');
                                 $('ul#lstVorderingen').empty();
                                 if (kind.Id != 0) {
-                                    $('select[name="KindVoogdId"]').append($('<option selected disabled hidden value=""></option>'));
+                                    if(kind.Voogden.length > 1)
+                                        $('select[name="KindVoogdId"]').append($('<option selected disabled hidden value=""></option>'));
                                     for (var i = 0; i < kind.Voogden.length; ++i) {
                                         $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].KindVoogdId).text(kind.Voogden[i].Voogd+": "+kind.Voogden[i].VolledigeNaam));
                                     }
