@@ -149,7 +149,7 @@ class View
                             $voogden_namen_ids = array();
                             foreach ($voogden as $v) {
                                 $voogd = $v->getVoogd();
-                                $voogden_namen_ids[] = array('KindVoogdId' => $v->getId(), 'VolledigeNaam' => ($voogd->getVoornaam() . " " . $voogd->getNaam()));
+                                $voogden_namen_ids[] = array('KindVoogdId' => $v->getId(), 'Voogd'=>$v->getVoogdId(), 'VolledigeNaam' => ($voogd->getVoornaam() . " " . $voogd->getNaam()));
                             }
                             $uitstapdeelnames = $k->getUitstapDeelnames();
                             $uitstappen = array();

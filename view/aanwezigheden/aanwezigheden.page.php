@@ -298,8 +298,9 @@ class AanwezighedenPage extends Page
                                 $('input[type=checkbox]').removeAttr('checked');
                                 $('ul#lstVorderingen').empty();
                                 if (kind.Id != 0) {
+                                    $('select[name="KindVoogdId"]').append($('<option selected disabled hidden value=""></option>'));
                                     for (var i = 0; i < kind.Voogden.length; ++i) {
-                                        $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].KindVoogdId).text(kind.Voogden[i].VolledigeNaam));
+                                        $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].KindVoogdId).text(kind.Voogden[i].Voogd+": "+kind.Voogden[i].VolledigeNaam));
                                     }
                                     $('select[name="WerkingId"]').val(kind.DefaultWerkingId);
                                     for (var i = 0; i < kind.Uitstappen.length; ++i) {
@@ -603,6 +604,10 @@ class AanwezighedenPage extends Page
                 function submitForm(add_next) {
                     var aanwezigheidId = $('#aanwezigheidForm input[name="AanwezigheidId"]').val();
                     var kindVoogdId = $('#aanwezigheidForm select[name="KindVoogdId"]').val();
+                    if(kindVoogdId == '') {
+                        alert("Selecteer een Voogd");
+                        return;
+                    }
                     var werking = $('#aanwezigheidForm select[name="WerkingId"]').val();
                     var opmerkingen = $('#aanwezigheidForm textarea[name="Opmerkingen"]').val();
                     var d = new Object();
