@@ -355,7 +355,7 @@ class UitstappenPage extends Page
                     td.append(checkbox);
                     return td;
                 }));
-                var uitstappen_tabel = new NavigationTabel('index.php?action=data&data=uitstappenTabel', k);
+                var uitstappen_tabel = new NavigationTabel('index.php?action=data&data=uitstappenTabel', k, 6);
                 uitstappen_tabel.setRowClickListener(new RowClickListener(uitstap_clicked));
                 uitstappen_tabel.setUp($('table#UitstapOverzicht'));
                 $('#btnNieuweUitstap').click(function () {

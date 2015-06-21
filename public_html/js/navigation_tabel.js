@@ -4,7 +4,7 @@
 define(["tabel", "tabel/navigation"], function (Tabel, Navigation) {
     var NavigationTabel = function (url, kolommen, amount) {
         Tabel.call(this, url, kolommen);
-        this.navigation = new Navigation(0, 2, 0, this);
+        this.navigation = new Navigation(0, amount, 0, this);
         this.data_change_listeners.push(this.navigation);
         this.pre_title_headers.push(this.navigation);
     };
