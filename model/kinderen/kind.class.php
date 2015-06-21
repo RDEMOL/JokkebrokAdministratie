@@ -275,7 +275,7 @@ class Kind extends Record
         if($voogden <= 0){
             $data = new stdClass();
             $data->Id = 0;
-            $data->Naam = "".$this->getId();
+            $data->Naam = "";
             $data->Voornaam = "";
             $data->Opmerkingen = "";
             $v = new Voogd($data);

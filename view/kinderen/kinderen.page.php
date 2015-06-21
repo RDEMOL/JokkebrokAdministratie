@@ -530,6 +530,8 @@ class KinderenPage extends Page
                             'type': 'hidden',
                             'name': 'Id'
                         }).val(resp.Id))
+                            .append($('<span>').text(resp.Id))
+                            .append($('<span>').html("&nbsp;"))
                             .append($('<span>').text(resp.Voornaam + " " + resp.Naam))
                             .attr('title', resp.Opmerkingen)
                             .append('&nbsp;')
