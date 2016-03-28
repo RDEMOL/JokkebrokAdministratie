@@ -96,7 +96,8 @@ class AanwezighedenPage extends Page
                         <form id="verwijderAanwezigheidForm">
                             <input type="hidden" name="Id">
                         </form>
-                        <p>Bent u zeker dat u de aanwezigheid van <span id="verwijderAanwezigheidKindNaam"></span> wilt verwijderen?</p>
+                        <p>Bent u zeker dat u de aanwezigheid van <span id="verwijderAanwezigheidKindNaam"></span> wilt
+                            verwijderen?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Annuleren</button>
@@ -107,7 +108,6 @@ class AanwezighedenPage extends Page
         </div>
 
         <div class="modal fade" id="vorderingModal" tabindex="-1" role="dialog" aria-labelledby="vorderingModal">
-
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -298,10 +298,10 @@ class AanwezighedenPage extends Page
                                 $('input[type=checkbox]').removeAttr('checked');
                                 $('ul#lstVorderingen').empty();
                                 if (kind.Id != 0) {
-                                    if(kind.Voogden.length > 1)
+                                    if (kind.Voogden.length > 1)
                                         $('select[name="KindVoogdId"]').append($('<option selected disabled hidden value=""></option>'));
                                     for (var i = 0; i < kind.Voogden.length; ++i) {
-                                        $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].KindVoogdId).text(kind.Voogden[i].Voogd+": "+kind.Voogden[i].VolledigeNaam));
+                                        $('select[name="KindVoogdId"]').append($('<option>').attr('value', kind.Voogden[i].KindVoogdId).text(kind.Voogden[i].Voogd + ": " + kind.Voogden[i].VolledigeNaam));
                                     }
                                     $('select[name="WerkingId"]').val(kind.DefaultWerkingId);
                                     for (var i = 0; i < kind.Uitstappen.length; ++i) {
@@ -430,7 +430,7 @@ class AanwezighedenPage extends Page
                 var wijzig_aanwezigheid = function (data) {
                     $('#AanwezigheidModalTitle').text('Wijzig aanwezigheid');
                     clear_aanwezigheid_modal();
-                    laad_aanwezigheid_uitstappen(data.Id);
+                    laad_aanwezigheid_uitstappen(data.KindId);
                     var d = new Object();
                     d.id = data['Id'];
                     $.get('?action=data&data=aanwezigheidDetails', d, function (r) {
@@ -467,7 +467,7 @@ class AanwezighedenPage extends Page
                 });
                 var verwijder_aanwezigheid = function (data) {
                     $('#verwijderAanwezigheidModal input[name=Id]').val(data.Id);
-                    $('#verwijderAanwezigheidModal span#verwijderAanwezigheidKindNaam').text(data.Voornaam + " "+data.Naam);
+                    $('#verwijderAanwezigheidModal span#verwijderAanwezigheidKindNaam').text(data.Voornaam + " " + data.Naam);
                     $('#verwijderAanwezigheidModal').modal('show');
                 };
 
@@ -516,8 +516,8 @@ class AanwezighedenPage extends Page
                     if (data['Belangrijk']) {
                         td.append(
                             $('<a>').attr({
-                                'data-original-title': "Belangrijke informatie over het kind: " + data['Belangrijk']
-                            })
+                                    'data-original-title': "Belangrijke informatie over het kind: " + data['Belangrijk']
+                                })
                                 .append($('<span>').addClass('glyphicon glyphicon-info-sign'))
                                 .tooltip())
                             .append('&nbsp;');
@@ -605,7 +605,7 @@ class AanwezighedenPage extends Page
                 function submitForm(add_next) {
                     var aanwezigheidId = $('#aanwezigheidForm input[name="AanwezigheidId"]').val();
                     var kindVoogdId = $('#aanwezigheidForm select[name="KindVoogdId"]').val();
-                    if(kindVoogdId == '') {
+                    if (kindVoogdId == '') {
                         alert("Selecteer een Voogd");
                         return;
                     }
@@ -779,7 +779,7 @@ class AanwezighedenPage extends Page
                 });
             });
         </script>
-    <?php
+        <?php
     }
 
 }

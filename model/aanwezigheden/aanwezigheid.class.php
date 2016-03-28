@@ -271,7 +271,7 @@ class Aanwezigheid extends Record
     public function getJSONData()
     {
         //TODO: collect from local data
-        $query = Database::getPDO()->prepare("SELECT A.Id as Id, A.MiddagNaarHuis as MiddagNaarHuis, K.Voornaam as Voornaam, K.Naam as Naam, K.Belangrijk as Belangrijk, W.Afkorting as Werking, A.Opmerkingen as Opmerkingen, A.Datum as Datum, CONCAT(V.Voornaam, ' ', V.Naam) as VoogdVolledigeNaam, A.LastChanged as LastChanged FROM Aanwezigheid A LEFT JOIN KindVoogd KV ON A.KindVoogd=KV.Id LEFT JOIN Kind K ON K.Id=KV.Kind LEFT JOIN Werking W ON A.Werking=W.Id LEFT JOIN Voogd V ON V.Id=KV.Voogd WHERE A.Id= :id ");
+        $query = Database::getPDO()->prepare("SELECT A.Id as Id, A.MiddagNaarHuis as MiddagNaarHuis, K.Voornaam as Voornaam, K.Naam as Naam, K.Belangrijk as Belangrijk, W.Afkorting as Werking, A.Opmerkingen as Opmerkingen, A.Datum as Datum, CONCAT(V.Voornaam, ' ', V.Naam) as VoogdVolledigeNaam, A.LastChanged as LastChanged, KV.Kind as KindId FROM Aanwezigheid A LEFT JOIN KindVoogd KV ON A.KindVoogd=KV.Id LEFT JOIN Kind K ON K.Id=KV.Kind LEFT JOIN Werking W ON A.Werking=W.Id LEFT JOIN Voogd V ON V.Id=KV.Voogd WHERE A.Id= :id ");
         $id = $this->getId();
         $query->bindParam(':id', $id, PDO::PARAM_INT);
         $query->execute();
