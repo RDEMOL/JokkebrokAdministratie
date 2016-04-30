@@ -4,10 +4,12 @@ class SpeelpleinDag
 {
     private $datum;
 
-    public function __construct($datum = NULL)
+    public function __construct($data = NULL)
     {
-        if ($datum == NULL) {
+        if ($data == NULL) {
             $datum = date('Y-m-d');
+        } else {
+            $datum = $data->Datum;
         }
         $this->datum = $datum;
     }
@@ -35,6 +37,19 @@ class SpeelpleinDag
         $d = strtotime($this->datum);
         return strftime("%A", $d);
     }
+
+    public static function getSpeelpleindagen()
+    {
+        $sql = "SELECT DISTINCT A.Datum as Datum FROM Aanwezigheid A ORDER BY A.Datum ";
+        $query = Database::getPDO()->prepare($sql);
+        $query->execute();
+        $speelpleindagen = array();
+        while ($rs = $query->fetch(PDO::FETCH_OBJ)) {
+            $speelpleindagen[] = new SpeelpleinDag($rs);
+        }
+        return $speelpleindagen;
+    }
+
 }
 
 ?>

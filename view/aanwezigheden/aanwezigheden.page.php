@@ -554,7 +554,7 @@ class AanwezighedenPage extends Page
                 k.push(new ControlsKolom(controls));
                 var t = new SinglePageTabel('index.php?action=data&data=aanwezighedenTabel', k);
                 var filter_velden = new Array();
-                filter_velden.push(new FilterVeld('Datum', 1, 'datepicker', null, null, '<?php echo $datum; ?> '));
+                filter_velden.push(new FilterVeld('Datum', 1, 'datepicker', null, null, <?php echo $datum == null? 'null':"'".$datum."'"; ?>));
                 filter_velden.push(new FilterVeld('VolledigeNaam', 2, 'text', null));
                 filter_velden.push(new FilterVeld('Werking', 1, 'select', {options: <?php echo $werkingen_js_array; ?>}, null, '<?php echo $werking; ?>'));
                 filter_velden.push(new FilterVeld('MiddagNaarHuis', 1, 'select', {

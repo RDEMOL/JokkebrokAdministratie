@@ -60,7 +60,7 @@ define(function () {
                 this.default_value = d.getFullYear() + "-" + formatter(d.getMonth() + 1) + "-" + formatter(d.getDate());
                 this.element.append($('<button>').addClass('btn btn-sm').append($('<span>').addClass('glyphicon glyphicon-remove')).click(function () {
                     var d = new Date();
-                    self.input_element.val(this.default_value);
+                    self.input_element.val("");
                     self.input_element.datepicker('update');
                     self.input_element.val('');
                     self.notify();
@@ -97,7 +97,7 @@ define(function () {
                         el.datepicker('hide');
                         self.notify();
                     });
-                    el.val(self.default_value);
+                    el.val(self.start_value);
                     el.datepicker('update');
                 });
 
