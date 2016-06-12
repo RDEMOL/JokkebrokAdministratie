@@ -73,6 +73,16 @@ class UitstapKind extends Record
         }
         return $sql;
     }
+    
+    protected static function getOrderSQL($order)
+    {
+        if ($order == null) {
+            $sql = "";
+            $sql .= "ORDER BY K.Naam asc "; 
+            return $sql;
+        }
+        return;
+    }
 
     protected static function applyFilterParameters($query, $filter)
     {
@@ -84,10 +94,11 @@ class UitstapKind extends Record
         }
     }
 
-    public static function getUitstapKinderen($filter = array())
+    public static function getUitstapKinderen($filter = array(), $order = null)
     {
-        $sql = "SELECT * FROM UitstapKind WHERE 1 ";
+        $sql = "SELECT UK.Id as 'Id', UK.Kind as 'Kind' FROM UitstapKind UK LEFT JOIN Kind K ON UK.Kind = K.Id WHERE 1 ";
         $sql .= static::getFilterSQL($filter);
+        $sql .= static::getOrderSQL($order);
         $query = Database::getPDO()->prepare($sql);
         static::applyFilterParameters($query, $filter);
         $query->execute();
